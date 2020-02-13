@@ -1,0 +1,188 @@
+<!doctype html PUBLIC "-//IETF//DTD HTML//EN">
+<html><!-- InstanceBegin template="/Templates/OneColumnPage.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta charset="utf-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Main Dialog Box</title>
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<link href="WixApp.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="container">
+<div class="content">
+<!-- InstanceBeginEditable name="Title" -->
+<h1>Main Dialog Box</h1>
+<!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="Body" -->
+<h2>Installation</h2>
+<p>
+	So what is being installed?  Usually a bunch of files, some of which have shortcuts in the start menu 
+  and/or on the desktop.  So that means we must have a way of specifying the various files.  This is done
+  in a dialog box with lists which are kept in combo boxes.  The user may specify a new Feature and it will
+  be added to the Feature combo box so that it may be modified later.  The user may specify a new component
+  and it will be added to the Component/Shortcut Name combo box so that its attributes may be specified 
+  and modified later.
+</p>
+<p>
+	So there can be one or more features and each feature can contain one or more components.  The rest of 
+  the task is just filling in the blanks.  The remainder of this page will describe each field, button, 
+  check box in the dialog box.  The description will go from top to bottom of the dialog box because 
+  that is the usual way of filling them in.
+</p>
+<h2>Product Section</h2>
+<h3>Instller Name</h3>
+<p>
+	Choose a name for the installer that will be produce by Wix, something meaningful to the user that 
+  is going to install your product (e.g. MyAppInstaller or just Installer).
+</p>
+
+<h3>Version Number</h3>
+<p>
+  The version number that will be used in the installer to decide if this is a later
+  version (or the same if this option is set) than the version already installed.
+</p>
+<p>
+  There are two methods for determining the version number.
+  <ul>
+	<li>Editing the value in the version edit box</li>
+	<li>Setting the "Version No. Available check box for an application</li>
+  </ul>
+  If there is no application in the installation and/or no application is
+  selected to supply the version number then the value in the edit box is used.
+  When an application is selected wix determines if it is an application and has
+  a Version number.  If all three conditions are true then the application's version 
+  number is displayed in the Version edit box.
+</p>
+
+<h3>Company Name</h3>
+<p>
+	Used to tell Wix what the company name is.  Both the creator and the 
+  distributor company names will be the same.
+</p>
+<h3>Product Name</h3>
+<p>
+	This is used by Wix to identify the product in Windows (the registry 
+  in particular).
+</p>
+<h3>Control Panel Icon</h3>
+<p>
+	For most installations this will be the icon that appears in the Programs and Features page in the 
+  Control Panel.  Command Line programs appear to not use this icon.
+</p>
+<h3>Feature Name</h3>
+<p>
+	The Feature Name combo box represents a list of features.  Each name in the combo box is a "Feature."  
+  Each Feature may contain one or more "Components."  The edit (visible) portion of the combo box shows the current
+  feature.  The corresponding components are then shown in the Component portion of the dialog box with the "current"
+  component shown in the Component/Shortcut Name edit portion of that combo box.
+</p>
+<p>
+	There are three controls: a combo box, a "New" button and a "Delete" button.  Click (Select)
+	on &quot;New&quot; to create a new feature.  This is just a name for a group of components.  Every time a feature is 	
+  selected the entire Componet/Shortcut Name combo box is changed.  This is what allows one to create a 
+  massive tree of Features and Components.
+</p>
+<p>
+	The Delete Button deletes the feature currently showing in the Feature Name combo box and all 
+  Components that are contained in that feature.  Use the button carefully.
+</p>
+<h2>Components</h2>
+<p>
+	The attributes of the "current" Component are shown in this section of the dialog box.  Each time one selects 
+  a different component the attributes are changed that correspond to that Component.
+</p>
+<h3>Component/Shortcut Name</h3>
+<p>
+	This name identifies the component within Wix but it will also be used for the shortcuts on the 
+  start menu and desktop.  Choosing New adjacent to the combo box will create a new component.  Delete will 	delete the component.
+</p>
+<h3>Component Path</h3>
+<p>
+	The Browse button will bring up an open file dialog box.  Choose the file to be associated with the
+  component.  Only the last little bit of the path will be shown giving confirmation of the file name 
+  chosen.
+</p>
+<h3>Description</h3>
+<p>
+	This will be used in a popup when the mouse lingers over the icon for the application.
+</p>
+<h3>Start Menu Check Box</h3>
+<p>
+	Check when an entry in the start menu is to be placed.  The Start Menu directory name is identified below
+  the check boxes.
+</p>
+<h3>Desk Top Check Box</h3>
+<p>
+	Check when a shortcut is to be placed on the desk top.  No provision is made for folders.
+</p>
+<h3>Version No. Available Check Box</h3>
+<p>
+	Some windows applications use resources and contain a version number.  This is compiled into
+  the application and can be used for the version number of the installation.  However, some applications
+  do not have a version number built in (or they are just additional files not applications).  Only check
+  this item when a version number can be extracted from the app by Wix.  If the application has a version 
+  number it will be displayed in the Version edit box in the Product Area.
+</p>
+<p>  
+  If no application is chosen such that Wix can extract a version number then the alternative is to set the 
+  version number in the Version edit box in the Product area.
+</p>
+<h3>On Path</h3>
+<p>
+	Some applications need a Command Line interface.  One requirement is that it be easily found.  Putting 
+  the path of the Program Files directory in which the application resides makes it possible for the
+  user to invoke the app from the command line without knowing where it is.  Check this box to place
+  the directory on the System Environment variable Path.
+</p>
+
+<h3>OS Check Boxes</h3>
+<p>
+  It is possible to limit the installation of a component by referring to the OS version number (i.e. VersionNT).
+  This value is supported in Win 2000 through the near future.  I've only allowed three different OSes to be 
+  selected.
+</p>
+<p>
+	If Win7 is checked then all installation on Win7 and all future operating systems will be allowed but 
+  older ones will not.  If two OS check boxes are selected then the OSes inclusive between the two OSes will
+  allow installation (note, Win7 always allows future OSes too).  Selecting one check box will only 
+  allow installation to that OS.
+</p>
+<h3>Select Icon</h3>
+<p>
+	Both a drop down and a Browse button.  When a new Icon is to introduced to the installer use the Browse
+  button to select the icon.  Later, the drop down combo box will have a list of icons and one can be 
+  selected that way.
+</p>
+<h3>Program File Dir Name</h3>
+<p>
+	This can be one or two levels of directories that will appear in the "Program Files 
+  (X86)" directory.  The lowest level will contain the described by the component.  
+  Here are two examples:
+  <ul>
+		<li>Manufacture Name\My App  -- two levels, app is stored in "My App" directory</li>
+		<li>My App -- one level, app is stored in "My App"</li>
+  </ul>
+</p>
+<p>
+  Each component may share the same directory or they may be in entirely separate directories.  Be sure to spell 
+  the names correctly (Cut and Paste may take the chance out of the spelling issue).
+</p>
+<h3>Start Menu Name</h3>
+	This can be one or two levels of directories that will appear in the "All Programs" directory on the Start Menu.  The lowest level will contain the described by the component.  
+  Here are two examples:
+  <ul>
+		<li>Manufacture Name\My App  -- two levels, app is stored in "My App" Menu</li>
+		<li>My App -- one level, app is stored in "My App" Menu</li>
+  </ul>
+  The Shortcut name is the name used in the Component/Shortcut Name field.
+</p>
+<!-- InstanceEndEditable -->
+</div><!-- end .content -->
+</div><!-- end .container -->
+</body>
+<!-- InstanceEnd --></html>

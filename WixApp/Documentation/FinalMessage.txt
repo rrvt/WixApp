@@ -1,0 +1,9 @@
+A new version of Product.wxs is created by this program.  Two additional files (My_en-us.wxl and My_InstallDir.wxs) are copied into the directory where Product.wxs resides.  Both of these files are required during the compilation of the Installer.\r\n\r\n
+The first time Product.wxs is produced the user must add My_en-us.wxl and My_InstallDir.wxs to the installer project in Visual Studio.  The steps to add the two files are as follows:\r\n\r\n
+* In Visual Studio highlight the Installer Project\r\n
+* Right Click the Installer Project name\r\n
+* In the drop down menu the pops up after the right click select Add/Existing Item\r\n
+* Add My_en-us.wxl\r\n
+* Add My_InstallDir.wxs\r\n
+The “Installer.msi” file is stored in a sub-directory of the current output directory ($(OutDir).  The sub-directory is named “en-US”.  If you would rather it be placed in the current output directory with all the other files find the “Post-build Event Command Line” box.  The box is located by right clicking on the Installer Project name, selecting properties (i.e. at the bottom of the pop-up menu) and selecting the “Build Events” tab on the left hand side of the properties window.  Then copy the following line into the box:\r\n\r\n
+   copy $(OutDir)en-US\<installer name>.msi $(OutDir)

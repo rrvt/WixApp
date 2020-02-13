@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+<?define SrcDir     = "$(var.SolutionDir)..\Release\"?>
+<?define IcnDir     = "$(var.SolutionDir)..\SrcFiles\res\"?>
+<?define HlpDir     = "$(var.SolutionDir)..\Help\"?>
+<?define WixInclude = "D:\Sources\WixIncludes\"?>
+
+  <Product Id="*" UpgradeCode="E5B71BAE-6BA1-46E0-0559-FB18D2CDC89E"
+           Name="RWracesDB" Language="1033"
+           Version="!(bind.fileVersion.FILE_RWracesDB)" Manufacturer="Bob -- K6RWY"
+           >
+
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
+             Manufacturer="Bob -- K6RWY" Description="Installs RWracesDB"
+             Comments="(c) Bob -- K6RWY"
+             />
+
+    <MajorUpgrade Schedule="afterInstallFinalize"
+                  DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+    <MediaTemplate EmbedCab="yes" />
+
+
+    <UI Id="SkipLicenseAgreement">
+      <UIRef Id="WixUI_InstallDir" />
+      <Publish Dialog="WelcomeDlg"    Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">
+        1
+      </Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg"    Order="2">
+        1
+      </Publish>
+    </UI>
+
+
+    <WixVariable Id="WixUIDialogBmp"  Value="$(var.WixInclude)dialog.bmp"/>
+    <WixVariable Id="WixUIBannerBmp"  Value="$(var.WixInclude)banner.bmp"/>
+
+    <Icon Id="MyIcon.ico" SourceFile="$(var.IcnDir)RWracesDB.ico"/>   <!-- Identify an Icon source -->
+    <Icon Id="UninstallIcon.ico" SourceFile="$(var.IcnDir)RWracesDBUI.ico" />
+
+    <Property Id="ARPPRODUCTICON" Value="MyIcon.ico" />         <!-- Set icon for the control panel -->
+
+    <!-- Custom Action to set the system (Machine) Path Variable -->
+
+    <?Include SetEnvPath.wxi?>
+
+    <Condition Message = "ugh!">
+      <![CDATA[Installed OR VersionNT >= 601]]>
+    </Condition>
+
+    <Feature Id="ProductFeature" Title="WixWin7Installer" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+  </Product>
+
+  <!--Directory structure-->
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLDIR" Name="RWracesDB" />
+        <Directory Id="ProgramMenuFolder" Name="StartMenu">
+          <Directory Id="MyShortcutsDir" Name="RWracesDB" />
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="Desktop" />
+
+    </Directory>
+
+    <Property Id="ApplicationFolderName" Value="RWracesDB" />
+    <Property Id="WIXUI_INSTALLDIR"      Value="INSTALLDIR" />
+    <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
+  </Fragment>
+
+
+  <!--Components-->
+
+  <Fragment>
+    <DirectoryRef Id="INSTALLDIR">
+      <Component Id="CMP_RWracesDB"  Guid="EE050A9B-5B3E-4F8F-890E-8463B4D4DB97">
+        <File Id="FILE_RWracesDB"  Source="$(var.SrcDir)RWracesDB.exe"   KeyPath="yes" />
+
+        <Shortcut Id="ShC_RWracesDB"
+                  Name="RWracesDB"
+                  Description="Read/Write RACES Database"
+                  Directory="MyShortcutsDir"
+                  WorkingDirectory="INSTALLDIR"
+                  Icon="MyIcon.ico"
+                  Advertise="yes"
+                  />
+
+        <Shortcut Id="ShC_DesktopShortcutWin7"
+                  Name="RWracesDB"
+                  Description="Read/Write RACES Database"
+                  Directory="DesktopFolder"
+                  WorkingDirectory="INSTALLDIR"
+                  Icon="MyIcon.ico"
+                  Advertise="yes"
+                  />
+
+        <Condition>
+          <![CDATA[Installed OR VersionNT >= 601]]>                       <!-- Win 7 -->
+        </Condition>
+
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <!--Start Uninstall Shortcut-->
+
+  <Fragment>
+    <DirectoryRef Id="MyShortcutsDir">
+      <Component Id="CMP_Uninstall"   Guid="8ADD92AD-E5EB-4472-1BE8-2D55EBEE1EA9">
+
+        <Shortcut Id="UninstallShortcut"
+                  Name="Uninstall RWracesDB"
+                  Description="Uninstalls RWracesDB"
+                  Target="[System64Folder]msiexec.exe"
+                  Arguments="/x [ProductCode]"
+                  Icon="UninstallIcon.ico"
+                  Advertise="no"
+                  />
+
+        <RemoveFolder Id="RemoveUninstallDir" On="uninstall" />
+
+        <RegistryValue Root="HKCU" Key="Software\RWracesDB"
+                       Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents">
+      <ComponentRef Id="CMP_RWracesDB"/>
+      <ComponentRef Id="CMP_Uninstall"/>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+<Product Id="*" UpgradeCode="0AC0DEA2-F1F4-4AB9-B53C-5E1B4646822A" Language="1033"
+         Manufacturer="Bob -- K6RWY" Name="ThAddr"
+         Version="!(bind.fileVersion.ThAddr.cmp)"
+         >
+
+  <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
+           Manufacturer="Bob -- K6RWY" Description="Installs ThAddr"
+           Comments="Copyright (c) Bob -- K6RWY"
+           />
+
+  <MajorUpgrade Schedule="afterInstallInitialize"
+                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
+                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+  <MediaTemplate EmbedCab="yes" />
+
+  <UI Id="My_InstallDir.ui">
+    <UIRef Id="WixUI_InstallDir" />
+    <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">
+      NOT Installed
+    </Publish>
+    <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">
+      1
+    </Publish>
+  </UI>
+
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
+
+  <Icon     Id="ThAddrIcon.ico" SourceFile="$(var.SolutionDir)res\ThAddr.ico"/>
+  <Icon     Id="BuildDataIcon.ico" SourceFile="$(var.SolutionDir)..\BuildData\res\BuildData.ico"/>
+  <Property Id="ARPPRODUCTICON"  Value="ThAddrIcon.ico" />
+
+  <Feature Id="ProductFeatures" Title="Main Product" Level="1" >
+    <ComponentGroupRef Id="Main.grp"/>
+    <ComponentGroupRef Id="UninstallThAddr.ftr"/>
+  </Feature>
+</Product>
+
+<Fragment>
+<ComponentGroup Id="Main.grp">
+  <ComponentRef Id="ThAddr.cmp"/>
+  <ComponentRef Id="BuildData.cmp"/>
+  <ComponentRef Id="Help.cmp"/>
+</ComponentGroup>
+<ComponentGroup Id="UninstallThAddr.ftr">
+  <ComponentRef Id="UninstallThAddr.cmp"/>
+</ComponentGroup>
+</Fragment>
+
+<!--Directory structure-->
+<Fragment>
+  <Directory Id="TARGETDIR" Name="SourceDir">
+    <Directory Id="ProgramFilesFolder">
+      <Directory Id="ThAddr.pff" Name="ThAddr"/>
+    </Directory>
+
+    <Directory Id="ProgramMenuFolder" Name="StartMenu">
+      <Directory Id="ThAddr.pmf" Name="ThAddr"/>
+    </Directory>
+
+    <Directory Id="DesktopFolder" Name="Desktop" />
+  </Directory>
+
+  <Property Id="ApplicationFolderName" Value="ThAddr" />
+  <Property Id="WIXUI_INSTALLDIR"      Value="ThAddr.pff"/>
+  <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
+</Fragment>
+
+<Fragment>
+
+  <Component Id="ThAddr.cmp"  Guid="96C45ACB-4E0C-4FBF-B52D-3AD49F3EC6EA" Directory="ThAddr.pff">
+    <File Id="ThAddr.cmp" Source="$(var.SolutionDir)..\Release\ThAddr.exe" KeyPath="yes"/>
+
+    <Shortcut Id               = "ThAddr.shc"
+              Name             = "ThAddr"
+              Advertise        = "yes"
+              Directory        = "ThAddr.pmf"
+              WorkingDirectory = "ThAddr.pff"
+              Icon             = "ThAddrIcon.ico"
+              />
+    <Condition>
+      <![CDATA[Installed OR VersionNT >= 601]]>
+    </Condition>
+  </Component>
+
+  <Component Id="BuildData.cmp"  Guid="CD41AB3C-6E85-410F-832C-144AC4ACCFB5" Directory="ThAddr.pff">
+    <File Id="BuildData.cmp" Source="$(var.SolutionDir)..\Release\BuildData.exe" KeyPath="yes"/>
+
+    <Shortcut Id               = "BuildData.shc"
+              Name             = "BuildData"
+              Description      = "Creates c++ Modules for ThAddr"
+              Advertise        = "yes"
+              Directory        = "ThAddr.pmf"
+              WorkingDirectory = "ThAddr.pff"
+              Icon             = "BuildDataIcon.ico"
+              />
+    <Condition>
+      <![CDATA[Installed OR VersionNT >= 601]]>
+    </Condition>
+  </Component>
+
+  <Component Id="Help.cmp"  Guid="082D3B6F-8BB2-4EBD-BFB0-D089CE0FBEE0" Directory="ThAddr.pff">
+    <File Id="Help.cmp" Source="$(var.SolutionDir)..\Release\ThAddr.chm" KeyPath="yes"/>
+    <Condition>
+      <![CDATA[Installed OR VersionNT >= 601]]>
+    </Condition>
+  </Component>
+
+</Fragment>
+
+<Fragment>
+
+  <Component Id="UninstallThAddr.cmp"  Guid="D592C470-4820-47D5-B6EC-07102158B83F"
+                                                                              Directory="ThAddr.pmf">
+
+    <Shortcut Id               = "UninstallThAddr.shc"
+              Name             = "Uninstall ThAddr"
+              Description      = "Uninstalls ThAddr"
+              Target           = "[System64Folder]msiexec.exe"
+              Arguments        = "/x [ProductCode]"
+              Icon             = "ThAddrIcon.ico"
+              />
+    <RemoveFolder Id="ThAddr.uni" Directory="ThAddr.pmf" On="uninstall"/>
+    <RegistryValue Root="HKCU" Key="Software\UninstallThAddr.cmp" Name="installed"
+                   Type="integer" Value="1" KeyPath="yes"/>
+  </Component>
+
+</Fragment>
+
+</Wix>

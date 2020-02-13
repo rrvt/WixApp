@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+<Product Id="*" UpgradeCode="9F29A95C-ECF3-42A5-94BD-0B35B5F64922" Language="1033"
+         Manufacturer="Bob -- K6RWY" Name="Hello World"
+         Version="!(bind.fileVersion.HelloWorld.cmp)"
+         >
+
+  <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
+           Manufacturer="Bob -- K6RWY" Description="Installs Hello World"
+           Comments="Copyright (c) Bob -- K6RWY"
+           />
+
+  <MajorUpgrade Schedule="afterInstallFinalize"
+                DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+                AllowSameVersionUpgrades="yes" />
+
+  <MediaTemplate EmbedCab="yes" />
+
+  <WixVariable Id="WixUILicenseRtf" Value="MyLicense.rtf" />
+
+  <UI Id="My_InstallDir.ui">
+    <UIRef Id="My_InstallDir" />
+<!--
+    <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">
+      NOT Installed
+    </Publish>
+    <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">
+      Installed AND PATCH
+    </Publish>
+-->
+
+    <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">
+       NOT Installed
+     </Publish>
+    <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">
+      Installed AND PATCH
+    </Publish>
+     <Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">
+       1
+     </Publish>
+     <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">
+       1
+     </Publish>
+     <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">
+       1
+     </Publish>
+  </UI>
+
+  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\0WixApp\Debug\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\0WixApp\Debug\banner.bmp"/>
+
+  <Icon     Id="UninstallHelloWorld.ico"
+                              SourceFile="$(var.SolutionDir)..\SrcFiles\res\UninstallHelloWorld.ico"/>
+  <Icon     Id="HelloWorld.ico" SourceFile="$(var.SolutionDir)..\SrcFiles\res\HelloWorld.ico"/>
+  <Icon     Id="InstallMe.ico" SourceFile="$(var.SolutionDir)..\MyProject\InstallMe.ico"/>
+  <Property Id="ARPPRODUCTICON"  Value="UninstallHelloWorld.ico" />
+
+  <!-- Custom Action to set the system (Machine) Path Variable -->
+
+  <Binary Id="SetEnvExe" SourceFile="C:\Program Files (x86)\SetEnv\SetEnv.exe" />
+
+  <CustomAction Id="HelloCommand.pth" BinaryKey="SetEnvExe" Impersonate="no"
+          Execute="deferred" ExeCommand='-a Path " [Bob__K6RWY_HelloCommand.pff] "'   Return="check"/>
+  <CustomAction Id="HelloCommand.rmp" BinaryKey="SetEnvExe" Impersonate="no"
+          Execute="deferred" ExeCommand='-d Path " [Bob__K6RWY_HelloCommand.pff] "'   Return="check"/>
+
+  <InstallExecuteSequence>
+    <Custom Action="HelloCommand.pth" Before="InstallFinalize">
+      (UPGRADINGPRODUCTCODE) OR NOT (REMOVE="ALL")
+    </Custom>
+    <Custom Action="HelloCommand.rmp" Before="HelloCommand.pth">
+      (NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")
+    </Custom>
+  </InstallExecuteSequence>
+
+  <Feature Id="ProductFeatures" Title="Main Product" Level="1" >
+    <ComponentGroupRef Id="Main.ftr"/>
+    <ComponentGroupRef Id="UninstallHelloWorld.ftr"/>
+  </Feature>
+</Product>
+
+<Fragment>
+<ComponentGroup Id="Main.ftr">
+  <ComponentRef Id="HelloWorld.cmp"/>
+  <ComponentRef Id="Textfile.cmp"/>
+  <ComponentRef Id="HelloCommand.cmp"/>
+</ComponentGroup>
+<ComponentGroup Id="UninstallHelloWorld.ftr">
+  <ComponentRef Id="UninstallHelloWorld.cmp"/>
+</ComponentGroup>
+</Fragment>
+
+<!--Directory structure-->
+<Fragment>
+  <Directory Id="TARGETDIR" Name="SourceDir">
+    <Directory Id="ProgramFilesFolder">
+      <Directory Id="Bob__K6RWY.pff" Name="Bob--K6RWY">
+        <Directory Id="Bob__K6RWY_HelloWorld.pff" Name="HelloWorld"/>
+        <Directory Id="Bob__K6RWY_TextFile.pff" Name="TextFile"/>
+        <Directory Id="Bob__K6RWY_HelloCommand.pff" Name="HelloCommand"/>
+      </Directory>
+    </Directory>
+
+    <Directory Id="ProgramMenuFolder" Name="StartMenu">
+      <Directory Id="Bob.pmf" Name="Bob">
+        <Directory Id="Bob_HelloWorld.pmf" Name="Hello World"/>
+        <Directory Id="Bob_TextFile.pmf" Name="Text File"/>
+      </Directory>
+    </Directory>
+
+    <Directory Id="DesktopFolder" Name="Desktop" />
+  </Directory>
+
+  <Property Id="ApplicationFolderName" Value="HelloWorld" />
+  <Property Id="WIXUI_INSTALLDIR"      Value="Bob__K6RWY_HelloWorld.pff"/>
+  <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
+</Fragment>
+
+<Fragment>
+
+  <Component Id="HelloWorld.cmp"  Guid="3F1F00D1-C00B-4DC7-A640-95CFE7148465"
+                                                                Directory="Bob__K6RWY_HelloWorld.pff">
+    <File Id="HelloWorld.cmp" Source="$(var.SolutionDir)..\Release\HelloWorld.exe" KeyPath="yes"/>
+
+    <Shortcut Id               = "HelloWorld.shc"
+              Name             = "Hello World"
+              Description      = "Hello World Exercise"
+              Advertise        = "yes"
+              Directory        = "Bob_HelloWorld.pmf"
+              WorkingDirectory = "Bob__K6RWY_HelloWorld.pff"
+              Icon             = "HelloWorld.ico"
+              />
+
+    <Shortcut Id               = "HelloWorld.dsk"
+              Name             = "Hello World"
+              Description      = "Hello World Exercise"
+              Advertise        = "yes"
+              Directory        = "DesktopFolder"
+              WorkingDirectory = "Bob__K6RWY_HelloWorld.pff"
+              Icon             = "HelloWorld.ico"
+              />
+    <Condition>
+      <![CDATA[Installed OR VersionNT >= 601]]>
+    </Condition>
+  </Component>
+
+  <Component Id="Textfile.cmp"  Guid="D8D55CD3-597F-42BA-A777-FDCA9F471628"
+                                                                  Directory="Bob__K6RWY_TextFile.pff">
+    <File Id="Textfile.cmp" Source="$(var.SolutionDir)..\MyProject\InstallMe.txt" KeyPath="yes"/>
+
+    <Shortcut Id               = "Textfile.shc"
+              Name             = "Text file"
+              Description      = "A Little Text File"
+              Advertise        = "yes"
+              Directory        = "Bob_TextFile.pmf"
+              WorkingDirectory = "Bob__K6RWY_TextFile.pff"
+              Icon             = "InstallMe.ico"
+              />
+
+    <Shortcut Id               = "Textfile.dsk"
+              Name             = "Text file"
+              Description      = "A Little Text File"
+              Advertise        = "yes"
+              Directory        = "DesktopFolder"
+              WorkingDirectory = "Bob__K6RWY_TextFile.pff"
+              Icon             = "InstallMe.ico"
+              />
+  </Component>
+
+  <Component Id="HelloCommand.cmp"  Guid="FB862C72-BB32-4FE4-A055-80B83061FD8B"
+                                                              Directory="Bob__K6RWY_HelloCommand.pff">
+    <File Id="HelloCommand.cmp" Source="$(var.SolutionDir)..\Release\HelloCommand.exe" KeyPath="yes"/>
+  </Component>
+
+</Fragment>
+
+<Fragment>
+
+  <Component Id="UninstallHelloWorld.cmp"
+                          Guid="D41CDF26-5B8F-465E-88B5-B9199B9B3365" Directory="Bob_HelloWorld.pmf">
+
+    <Shortcut Id               = "UninstallHelloWorld.shc"
+              Name             = "Uninstall Hello World"
+              Description      = "Uninstalls Hello World"
+              Target           = "[System64Folder]msiexec.exe"
+              Arguments        = "/x [ProductCode]"
+              Icon             = "UninstallHelloWorld.ico"
+              />
+    <RemoveFolder Id="Bob_HelloWorld.uni" Directory="Bob_HelloWorld.pmf" On="uninstall"/>
+    <RemoveFolder Id="Bob.uni" Directory="Bob.pmf" On="uninstall"/>
+    <RemoveFolder Id="Bob_TextFile.uni" Directory="Bob_TextFile.pmf" On="uninstall"/>
+    <RegistryValue Root="HKCU" Key="Software\UninstallHelloWorld.cmp" Name="installed"
+                   Type="integer" Value="1" KeyPath="yes"/>
+  </Component>
+
+</Fragment>
+
+</Wix>
