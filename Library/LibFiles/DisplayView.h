@@ -31,7 +31,8 @@ public:
 Display     dsp;
 bool        scrolling;
 
-  DisplayView() : dc(0), lastLeftMargin(0) {note = 0; lastPageNo = 0; endDoc = maxPageSet = debugging = pFooter = scrolling = false;}
+  DisplayView() : dc(0), lastLeftMargin(0)
+              {note = 0; lastPageNo = 0; endDoc = maxPageSet = debugging = pFooter = scrolling = false;}
  ~DisplayView() {}
 
 
@@ -160,7 +161,7 @@ bool        scrolling;
 
       if (note->endPage)      {dsp << dEndPage; if (dsp.isEndPage()) endLoopNow = true;}
 
-      if (note->crlf)         {dsp << dCrlf; if (dsp.isEndPage()) endLoopNow = true;}
+      if (note->crlf)         {dsp << dCrlf;    if (dsp.isEndPage()) endLoopNow = true;}
 
       if (note->debug)         debugging = true;
       }

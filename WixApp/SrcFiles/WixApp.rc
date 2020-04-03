@@ -236,8 +236,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,3,5,0
- PRODUCTVERSION 1,3,5,0
+ FILEVERSION 1,3,6,0
+ PRODUCTVERSION 1,3,6,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -254,12 +254,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Bob -- K6RWY"
             VALUE "FileDescription", "WixApp"
-            VALUE "FileVersion", "1.3.5"
+            VALUE "FileVersion", "1.3.6"
             VALUE "InternalName", "WixApp.exe"
             VALUE "LegalCopyright", "(c) Bob -- K6RWY.  All rights reserved."
             VALUE "OriginalFilename", "WixApp.exe"
             VALUE "ProductName", "WixApp"
-            VALUE "ProductVersion", "1.3.5"
+            VALUE "ProductVersion", "1.3.6"
         END
     END
     BLOCK "VarFileInfo"

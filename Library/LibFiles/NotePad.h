@@ -66,8 +66,9 @@ private:
 
   NotePad& append(const String& line) {getNote().line += line.str();   return *this;}
   NotePad& append(TCchar* line)       {getNote().line += line;         return *this;}
-  NotePad& append(Tchar        v)     {getNote().line += v;            return *this;}
+  NotePad& append(Tchar       v)      {getNote().line += v;            return *this;}
   NotePad& append(int         v);
+  NotePad& append(ulong       v);
   NotePad& append(Date        v);
   NotePad& append(CTimeSpan&  v);
   NotePad& append(double      v);
@@ -81,6 +82,7 @@ private:
   friend NotePad& operator << (NotePad& n, ostringstream& os);
   friend NotePad& operator << (NotePad& n, const String& stg);
   friend NotePad& operator << (NotePad& n, int             v);
+  friend NotePad& operator << (NotePad& n, ulong           v);
   friend NotePad& operator << (NotePad& n, variant_t&      v);
   friend NotePad& operator << (NotePad& n, Tchar           v);
   friend NotePad& operator << (NotePad& n, double          v);
@@ -119,6 +121,7 @@ extern NotePad notePad;
 
   inline NotePad& operator <<(NotePad& n, const String&   s) {return n.append(s);}
   inline NotePad& operator <<(NotePad& n, int             v) {return n.append(v);}
+  inline NotePad& operator <<(NotePad& n, ulong           v) {return n.append(v);}
 
   inline NotePad& operator <<(NotePad& n, Tchar           v) {return n.append(v);}
   inline NotePad& operator <<(NotePad& n, double          v) {return n.append(v);}

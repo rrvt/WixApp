@@ -12,7 +12,7 @@
            />
 
   <MajorUpgrade Schedule="afterInstallInitialize"
-                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
+                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="yes"
                 DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 
   <MediaTemplate EmbedCab="yes" />
@@ -115,7 +115,7 @@
 
 <Fragment>
 
-  <Component Id="UninstallWixApp.cmp"  Guid="3584F8A9-586D-4821-B65C-D6D09C426A5D"
+  <Component Id="UninstallWixApp.cmp"  Guid="873E023A-9E37-482D-8453-1A9FCA3437AD"
                                                                               Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"

@@ -4,6 +4,9 @@
 
 #include "stdafx.h"
 #include "CopyFile.h"
+#include "Expandable.h"
+#include "filename.h"
+#include "filesrch.h"
 
 #ifndef Win2K
 #include <filesystem>
@@ -41,6 +44,49 @@ bool copyFile(String& source, String& dst) {
 #endif
 
 
+
+void backupFile(String& filePath, int noBackups) {
+String                 name;
+String                 path;
+FileSrch               srch;
+Expandable<String, 16> names;
+int                    i;
+int                    n;
+String                 bkupName;
+String                 time;
+
+  if (!isFilePresent(filePath)) return;
+
+  name = removePath(filePath) + _T(".*");
+  path = getPath(filePath);
+
+  if (srch.findFiles(path, name)) {
+    for (i = 0; srch.getName(bkupName); i++) names[i] = bkupName;
+    }
+
+  CTime t = CTime::GetCurrentTime();   time = t.Format(_T("%C%m%d%H%M%S"));
+
+  bkupName = filePath + _T('.') + time;
+
+  moveFile(filePath, bkupName);   n = names.end() - noBackups + 1;
+
+  for (i = 0; i < n; i++) _tremove(names[i]);
+  }
+
+
+bool isFilePresent(String& path) {
+WIN32_FIND_DATA findData;
+HANDLE          h;
+
+  if ((h = FindFirstFile(path, &findData)) ==  INVALID_HANDLE_VALUE) return false;
+
+  FindClose(h);   return true;
+  }
+
+
+
+
+#if 0
 int backupFile(String& path, int lastBackup, int nBackups) {
 String backupFile;
 int    i;
@@ -80,14 +126,5 @@ int    k;
 
   return i;
   }
-
-
-bool isFilePresent(String& path) {
-WIN32_FIND_DATA findData;
-HANDLE          h;
-
-  if ((h = FindFirstFile(path, &findData)) ==  INVALID_HANDLE_VALUE) return false;
-
-  FindClose(h);   return true;
-  }
+#endif
 

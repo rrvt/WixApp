@@ -59,9 +59,6 @@ WorkspacesPtr workspaces;
   }
 
 
-AceDao::~AceDao() {close(); if (workspace) workspace->Close(); if (engine) engine->Release();}
-
-
 //  DatabasePtr OpenDatabase (bstr_t Name, const variant_t &Options = vtMissing,
 //                            const variant_t &ReadOnly = vtMissing,
 //                            const variant_t &Connect = vtMissing);
@@ -88,25 +85,6 @@ bool AceDao::open(TCchar* path) {
 
   this->path = path; return db != 0;
   }
-
-
-#if 0
-
-// returns true if database was not opened and was successfully opened.
-// return true if another database was opened and it was closed and the new database was successfully
-// opened.
-// Returns false if database was already opened and it is the same database or not successfully opened.
-
-bool AceDao::opened(TCchar* path) {
-  if (db) {
-    if (path == this->path) return false;
-    close();
-    }
-
-  return open(path);
-  }
-#endif
-
 
 
 void AceDao::close() {if (db) {db->Close(); db = 0;}}

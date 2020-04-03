@@ -281,6 +281,13 @@ NotePad& notePad = append(intToString(v, note.width));
   }
 
 
+NotePad& NotePad::append(ulong v) {
+Note&    note    = getNote();
+NotePad& notePad = append(intToString(v, note.width));
+  note.width = 0; return notePad;
+  }
+
+
 NotePad& NotePad::append(double v) {
 Note&    note    = getNote();
 NotePad& notePad = append(dblToString(v, note.width, note.precision));

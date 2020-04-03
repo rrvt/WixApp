@@ -4,11 +4,16 @@
 #pragma once
 
 
+enum Encoding {NilEncode, Utf8, Utf16, Utf16le};
+
+
 class FileIO {
 String         path;
 uint           openParms;
 CFile          cfile;
 ULONGLONG      pos;
+int            encdState;
+Encoding       encoding;
 CFileException err;
 
 char*          pbuf;                // read buffer
@@ -59,6 +64,8 @@ enum OpenParms {Read=1, Write=2, Create=4};
 
 private:
 
+  bool getChar(char& ch);
+  void sendChar(char ch);
   bool fillBuf();
   void flush();
   void saveExcp(CFileException* e);

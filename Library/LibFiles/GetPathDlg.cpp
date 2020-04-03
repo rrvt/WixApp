@@ -12,11 +12,11 @@ static bool dlgPath(CFileDialog* dlg, TCchar* title, String& path);
 //   inifileName - a file name that will appear in the edit box of the dialog, set to 0 if not needed
 //   defExt      - the default extension which is appended if not extension provided by user, 0 if not
 //                 needed
-//   ext         - one or more wild card filter of the extensions requested (e.g. "*.txt;*.cpp")
+//   extPat      - one or more wild card filter of the extensions requested (e.g. "*.txt;*.cpp")
 //                 The All Files filter is appended to the list as another alternative
 
-bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* ext, String& path) {
-String e = title;   e += _T('|');    e += ext;    e += _T("|All Files|*.*||");
+bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path) {
+String e = title;   e += _T('|');    e += extPat;    e += _T("|All Files|*.*||");
 
 CFileDialog fileDialog(true, defExt, iniFileName, OFN_FILEMUSTEXIST, e, 0);
 
@@ -28,8 +28,8 @@ CFileDialog fileDialog(true, defExt, iniFileName, OFN_FILEMUSTEXIST, e, 0);
   }
 
 
-bool getSaveAsPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* ext, String& path) {
-String        e = title;   e += _T('|');    e += ext;    e += _T("|All Files (*.*)|*.*||");
+bool getSaveAsPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path) {
+String        e = title;   e += _T('|');    e += extPat;    e += _T("|All Files (*.*)|*.*||");
 CFileDialog   fileDialog(false, defExt, iniFileName, OFN_OVERWRITEPROMPT, e, 0);
 OPENFILENAME& ofn = fileDialog.m_ofn;
 

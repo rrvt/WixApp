@@ -446,7 +446,7 @@ template<typename T> String toString<T>(T t) {tstring r = to_tstring((T) t); ret
 
 String dblToString(double v, int width, int precision);
 String intToString(long   v, int width);
-
+String uintToString(ulong v, int width);
 
 
 class TokenString : public String {

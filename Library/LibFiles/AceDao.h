@@ -52,21 +52,11 @@ DatabaseP  db;
 public:
 
   AceDao();
- ~AceDao();
+ ~AceDao() {close();}
 
   bool    open(TCchar* path);             // Database
   void    close();                        // Close Database
   String& getPath() {return path;}
-
-
-#if 0
-  // returns true if database was not opened and was successfully opened.
-  // return true if another database was opened and it was closed and the new database was successfully
-  // opened.
-  // Returns false if database was already opened and it is the same database or not successfully opened.
-
-  bool      opened(TCchar* path);
-#endif
 
   friend class AceTables;
   };

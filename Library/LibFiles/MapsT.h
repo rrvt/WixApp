@@ -45,8 +45,6 @@ bool MapsT<MapData>::initializeMaps(TCchar* key, String& path) {
 
   data.initializeMaps(this);
 
-//  if (!data.tableNamesToTableOP()) return false;
-
   dspPath(key, path);   loadAllMaps();   return true;
   }
 

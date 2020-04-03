@@ -20,8 +20,6 @@
 static TCchar* IniSection     = _T("Current");
 static TCchar* IniPathKey     = _T("WixFullPath");
 
-static TCchar* BackupIndexKey = _T("BackupIndex");
-
 
 WixData wixData;
 
@@ -37,7 +35,6 @@ TCchar* p;
   wxd.setPath(path);   iniFile.writeString(IniSection, IniPathKey, getPath(path));
 
   solution.readWixData();
-  defaultPath.getInt(BackupIndexKey);
   product.readWixData();
   feature.readWixData();
   return true;
@@ -111,7 +108,6 @@ String      msg = _T("Output a new Wix Product File: ");
 Component*  app = feature.findAnApp();
 String      currentGroup;
 String      defPath;
-int         backupIndex;
 
   if (iniFile.readString(IniSection, IniPathKey, defPath)) defPath = getPath(defPath);
 
@@ -121,11 +117,7 @@ int         backupIndex;
 
   if (getSaveAsPathDlg(_T("Product"), defPath, _T("wxs"), _T("*.wxs"), wxsPath)) {
 
-    backupIndex = defaultPath.getInt(BackupIndexKey);
-
-    backupIndex = backupFile(wxsPath, backupIndex, 10);
-
-    if (backupIndex >= 0) defaultPath.add(BackupIndexKey, backupIndex);
+    backupFile(wxsPath, 10);
 
     wix.open(wxsPath);
 

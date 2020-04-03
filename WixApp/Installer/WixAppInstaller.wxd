@@ -2,7 +2,6 @@
 Path=D:\Sources\WixApp\WixApp.sln\
 Name=WixApp
 [DefaultPath]
-BackupIndex=34
 Icon=D:\Sources\WixApp\SrcFiles\res\
 Component=D:\Sources\WixApp\Release\
 [Product]

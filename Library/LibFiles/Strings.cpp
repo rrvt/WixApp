@@ -178,7 +178,8 @@ String dblToString(double v, int width, int precision) {
   }
 
 
-String intToString(long v, int width) {String s;   s.format(_T("%*li"), width, v); return s;}
+String intToString( long v, int width) {String s;   s.format(_T("%*li"),  width, v); return s;}
+String uintToString(long v, int width) {String s;   s.format(_T("%*uli"), width, v); return s;}
 
 
 
