@@ -23,8 +23,6 @@ to allow recovering from most losses without too much pain.
 
 ## Getting Started
 
-Write Hello World and install it.
-
 This version was created with Visual Studion 2017.  It was compiled with the following properties:
    o  Windows SDK Version: 10.0.18362.0
    o  Platfor Toolset: visual Studio 2017 (v141)
