@@ -35,12 +35,25 @@
   that is the usual way of filling them in.
 </p>
 <h2>Product Section</h2>
-<h3>Instller Name</h3>
+<h3>Product Name</h3>
 <p>
-	Choose a name for the installer that will be produce by Wix, something meaningful to the user that 
-  is going to install your product (e.g. MyAppInstaller or just Installer).
+	Choose a name for the product. For WixApp, the Product Name is WixApp. If your project name is Foo, then chose Foo 
+  for the Product Name.  This is used by Wix to identify the product in Windows (the registry 
+  in particular).
 </p>
-
+<p>
+As a convenience (or annoyance) When using the File/New command the Product Name will be copied to the Installer Name, first Feature Name, and first Component Name fields.  They may be edited later.
+</p>
+  
+<h3>Company Name</h3>
+<p>
+	Both the creator and the 
+  distributor company names will be the same.
+</p>
+<h3>Installer Name</h3>
+<p>
+This name is the WixApp data file name and its extension is ".wxd". 
+</p>
 <h3>Version Number</h3>
 <p>
   The version number that will be used in the installer to decide if this is a later
@@ -59,22 +72,32 @@
   number is displayed in the Version edit box.
 </p>
 
-<h3>Company Name</h3>
-<p>
-	Used to tell Wix what the company name is.  Both the creator and the 
-  distributor company names will be the same.
-</p>
-<h3>Product Name</h3>
-<p>
-	This is used by Wix to identify the product in Windows (the registry 
-  in particular).
-</p>
 <h3>Control Panel Icon</h3>
 <p>
 	For most installations this will be the icon that appears in the Programs and Features page in the 
   Control Panel.  Command Line programs appear to not use this icon.
 </p>
-<h3>Feature Name</h3>
+<h2>Features</h2>
+<p>
+A Product may contain any number of features.  The drop down combo box, New and Delete Buttons allows one to exaime, edit and delete a specific feature.  Each Feature may have any number of Components.  Components are just files with installation 
+attributes.
+</p>
+<p>
+	There are three controls: a combo box, a "New" button and a "Delete" button and two attributes.  Click (Select)
+	on &quot;New&quot; to create a new feature.  This is just a name for a group of components.  Every time a feature is 	
+  selected the entire Componet/Shortcut Name combo box is changed.  This is what allows one to create a 
+  massive tree of Features and Components.
+</p>
+<p>
+	The two explicit attributes, directory names, apply to every Component in the feature.  The Start Menu name is optional by Component,
+  see Component description below.
+</p>
+
+<p>
+But first lets describe the attributes of a feature.  There are three attributes, two of which are explicitly specified and
+one that is implicitely specified.
+</p>
+<h3>Name</h3>
 <p>
 	The Feature Name combo box represents a list of features.  Each name in the combo box is a "Feature."  
   Each Feature may contain one or more "Components."  The edit (visible) portion of the combo box shows the current
@@ -82,39 +105,56 @@
   component shown in the Component/Shortcut Name edit portion of that combo box.
 </p>
 <p>
-	There are three controls: a combo box, a "New" button and a "Delete" button.  Click (Select)
-	on &quot;New&quot; to create a new feature.  This is just a name for a group of components.  Every time a feature is 	
-  selected the entire Componet/Shortcut Name combo box is changed.  This is what allows one to create a 
-  massive tree of Features and Components.
-</p>
-<p>
 	The Delete Button deletes the feature currently showing in the Feature Name combo box and all 
   Components that are contained in that feature.  Use the button carefully.
+</p>
+<h3>Program files Dir Name</h3>
+<p>
+	When a project is installed the files are copied to a directory under the "Program Files (x86)" directory.  The name
+  of the directory to which the files are copied is given in this edit box.  It may be one or more levels by using a backslash
+  between directory names (e.g. Foo\Goo\Moo). 
+</p>
+<h3>Start Menu Name</h3>
+<p>
+	Shortcuts may be stored in the Windows Start Menu (see component below for check box).  The name of the directory in the
+  Start Menu is given in this edit box.  It too may have many levels (e.g. "Company Name\Foo").
+</p>
+<h3>Default Source Directory, An Implicit Attribute</h3>
+<p>
+	After pressing the File/New command and finding the Solution file, the directory in which the Solution file resides becames
+  the default source file directory.  However, that directory probably is not the directory in which the files destined to
+  be installed reside.  So when browing for a file in a component (or icon) and selecting a file, the directory in which
+  the file resides becomes the "default" source directory for that feature (or all icons).  This is useful when one needs to
+  find a large number of files.  It also suggests that a feature be organized around a single source file directory just
+  for convenience.  It is not necessary to do so, however.
 </p>
 <h2>Components</h2>
 <p>
 	The attributes of the "current" Component are shown in this section of the dialog box.  Each time one selects 
-  a different component the attributes are changed that correspond to that Component.
+  a different component the attributes are changed that correspond to that Component.  The New and Delete Buttons do the
+  appropriate thing.  Editing the name of the Component in the Combo/Edit Box is also possible.
 </p>
-<h3>Component/Shortcut Name</h3>
+<h3>Name</h3>
 <p>
 	This name identifies the component within Wix but it will also be used for the shortcuts on the 
-  start menu and desktop.  Choosing New adjacent to the combo box will create a new component.  Delete will 	delete the component.
+  start menu and desktop.  Choosing New adjacent to the combo box will create a new component.  Delete will delete the 
+  component.
 </p>
-<h3>Component Path</h3>
+<h3>Browse</h3>
 <p>
-	The Browse button will bring up an open file dialog box.  Choose the file to be associated with the
-  component.  Only the last little bit of the path will be shown giving confirmation of the file name 
-  chosen.
+	The Browse button will bring up an open file dialog box and show the current default source directory for the Feature.
+  Note, that the default source directory is changed to the directory chosen for the component.
+  Choose the file to be associated with the component.  
+  Only the last little bit of the path will be shown giving confirmation of the file name chosen.
 </p>
 <h3>Description</h3>
 <p>
-	This will be used in a popup when the mouse lingers over the icon for the application.
+	This will be used in a popup when the mouse lingers over the icon for the application or in the application's 
+  properties box.
 </p>
 <h3>Start Menu Check Box</h3>
 <p>
-	Check when an entry in the start menu is to be placed.  The Start Menu directory name is identified below
-  the check boxes.
+	Check when an entry in the start menu is to be placed.  The Start Menu name is a Feature Attribute.
 </p>
 <h3>Desk Top Check Box</h3>
 <p>
@@ -157,29 +197,6 @@
 	Both a drop down and a Browse button.  When a new Icon is to introduced to the installer use the Browse
   button to select the icon.  Later, the drop down combo box will have a list of icons and one can be 
   selected that way.
-</p>
-<h3>Program File Dir Name</h3>
-<p>
-	This can be one or two levels of directories that will appear in the "Program Files 
-  (X86)" directory.  The lowest level will contain the described by the component.  
-  Here are two examples:
-  <ul>
-		<li>Manufacture Name\My App  -- two levels, app is stored in "My App" directory</li>
-		<li>My App -- one level, app is stored in "My App"</li>
-  </ul>
-</p>
-<p>
-  Each component may share the same directory or they may be in entirely separate directories.  Be sure to spell 
-  the names correctly (Cut and Paste may take the chance out of the spelling issue).
-</p>
-<h3>Start Menu Name</h3>
-	This can be one or two levels of directories that will appear in the "All Programs" directory on the Start Menu.  The lowest level will contain the described by the component.  
-  Here are two examples:
-  <ul>
-		<li>Manufacture Name\My App  -- two levels, app is stored in "My App" Menu</li>
-		<li>My App -- one level, app is stored in "My App" Menu</li>
-  </ul>
-  The Shortcut name is the name used in the Component/Shortcut Name field.
 </p>
 <!-- InstanceEndEditable -->
 </div><!-- end .content -->
