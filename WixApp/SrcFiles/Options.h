@@ -8,6 +8,9 @@
 #include "afxwin.h"
 
 
+extern TCchar* DefLicensePathKey;
+
+
 // Options dialog
 
 class Options : public CDialogEx {

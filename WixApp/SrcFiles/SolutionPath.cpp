@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "WixApp.h"
-#include "Solution.h"
 #include "SolutionPath.h"
 #include "afxdialogex.h"
 
@@ -38,6 +37,4 @@ END_MESSAGE_MAP()
 // SolutionPath message handlers
 
 
-void SolutionPath::OnBnClickedButton1() {
-  EndDialog(IDCANCEL); solution.clear();
-  }
+void SolutionPath::OnBnClickedButton1() {EndDialog(IDCANCEL);}

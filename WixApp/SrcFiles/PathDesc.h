@@ -1,4 +1,5 @@
-// Path Descriptor -- full path and short version for display
+// Path Descriptor -- Stores a path relative to path to solution, however writes and reads full path
+//                    from WixData file.
 
 
 #pragma once
@@ -6,27 +7,30 @@
 
 class PathDesc {
 
-String dsc;
+String relSol;                            // Path relative to Solution path $(SolutionDir)
 
 public:
 
-  PathDesc() {}
-  PathDesc(PathDesc& p) {copyObj(p);}
+  PathDesc() { }
+  PathDesc(PathDesc& p) {relSol = p.relSol;}
  ~PathDesc() { }
 
-  PathDesc& operator= (PathDesc& p) {copyObj(p); return *this;}
-  PathDesc& operator= (const String& fullPath);                   // fullPath is Path + filename
-            operator String() {return dsc;}
-            operator TCchar*() {return dsc;}
+ void    clear() {relSol.clear();}
 
-  String  full();
-  String  relative() {return dsc.empty() ? _T("") : _T("$(var.SolutionDir)") + dsc;}
+  void readWixData(TCchar* section, TCchar* key);
+  void writeWixData(TCchar* section, TCchar* key);
 
-  void    clear() {dsc.clear();}
-  bool    empty() {return dsc.empty();}
+  PathDesc& operator= (PathDesc& p) {relSol = p.relSol; return *this;}
+  PathDesc& operator= (String& fullPath) {relativeSolution(fullPath); return *this;}
+
+  bool      isEmpty()  {return relSol.isEmpty();}
+  operator  TCchar*()  {return relSol;}
+  String&   browse(TCchar* title, TCchar* ext, TCchar* pat);
+  String    path();
+  String    relative() {return relSol.isEmpty() ? _T("") : _T("$(var.SolutionDir)") + relSol;}
 
 private:
 
-  void    copyObj(PathDesc& p) {dsc = p.dsc;}
+  void      relativeSolution(const String& fullPath);
   };
 

@@ -5,10 +5,11 @@
 #include "WixData.h"
 #include "CopyFile.h"
 #include "DefaultPath.h"
-#include "Directory.h"
 #include "filename.h"
-#include "Finish.h"
 #include "GetPathDlg.h"
+#include "Options.h"
+#include "PFFdirectories.h"
+#include "PMFdirectories.h"
 #include "Product.h"
 #include "Prolog.h"
 #include "Solution.h"
@@ -24,40 +25,71 @@ static TCchar* IniPathKey     = _T("WixFullPath");
 WixData wixData;
 
 
+// A new Solution has been found, so update the WixPath on the off chance it is for a new application
+
+void WixData::updatePath(String& s) {String path = getPath(s);   saveWixPath(path);}
+
+
+
 bool WixData::readWixData() {
 String path;
 TCchar* p;
 
-  p = iniFile.readString(IniSection, IniPathKey, path) ? path.str() : 0;
+  p = getWixPath(path);
 
   if (!getPathDlg(_T("Wix Data File"), p, _T("wxd"), _T("*.wxd"), path)) return false;
 
-  wxd.setPath(path);   iniFile.writeString(IniSection, IniPathKey, getPath(path));
+  saveWixPath(path);
 
-  solution.readWixData();
+  wxd.setPath(path);
+
+     solution.readWixData();
+        icons.readWixData();
+  defaultPath.readWixData();
+
   product.readWixData();
-  feature.readWixData();
+
+  pffDirectories.readWixData();
+  pmfDirectories.readWixData();
+
+  features.readWixData();
   return true;
   }
 
 
-void WixData::writeWixData(String& wxsPath) {
-String wixDataPath = getPath(wxsPath) + product.wixName + _T(".wxd");
+void WixData::writeWixData() {
+String path;
+String wixDataPath;
+
+  getWixPath(path);
+
+  wixDataPath = path + product.wixName + _T(".wxd");
+  iniFile.writeString(IniSection, _T("WixName"),  product.wixName);
 
   wxd.setPath(wixDataPath);
 
   clearAllSections();
 
-  solution.writeWixData();
-
+     solution.writeWixData();
+        icons.writeWixData();
   defaultPath.writeWixData();
 
   product.writeWixData();
 
-  feature.writeWixData();
+  pffDirectories.writeWixData();
+  pmfDirectories.writeWixData();
 
-  iniFile.writeString(IniSection, IniPathKey, wixDataPath);
-  iniFile.writeString(IniSection, _T("WixName"),  product.wixName);
+  features.writeWixData();
+  }
+
+
+TCchar* WixData::getWixPath(String& path) {
+  return iniFile.readString(IniSection, IniPathKey, path) ? path.str() : 0;
+  }
+
+
+void WixData::saveWixPath(TCchar* path) {
+  iniFile.writeString(IniSection, IniPathKey, getPath(path));
   }
 
 
@@ -68,10 +100,47 @@ Tchar*  p;
   }
 
 
+                                                                         //solution.loadEB(*dialog);
+
+void WixData::newFile(WixDataDlg* dialog)
+                                    {solution.newFile(); newFileNow = true;}
+
+
+void WixData::setDefaults(WixDataDlg* dialog) {
+String productName;
+  product.storeProduct(*dialog);   productName = product.productName;
+
+  if (newFileNow && !productName.isEmpty()) {
+    product.wixName = productName;   dialog->wixNameEB.SetWindowText(productName);
+
+    features.setDefaults(*dialog);
+
+    newFileNow = false;
+    }
+  }
+
+
+void WixData::openFile(WixDataDlg* dialog) {
+
+  if (!readWixData()) return;
+
+//  solution.loadEB(*dialog);
+   product.loadCB( *dialog);
+  features.loadCB(*dialog);
+  }
+
+
+
 bool WixData::validate() {
 bool        rslt      = true;
-Component*  app       = feature.findAnApp();
+Component*  app       = features.findAnApp();
 int         wixVerLng = product.wixVersion.length();
+
+  if (product.wixName.isEmpty()) {messageBox(_T("WixName is empty, please provide one.")); return false;}
+
+  features.markDirs();
+
+  product.markIcon();   features.markIconsUsed();    defaultPath.mark(DefLicensePathKey);
 
   if (!app && !wixVerLng) {
 
@@ -80,102 +149,95 @@ int         wixVerLng = product.wixVersion.length();
     MessageBox(0, msg, _T("WixApp"), MB_OK);   rslt &= false;
     }
 
-  product.identifyIcons();   feature.identifyIconsUsed();
-
   if (!icons.validate()) rslt &= false;
 
-  if (!solution.empty() && !PathFileExists(String(solution))) {
+  if (!solution.isEmpty() && !PathFileExists(String(solution))) {
 
     String msg = _T("Solution path not found:  ") + solution;
 
     MessageBox(0, msg, _T("WixApp"), MB_OK);   rslt &= false;
     }
 
-  if (!feature.validate()) rslt &= false;
+  if (!features.validate()) rslt &= false;
 
   return rslt;
   }
-
-
-
-
 
 
 void WixData::output() {
 String      wxsPath;
 String      pathOnly;
 String      msg = _T("Output a new Wix Product File: ");
-Component*  app = feature.findAnApp();
+Component*  app = features.findAnApp();
 String      currentGroup;
 String      defPath;
 
-  if (iniFile.readString(IniSection, IniPathKey, defPath)) defPath = getPath(defPath);
-
-  defPath += _T("Product");
-
-  if (app) directory.appDir = app->progFile;
+  getWixPath(defPath);   defPath += _T("Product");
 
   if (getSaveAsPathDlg(_T("Product"), defPath, _T("wxs"), _T("*.wxs"), wxsPath)) {
+
+    saveWixPath(wxsPath);
+
+    if (app) pffDirectories.appDir = app->getProgFile();
 
     backupFile(wxsPath, 10);
 
     wix.open(wxsPath);
 
-    currentGroup = feature.getCurGroup()->id;
-
-    feature.identifyDirectoriesUsed();
+    currentGroup = features.getCurFeature()->id;
 
     prepareUninstalls();
 
-    feature.find(currentGroup);
+    features.find(currentGroup);
 
     prolog.output();
 
-    product.output(app, prolog, feature);
+    product.output(app, prolog, features);
 
-    feature.outputFeatureTables(0);
+    features.outputFeatureTables(0);
 
-    directory.output();
+    pffDirectories.begOutput();
+    pmfDirectories.output();
+    pffDirectories.finOutput();
 
-    feature.outputComponents();
+    features.outputComponents();
 
     wix.crlf(); wix.lit(0, _T("</Wix>\n"));
 
     wix.close();
 
-    wxsPath = getPath(wxsPath);
-
-    copyHelperFile(wxsPath, _T("My_en-us.wxl"));     //    copyHelperFile(wxsPath, "My_InstallDir.wxs");
-
-    writeWixData(wxsPath);
-
-    finalMsg();
+    copyHelperFile(getPath(wxsPath), _T("My_en-us.wxl"));
     }
   }
 
 
+
+
+
 void WixData::prepareUninstalls() {
-Component* c   = feature.findAnApp();
-Group*     grp = 0;
+Component* app = features.findAnApp();
+Feature*   ftr = 0;
 Component* cmp = 0;
 
-  if (c && c->isStartMenu) {
-    grp = feature.newGroup();   cmp = grp->newItem();
+  if (app && app->isStartMenu) {
+    ftr = features.newItem();   cmp = ftr->newItem();
 
-    grp->id             = _T("Uninstall ") + c->id;
-    grp->wixID          = getWixID(grp->id, FeatureExt);
-    grp->isUninstall    = true;
+    ftr->id             = _T("Uninstall ") + app->id;
+    ftr->wixID          = getWixID(ftr->id, FeatureExt);
+    ftr->isUninstall    = true;
 
-    cmp->id             = _T("Uninstall ") + c->id;
+    ftr->setDirectories(app->getProgFileID(), app->getStartMenuID());
+
+    cmp->id             = _T("Uninstall ") + app->id;
     cmp->wixID          = getWixID(cmp->id, _T("cmp"));
-    cmp->description    = _T("Uninstalls ") + c->id;
+    cmp->description    = _T("Uninstalls ") + app->id;
     cmp->target         = _T("[System64Folder]msiexec.exe");
     cmp->arguments      = _T("/x [ProductCode]");
-    cmp->progFile       = c->startMenu;
-    cmp->startMenu      = c->progFile;
-    cmp->icon           = product.ctrlPanel;
+    cmp->markDirs(*ftr);
+    cmp->setIcon(product.iconID);
     cmp->isStartMenu    = true;
     cmp->isUninstall    = true;
+    cmp->isApp          = true;
     }
   }
 
@@ -191,5 +253,25 @@ String toFile   = wxsPath       + fileName;
 
 
 
-void WixData::finalMsg() {Finish finish; finish.DoModal();}
+//void WixData::finalMsg() {Finish finish; finish.DoModal();}
+
+
+
+#if 0
+
+  <Component Id="UninstallWixApp.cmp"  Guid="CE0AF1E2-A4EB-4DFA-B49A-C1DCBECDE3CD"
+                                                                              Directory="WixApp.pmf">
+
+    <Shortcut Id               = "UninstallWixApp.shc"
+              Name             = "Uninstall WixApp"
+              Description      = "Uninstalls WixApp"
+              Target           = "[System64Folder]msiexec.exe"
+              Arguments        = "/x [ProductCode]"
+              Icon             = "WixAppIcon.ico"
+              />
+    <RemoveFolder Id="WixApp.uni" Directory="WixApp.pmf" On="uninstall"/>
+    <RegistryValue Root="HKCU" Key="Software\UninstallWixApp.cmp" Name="installed"
+                   Type="integer" Value="1" KeyPath="yes"/>
+  </Component>
+#endif
 

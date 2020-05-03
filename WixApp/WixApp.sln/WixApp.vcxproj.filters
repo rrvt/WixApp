@@ -34,6 +34,8 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
+    <None Include="..\Data\MakeApp.wxd" />
+    <None Include="..\Data\Product.wxs" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SrcFiles\ChildView.cpp">
@@ -48,16 +50,7 @@
     <ClCompile Include="..\SrcFiles\DirDesc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\SrcFiles\Directory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SrcFiles\Feature.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\SrcFiles\Finish.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SrcFiles\Group.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\SrcFiles\Icons.cpp">
@@ -111,6 +104,21 @@
     <ClCompile Include="..\..\Library\AboutFiles\About.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\SrcFiles\Features.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SrcFiles\Feature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SrcFiles\PFFdirectories.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SrcFiles\PMFdirectories.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SrcFiles\DspDirs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\SrcFiles\ChildView.h">
@@ -125,22 +133,13 @@
     <ClInclude Include="..\SrcFiles\DirDesc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SrcFiles\Directory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\SrcFiles\DirectoryStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\SrcFiles\EntityStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\SrcFiles\Feature.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\SrcFiles\Finish.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SrcFiles\Group.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\SrcFiles\HtmlHelp.h">
@@ -201,6 +200,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Library\AboutFiles\About.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SrcFiles\Features.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SrcFiles\Feature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SrcFiles\PFFdirectories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SrcFiles\PMFdirectories.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SrcFiles\DspDirs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

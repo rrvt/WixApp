@@ -2,18 +2,12 @@
 
 
 #include "stdafx.h"
-#include "pathUnits.h"
-
-
-
-
-
+#include "PathUnits.h"
 
 
 PathUnits& PathUnits::operator= (String& path) {
   parse(path);   return *this;
   }
-
 
 
 // disect the path to a file into bite size chunks, mostly directories (e.g. D:\, \abc\, etc.)
@@ -37,6 +31,18 @@ int i;
 
   return tempPath;
   }
+
+
+PathUnits& PathUnits::copy(PathUnits& p) {
+int j;
+
+  i = p.i;   nUnits = p.nUnits;   tempPath = p.tempPath;
+
+  for (j = 0; j < nUnits; j++) units[j] = p.units[j];
+
+  return *this;
+  }
+
 
 
 #if 0
@@ -67,17 +73,4 @@ int j;
   return true;
   }
 #endif
-
-
-
-
-PathUnits& PathUnits::copy(PathUnits& p) {
-int j;
-
-  i = p.i;   nUnits = p.nUnits;   tempPath = p.tempPath;
-
-  for (j = 0; j < nUnits; j++) units[j] = p.units[j];
-
-  return *this;
-  }
 

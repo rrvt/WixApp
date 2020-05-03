@@ -8,32 +8,34 @@
 #include "PathDesc.h"
 
 
+class Feature;
+
+
 class Component : public Data {
-String section;
-String guid;
+String   section;
+String   guid;
+String   progFileID;
+String   startMenuID;
+String   iconID;
 
 public:
 
 PathDesc pathDsc;
-String    description;
-String    target;
-String    arguments;
-DirDesc   progFile;
-DirDesc   startMenu;
-IconDesc  icon;
-bool      iconUsed;
-bool      isStartMenu;
-bool      isDesktop;
-bool      isVersionAvail;
-bool      isOnPath;
-bool      isWin7;
-bool      isWinXP;
-bool      isWin2K;
+String   description;
+String   target;
+String   arguments;
+bool     iconUsed;
+bool     isStartMenu;
+bool     isDesktop;
+bool     isVersionAvail;
+bool     isOnPath;
+bool     isWin7;
+bool     isWinXP;
+bool     isWin2K;
 
-bool      isUninstall;
-bool      isUninstallDir;
-bool      regOut;
-bool      isApp;
+bool     isUninstall;
+bool     isUninstallDir;
+bool     isApp;
 
   Component();
 
@@ -42,36 +44,47 @@ bool      isApp;
 
   Component& operator= (Component& c) {copyObj(c); return *this;}
 
-  void readWixData();
-  void writeWixData();
-  void delWixData() {}
+  void       readWixData();
+  void       writeWixData();
+  void       readWixData2(String& cmpSection);
+  void       writeWixData2(String& cmpSection);
+  void       delWixData() {}
 
-  void loadNew(WixDataDlg& dialog);
-  void load(   WixDataDlg& dialog);
-  void store(  WixDataDlg& dialog);
+  void       loadNew(WixDataDlg& dialog);
+  void       load(   WixDataDlg& dialog);
+  void       store(  WixDataDlg& dialog);
 
-  void updateComponent(    WixDataDlg& dialog);
-  void browsePath(         WixDataDlg& dialog);
-  void storeDescription(   WixDataDlg& dialog);
-  void storeProgFileName(  WixDataDlg& dialog);
-  void storeMenuName(      WixDataDlg& dialog);
-  void storeIsStartMenu(   WixDataDlg& dialog);
-  void storeIsDeskTop(     WixDataDlg& dialog);
-  void storeIsVersionAvail(WixDataDlg& dialog);
-  void storeIsOnPath(      WixDataDlg& dialog);
-  void storeIsWin7(        WixDataDlg& dialog);
-  void storeIsWinXP(       WixDataDlg& dialog);
-  void storeIsWin2K(       WixDataDlg& dialog);
-  void delData();
+  String&    getProgFileID() {return progFileID;}
+  DirDesc*   getProgFile();
+
+  String&    getStartMenuID() {return startMenuID;}
+  DirDesc*   getStartMenu();
+
+//  void       updateComponent(    WixDataDlg& dialog);
+  void       browsePath(         WixDataDlg& dialog);
+  void       storeDescription(   WixDataDlg& dialog);
+  void       storeIsStartMenu(   WixDataDlg& dialog);
+  void       storeIsDeskTop(     WixDataDlg& dialog);
+  void       storeIsVersionAvail(WixDataDlg& dialog);
+  void       storeIsOnPath(      WixDataDlg& dialog);
+  void       storeIsWin7(        WixDataDlg& dialog);
+  void       storeIsWinXP(       WixDataDlg& dialog);
+  void       storeIsWin2K(       WixDataDlg& dialog);
+  void       delData();
 
 
-  void browseIcon(WixDataDlg& dialog);
-  void updateIcon(WixDataDlg& dialog);
+  void       browseIcon(WixDataDlg& dialog);
+  void       updateIcon(WixDataDlg& dialog);
 
-  void identifyIconUsed();
-  void identifyDirectoriesUsed();
+  void       setIcon(String& id) {iconID = id;}
+  void       identifyIconUsed()  {icons.markIcon(iconID);}
 
-  void outputSetPath(int tab, bool& crlfOut);
+  void       markDirs(Feature& ftr);
+  void       markDirectories(String& id, DirStor& stor);
+
+  void       prepareUninstalls(String& newID, String& wixid, String& progFileId);
+
+  void       outputSetPath(int tab, bool& crlfOut);
 
   bool validate();
   void output(int tab);
@@ -87,6 +100,7 @@ private:
   String getSetEnvPath();
 
   void   readOne(TCchar* key, String& v);
-  void   readDir(TCchar* key, DirDesc& dir, DirStor& stor);
+//  void   readDir(TCchar* key, DirDesc& dir, DirStor& stor);
   void   copyObj(Component& c);
   };
+

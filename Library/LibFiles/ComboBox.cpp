@@ -29,27 +29,24 @@ bool ComboBox::getWindowText(String& s)
                                     {CString t;   GetWindowText(t);   s = t;   return s.length() != 0;}
 
 
-void ComboBox::clear() {
-int i = GetCount();
-
-  while (--i >= 0) DeleteString(i);
-  Clear();
-  }
+void ComboBox::clear() {ResetContent();}
 
 
 bool ComboBox::getCurSel(String& s) {return getText(GetCurSel(), s);}
 
 
-bool ComboBox::setCurSel(String& s) {return SetCurSel(FindStringExact(-1, s)) >= 0;}
-
+bool ComboBox::setCurSel(String& s)
+                {String t = s.isEmpty() ? _T(' ') : s;   return SetCurSel(FindStringExact(-1, t)) >= 0;}
 
 
 bool ComboBox::getText(int i, String& s) {
 CString t;
 
+  s.clear();
+
   if (i < 0) return false;
 
-  GetLBText(i, t);   s = t;   return s.length() != 0;
+  GetLBText(i, t);   s = t;   return true;
   }
 
 

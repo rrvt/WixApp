@@ -3,42 +3,53 @@
 
 #pragma once
 #include "Expandable.h"
-
-
-enum DefPathDscType {NilType, StgType, IntType};
-
+#include "PathDesc.h"
 
 struct DefPathDsc {
-DefPathDscType dscType;
 String         key;
-String         path;
-int            val;
+PathDesc       pathDsc;
+bool           inUse;
 
-  DefPathDsc() : val(0), dscType(NilType) {}
+  DefPathDsc() : inUse(false) { }
+  DefPathDsc(DefPathDsc& dsc) {copyDsc(dsc);}
  ~DefPathDsc() { }
+
+  DefPathDsc& operator= (DefPathDsc& dsc) {return copyDsc(dsc);}
+
+private:
+
+  DefPathDsc& copyDsc(DefPathDsc& dsc)
+                                {key = dsc.key; pathDsc = dsc.pathDsc; inUse = dsc.inUse; return *this;}
   };
 
 
 class DefaultPath {
 
-int                        nPaths;
+DefPathDsc*                curPath;
 Expandable <DefPathDsc, 1> paths;
 
 public:
 
-  DefaultPath() : nPaths(0) {}
+  DefaultPath() : curPath(0) { }
  ~DefaultPath() { }
 
-  TCchar* add(   TCchar* key, String& fullPath);
-  int     add(   TCchar* key, int     v);
-  TCchar* get(   TCchar* key);
-  int     getInt(TCchar* key);
+  void        readWixData();
+  void        writeWixData();
 
-  void    writeWixData();
+  void        setCurPath(TCchar* key);
+  void        del(TCchar* key);
+
+  void        mark(TCchar* key) {DefPathDsc* dsc = find(key);  if (dsc) dsc->inUse = true;}
 
 private:
 
+  String      getCurPath();
+  void        save(String& path);
+
+  int         nPaths() {return paths.end();}
   DefPathDsc* find(TCchar* key);
+
+  friend class PathDesc;
   };
 
 

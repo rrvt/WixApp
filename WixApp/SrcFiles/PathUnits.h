@@ -4,6 +4,7 @@
 #pragma once
 #include "Expandable.h"
 
+
 class PathUnits {
 int                     i;
 int                     nUnits;                 // No. of units in the path (e.g. D:\, \abc\, etc.)
@@ -19,26 +20,24 @@ public:
 
   PathUnits& operator= (PathUnits& p) {return copy(p);}
 
-  void clear() {nUnits = 0;}
-  bool empty() {return nUnits == 0;}
+  void       clear() {nUnits = 0;}
+  bool       isEmpty() {return nUnits == 0;}
 
   PathUnits& operator= (String& path);
              operator String();
-//             operator CString();
 
-//  bool    relativePath(PathUnits& pathUnit, String& rel);
-  String& getPath();
-  String& getAbsolutePath();
+  String&    getPath();
+  String&    getAbsolutePath();
 
-  String* startLoop() {i = -1; return nextUnit();}
-  String* nextUnit()  {i++; return i < nUnits ? &units[i] : 0;}
-  int     noUnits() {return nUnits;}
+  String*    startLoop() {i = -1; return nextUnit();}
+  String*    nextUnit()  {i++; return i < nUnits ? &units[i] : 0;}
+  int        noUnits() {return nUnits;}
 
-  String* operator[] (int i) {return i < nUnits ? &units[i] : 0;}
+  String*    operator[] (int i) {return i < nUnits ? &units[i] : 0;}
 
 private:
 
-  void    parse(const String& path);
+  void       parse(const String& path);
   PathUnits& copy(PathUnits& p);
   };
 

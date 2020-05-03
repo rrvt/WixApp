@@ -7,7 +7,6 @@
 #include "Guid.h"
 #include "Icons.h"
 #include "Resources.h"
-#include "Solution.h"
 
 
 static TCchar* ProductSection = _T("Product");
@@ -20,12 +19,12 @@ static TCchar* DefaultCondKey = _T("DefaultCond");
 static TCchar* SameVerAllowed = _T("SaveVerAllowed");
 static TCchar* LicenseReqKey  = _T("LicenseRequired");
 static TCchar* LicensePathKey = _T("LicensePath");
+static TCchar* IconIDKey      = _T("IconID");
 
 Product product;
 
 
 void Product::readWixData() {
-String licensePath;
 
   wxd.readString(ProductSection, WixNameKey,     wixName);
   wxd.readString(ProductSection, WixVersionKey,  wixVersion);
@@ -34,8 +33,8 @@ String licensePath;
   wxd.readString(ProductSection, UpgradeGUIDKey, upgradeGUID);
   isSameVerAllowed = wxd.readInt(ProductSection, SameVerAllowed, 0) != 0;
   isLicenseReq     = wxd.readInt(ProductSection, LicenseReqKey,  0) != 0;
-  wxd.readString(ProductSection, LicensePathKey, licensePath);   licenseDsc = licensePath;
-  ctrlPanel.readWixData(ProductSection);
+  licenseDsc.readWixData(ProductSection, LicensePathKey);
+  wxd.readString(ProductSection, IconIDKey,      iconID);
   }
 
 
@@ -43,12 +42,16 @@ void Product::updateVersion(String& path)
                                 {ResourceData res(path); wixVersion.clear(); res.getVersion(wixVersion);}
 
 
+void Product::storeProduct(WixDataDlg& dialog) {productName  = getText(dialog.productNameEB);}
+
+
+
 void Product::loadCB(WixDataDlg& dialog) {
+  dialog.productNameEB.SetWindowText(productName);
+      dialog.companyEB.SetWindowText(company);
       dialog.wixNameEB.SetWindowText(wixName);
       loadVerEB(dialog);
-      dialog.companyEB.SetWindowText(company);
-  dialog.productNameEB.SetWindowText(productName);
-  dialog.progFtrIconEB.SetWindowText(ctrlPanel.id);
+  dialog.progFtrIconEB.SetWindowText(iconID);
   }
 
 
@@ -61,35 +64,35 @@ void Product::loadVerEB(WixDataDlg& dialog) {
 void Product::browseIcon(WixDataDlg& dialog) {
 ComboBox& cb = dialog.iconCB;
 
-  ctrlPanel.browse(); // icons.loadCB(cb);  icons.setCur(ctrlPanel->id, cb);
+  iconID = icons.browse();
 
-  dialog.progFtrIconEB.SetWindowText(ctrlPanel.id);
+  dialog.progFtrIconEB.SetWindowText(iconID);
   }
 
 
 void Product::writeWixData() {
 
+  wxd.writeString(ProductSection, ProductNameKey, productName);
+  wxd.writeString(ProductSection, CompanyKey,     company);
   wxd.writeString(ProductSection, WixNameKey,     wixName);
   wxd.writeString(ProductSection, WixVersionKey,  wixVersion);
-  wxd.writeString(ProductSection, CompanyKey,     company);
-  wxd.writeString(ProductSection, ProductNameKey, productName);
   wxd.writeString(ProductSection, UpgradeGUIDKey, upgradeGUID);
   wxd.writeInt(   ProductSection, SameVerAllowed, isSameVerAllowed);
   wxd.writeInt(   ProductSection, LicenseReqKey,  isLicenseReq);
-  wxd.writeString(ProductSection, LicensePathKey, licenseDsc.full());
-  ctrlPanel.writeWixData(ProductSection);
+  licenseDsc.writeWixData(ProductSection, LicensePathKey);
+  wxd.writeString(ProductSection, IconIDKey,      iconID);
   }
 
 
 
 
-void Product::output(Component* app, Prolog& prolog, Feature& feature) {
+void Product::output(Component* app, Prolog& prolog, Features& features) {
 String line;
 String ver;
 
   wix.crlf();
 
-  if (upgradeGUID.empty()) getGuid(upgradeGUID);
+  if (upgradeGUID.isEmpty()) getGuid(upgradeGUID);
 
   line = _T("<Product Id=\"*\" UpgradeCode=\"") + upgradeGUID + _T("\" Language=\"1033\"\n");
   wix.stg(0, line);
@@ -110,9 +113,9 @@ String ver;
 
   installerIcons();  outputIcons();
 
-  feature.outputSetPath(1);
+  features.outputSetPath(1);
 
-  feature.outputFeatures(1);
+  features.outputFeatures(1);
 
   wix.lit(0, _T("</Product>\n"));
   }
@@ -240,20 +243,23 @@ String line;
 
 
 
-void Product::identifyIcons() {
+void Product::markIcon() {
 IconDesc* p;
 
-  p = icons.find(ctrlPanel.id);  if (p) p->inUse = true;
+  p = icons.find(iconID);  if (p) p->inUse = true;
+
+  icons.markDfltDir();
   }
 
 
 void Product::outputIcons() {
-String line;
+String    line;
+IconDesc* dsc = icons.find(iconID);
 
   wix.crlf();
 
   icons.output(1);
 
-  wix.out(1, _T("<Property Id=\"ARPPRODUCTICON\"  Value=\""), product.ctrlPanel.wixID, _T("\" />"));
+  if (dsc) wix.out(1, _T("<Property Id=\"ARPPRODUCTICON\"  Value=\""), dsc->wixID, _T("\" />"));
   }
 

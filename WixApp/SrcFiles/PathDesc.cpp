@@ -3,19 +3,48 @@
 
 #include "stdafx.h"
 #include "PathDesc.h"
+#include "DefaultPath.h"
 #include "filename.h"
+#include "GetPathDlg.h"
 #include "Solution.h"
+#include "WixOut.h"
+
+
+void PathDesc::readWixData(TCchar* section, TCchar* key) {
+String path;
+
+  wxd.readString(section, key, path);  if (!path.isEmpty()) relativeSolution(path);
+  }
+
+
+void PathDesc::writeWixData(TCchar* section, TCchar* key) {
+  wxd.writeString(section, key, path());
+  }
+
+
+String& PathDesc::browse(TCchar* title, TCchar* ext, TCchar* pat) {
+String defPath = defaultPath.getCurPath();
+String path;
+
+  getPathDlg(title, defPath, ext, pat, path);   relativeSolution(path);
+
+  defaultPath.save(path);
+
+  return relSol;
+  }
 
 
 // Find common components in Path with Solution path.  Base Dsc on Solution path.
 
-PathDesc& PathDesc::operator= (const String& fullPath) {
-String pathOnly = getPath(fullPath);
-String fileName = removePath(fullPath);
+void PathDesc::relativeSolution(const String& fullPath) {
+String    pathOnly = getPath(fullPath);
+String    fileName = removePath(fullPath);
 PathUnits pathU = pathOnly;
-String* pathSub;
-String* solSub;
-int     i;
+String*   pathSub;
+String*   solSub;
+int       i;
+
+  if (pathOnly.find(_T(':')) < 0) {relSol = fullPath; return;}
 
   for (solSub = solution.startLoop(), pathSub = pathU.startLoop(), i = 0; solSub && pathSub;
        solSub = solution.nextSubDir(), pathSub = pathU.nextUnit(), i++) {
@@ -23,41 +52,36 @@ int     i;
     if (*solSub != *pathSub) break;
     }
 
-  dsc.clear();
+  relSol.clear();
 
   if (i > 0) {
 
-    for (; solSub;  solSub  = solution.nextSubDir()) dsc += _T("..\\");
+    for (; solSub;  solSub  = solution.nextSubDir()) relSol += _T("..\\");
 
-    for (; pathSub; pathSub = pathU.nextUnit())      dsc += *pathSub + _T('\\');
+    for (; pathSub; pathSub = pathU.nextUnit())      relSol += *pathSub + _T('\\');
 
-    dsc += fileName;
+    relSol += fileName;
     }
-
-  return *this;
   }
 
 
-String  PathDesc::full() {
-PathUnits units    = getPath(dsc);
-String    fileName = removePath(dsc);
-String    path;
+String  PathDesc::path() {
+PathUnits units    = getPath(relSol);
+String    fileName = removePath(relSol);
+String    path = _T("");
 String*   sub;
 int       i;
 int       j;
 int       n = solution.noUnits();
 
-  if (!dsc.empty()) {
+  for (sub = units.startLoop(), i = 0; sub; sub = units.nextUnit(), i++) if (*sub != _T("..")) break;
 
-    for (sub = units.startLoop(), i = 0; sub; sub = units.nextUnit(), i++) if (*sub != _T("..")) break;
+  for (j = 0, sub = solution.startLoop(); j < n - i && sub;
+                                             j++, sub = solution.nextSubDir()) path += *sub + _T('\\');
 
-    for (j = 0, sub = solution.startLoop(); j < n - i && sub;
-                                                   j++, sub = solution.nextSubDir()) path += *sub + _T('\\');
+  for (i, sub = units[i]; sub; i++, sub = units[i]) path += *sub + _T('\\');
 
-    for (i, sub = units[i]; sub; i++, sub = units[i]) path += *sub + _T('\\');
-
-    path += fileName;
-    }
+  path += fileName;
 
   return path;
   }
@@ -71,6 +95,6 @@ String prefix;
 
   if (pos >= 0) prefix = pathOnly.substr(pos);
 
-  if (!prefix.empty() || !fileName.empty()) dsc = _T("...") + prefix + fileName;
+  if (!prefix.isEmpty() || !fileName.isEmpty()) relSol = _T("...") + prefix + fileName;
 #endif
 

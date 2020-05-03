@@ -11,7 +11,7 @@ String cleanName(String& s);
 
 String getWixID(String& id, TCchar* ext);
 
-void   parse(String& path, String& parent, String& name);
+void   findLastName(String& path, String& parent, String& name);
 
 String combineNames(String& parent, String& name);
 

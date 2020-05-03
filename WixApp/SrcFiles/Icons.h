@@ -16,19 +16,20 @@ PathDesc pathDsc;
 public:
 bool     inUse;
 
-  IconDesc();
+  IconDesc() : inUse(false) { }
   IconDesc(IconDesc& d) : inUse(false) {copyObj(d);}
  ~IconDesc() { }
 
   void clear() {id.clear(); pathDsc.clear(); inUse = false;}
 
+  IconDesc& operator= (PathDesc& dsc) {pathDsc = dsc; return *this;}
+
   void readWixData( TCchar* section);
   void writeWixData(TCchar* section);
+
   void setWixID();
 
-  void browse();
-
-  void parse(String& fullPath);
+//  void parse(String& fullPath);
 
   IconDesc& operator= (IconDesc& d) {copyObj(d); return *this;}
 
@@ -50,17 +51,25 @@ IconList iconList;
 
 public:
 
-  Icons();
+  Icons() { }
  ~Icons() { }
 
-  //IconDesc* update(String& id, String& path);
+  void      readWixData();
+  void      writeWixData();
+
+  int       nIcons() {return iconList.data.end();}
+
+  String    browse();
+
   bool      getFromList(IconDesc& icon);
   bool      updateList(IconDesc& icon);
 
   void      loadCB(ComboBox& cb) {iconList.loadCB(cb);}
 
-  void      setCur(String& s, ComboBox& cb)
-                              {if (!s.isEmpty()) iconList.setCur(s, cb); else cb.SetWindowText(_T(""));}
+  void      setCur(String& s, ComboBox& cb) {iconList.setCur(s, cb);}
+
+  void      markIcon(String& id) {IconDesc* ic = find(id);    if (ic) ic->inUse = true;}
+  void      markDfltDir();
 
   IconDesc* find(String& s) {return iconList.find(s);}
 
@@ -69,7 +78,7 @@ public:
 
 private:
 
-  IconDesc* getNew() {return iconList.newItem();}
+  IconDesc* getNew() {return iconList.newItem(_T("Icon"));}
 
   void oneIconAvail();
   };

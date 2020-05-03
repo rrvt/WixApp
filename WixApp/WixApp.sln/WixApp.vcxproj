@@ -116,15 +116,17 @@ copy $(SolutionDir)..\SrcFiles\res\dialog.bmp $(OutDir)</Command>
     <ClCompile Include="..\SrcFiles\Component.cpp" />
     <ClCompile Include="..\SrcFiles\DefaultPath.cpp" />
     <ClCompile Include="..\SrcFiles\DirDesc.cpp" />
-    <ClCompile Include="..\SrcFiles\Directory.cpp" />
+    <ClCompile Include="..\SrcFiles\DspDirs.cpp" />
     <ClCompile Include="..\SrcFiles\Feature.cpp" />
+    <ClCompile Include="..\SrcFiles\Features.cpp" />
     <ClCompile Include="..\SrcFiles\Finish.cpp" />
-    <ClCompile Include="..\SrcFiles\Group.cpp" />
     <ClCompile Include="..\SrcFiles\Icons.cpp" />
     <ClCompile Include="..\SrcFiles\MainFrm.cpp" />
     <ClCompile Include="..\SrcFiles\Options.cpp" />
     <ClCompile Include="..\SrcFiles\PathDesc.cpp" />
     <ClCompile Include="..\SrcFiles\PathUnits.cpp" />
+    <ClCompile Include="..\SrcFiles\PFFdirectories.cpp" />
+    <ClCompile Include="..\SrcFiles\PMFdirectories.cpp" />
     <ClCompile Include="..\SrcFiles\Product.cpp" />
     <ClCompile Include="..\SrcFiles\Prolog.cpp" />
     <ClCompile Include="..\SrcFiles\RequiredOSs.cpp" />
@@ -143,18 +145,20 @@ copy $(SolutionDir)..\SrcFiles\res\dialog.bmp $(OutDir)</Command>
     <ClInclude Include="..\SrcFiles\Component.h" />
     <ClInclude Include="..\SrcFiles\DefaultPath.h" />
     <ClInclude Include="..\SrcFiles\DirDesc.h" />
-    <ClInclude Include="..\SrcFiles\Directory.h" />
     <ClInclude Include="..\SrcFiles\DirectoryStore.h" />
+    <ClInclude Include="..\SrcFiles\DspDirs.h" />
     <ClInclude Include="..\SrcFiles\EntityStore.h" />
     <ClInclude Include="..\SrcFiles\Feature.h" />
+    <ClInclude Include="..\SrcFiles\Features.h" />
     <ClInclude Include="..\SrcFiles\Finish.h" />
-    <ClInclude Include="..\SrcFiles\Group.h" />
     <ClInclude Include="..\SrcFiles\HtmlHelp.h" />
     <ClInclude Include="..\SrcFiles\Icons.h" />
     <ClInclude Include="..\SrcFiles\MainFrm.h" />
     <ClInclude Include="..\SrcFiles\Options.h" />
     <ClInclude Include="..\SrcFiles\PathDesc.h" />
     <ClInclude Include="..\SrcFiles\PathUnits.h" />
+    <ClInclude Include="..\SrcFiles\PFFdirectories.h" />
+    <ClInclude Include="..\SrcFiles\PMFdirectories.h" />
     <ClInclude Include="..\SrcFiles\Product.h" />
     <ClInclude Include="..\SrcFiles\Prolog.h" />
     <ClInclude Include="..\SrcFiles\RequiredOSs.h" />
@@ -174,17 +178,16 @@ copy $(SolutionDir)..\SrcFiles\res\dialog.bmp $(OutDir)</Command>
     <None Include="..\SrcFiles\res\banner.bmp" />
     <None Include="..\SrcFiles\res\dialog.bmp" />
     <None Include="..\SrcFiles\res\My_en-us.wxl" />
-    <None Include="..\ReadMe.txt" />
     <None Include="..\SrcFiles\res\WixApp.ico" />
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
     <None Include="..\SrcFiles\res\WixApp.rc2" />
+    <None Include="..\Data\MakeApp.wxd" />
+    <None Include="..\Data\Product.wxs" />
+    <None Include="..\ReadMe.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\LibUni7\LibUni7.vcxproj">
       <Project>{cf57f3ec-d3db-4469-8519-3f9d73785d9b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\hlp\hlp.vcxproj">
-      <Project>{8856d6d2-e842-4ca0-8b82-1fc5dd2a3b64}</Project>
     </ProjectReference>
   </ItemGroup>
 </Project>

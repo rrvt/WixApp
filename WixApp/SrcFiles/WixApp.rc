@@ -74,6 +74,7 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\WixApp.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
@@ -83,22 +84,28 @@ IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "E&xit",         ID_APP_EXIT
+        MENUITEM "E&xit",                       ID_APP_EXIT
     END
 END
 
 IDR_MENU1 MENUEX
 BEGIN
-    POPUP "&File",                65535,MFT_STRING,MFS_ENABLED
+    POPUP "&File",                          65535,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "&New",          ID_FileNew,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Open",         ID_FileOpen,MFT_STRING,MFS_ENABLED
-        MENUITEM "&Recent",       ID_FileRecent,MFT_STRING,MFS_ENABLED
+        MENUITEM "&New",                        ID_FileNew,MFT_STRING,MFS_ENABLED
+        MENUITEM "&Open",                       ID_FileOpen,MFT_STRING,MFS_ENABLED
+        MENUITEM "Save WXD File",               ID_FILE_SAVEWXDFILE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Exit",                        ID_FILE_EXIT,MFT_STRING,MFS_ENABLED
     END
-    MENUITEM "Solution",          ID_SOLUTION,MFT_STRING,MFS_ENABLED
-    MENUITEM "Options",           ID_OPTIONS,MFT_STRING,MFS_ENABLED
-    MENUITEM "Help",              ID_HELP,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
-    MENUITEM "About",             ID_ABOUT,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+    MENUITEM "Solution",                    ID_SOLUTION,MFT_STRING,MFS_ENABLED
+    MENUITEM "Options",                     ID_OPTIONS,MFT_STRING,MFS_ENABLED
+    POPUP "Test",                           65535,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "Validate",                    ID_TEST_VALIDATE,MFT_STRING,MFS_ENABLED
+        MENUITEM "Display Directories",         ID_DisplayDirectories,MFT_STRING,MFS_ENABLED
+    END
+    MENUITEM "Help",                        ID_HELP,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
+    MENUITEM "About",                       ID_ABOUT,MFT_STRING | MFT_RIGHTJUSTIFY,MFS_ENABLED
 END
 
 
@@ -119,55 +126,56 @@ END
 // Dialog
 //
 
-IDD_DIALOG1 DIALOGEX 0, 0, 320, 242
+IDD_DIALOG1 DIALOGEX 0, 0, 320, 248
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_OVERLAPPEDWINDOW | WS_EX_STATICEDGE
 CAPTION "WixApp"
 MENU IDR_MENU1
 FONT 12, "Arial", 400, 0, 0x0
 BEGIN
-    GROUPBOX        "Product",IDC_STATIC,1,0,319,84,WS_GROUP,WS_EX_TRANSPARENT | WS_EX_STATICEDGE
-    RTEXT           "Installer Name:",IDC_STATIC,2,10,96,8,SS_CENTERIMAGE
-    EDITTEXT        IDC_WixName,101,10,133,12,ES_AUTOHSCROLL
-    LTEXT           "Version:",IDC_STATIC,235,10,26,12,SS_CENTERIMAGE,WS_EX_RIGHT
-    EDITTEXT        IDC_WixVersion,263,10,50,12,ES_AUTOHSCROLL,WS_EX_RIGHT | WS_EX_CONTROLPARENT
-    RTEXT           "Company Name:",IDC_STATIC,2,24,96,8,SS_CENTERIMAGE
+    GROUPBOX        "Product",IDC_STATIC,5,2,313,65,WS_GROUP,WS_EX_TRANSPARENT | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    RTEXT           "Product Name:",IDC_STATIC,37,10,61,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_ProductName,101,10,212,12,ES_AUTOHSCROLL
+    RTEXT           "Company Name:",IDC_STATIC,37,24,61,8,SS_CENTERIMAGE
     EDITTEXT        IDC_CompanyName,101,24,212,12,ES_AUTOHSCROLL
-    RTEXT           "Product Name:",IDC_STATIC,2,38,96,8,SS_CENTERIMAGE
-    EDITTEXT        IDC_ProductName,101,38,212,12,ES_AUTOHSCROLL
-    RTEXT           "Control Panel Icon:",IDC_STATIC,2,52,96,8,SS_CENTERIMAGE
+    RTEXT           "Installer Name:",IDC_STATIC,37,38,61,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_WixName,101,38,133,12,ES_AUTOHSCROLL
+    LTEXT           "Version:",IDC_STATIC,235,38,26,12,SS_CENTERIMAGE,WS_EX_RIGHT
+    EDITTEXT        IDC_WixVersion,262,38,50,12,ES_AUTOHSCROLL,WS_EX_RIGHT | WS_EX_CONTROLPARENT
+    RTEXT           "Control Panel Icon:",IDC_STATIC,37,52,61,8,SS_CENTERIMAGE
     EDITTEXT        IDC_CtrlPnlIcn,101,52,144,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
-    PUSHBUTTON      "Browse",IDC_BrowseProgFtrIcon,247,52,66,12
-    RTEXT           "Feature Name:",IDC_STATIC,2,69,96,8,SS_CENTERIMAGE
-    COMBOBOX        IDC_Group,101,69,144,120,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "New",IDC_NewGroup,248,69,31,10,NOT WS_TABSTOP
-    PUSHBUTTON      "Delete",IDC_DelGroup,282,69,31,10,NOT WS_TABSTOP
-    GROUPBOX        "Component",IDC_STATIC,1,86,319,139,WS_GROUP,WS_EX_TRANSPARENT | WS_EX_STATICEDGE
-    RTEXT           "Component/Shortcut Name:",IDC_STATIC,2,103,96,10,SS_CENTERIMAGE
-    COMBOBOX        IDC_Component,101,103,144,120,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    PUSHBUTTON      "New",IDC_NewComponent,248,103,31,10,NOT WS_TABSTOP
-    PUSHBUTTON      "Delete",IDC_DelComponent,282,103,31,10,NOT WS_TABSTOP
-    RTEXT           "Component Path:",IDC_STATIC,2,117,96,10,SS_CENTERIMAGE
-    EDITTEXT        IDC_ComponentPath,101,117,144,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
-    PUSHBUTTON      "Browse",IDC_BrowseComponentPath,247,117,66,12
-    EDITTEXT        IDC_Description,101,132,212,12,ES_AUTOHSCROLL
-    LTEXT           "Description:",IDC_STATIC,2,132,96,10,SS_CENTERIMAGE,WS_EX_RIGHT
-    CONTROL         "Start Menu",IDC_OnStartMenu,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,146,44,12
-    CONTROL         "Desk Top",IDC_OnDeskTop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,146,40,12
-    CONTROL         "Version No. Available",IDC_VersionAvail,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,146,76,12
-    CONTROL         "On Path",IDC_OnPath,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,270,146,35,12
-    CONTROL         "Win7 +",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,162,32,12
-    CONTROL         "WinXP",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,162,35,12
-    CONTROL         "Win2K",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,162,35,12
-    LTEXT           "Select Icon:",IDC_STATIC,2,180,96,12,SS_CENTERIMAGE,WS_EX_RIGHT
-    COMBOBOX        IDC_ComponentIcon,101,180,144,120,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL
-    PUSHBUTTON      "Browse",IDC_BrowseForIcon,247,180,66,12
-    RTEXT           "Program Files Dir Name:",IDC_STATIC,2,195,96,8,SS_CENTERIMAGE
-    EDITTEXT        IDC_ProgFileName,101,195,212,12,ES_AUTOHSCROLL
-    RTEXT           "Start Menu Name:",IDC_STATIC,2,211,96,8,SS_CENTERIMAGE
-    EDITTEXT        IDC_StartMenuName,101,211,212,12,ES_AUTOHSCROLL
-    DEFPUSHBUTTON   "Create Product.wxs",IDOK,6,228,88,14
-    PUSHBUTTON      "Cancel",IDCANCEL,263,228,50,14
+    PUSHBUTTON      "Browse",IDC_BrowseProgFtrIcon,246,52,66,12
+    GROUPBOX        "Feature",IDC_STATIC,5,68,313,160,BS_FLAT,WS_EX_TRANSPARENT | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    RTEXT           "Feature Name:",IDC_STATIC,49,78,49,8,SS_CENTERIMAGE
+    COMBOBOX        IDC_Feature,101,78,144,120,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "New",IDC_NewFeature,246,78,31,10,NOT WS_TABSTOP
+    PUSHBUTTON      "Delete",IDC_DelFeature,281,78,31,10,NOT WS_TABSTOP
+    RTEXT           "Program Files Dir Name:",IDC_STATIC,18,91,80,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_ProgFileName,101,91,212,12,ES_AUTOHSCROLL
+    RTEXT           "Start Menu Name:",IDC_STATIC,35,105,63,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_StartMenuName,101,105,212,12,ES_AUTOHSCROLL
+    GROUPBOX        "Component",IDC_STATIC,7,124,307,100,WS_GROUP,WS_EX_TRANSPARENT | WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    RTEXT           "Name:",IDC_STATIC,67,132,31,10,SS_CENTERIMAGE
+    COMBOBOX        IDC_Component,101,132,144,120,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "New",IDC_NewComponent,246,132,31,10,NOT WS_TABSTOP
+    PUSHBUTTON      "Delete",IDC_DelComponent,281,132,31,10,NOT WS_TABSTOP
+    RTEXT           "Component Path:",IDC_STATIC,34,146,64,10,SS_CENTERIMAGE
+    EDITTEXT        IDC_ComponentPath,101,146,144,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
+    PUSHBUTTON      "Browse",IDC_BrowseComponentPath,246,146,66,12
+    EDITTEXT        IDC_Description,100,161,212,12,ES_AUTOHSCROLL
+    LTEXT           "Description:",IDC_STATIC,44,161,54,10,SS_CENTERIMAGE,WS_EX_RIGHT
+    CONTROL         "In Start Menu",IDC_OnStartMenu,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,175,50,12
+    CONTROL         "Desk Top",IDC_OnDeskTop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,154,175,40,12
+    CONTROL         "Version No. Available",IDC_VersionAvail,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,175,76,12
+    CONTROL         "On Path",IDC_OnPath,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,276,175,33,12
+    CONTROL         "Win7 +",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,191,32,12
+    CONTROL         "WinXP",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,148,191,35,12
+    CONTROL         "Win2K",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,191,191,35,12
+    LTEXT           "Select Icon:",IDC_STATIC,52,209,46,12,SS_CENTERIMAGE,WS_EX_RIGHT
+    COMBOBOX        IDC_ComponentIcon,101,209,144,120,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL
+    PUSHBUTTON      "Browse",IDC_BrowseForIcon,246,209,66,12
+    DEFPUSHBUTTON   "Create Product.wxs",IDOK,5,228,88,14
+    PUSHBUTTON      "Cancel",IDCANCEL,267,228,50,14
 END
 
 IDD_DIALOG2 DIALOGEX 0, 0, 129, 80
@@ -179,19 +187,6 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,7,59,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,72,59,50,14
 END
-
-#if 0
-ID_ABOUT DIALOGEX 0, 0, 170, 62
-STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About WixApp"
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,14,14,21,20
-    LTEXT           "WixApp, Version 1.3.3 -- 08/21/19",IDC_STATIC,42,14,114,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) Bob -- K6RWY 2019",IDC_STATIC,42,26,114,8
-    DEFPUSHBUTTON   "OK",IDOK,113,41,50,14,WS_GROUP
-END
-#endif
 
 IDD_DIALOG3 DIALOGEX 0, 0, 309, 128
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -221,7 +216,7 @@ CAPTION "Dialog"
 FONT 12, "Arial", 400, 0, 0x0
 BEGIN
     CONTROL         "Allow Installation of the same Version number",IDC_AllowSameVer,
-                                                          "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,8,194,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,8,194,10
     GROUPBOX        "License Dialog",IDC_STATIC,7,21,194,42
     CONTROL         "Add ",IDC_AddLicense,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,32,194,10
     EDITTEXT        IDC_License,7,44,194,12,ES_AUTOHSCROLL | ES_READONLY,WS_EX_CLIENTEDGE
@@ -236,8 +231,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,3,6,0
- PRODUCTVERSION 1,3,6,0
+ FILEVERSION 1,5,4,0
+ PRODUCTVERSION 1,5,4,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -254,12 +249,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Bob -- K6RWY"
             VALUE "FileDescription", "WixApp"
-            VALUE "FileVersion", "1.3.6"
+            VALUE "FileVersion", "1.5.4"
             VALUE "InternalName", "WixApp.exe"
             VALUE "LegalCopyright", "(c) Bob -- K6RWY.  All rights reserved."
             VALUE "OriginalFilename", "WixApp.exe"
             VALUE "ProductName", "WixApp"
-            VALUE "ProductVersion", "1.3.6"
+            VALUE "ProductVersion", "1.5.4"
         END
     END
     BLOCK "VarFileInfo"
@@ -279,7 +274,7 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_DIALOG1, DIALOG
     BEGIN
-        BOTTOMMARGIN, 229
+        BOTTOMMARGIN, 241
     END
 
     IDD_DIALOG2, DIALOG
@@ -288,14 +283,6 @@ BEGIN
         RIGHTMARGIN, 122
         TOPMARGIN, 7
         BOTTOMMARGIN, 73
-    END
-
-    ID_ABOUT, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 163
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 55
     END
 
     IDD_DIALOG3, DIALOG
@@ -310,7 +297,6 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         TOPMARGIN, 7
-        BOTTOMMARGIN, 231
     END
 
     IDD_DIALOG5, DIALOG
@@ -326,12 +312,24 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DIALOG1 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
 STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "WixApp\n\nWixApp\n\n\nWixApp.Document\nWixApp.Document"
+    IDR_WXDversion          "2.0"
 END
 
 STRINGTABLE
@@ -448,7 +446,6 @@ END
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE 9, 1
 #include "res\WixApp.rc2"  // non-Microsoft Visual C++ edited resources
-#include "About.rc2"
 #include "afxres.rc"      // Standard components
 #include "afxprint.rc"    // printing/print preview resources
 #if !defined(_AFXDLL)

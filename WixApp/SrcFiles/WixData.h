@@ -2,7 +2,7 @@
 
 
 #pragma once
-#include "Feature.h"
+#include "Features.h"
 
 
 class WixDataDlg;
@@ -10,14 +10,25 @@ class WixDataDlg;
 
 class WixData {
 
+bool newFileNow;
+
 public:
 
-  WixData() {}
+  WixData() : newFileNow(false) {}
  ~WixData() {}
 
-  bool        readWixData( );              //String& wixPath
-  void        writeWixData(String& wxsPath);
+  void        updatePath(String& s);
+  bool        readWixData();              //String& wixPath
+  void        writeWixData();
   void        clearAllSections();
+
+  void        newFile(WixDataDlg* dialog);
+  void        openFile(WixDataDlg* dialog);
+  void        setDefaults(WixDataDlg* dialog);
+
+  TCchar*     getWixPath(String& path);
+  void        saveWixPath(TCchar* path);
+
   bool        validate();
   void        output();
 
@@ -25,7 +36,6 @@ private:
 
   void prepareUninstalls();
   void copyHelperFile(String& wxsPath, TCchar* fileName);
-  void finalMsg();
   };
 
 

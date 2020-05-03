@@ -4,12 +4,10 @@
 #include "stdafx.h"
 #include "Options.h"
 #include "DefaultPath.h"
-#include "GetPathDlg.h"
 #include "WixApp.h"
-//#include "afxdialogex.h"
 
 
-static TCchar* DefLicensePathKey = _T("LicensePath");
+TCchar* DefLicensePathKey = _T("LicensePath");
 
 
 // Options dialog
@@ -54,19 +52,18 @@ BOOL Options::OnInitDialog() {
 
 
 void Options::OnAddLicense() {
-TCchar* defPath;
+//TCchar* defPath;
 
   addLic = addLicenseCH.GetCheck()  != 0;
 
   if (addLic) {
-    defPath = defaultPath.get(DefLicensePathKey);
-
-    getPathDlg(_T("License RTF file"),  defPath, _T("*"), _T(""), licPath.full());
-
-    defaultPath.add(DefLicensePathKey, licPath.full());
+    defaultPath.setCurPath(DefLicensePathKey);   licPath.browse(_T("License RTF file"), _T("*"), _T(""));
 
     licensePathEB.SetWindowText(String(licPath));
     }
 
   else {licPath.clear();  licensePathEB.SetWindowText(_T(""));}
   }
+
+
+

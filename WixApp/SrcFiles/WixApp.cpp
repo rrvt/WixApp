@@ -71,7 +71,7 @@ BOOL WixApp::InitInstance() {
 
   WixDataDlg wixDataDlg;  wixDataDlg.DoModal();
 
-  return false;                   // Never open the main window
+  delete pFrame;   return 0;                        // Never open the main window
 
   // The one and only window has been initialized, so show and update it
 

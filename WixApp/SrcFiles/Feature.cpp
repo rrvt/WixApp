@@ -1,228 +1,382 @@
-// Manage Component Groups
+// Feature -- One entity of install
 
 
 #include "stdafx.h"
 #include "Feature.h"
+#include "DefaultPath.h"
+#include "PFFdirectories.h"
+#include "PMFdirectories.h"
 #include "WixUtilities.h"
 
 
-static TCchar* Section    = _T("FeatureList");
-static TCchar* NoKey      = _T("NoFeatures");
-static TCchar* GroupKey   = _T("Feature%02i");
-static TCchar* CurSelKey  = _T("CurSel");
+static TCchar* Section       = _T("%s.ftr");
+static TCchar* NoKey         = _T("NoComponents");
+static TCchar* CmpsKey       = _T("Component%02i");
+static TCchar* CurSelKey     = _T("CurSel");
+static TCchar* FeatureExt    = _T("ftr");
+static TCchar* ProgKey       = _T("ProgramID");
+static TCchar* StartKey      = _T("StartMenuID");
 
-       TCchar* FeatureExt = _T("ftr");
-
-
-Feature feature;
+static TCchar* FeatureID     = _T("FeatureID");
+static TCchar* CmpSection    = _T("%sCmp%02i");
+static TCchar* IDkey         = _T("ID");
 
 
 void Feature::readWixData() {
-String curSel;
-int    i;
-String key;
-String s;
-Group* grp;
-Group* saveCur = 0;
-int    n;
+String     curSel;
+int        n;
+int        i;
+String     key;
+String     s;
+Component* cmp;
 
-  readOne(CurSelKey, curSel);     n = wxd.readInt(Section, NoKey, 99);
+  section.format(Section, id.str());
+
+  readOne(CurSelKey, curSel);
+
+  wxd.readString(section, ProgKey,  progFileID);
+  wxd.readString(section, StartKey, startMenuID);
+
+  n = wxd.readInt(section, NoKey, 99);
 
   for (i = 0; i < n; i++) {
 
-    key.format(GroupKey, i);   readOne(key, s);   if (s.empty()) continue;
+    key.format(CmpsKey, i);   readOne(key, s);   if (s.isEmpty()) continue;
 
-    grp = groups.add(s);    grp->wixID = getWixID(grp->id, FeatureExt);
-
-    grp->readWixData();
+    cmp = components.add(s);    cmp->readWixData();
     }
 
-  for (i = 0; i < groups.nData; i++)
-                         {grp = &groups.data[i];   if (grp->id == curSel) {groups.curData = grp; break;}}
+  for (i = 0; i < nComponents(); i++)
+              {cmp = &components.data[i];   if (cmp->id == curSel) {components.curID = cmp->id; break;}}
   }
-
-
-
-void Feature::storeCB(WixDataDlg& dialog) {
-Group* grp = groups.storeCB(dialog.groupCB);
-
-  grp->wixID = getWixID(grp->id, FeatureExt);
-
-  if (groups.curData) groups.curData->storeCB(dialog);
-  }
-
 
 
 void Feature::readOne(TCchar* key, String& v) {
-  v = _T("<>");   if (!wxd.readString(Section, key, v) || v == _T("<>")) v.clear();
+  v = _T("<>");   if (!wxd.readString(section, key, v) || v == _T("<>")) v.clear();
+  }
+
+
+void Feature::storeProgFileName(WixDataDlg& dialog) {
+String   s   = getText(dialog.progFileEB);
+DirDesc* dsc = pffDirectories.add(s);
+
+  progFileID  = dsc ? dsc->id : _T("");
+  }
+
+
+void Feature::storeMenuName(WixDataDlg& dialog) {
+String   s   = getText(dialog.startMenuEB);
+DirDesc* dsc = pmfDirectories.add(s);
+
+  startMenuID = dsc ? dsc->id : _T("");
+  }
+
+
+void Feature::readWixData2( String& section) {
+String     curSelID;
+int        n;
+int        i;
+String     cmpSection;
+String     cmpID;
+Component* cmp;
+
+  wixID = getWixID(id, FeatureExt);
+  wxd.readString(section, ProgKey,   progFileID);
+  wxd.readString(section, StartKey,  startMenuID);
+  wxd.readString(section, CurSelKey, curSelID);
+
+  n = wxd.readInt(section, NoKey, 99);
+
+  for (i = 0; i < n; i++) {
+
+    cmpSection.format(CmpSection, section.str(), i);
+
+    if (!wxd.readString(cmpSection, IDkey, cmpID) || cmpID[0] == _T('<')) continue;
+
+    cmp = components.add(cmpID);    cmp->readWixData2(cmpSection);
+    }
+
+  components.defaultCurID(curSelID);
+  }
+
+
+
+void Feature::writeWixData2(String& prefix) {
+ComponentsIter iter(components);
+Component*     cmp;
+int            i;
+String         cmpSection;
+
+  if (id.isEmpty()) return;
+
+  section = prefix;
+
+  wxd.writeString(section, FeatureID, id);
+  wxd.writeString(section, ProgKey,   progFileID);
+  wxd.writeString(section, StartKey,  startMenuID);
+
+  if (!components.curID.isEmpty()) wxd.writeString(section, CurSelKey, components.curID);
+
+  wxd.writeInt(section, NoKey, nComponents());
+
+  for (cmp = iter.startLoop(), i = 0; cmp; cmp = iter.next(), i++) {
+
+    cmpSection.format(CmpSection, prefix.str(), i);   //wxd.writeString(section, key, cmp->id);
+
+    cmp->writeWixData2(cmpSection);
+    }
+
+//  for (; i < n; i++) {key.format(CmpsKey, i);  wxd.deleteString(section, key);}
   }
 
 
 void Feature::writeWixData() {
-GroupsIter iter(groups);
+int        n;
 int        i;
 String     key;
-Group*     grp;
-int        nToWrite;
+Component* cmp;
 
-  writeCurSel();
+  if (id.isEmpty()) return;
 
-  for (nToWrite = 0, grp = iter.startLoop(); grp; grp = iter.next())
-                            if (grp->save && !grp->isUninstall && !grp->id.empty()) nToWrite++;
+  section.format(Section, id.str());
 
-  wxd.writeInt(Section, NoKey, nToWrite);
+  if (!components.curID.isEmpty()) wxd.writeString(section, CurSelKey, components.curID);
 
-  for (i = 0, grp = iter.startLoop(); grp; grp = iter.next()) {
+  wxd.writeString(section,  ProgKey, progFileID);
+  wxd.writeString(section, StartKey, startMenuID);
 
-    if (!grp->save || grp->isUninstall || grp->id.empty()) continue;
+  n = wxd.readInt(section, NoKey, nComponents());
+  wxd.writeInt(section, NoKey, nComponents());
 
-    key.format(GroupKey, i++);   wxd.writeString(Section, key, grp->id);   grp->writeWixData();
+  for (i = 0; i < nComponents(); i++) {
+
+    cmp = &components.data[i];
+
+    key.format(CmpsKey, i);   wxd.writeString(section, key, cmp->id);
+
+    cmp->writeWixData();
     }
+
+  for (; i < n; i++) {key.format(CmpsKey, i);  wxd.deleteString(section, key);}
   }
 
 
-void Feature::writeCurSel() {
-Group*     grp = groups.curData;
-GroupsIter iter(groups);
+void Feature::loadNew(WixDataDlg& dialog) {load(dialog);  dialog.featureCB.setFocus();}
 
-  if (grp && grp->save && !grp->isUninstall && !grp->id.empty()) writeCurID(grp->id);
 
-  for (grp = iter.startLoop(); grp; grp = iter.next()) {
-    if (grp && grp->save && !grp->isUninstall && !grp->id.empty()) {writeCurID(grp->id); return;}
+void Feature::load(WixDataDlg& dialog) {
+
+  dialog.progFileEB.SetWindowText(pffDirectories.fullPath(progFileID));
+  dialog.startMenuEB.SetWindowText(pmfDirectories.fullPath(startMenuID));
+
+  loadComponent(dialog);
+  }
+
+
+void Feature::loadComponent(WixDataDlg& dialog) {
+Component* curCmp = components.curData();
+
+  defaultPath.setCurPath(wixID);
+
+  components.loadCB(dialog.componentCB);
+
+  if (curCmp)  curCmp->load(dialog);
+  else {Component c; c.load(dialog);}
+  }
+
+
+void Feature::storeComponent(WixDataDlg& dialog) {
+Component* curCmp = components.curData();
+
+  components.storeCB(dialog.componentCB);
+
+  if (curCmp) curCmp->store(dialog);
+  }
+
+
+DirDesc* Feature::getProgFile()  {return pffDirectories.find(progFileID);}
+DirDesc* Feature::getStartMenu() {return pmfDirectories.find(startMenuID);}
+
+
+void Feature::store(WixDataDlg& dialog) {
+
+  wixID = getWixID(id, FeatureExt);
+
+  storeProgFileName(dialog);   storeMenuName(dialog);   defaultPath.setCurPath(wixID);
+
+  storeComponentData(dialog);
+  }
+
+
+void Feature::delWixData() {
+String section;
+
+  section.format(Section, id.str());
+
+  wxd.deleteSection(section);
+  }
+
+
+void Feature::storeComponentData(WixDataDlg& dialog) {
+Component* cmp = components.curData();
+String     id;
+
+  dialog.componentCB.getWindowText(id);
+
+  if (id.isEmpty()) {
+
+    ComponentsIter iter(components);
+
+    for (cmp = iter.startLoop(); cmp; cmp = iter.next())
+                         if (cmp->id.find(_T("< Component ")) >= 0) {components.delItem(cmp->id); break;}
+    return;
     }
+
+  if (cmp && (cmp->id.isEmpty() || cmp->id != id)) components.curID = cmp->id = id;
+
+  else if (!cmp) cmp = newItem(id);
+
+  cmp->store(dialog);   components.loadCB(dialog.componentCB);
   }
 
 
-void Feature::writeCurID(String& id) {wxd.writeString(Section, CurSelKey, id);}
-
-
-void Feature::updateID(WixDataDlg& dialog) {
-Group* grp = groups.curData;    if (!grp) grp = groups.newItem();
-
-  grp->updateID(dialog); groups.loadCB(dialog.groupCB);
-  }
-
-
-void Feature::changeGroup(WixDataDlg& dialog) {
+void Feature::changeComponent(WixDataDlg& dialog) {
 String     s;
-Group* grp;
+Component* cmp;
 
-  dialog.groupCB.getCurSel(s);   grp = groups.find(s);   if (grp) grp->loadCB(dialog);
+  dialog.componentCB.getCurSel(s);   cmp = components.find(s);   if (cmp) cmp->load(dialog);
   }
 
 
-Group* Feature::newGroup() {
-Group* grp = groups.curData;
+void Feature::newComponent(WixDataDlg& dialog) {newItem()->loadNew(dialog);}
 
-  if (!grp || !grp->id.empty()) grp = groups.newItem();   grp->newItem(); return grp;
+
+Component* Feature::newItem(TCchar* id) {
+Component* cmp = components.curData();
+String     s = id && *id ? id : _T("< Component ");
+
+  if (!cmp || cmp->id.find(s) < 0) cmp = components.newItem(s);
+
+  return cmp;
   }
 
 
-void Feature::delGroup(WixDataDlg& dialog) {
-Group* grp = groups.curData;
+void Feature::delAllComponents(WixDataDlg& dialog) {
+ComponentsIter iter(components);
+Component*     cmp;
 
-  if (!grp) return;
-
-  grp->delAllComponents(dialog);
-
-  groups.delItem(dialog.groupCB);
+  for (cmp = iter.startLoop(); cmp; cmp = iter.next()) delComponent(dialog);
   }
+
+
+
+void Feature::delComponent(WixDataDlg& dialog) {components.delItem(dialog.componentCB);}
 
 
 Component* Feature::findAnApp() {
-GroupsIter iter(groups);
-Group*  grp;
-Component*   c;
+ComponentsIter iter(components);
+Component*     c;
 
-  for (grp = iter.startLoop(); grp; grp = iter.next()) {c = grp->findAnApp(); if (c) return c;}
-
+  for (c = iter.startLoop(); c; c = iter.next()) if (c->isApp && c->isVersionAvail) return c;
+  for (c = iter.startLoop(); c; c = iter.next()) if (c->isOnPath) return c;
   return 0;
   }
 
 
-void Feature::outputSetPath(int tab) {
-GroupsIter iter(groups);
-Group*     grp;
-bool       crlfOut = false;
+void Feature::markIconsUsed() {
+ComponentsIter iter(components);
+Component*     c;
 
-  for (grp = iter.startLoop(); grp; grp = iter.next()) grp->outputSetPath(tab, crlfOut);
+  for (c = iter.startLoop(); c; c = iter.next()) c->identifyIconUsed();
   }
 
 
+void Feature::markDirs() {
+ComponentsIter iter(components);
+Component*     c;
 
-void Feature::outputFeatures(int tab) {
-GroupsIter iter(groups);
-Group*     grp;
-String     line;
+  for (c = iter.startLoop(); c; c = iter.next()) c->markDirs(*this);
 
-  wix.crlf();
-
-  wix.lit(tab, _T("<Feature Id=\"ProductFeatures\" Title=\"Main Product\" Level=\"1\" >\n"));
-
-  for (grp = iter.startLoop(); grp; grp = iter.next())
-                            wix.out(tab+1, _T("<ComponentGroupRef Id=\""), grp->wixID, _T("\"/>"));
-
-  wix.lit(tab, _T("</Feature>\n"));
+  defaultPath.mark(wixID);
   }
 
 
-void Feature::outputFeatureTables(int tab) {
-GroupsIter iter(groups);
-Group*  grp;
-String       line;
-
-  wix.crlf();
-  wix.lit(0, _T("<Fragment>\n"));
-
-  for (grp = iter.startLoop(); grp; grp = iter.next()) {
-
-    wix.out(tab, _T("<ComponentGroup Id=\""), grp->wixID, _T("\">"));
-
-    grp->outputRefs(tab+1);
-
-    wix.lit(tab, _T("</ComponentGroup>\n"));
-    }
-
-  wix.lit(0, _T("</Fragment>\n"));
+void Feature::markDfltDirs() {
   }
 
 
-void Feature::identifyIconsUsed() {
-GroupsIter iter(groups);
-Group*  grp;
+void Feature::outputSetPath(int tab, bool& crlfOut) {
+ComponentsIter iter(components);
+Component*     cmp;
 
-  for (grp = iter.startLoop(); grp; grp = iter.next()) {
-    grp->identifyIconsUsed();
-    }
+  for (cmp = iter.startLoop(); cmp; cmp = iter.next()) cmp->outputSetPath(tab, crlfOut);
   }
-
-
-void Feature::identifyDirectoriesUsed() {
-GroupsIter iter(groups);
-Group*  grp;
-
-  for (grp = iter.startLoop(); grp; grp = iter.next()) {
-    grp->identifyDirectoriesUsed();
-    }
-  }
-
 
 
 bool Feature::validate() {
-GroupsIter iter(groups);
-Group*     grp;
-bool       rslt = true;
+int  i;
+bool rslt = true;
 
-  for (grp = iter.startLoop(); grp; grp = iter.next()) if (!grp->validate()) rslt &= false;
+  for (i = 0; i < nComponents(); i++) if (!components.data[i].validate()) rslt &= false;
 
   return rslt;
   }
 
 
-void Feature::outputComponents() {
-GroupsIter iter(groups);
-Group*  grp;
+void Feature::outputRefs(int tab) {
+ComponentsIter iter(components);
+Component*     cmp;
 
-  for (grp = iter.startLoop(); grp; grp = iter.next()) grp->output();
+  for (cmp = iter.startLoop(); cmp; cmp = iter.next())
+                                      {wix.out(tab, _T("<ComponentRef Id=\""), cmp->wixID, _T("\"/>"));}
   }
+
+
+void Feature::output() {
+int    i;
+String line;
+
+  wix.crlf();
+
+  wix.lit(0, _T("<Fragment>\n"));
+
+  for (i = 0; i < nComponents(); i++) {
+    components.data[i].output(1);
+    }
+
+  wix.crlf();  wix.lit(0, _T("</Fragment>\n"));
+
+  }
+
+
+
+#if 0
+void Feature::leavingCB(WixDataDlg& dialog) {         //  *** Needs work ***
+
+  components.leavingCB(dialog.componentCB);
+
+  if (components.curData) components.curData->load(dialog);
+  }
+#endif
+
+
+#if 0
+String Feature::readDir(TCchar* key, DirStor& stor)
+            {DirDesc* dsc = stor.add(readWixData(section, key));   return dsc ? dsc->id : _T("");}
+
+
+String Feature::readWixData(TCchar* section, TCchar* prefix) {
+String key;
+String parent;
+String name;
+
+  key.format(ParentKy, prefix);   wxd.readString(section, key,  parent);
+  key.format(ChildKey, prefix);   wxd.readString(section, key,  name);
+
+  return fullPath(parent, name);
+  }
+#endif
+
+
+
 

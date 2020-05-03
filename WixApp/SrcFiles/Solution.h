@@ -8,30 +8,34 @@
 
 class Solution {
 PathUnits pathUnits;
-String    name;
+String    version;
 
 public:
 
-  Solution() {}
+String    name;
+
+  Solution() { }
  ~Solution() { }
+
+  String&  getVersion() {return version;}
 
   operator String() {return (String) pathUnits;}
 
-  void newFile();
-  void clear() {name.clear(); pathUnits.clear();}
-  bool empty() {return pathUnits.empty();}
+  void     newFile();
+  void     clear() {name.clear(); pathUnits.clear();}
+  bool     isEmpty() {return pathUnits.isEmpty();}
 
-  void loadEB(WixDataDlg& dialog);
+//  void     loadEB(WixDataDlg& dialog);
 
 //void getRelSolution(String& path, String& varPath);
-  void readWixData();
-  void writeWixData();
+  void     readWixData();
+  void     writeWixData();
 
-  String* startLoop()  {return pathUnits.startLoop();}
-  String* nextSubDir() {return pathUnits.nextUnit();}
-  int     noUnits()    {return pathUnits.noUnits();}
+  String*  startLoop()  {return pathUnits.startLoop();}
+  String*  nextSubDir() {return pathUnits.nextUnit();}
+  int      noUnits()    {return pathUnits.noUnits();}
 
-  String* operator[](int i) {return pathUnits[i];}
+  String*  operator[](int i) {return pathUnits[i];}
   };
 
 

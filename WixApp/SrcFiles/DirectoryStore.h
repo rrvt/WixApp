@@ -2,7 +2,8 @@
 
 
 #pragma once
-#include "Group.h"
+#include "Feature.h"
+#include "WixUtilities.h"
 
 
 
@@ -20,16 +21,23 @@ String ext;
 
   DirDesc* getDefault() {EStoreIter<Data, n> iter(*this); return iter.startLoop();}
 
-  void     identifyDir(String& id);
-
   void     outputSubs(String& parent, int tab);
   int      noSubs(String& parent);
   void     outputRemoves(int tab);
 
-  void     prepareUninstalls(Group* grp);
+  void     prepareUninstalls(Feature* ftr);
+
+  void     readWixData();
+  void     writeWixData();
 
 private:
   DirDesc* addOne(String fullPath);
+  void     readDesc(String& section);
+  void     writeDesc(   DirDesc& dsc, String& section);
+  void     outputOne(   DirDesc* dsc, int tab);
+  void     outputParent(DirDesc* dsc, int tab);
+
+
   DirStore() {}
   };
 
@@ -53,11 +61,12 @@ typedef DirStoreIter<DirDesc, 1> DirStorIter;
 
 template <class Data, const int n>
 DirDesc* DirStore<Data, n>::add(String& fullPath) {
+DirDesc* dsc;
 
-DirDesc* dsc = DirStore<Data, n>::addOne(fullPath);
+  fullPath.trim();
 
-  if (!dsc->parent.empty()) DirStore<Data, n>::addOne(dsc->parent);
-
+  for (dsc = DirStore<Data, n>::addOne(fullPath); dsc; dsc = DirStore<Data, n>::addOne(dsc->parent))
+                                                                                                continue;
   return find(fullPath);
   }
 
@@ -66,21 +75,13 @@ template <class Data, const int n>
 DirDesc* DirStore<Data, n>::addOne(String fullPath) {
 DirDesc* dsc;
 
-  dsc = EntityStore<Data, n>::add(fullPath);
+  if (fullPath.isEmpty()) return 0;
 
-  dsc->wixID = getWixID(fullPath, ext);    dsc->inUse = false;
+  dsc = EntityStore<Data, n>::add(fullPath);  dsc->wixID = getWixID(fullPath, ext);  dsc->inUse = false;
 
-  parse(fullPath, dsc->parent, dsc->name);   return dsc;
+  findLastName(fullPath, dsc->parent, dsc->name);   return dsc;
   }
 
-
-
-template <class Data, const int n>
-void DirStore<Data, n>::identifyDir(String& id) {
-DirDesc* dsc;
-
-  if (!id.empty()) {dsc = find(id);  if (dsc) dsc->inUse = true;}
-  }
 
 
 
@@ -88,19 +89,43 @@ template <class Data, const int n>
 void DirStore<Data, n>::outputSubs(String& parent, int tab) {
 DirStorIter iter(*this);
 DirDesc*    dsc;
-int         no;
 
   for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
+
+if (dsc->parent == _T("MakeApp\\TestApp.prj") || dsc->id == _T("MakeApp\\TestApp.prj")) {
+int x = 1;
+}
+
     if (dsc->inUse && dsc->parent == parent) {
-      no = noSubs(dsc->name);
 
-      dsc->output(tab, no);
+      if (!dsc->hasChildren) outputOne(dsc, tab);
+      else {
+        outputParent(dsc, tab);
 
-      outputSubs(dsc->name, tab+1);
+        String s = dsc->parent.isEmpty() ? dsc->name : dsc->parent + _T("\\") + dsc->name;
 
-      if (no) wix.lit(tab, _T("</Directory>\n"));
+        outputSubs(s, tab+1);
+
+        wix.lit(tab, _T("</Directory>\n"));
+        }
       }
     }
+  }
+
+
+template <class Data, const int n>
+void DirStore<Data, n>::outputOne(DirDesc* dsc, int tab) {
+String line;
+
+  dsc->getOutput(line); line += _T(" />\n");   wix.stg(tab, line);
+  }
+
+
+template <class Data, const int n>
+void DirStore<Data, n>::outputParent(DirDesc* dsc, int tab) {
+String line;
+
+  dsc->getOutput(line);  line += _T(">\n"); wix.stg(tab, line);
   }
 
 
@@ -137,22 +162,120 @@ String      line;
 
 
 template <class Data, const int n>
-void DirStore<Data, n>::prepareUninstalls(Group* grp) {
+void DirStore<Data, n>::prepareUninstalls(Feature* ftr) {
 DirStorIter iter(*this);
 DirDesc*    dsc;
 Component*  cmp;
 
   for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
 
-    if (dsc->id.empty()) continue;
+    if (dsc->id.isEmpty()) continue;
 
-    cmp = grp->newItem();
+    cmp = ftr->newItem();
 
-    cmp->id             = dsc->id;
-    cmp->wixID          = getWixID(cmp->id, _T("uni"));
-    cmp->progFile       = *dsc;
-    cmp->startMenu      = *dsc;
-    cmp->isUninstallDir = true;
+    cmp->prepareUninstalls(dsc->id, getWixID(cmp->id, _T("uni")), dsc->id);
     }
   }
+
+//static TCchar* DLSection     = _T("%sDirectoryList");
+static TCchar* NoKeys        = _T("NoDirectories");
+static TCchar* DirDescSect   = _T("%sDirDesc%02i");
+static TCchar* DDID          = _T("ID");
+static TCchar* DDWixID       = _T("WixID");
+static TCchar* DDParent      = _T("Parent");
+static TCchar* DDName        = _T("Name");
+static TCchar* DDHasChildren = _T("HasChildren");
+
+static TCchar* DfltSection   = _T("%sDirectories");
+
+
+template <class Data, const int n>
+void DirStore<Data, n>::readWixData() {
+int      n;
+String   section;
+String   e = ext;
+int      i;
+
+  e.upperCase();   section.format(DfltSection, e.str());
+
+  n = wxd.readInt(section, NoKeys, 99);
+
+  for (i = 0; i < n; i++) {
+
+    section.format(DirDescSect, e.str(), i);
+
+    readDesc(section);
+    }
+
+  }
+
+
+template <class Data, const int n>
+void DirStore<Data, n>::readDesc(String& section) {
+String   id;
+DirDesc* dsc;
+
+  if (!wxd.readString(section, DDID, id)) return;
+
+  dsc = newItem(id);   dsc->wixID = getWixID(id, ext);   dsc->inUse = false;
+//  wxd.readString(section, DDWixID,  dsc->wixID);
+  wxd.readString(section, DDParent, dsc->parent);
+  wxd.readString(section, DDName,   dsc->name);
+  dsc->hasChildren = wxd.readInt(section, DDHasChildren, 0);
+  }
+
+
+
+template <class Data, const int n>
+void DirStore<Data, n>::writeWixData() {
+int      nToWrite;
+String   section;
+String   e = ext;
+DirDesc* dsc;
+int      i;
+
+  for (nToWrite = 0, dsc = startLoop(); dsc; dsc = nextItem())
+                                                        if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
+
+  e.upperCase();   section.format(DfltSection, e.str());
+
+  wxd.writeInt(section, NoKeys, nToWrite);
+
+  for (i = 0, dsc = startLoop(); dsc; dsc = nextItem(), i++) {
+
+    section.format(DirDescSect, e.str(), i);
+
+    if (dsc->inUse && !dsc->id.isEmpty()) writeDesc(*dsc, section);;                     //dsc->inUse &&
+    }
+  }
+
+
+template <class Data, const int n>
+void DirStore<Data, n>::writeDesc(DirDesc& dsc, String& section) {
+
+  wxd.writeString(section, DDID,          dsc.id);
+  wxd.writeString(section, DDWixID,       dsc.wixID);
+  wxd.writeString(section, DDParent,      dsc.parent);
+  wxd.writeString(section, DDName,        dsc.name);
+  wxd.writeInt(   section, DDHasChildren, dsc.hasChildren);
+  }
+
+
+
+#if 0
+template <class Data, const int n>
+void DirStore<Data, n>::markDir(String& id) {
+DirDesc* dsc;
+
+  if (!id.isEmpty()) {dsc = find(id);  if (dsc) dsc->inUse = true;}
+  }
+#endif
+
+
+#if 0
+    cmp->id             = dsc->id;
+    cmp->wixID          = getWixID(cmp->id, _T("uni"));
+    cmp->progFileID     = dsc->id;
+    cmp->isUninstallDir = true;
+#endif
 

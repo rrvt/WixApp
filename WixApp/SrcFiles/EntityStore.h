@@ -14,21 +14,25 @@ class EntityStore {
 public:
 
 int                  loopX;
-int                  nData;
+String               curID;
 Expandable <Data, n> data;
-Data*                curData;
 
-  EntityStore() : loopX(0), nData(0), curData(0) {}
+  EntityStore() : loopX(0) {}
   EntityStore(EntityStore& es) {copyObj(es);}
  ~EntityStore() { }
 
   EntityStore& operator= (EntityStore& es) {copyObj(es); return *this;}
 
-  void  clear() {nData = 0; data.clr(); curData = 0;}
+  void  clear() {data.clr(); curID.clear(); loopX = 0;}
 
-  Data* find(String& id);
-  Data* add(String& id);
-  Data* newItem();
+  Data* curData() {return curID.isEmpty() ? 0 : find(curID);}
+
+  Data* find(TCchar* id);
+  void  defaultCurID(TCchar* anID);
+  Data* add(String id);
+  Data* newItem(TCchar* itemName);
+  Data* newItem(String& id);
+  void  delItem(String& id);
 
   void  editUpdate(ComboBox& cb);
   void  loadCB(ComboBox& cb);
@@ -39,8 +43,8 @@ Data*                curData;
   void  leavingCB(ComboBox& cb);                 // Leaving combo box, check for a new name in edit box
   void  delItem(ComboBox& cb);
 
-  Data* startLoop() {loopX = 0; return loopX < nData ? &data[loopX] : 0;}
-  Data* nextItem()  {loopX++;   return loopX < nData ? &data[loopX] : 0;}
+  Data* startLoop() {loopX = 0; return loopX < data.end() ? &data[loopX] : 0;}
+  Data* nextItem()  {loopX++;   return loopX < data.end() ? &data[loopX] : 0;}
 
 private:
 
@@ -57,7 +61,7 @@ int                  i;
 int                  nn;
 public:
 
-  EStoreIter(EntityStore<Data,n>& store) : stor(store), i(0), nn(stor.nData) {}
+  EStoreIter(EntityStore<Data,n>& store) : stor(store), i(0), nn(stor.data.end()) {}
  ~EStoreIter() { }
 
   Data* startLoop() {i = 0; return retNext();}
@@ -72,50 +76,83 @@ private:
 
 template <class Data, const int n>
 void EntityStore<Data, n>::copyObj(EntityStore& es) {
+int i;
+int n = es.data.end();
 
-  for (nData = 0, curData = 0; nData < es.nData; nData++) {
+  data.clr();   loopX = es.loopX;  curID = es.curID;
 
-    data[nData] = es.data[nData];
-
-    if (es.curData = &es.data[nData]) curData = &data[nData];
-    }
+  for (i = 0; i < n; i++) data[i] = es.data[i];
   }
 
 
 
 
 template <class Data, const int n>
-Data* EntityStore<Data, n>::add(String& id) {
-Data* p;
+Data* EntityStore<Data, n>::add(String id) {
+Data* p = find(id);
 
-  if (find(id)) return curData;
+  if (p) return p;
 
-  p = newItem();   p->id = id;   return p;
+  p = newItem(id);   return p;
   }
 
 
 template <class Data, const int n>
-Data* EntityStore<Data, n>::find(String& id) {
+Data* EntityStore<Data, n>::find(TCchar* id) {
 int i;
 
-  for (i = 0; i < nData; i++) if (data[i].id == id) {curData = &data[i]; return curData;}
+  if (!id || !*id) return 0;
+
+  for (i = 0; i < data.end(); i++) {Data& d = data[i];   if (d.id == id) {curID = d.id; return &d;}}
 
   return 0;
   }
 
 
 template <class Data, const int n>
-Data* EntityStore<Data, n>::newItem() {return curData = &data[nData++];}
+void EntityStore<Data, n>::defaultCurID(TCchar* anID) {
+int i;
+int n = data.end();
+
+  if (!curID.isEmpty() && curID[0] != _T('<') && anID && *anID) {
+    for (i = 0; i < n; i++) {
+      Data&   d  = data[i];
+      String& id = d.id;
+
+      if (id == anID) {curID = id; return;}
+      }
+    }
+
+  for (i = 0; i < n; i++) {
+    Data&   d  = data[i];
+    String& id = d.id;
+
+    if (!id.isEmpty() && id[0] != _T('<')) {curID = id; return;}
+    }
+  }
 
 
+template <class Data, const int n>
+Data* EntityStore<Data, n>::newItem(TCchar* itemName)
+                          {String s = _T("< "); s += itemName; s += _T(" Name >");   return newItem(s);}
 
+
+template <class Data, const int n>
+Data* EntityStore<Data, n>::newItem(String& id) {
+Data& d = data[data.end()];
+
+  if (id.isEmpty()) id = _T("< Name >");   d.id = curID = id;   return &d;
+  }
+
+
+#if 0
 template <class Data, const int n>
 void EntityStore<Data, n>::editUpdate(ComboBox& cb) {
 String s;
 
-  if (!nData) curData = &data[nData++];
+  if (!end()) curData = &data[end()++];
 
-  cb.getWindowText(s);  if (s.empty()) return;
+  cb.getWindowText(s);  if (s.isEmpty()) return;
 
   cb.del(curData->id);   if (cb.find(s) < 0) {cb.add(s); curData->id = s;}   cb.setCurSel(s);
   }
@@ -126,23 +163,21 @@ void EntityStore<Data, n>::setNewCur(ComboBox& cb) {
 String s;
 
   if (!cb.getCurSel(s) || !find(s))
-    {if (!curData && nData > 0) {curData = &data[0]; cb.setCurSel(curData->id);}}
+    {if (!curData && end() > 0) {curData = &data[0]; cb.setCurSel(curData->id);}}
   }
+#endif
 
 
 // Set current icon in combobox to s
 
 template <class Data, const int n>
 void EntityStore<Data, n>::setCur(String& s, ComboBox& cb) {
-  setCurData(s);
-
-  if (curData) cb.setCurSel(curData->id);
+  setCurData(s);   cb.setCurSel(curID.isEmpty() ? -1 : curID);
   }
 
 
 template <class Data, const int n>
-void EntityStore<Data, n>::setCurData(String& id)
-                                         {if (!find(id)) if (!curData && nData > 0) curData = &data[0];}
+void EntityStore<Data, n>::setCurData(String& id) {if (!find(id)) curID.clear();}
 
 
 // Leaving combo box, check for a new name in edit box
@@ -153,39 +188,44 @@ String s;
 Data*  data;
 
   if (!cb.getWindowText(s)) return;
-  data = add(s); cb.AddString(s); cb.setCurSel(s);
+  data = add(s); cb.add(s); cb.setCurSel(s);
   }
 
 
 
 template <class Data, const int n>
 void EntityStore<Data, n>::delItem(ComboBox& cb) {
+Data*  cur = curData();
 String s;
 
-  if (!curData) return;
+  if (!cur) return;
 
-  cb.del(curData->id); delData();
+  cb.del(curID); delData();
 
-  if (!nData) newItem();
-
-  curData = &data[0]; cb.setCurSel(curData->id);
+  if (!data.end()) newItem(_T("< Name >"));   curID = data[0].id;   cb.setCurSel(curID);
   }
+
+
+template <class Data, const int n>
+void EntityStore<Data, n>::delItem(String& id) {
+int   n = data.end();
+int   i;
+
+  for (i = 0; i < n; i++) if (data[i].id == id) {data.del(i); return;}
+  }
+
 
 
 template <class Data, const int n>
 void EntityStore<Data, n>::delData() {
 int i;
 
-  if (!curData) return;
+  if (curID.isEmpty()) return;
 
-  for (i = 0; i < nData; i++)
-    if (&data[i] == curData) {
-      curData->delData();
-      data.del(i);
-      nData--; break;
-      }
+  for (i = 0; i < data.end(); i++)
+                            {Data& d = data[i];    if (d.id == curID) {d.delData(); data.del(i); break;}}
 
-  curData = nData ? &data[0] : 0;
+  curID = data.end() ? data[0].id : _T("");
   }
 
 
@@ -195,32 +235,27 @@ int i;
 
   cb.clear();
 
-  for (i = 0; i < nData; i++) cb.AddString(data[i].id);
+  for (i = 0; i < data.end(); i++) cb.add(data[i].id);
 
-  if (!curData && nData > 0) curData = &data[0];
+  if (curID.isEmpty() && data.end() > 0) curID = data[0].id;
 
-  if (curData) cb.SetWindowText(curData->id);
+  if (!curID.isEmpty()) cb.setCurSel(curID);
   }
 
 
 
 template <class Data, const int n>
 Data* EntityStore<Data, n>::storeCB(ComboBox& cb) {
-int    n;
-int    i;
-String cur;
 String s;
-Data*  p;
+bool   rslt;
 
-  if (!cb) {messageBox(_T("Uninitialized ComboBox in EntityStore")); return 0;}
+  if (!&cb) {messageBox(_T("Uninitialized ComboBox in EntityStore")); return 0;}
 
-  cb.getWindowText(cur);
+  cb.getWindowText(curID);
 
-  n = cb.GetCount();
+  for (rslt = cb.startLoop(s); rslt; rslt = cb.nextItem(s)) add(s);
 
-  for (i = 0; i < n; i++) if (cb.getText(i, s)) p = add(s);
-
-  setCurData(cur);   return curData;
+  setCurData(curID);   return curData();
   }
 
 

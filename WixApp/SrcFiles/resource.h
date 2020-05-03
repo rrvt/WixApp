@@ -4,12 +4,21 @@
 //
 #define ID_ABOUT                        100
 #define IDR_MAINFRAME                   128
-#define IDD_ABOUTBOX                    129
+#define IDR_WXDversion                  129
+#define IDD_ABOUTBOX                    130
+
+#define ID_FileOpen                     200
+#define ID_FileNew                      201
+#define ID_FileRecent                   202
+#define ID_SOLUTION                     203
+#define ID_OPTIONS                      204
+#define ID_DisplayDirectories           205
+#define ID_FILE_SAVEWXDFILE             206
+#define ID_FILE_EXIT                    207
+#define ID_TEST_VALIDATE                208
+
 #define IDD_DIALOG1                     300
 #define IDR_MENU1                       301
-#define ID_FileOpen                     302
-#define ID_FileNew                      303
-#define ID_FileRecent                   304
 #define IDC_WixName                     305
 #define IDC_WixVersion                  306
 #define IDC_NameVer                     307
@@ -24,11 +33,11 @@
 #define IDC_EDIT8                       316
 #define IDC_SelectOS                    317
 #define IDC_LIST1                       318
-#define IDC_Group                       319
-#define IDC_NewGroup                    320
+#define IDC_Feature                     319
+#define IDC_NewFeature                  320
 #define IDC_Component                   321
 #define IDC_NewComponent                322
-#define IDC_DelGroup                    323
+#define IDC_DelFeature                  323
 #define IDC_DelComponent                324
 #define IDC_BrowseComponentPath         325
 #define IDC_CtrlPnlIcn                  326
@@ -41,6 +50,7 @@
 #define IDC_VersionAvail                333
 #define IDC_OnPath                      334
 #define IDD_DIALOG3                     335
+#define IDC_Component2                  335
 #define IDC_EDIT1                       336
 #define IDD_DIALOG4                     337
 #define IDC_EDIT3                       338
@@ -54,16 +64,15 @@
 #define IDC_AllowSameVer                346
 #define IDC_License                     347
 #define IDC_AddLicense                  348
-#define ID_SOLUTION                     32771
-#define ID_OPTIONS                      32773
+#define IDC_CHECK4                      350
 
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        349
-#define _APS_NEXT_COMMAND_VALUE         32774
-#define _APS_NEXT_CONTROL_VALUE         349
+#define _APS_NEXT_RESOURCE_VALUE        350
+#define _APS_NEXT_COMMAND_VALUE         209
+#define _APS_NEXT_CONTROL_VALUE         351
 #define _APS_NEXT_SYMED_VALUE           349
 #endif
 #endif

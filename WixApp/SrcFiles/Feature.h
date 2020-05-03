@@ -1,69 +1,92 @@
-// Manage Component Groups
+// ComponentGrpList -- One entity of install
 
 
 #pragma once
-#include "Group.h"
+#include "Component.h"
 
 
-extern TCchar* FeatureExt;
+class Feature : public Data {
+typedef EntityStore <Component, 1> Components;
+typedef EStoreIter  <Component, 1> ComponentsIter;
 
-
-class Feature {
-typedef EntityStore <Group, 1> Groups;
-typedef EStoreIter  <Group, 1> GroupsIter;
-
-Groups groups;
+Components components;
+String     section;
+String     progFileID;
+String     startMenuID;
 
 public:
 
-  Feature() { }
+bool    save;
+bool    isUninstall;
+
+  Feature() : save(true), isUninstall(false) {}
+  Feature(Feature& c) {copyObj(c);}
  ~Feature() { }
 
-  Feature(Feature& ftr) {copyOp(ftr);}
+  Feature& operator= (Feature& c) {copyObj(c); return *this;}
 
-  Feature& operator= (Feature& ftr) {copyOp(ftr); return *this;}
+  void delData()
+    {id.clear(); components.clear(); section.clear(); wixID.clear(); save = false; isUninstall = false;}
 
-  void       readWixData();
+  void       readWixData( );
   void       writeWixData();
+  void       readWixData2( String& section);
+  void       writeWixData2(String& section);
 
-  void loadCB(WixDataDlg& dialog)
-    {groups.loadCB(dialog.groupCB);  if (groups.curData) groups.curData->loadCB(dialog);}
+  void       loadNew(WixDataDlg& dialog);
+  void       load(   WixDataDlg& dialog);
 
-  void storeCB(WixDataDlg& dialog);
+  void       storeProgFileName(  WixDataDlg& dialog);
+  void       storeMenuName(      WixDataDlg& dialog);
 
-  Component* getCurComponent() {Group* grp = getCurGroup();   return grp->getCur();}
-  Group*     getCurGroup() {if (!groups.nData) oneGroupAvail(); return groups.curData;}
-  Group*     find(String& id) {return groups.find(id);}
-  Group*     newGroup();
+  void       loadComponent(WixDataDlg& dialog);
+  void       storeComponent(WixDataDlg& dialog);
 
-  void updateID(   WixDataDlg& dialog);
-  void changeGroup(WixDataDlg& dialog);
-  void delGroup(WixDataDlg& dialog);
+  void       setDirectories(String& progID, String& menuID) {progFileID = progID; startMenuID = menuID;}
+
+  DirDesc*   getProgFile();
+  DirDesc*   getStartMenu();
+
+  void       store(WixDataDlg& dialog);
+
+  int        nComponents() {return components.data.end();}
+
+  void       storeComponentData(WixDataDlg& dialog);
+  void       changeComponent(   WixDataDlg& dialog);
+  void       newComponent(      WixDataDlg& dialog);
+
+  Component* newItem(TCchar* id = 0);
+  void       delAllComponents(WixDataDlg& dialog);
+  void       delComponent(    WixDataDlg& dialog);
+
+  void       delWixData(  );
+
+  Component* getCur() {oneComponentAvail(); return components.curData();}
 
   Component* findAnApp();
 
-  void identifyIconsUsed();
-  void identifyDirectoriesUsed();
+  void       markIconsUsed();
 
-  void outputSetPath(int tab);
+  void       markDirs();
+  void       markDfltDirs();
 
-  void outputFeatures(int tab);
+  Component* findCmp(TCchar* id) {return components.find(id);}
 
-  void outputFeatureTables(int tab);
+  void       outputSetPath(int tab, bool& crlfOut);
 
-  bool validate();
-  void outputComponents();
+  void       outputRefs(int tab);
+  bool       validate();
+  void       output();
 
 private:
 
-  void oneGroupAvail() {if (!groups.nData) groups.add(String(""));}
+  void   oneComponentAvail() {if (!nComponents()) components.add(String(""));}
+  void   readOne(TCchar* key, String& v);
+  void   copyObj(Feature& g) {
+    id = g.id; wixID = g.wixID; components  = g.components; section = g.section;
+    progFileID = g.progFileID;  startMenuID = g.startMenuID; save = g.save; isUninstall = g.isUninstall;
+    }
 
-  void readOne(TCchar* key, String& v);
-  void writeCurSel();
-  void writeCurID(String& id);
-
-  void copyOp(Feature& ftr) {groups = ftr.groups;}
+  friend class Component;
   };
 
-
-extern Feature feature;

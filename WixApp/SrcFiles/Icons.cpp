@@ -5,71 +5,103 @@
 #include "Icons.h"
 #include "DefaultPath.h"
 #include "filename.h"
-#include "GetPathDlg.h"
-#include "Solution.h"
 #include "WixUtilities.h"
 
 
-static TCchar* IconPath    = _T("IconPath");
-static TCchar* IconExt     = _T("ico");
-static TCchar* Icon        = _T("Icon");
-static TCchar* NoIcon      = _T(" <No Icon>");
+static TCchar* IconsSection = _T("Icons");
+static TCchar* NoKeys       = _T("NoIcons");
+static TCchar* IconSection  = _T("Icon%02i");
+static TCchar* IconIDKey    = _T("IconID");
+static TCchar* WixIDKey     = _T("WixID");
 
-static TCchar* IconPathKey = _T("Icon");
+static TCchar* IconPath     = _T("IconPath");
+static TCchar* IconExt      = _T("ico");
+static TCchar* Icon         = _T("Icon");
+static TCchar* IconPathKey  = _T("Icon");
 
 Icons icons;
 
 
-IconDesc::IconDesc() : Data(), inUse(false) {
-
-  id = NoIcon;  setWixID();
-  defaultPath.get(IconPathKey);
-  }
+void Icons::oneIconAvail() {if (!nIcons()) iconList.add(String(_T("")));}
 
 
-void IconDesc::readWixData(TCchar* section) {
-String path;
+void Icons::readWixData() {
+int       n = wxd.readInt(IconsSection, NoKeys, 99);
+int       i;
+String    section;
+String    id;
+IconDesc* dsc;
 
-  wxd.readString(section, IconPath, path);
+  for (i = 0; i < n; i++) {
+    section.format(IconSection, i);
 
-  id = getMainName(path);   setWixID();   pathDsc = path;   inUse = false;
+    if (!wxd.readString(section, IconIDKey, id)) continue;
 
-  icons.updateList(*this);
-  }
-
-
-void IconDesc::writeWixData(TCchar* section) {wxd.writeString(section, IconPath, pathDsc.full());}
-
-
-void IconDesc::browse() {
-TCchar* defPath = defaultPath.get(IconPathKey);
-String path;
-
-  if (getPathDlg(_T("Icon"), defPath, _T("ico"), _T("*.ico"), path)) {
-
-    defaultPath.add(IconPathKey, path);
-
-    id = getMainName(path);   pathDsc = path;    setWixID();
-
-    icons.updateList(*this);
+    dsc = iconList.newItem(id);  dsc->readWixData(section);
     }
   }
 
 
-Icons::Icons() {
-IconDesc  icon;
-IconDesc* p = getNew();
+void IconDesc::readWixData(TCchar* section)
+                  {String path;   setWixID();   pathDsc.readWixData(section, IconPath);   inUse = false;}
 
-  icon.id = NoIcon;  icon.setWixID();  *p = icon;
+
+void Icons::writeWixData() {
+ListIter  iter(iconList);
+int       nToWrite;
+String    section;
+IconDesc* dsc;
+int       i;
+
+
+  for (nToWrite = 0, dsc = iter.startLoop(); dsc; dsc = iter.next())
+                                                        if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
+  wxd.writeInt(IconsSection, NoKeys, nToWrite);
+
+  for (i = 0, dsc = iter.startLoop(); dsc; dsc = iter.next(), i++) {
+
+    section.format(IconSection, i);
+
+    if (dsc->inUse && !dsc->id.isEmpty()) dsc->writeWixData(section);
+    }
   }
 
 
-void Icons::oneIconAvail() {if (!iconList.nData) iconList.add(String(_T("")));}
+void IconDesc::writeWixData(TCchar* section) {
+  wxd.writeString(section, IconIDKey, id);
+  wxd.writeString(section, WixIDKey,  wixID);
+  pathDsc.writeWixData(section, IconPath);
+  }
 
 
+String Icons::browse() {
+PathDesc  pathDsc;
+String    path;
+String    id;
+IconDesc* dsc;
+
+  defaultPath.setCurPath(IconPathKey);   path = pathDsc.browse(_T("Icon"), _T("ico"), _T("*.ico"));
+
+  if (!path.isEmpty()) {
+
+    id = getMainName(path);
+
+    if (!id.isEmpty()) {
+
+      dsc = find(id);   if (!dsc) {dsc = iconList.newItem(_T("Icon"));   dsc->id = id;   dsc->setWixID();}
+
+      *dsc = pathDsc;
+      }
+    }
+
+  return id;
+  }
 
 
 void IconDesc::setWixID() {String s = id + Icon;  wixID = getWixID(s, IconExt);}
+
+
+void Icons::markDfltDir() {defaultPath.mark(IconPathKey);}
 
 
 bool Icons::getFromList(IconDesc& icon) {
@@ -84,6 +116,7 @@ IconDesc* p;
 
   p = getNew();  *p = icon;   return true;
   }
+
 
 
 bool Icons::updateList(IconDesc& icon) {
@@ -122,21 +155,21 @@ IconDesc* dsc;
   }
 
 
+
+#if 0
 void IconDesc::parse(String& fullPath) {
 String main = getMainName(fullPath);
 
   id = main; pathDsc = fullPath;
   }
-
+#endif
 
 bool IconDesc::validate() {
 struct _stat buffer;
 
-  if (id == NoIcon) inUse = false;
+  if (!inUse || _tstat(pathDsc.path(), &buffer) == 0) return true;
 
-  if (!inUse || _tstat(pathDsc.full(), &buffer) == 0) return true;
-
-  String msg = _T("Icon file not found: ") + pathDsc.full();
+  String msg = _T("Icon file not found: ") + pathDsc.path();
 
   MessageBox(0, msg, _T("WixApp"), MB_OK);   return false;
   }
@@ -145,10 +178,6 @@ struct _stat buffer;
 void IconDesc::outputOne(int tab) {
 String line;
 String relPath = pathDsc.relative();
-
-  if (!inUse || id == NoIcon) return;
-
-//  solution.getRelSolution(pathDsc.full(), relPath);
 
   line  = _T("<Icon     Id=\"") + wixID + _T("\" SourceFile=\"") + relPath + _T("\"/>\n");
   wix.stg(tab, line);
@@ -167,7 +196,7 @@ IconDesc* Icons::update(String& id, String& path) {
 IconDesc* Icons::add(IconDesc& d) {
 IconDesc* p;
 
-  if (d.id.empty()) return 0;
+  if (d.id.isEmpty()) return 0;
 
   p = iconList.add(d.id); *p = d;  p->setWixID();   // p->wixID = getWixID(p->id, IconExt);
 

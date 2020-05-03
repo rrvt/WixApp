@@ -16,13 +16,15 @@ public:
 
 enum { IDD = IDD_DIALOG1 };           // Dialog Data
 
-CEdit     wixNameEB;
-CEdit     companyEB;
 CEdit     productNameEB;
+CEdit     companyEB;
+CEdit     wixNameEB;
 CEdit     wixVersionEB;
 CEdit     progFtrIconEB;
 
-ComboBox  groupCB;
+ComboBox  featureCB;
+CEdit     progFileEB;
+CEdit     startMenuEB;
 
 ComboBox  componentCB;
 CEdit     descriptionEB;
@@ -37,8 +39,6 @@ CButton   isWinXPch;
 CButton   isWin2Kch;
 
 ComboBox  iconCB;
-CEdit     progFileEB;
-CEdit     startMenuEB;
 
 
   WixDataDlg(CWnd* pParent = NULL);
@@ -67,10 +67,10 @@ public:
 
   afx_msg void OnBrowseCtrlPanelIcon();
 
-  afx_msg void OnChangeGroup();
-  afx_msg void OnLeavingGroup();
-  afx_msg void OnNewGroup();
-  afx_msg void OnDeleteGroup();
+  afx_msg void OnChangeFeature();
+  afx_msg void OnLeaveFeature();
+  afx_msg void OnNewFeature();
+  afx_msg void OnDelFeature();
 
   afx_msg void OnChangeComponent();
   afx_msg void OnLeavingComponent();
@@ -107,4 +107,8 @@ private:
   void loadFeatures();
 public:
   afx_msg void OnOptions();
+  afx_msg void OnDisplayDirectories();
+  afx_msg void OnSaveWXDfile();
+  afx_msg void OnExit();
+  afx_msg void OnValidate();
 };

@@ -6,37 +6,39 @@
 #include "WixOut.h"
 
 
+extern TCchar* ParentKy;
+extern TCchar* ChildKey;
+
+
 
 class DirDesc : public Data {
 public:
 
 String parent;
 String name;
-
+bool   hasChildren;
 bool   inUse;
 
-  DirDesc() : inUse(false) {}
+  DirDesc() : hasChildren(false), inUse(false) {}
   DirDesc(DirDesc& d) {copyObj(d);}
  ~DirDesc() { }
 
-  DirDesc& operator= (DirDesc& d) {copyObj(d); return *this;}
+  DirDesc& operator= (DirDesc& d) {if (&d) copyObj( d); else clear(); return *this;}
+  DirDesc& operator= (DirDesc* d) {if  (d) copyObj(*d); else clear(); return *this;}
 
-  void clear() {id.clear(); wixID.clear(); parent.clear(); name.clear(); inUse = false;}
+  void clear()
+          {id.clear(); wixID.clear(); parent.clear(); name.clear(); hasChildren = false; inUse = false;}
 
-  String readWixData(TCchar* section, TCchar* prefix);
   void   writeWixData(TCchar* section, TCchar* prefix);
-
-  void   store(CString& cs, TCchar* ext);
-  String fullPath() {return (!parent.empty() ? parent + _T("\\") : _T("")) + name;}
 
   void  prepareUninstalls();
 
-  void  output(int tab, int noSubs);
+  void  getOutput(String& line);
 
 private:
 
-  void copyObj(DirDesc& d)
-                      {id = d.id;   wixID = d.wixID;  parent = d.parent; name = d.name; inUse = d.inUse;}
+  void copyObj(DirDesc& d) {id = d.id;   wixID = d.wixID;  parent = d.parent; name = d.name;
+                                                           hasChildren = d.hasChildren; inUse = d.inUse;}
   };
 
 

@@ -5,8 +5,9 @@
 #include "WixDataDlg.h"
 #include "About.h"
 #include "DefaultPath.h"
+#include "DspDirs.h"
 #include "filename.h"
-#include "GetPathDlg.h"
+#include "Finish.h"
 #include "MessageBox.h"
 #include "Options.h"
 #include "Product.h"
@@ -25,17 +26,17 @@ BEGIN_MESSAGE_MAP(WixDataDlg, CDialogEx)
   ON_COMMAND(       ID_FileOpen,             &WixDataDlg::OnFileOpen)
   ON_COMMAND(       ID_FileRecent,           &WixDataDlg::OnFileRecent)
 
+  ON_EN_KILLFOCUS(  IDC_ProductName,         &WixDataDlg::OnLeaveProductname)
+  ON_EN_KILLFOCUS(  IDC_CompanyName,         &WixDataDlg::OnLeaveCompanyname)
   ON_EN_KILLFOCUS(  IDC_WixName,             &WixDataDlg::OnLeaveWixname)
   ON_EN_KILLFOCUS(  IDC_WixVersion,          &WixDataDlg::OnLeaveWixVersion)
-  ON_EN_KILLFOCUS(  IDC_CompanyName,         &WixDataDlg::OnLeaveCompanyname)
-  ON_EN_KILLFOCUS(  IDC_ProductName,         &WixDataDlg::OnLeaveProductname)
   ON_BN_CLICKED(    IDC_BrowseProgFtrIcon,   &WixDataDlg::OnBrowseCtrlPanelIcon)
 
-  ON_CBN_SELCHANGE( IDC_Group,               &WixDataDlg::OnChangeGroup)
-  ON_CBN_KILLFOCUS( IDC_Group,               &WixDataDlg::OnLeavingGroup)
-  ON_CBN_DROPDOWN(  IDC_Group,               &WixDataDlg::OnLeavingGroup)
-  ON_BN_CLICKED(    IDC_NewGroup,            &WixDataDlg::OnNewGroup)
-  ON_BN_CLICKED(    IDC_DelGroup,            &WixDataDlg::OnDeleteGroup)
+  ON_CBN_SELCHANGE( IDC_Feature,             &WixDataDlg::OnChangeFeature)
+  ON_CBN_KILLFOCUS( IDC_Feature,             &WixDataDlg::OnLeaveFeature)
+  ON_CBN_DROPDOWN(  IDC_Feature,             &WixDataDlg::OnLeaveFeature)
+  ON_BN_CLICKED(    IDC_NewFeature,          &WixDataDlg::OnNewFeature)
+  ON_BN_CLICKED(    IDC_DelFeature,          &WixDataDlg::OnDelFeature)
 
   ON_CBN_SELCHANGE( IDC_Component,           &WixDataDlg::OnChangeComponent)
   ON_CBN_KILLFOCUS( IDC_Component,           &WixDataDlg::OnLeavingComponent)
@@ -68,7 +69,11 @@ BEGIN_MESSAGE_MAP(WixDataDlg, CDialogEx)
   ON_BN_CLICKED(    IDC_CHECK3,              &WixDataDlg::OnBnClickedIsWin2K)
 
   ON_COMMAND(       ID_SOLUTION,             &WixDataDlg::OnGetSolution)
-  ON_COMMAND(ID_OPTIONS, &WixDataDlg::OnOptions)
+  ON_COMMAND(       ID_OPTIONS,              &WixDataDlg::OnOptions)
+  ON_COMMAND(       ID_DisplayDirectories,   &WixDataDlg::OnDisplayDirectories)
+  ON_COMMAND(ID_FILE_SAVEWXDFILE, &WixDataDlg::OnSaveWXDfile)
+  ON_COMMAND(ID_FILE_EXIT, &WixDataDlg::OnExit)
+  ON_COMMAND(ID_TEST_VALIDATE, &WixDataDlg::OnValidate)
 END_MESSAGE_MAP()
 
 
@@ -79,16 +84,17 @@ WixDataDlg::~WixDataDlg() { }
 
 
 
-void WixDataDlg::OnFileNew() {solution.newFile(); solution.loadEB(*this);}
+void WixDataDlg::OnFileNew() {wixData.newFile(this);}    //solution.newFile(); solution.loadEB(*this);}
 
 
-void WixDataDlg::OnFileOpen() {
-
+void WixDataDlg::OnFileOpen() {wixData.openFile(this);
+#if 0
   if (!wixData.readWixData()) return;
 
   solution.loadEB(*this);
   product.loadCB(*this);
   loadFeatures();
+#endif
   }
 
 
@@ -119,7 +125,9 @@ void WixDataDlg::DoDataExchange(CDataExchange* pDX) {
   DDX_Control(pDX, IDC_CompanyName,   companyEB);
   DDX_Control(pDX, IDC_CtrlPnlIcn,    progFtrIconEB);
   DDX_Control(pDX, IDC_ProductName,   productNameEB);
-  DDX_Control(pDX, IDC_Group,         groupCB);
+  DDX_Control(pDX, IDC_Feature,       featureCB);
+  DDX_Control(pDX, IDC_ProgFileName,  progFileEB);
+  DDX_Control(pDX, IDC_StartMenuName, startMenuEB);
   DDX_Control(pDX, IDC_Component,     componentCB);
   DDX_Control(pDX, IDC_ComponentPath, pathEB);
   DDX_Control(pDX, IDC_OnStartMenu,   startMenuCH);
@@ -128,8 +136,6 @@ void WixDataDlg::DoDataExchange(CDataExchange* pDX) {
   DDX_Control(pDX, IDC_OnPath,        isOnPathCH);
   DDX_Control(pDX, IDC_ComponentIcon, iconCB);
   DDX_Control(pDX, IDC_Description,   descriptionEB);
-  DDX_Control(pDX, IDC_ProgFileName,  progFileEB);
-  DDX_Control(pDX, IDC_StartMenuName, startMenuEB);
   DDX_Control(pDX, IDC_CHECK1,        isWin7ch);
   DDX_Control(pDX, IDC_CHECK2,        isWinXPch);
   DDX_Control(pDX, IDC_CHECK3,        isWin2Kch);
@@ -145,72 +151,58 @@ void WixDataDlg::OnGetSolution() {solution.newFile();}
 void WixDataDlg::OnAppAbout() {CAboutDlg aboutDlg; aboutDlg.DoModal();}
 
 
-void WixDataDlg::OnLeaveWixname() {product.storeWixName(*this);}
-
-
-void WixDataDlg::OnLeaveWixVersion() {product.storeWixVer(*this);}
-
-
+void WixDataDlg::OnLeaveProductname() {wixData.setDefaults(this);  UpdateWindow();}
 void WixDataDlg::OnLeaveCompanyname() {product.storeCompany(*this);}
-
-
-void WixDataDlg::OnLeaveProductname() {product.storeProduct(*this);}
-
+void WixDataDlg::OnLeaveWixname() {    product.storeWixName(*this);}
+void WixDataDlg::OnLeaveWixVersion() { product.storeWixVer(*this);}
 
 void WixDataDlg::OnBrowseCtrlPanelIcon() {product.browseIcon(*this);  UpdateWindow();}
 
 
-// A Wix file is composed of a collection of component groups.  A feature is the name for a list of
-// Group.  A Component is one installable entity (usually a file) along with any shortcut link
+// A Wix file is composed of a collection of features.  A feature is a collection of components.
+// A Component is one installable entity (usually a file) along with any shortcut link
 // files associated with the entity.
 
-void WixDataDlg::OnChangeGroup() {feature.changeGroup(*this); UpdateWindow();}
+void WixDataDlg::OnLeaveFeature()     {features.storeFeatureData(*this);}
+void WixDataDlg::OnLeavingProgFile()  {features.getCurFeature()->storeProgFileName(*this);}
+void WixDataDlg::OnLeavingStartMenu() {features.getCurFeature()->storeMenuName(*this);}
+
+void WixDataDlg::OnChangeFeature() {features.changeFeature(*this); UpdateWindow();}
+void WixDataDlg::OnNewFeature()    {features.newFeature(*this);    UpdateWindow();}
 
 
-void WixDataDlg::OnLeavingGroup() {feature.updateID(*this);}
-
-
-
-void WixDataDlg::OnNewGroup()
-                  {feature.newGroup();   feature.loadCB(*this);   groupCB.SetFocus();   UpdateWindow();}
-
-
-void WixDataDlg::OnDeleteGroup() {
-  feature.delGroup(*this);  feature.loadCB(*this);    UpdateWindow();
-  }
+void WixDataDlg::OnDelFeature() {features.delFeature(*this);  features.loadCB(*this);    UpdateWindow();}
 
 
 
-void WixDataDlg::loadFeatures() {feature.loadCB(*this); UpdateWindow();}
+void WixDataDlg::loadFeatures() {features.loadCB(*this); UpdateWindow();}
 
 
 // Component ...
 
-void WixDataDlg::OnChangeComponent()  {feature.getCurGroup()->changeComponent(*this);  UpdateWindow();}
-void WixDataDlg::OnLeavingComponent() {feature.getCurGroup()->updateComponent(*this);}
-void WixDataDlg::OnNewComponent()     {feature.getCurGroup()->newComponent(*this);}
+void WixDataDlg::OnLeavingComponent() {features.getCurFeature()->storeComponentData(*this);}
+void WixDataDlg::OnChangeComponent()  {features.getCurFeature()->changeComponent(*this); UpdateWindow();}
+void WixDataDlg::OnNewComponent()     {features.getCurFeature()->newComponent(*this);    UpdateWindow();}
 
 
 void WixDataDlg::OnDeleteComponent() {
-Group* grp = feature.getCurGroup();
+Feature* ftr = features.getCurFeature();
 
-  if (grp) grp->delComponent(*this);  grp->loadCB(*this);    UpdateWindow();
+  if (ftr) ftr->delComponent(*this);  ftr->loadComponent(*this);    UpdateWindow();
   }
 
 
-void WixDataDlg::OnBrowseComponentPath()   {feature.getCurComponent()->browsePath(*this);}
-void WixDataDlg::OnLeavingDescription()    {feature.getCurComponent()->storeDescription(*this);}
-void WixDataDlg::OnBnClickedOnstartmenu()  {feature.getCurComponent()->storeIsStartMenu(*this);}
-void WixDataDlg::OnBnClickedOndesktop()    {feature.getCurComponent()->storeIsDeskTop(*this);}
-void WixDataDlg::OnBnClickedVersionavail() {feature.getCurComponent()->storeIsVersionAvail(*this);}
-void WixDataDlg::OnBnClickedOnPath()       {feature.getCurComponent()->storeIsOnPath(*this);}
-void WixDataDlg::OnBrowseForIcon()         {feature.getCurComponent()->browseIcon(*this); UpdateWindow();}
-void WixDataDlg::OnUpdateIcon()            {feature.getCurComponent()->updateIcon(*this);}
-void WixDataDlg::OnLeavingProgFile()       {feature.getCurComponent()->storeProgFileName(*this);}
-void WixDataDlg::OnLeavingStartMenu()      {feature.getCurComponent()->storeMenuName(*this);}
-void WixDataDlg::OnBnClickedIsWin7()       {feature.getCurComponent()->storeIsWin7( *this);}
-void WixDataDlg::OnBnClickedIsWinXP()      {feature.getCurComponent()->storeIsWinXP(*this);}
-void WixDataDlg::OnBnClickedIsWin2K()      {feature.getCurComponent()->storeIsWin2K(*this);}
+void WixDataDlg::OnBrowseComponentPath()   {features.getCurComponent()->browsePath(*this);}
+void WixDataDlg::OnLeavingDescription()    {features.getCurComponent()->storeDescription(*this);}
+void WixDataDlg::OnBnClickedOnstartmenu()  {features.getCurComponent()->storeIsStartMenu(*this);}
+void WixDataDlg::OnBnClickedOndesktop()    {features.getCurComponent()->storeIsDeskTop(*this);}
+void WixDataDlg::OnBnClickedVersionavail() {features.getCurComponent()->storeIsVersionAvail(*this);}
+void WixDataDlg::OnBnClickedOnPath()       {features.getCurComponent()->storeIsOnPath(*this);}
+void WixDataDlg::OnBrowseForIcon()         {features.getCurComponent()->browseIcon(*this); UpdateWindow();}
+void WixDataDlg::OnUpdateIcon()            {features.getCurComponent()->updateIcon(*this);}
+void WixDataDlg::OnBnClickedIsWin7()       {features.getCurComponent()->storeIsWin7( *this);}
+void WixDataDlg::OnBnClickedIsWinXP()      {features.getCurComponent()->storeIsWinXP(*this);}
+void WixDataDlg::OnBnClickedIsWin2K()      {features.getCurComponent()->storeIsWin2K(*this);}
 
 
 void WixDataDlg::OnLbnSelchangeList1() {
@@ -218,15 +210,29 @@ void WixDataDlg::OnLbnSelchangeList1() {
 }
 
 
+
+
+void WixDataDlg::OnDisplayDirectories() {
+DspDirs dspDirs;
+
+  dspDirs.output();
+  }
+
+
 // Create both the stored representation of the dialog information and also the Wix Output file
 
 void WixDataDlg::createProduct() {
+Finish finish;
 
   if (!wixData.validate()) return;
 
   CDialogEx::OnOK();
 
   wixData.output();
+
+  wixData.writeWixData();
+
+  finish.DoModal();
   }
 
 
@@ -234,3 +240,12 @@ void WixDataDlg::OnBnClickedCancel() {
   // TODO: Add your control notification handler code here
   CDialogEx::OnCancel();
   }
+
+
+void WixDataDlg::OnSaveWXDfile() {wixData.validate();   wixData.writeWixData();}
+
+
+void WixDataDlg::OnExit() {CDialogEx::OnOK();}
+
+
+void WixDataDlg::OnValidate() {wixData.validate();}

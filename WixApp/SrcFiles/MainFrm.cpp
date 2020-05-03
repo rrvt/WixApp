@@ -38,7 +38,9 @@ int MainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct) {
   return 0;
   }
 
+
 BOOL MainFrame::PreCreateWindow(CREATESTRUCT& cs) {
+
   if (!CFrameWnd::PreCreateWindow(cs)) return FALSE;
 
   cs.style = WS_OVERLAPPED | WS_CAPTION | FWS_ADDTOTITLE | WS_THICKFRAME | WS_SYSMENU;
@@ -46,7 +48,8 @@ BOOL MainFrame::PreCreateWindow(CREATESTRUCT& cs) {
   cs.dwExStyle &= ~WS_EX_CLIENTEDGE;
   cs.lpszClass = AfxRegisterWndClass(0);
   return TRUE;
-}
+  }
+
 
 // MainFrame diagnostics
 

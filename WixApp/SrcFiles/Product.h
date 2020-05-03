@@ -2,7 +2,7 @@
 
 
 #pragma once
-#include "Feature.h"
+#include "Features.h"
 #include "WixOut.h"
 #include "Prolog.h"
 #include "Expandable.h"
@@ -12,17 +12,17 @@
 class Product {
 public:
 
-String    wixPath;
-String    wixName;
-String    wixVersion;
-String    company;
-String    productName;
-String    upgradeGUID;
-IconDesc  ctrlPanel;
-String    installerIconPath;
-bool      isSameVerAllowed;
-bool      isLicenseReq;
-PathDesc  licenseDsc;
+String   productName;
+String   company;
+String   wixName;
+String   wixVersion;
+String   wixPath;
+String   upgradeGUID;
+String   iconID;
+String   installerIconPath;
+bool     isSameVerAllowed;
+bool     isLicenseReq;
+PathDesc licenseDsc;
 
   Product() : isSameVerAllowed(false), isLicenseReq(false) { }
  ~Product() { }
@@ -34,18 +34,18 @@ PathDesc  licenseDsc;
   void loadCB(WixDataDlg& dialog);
   void loadVerEB(WixDataDlg& dialog);
 
+  void storeProduct(  WixDataDlg& dialog);
+  void storeCompany(  WixDataDlg& dialog) {company      = getText(dialog.companyEB);}
   void storeWixName(  WixDataDlg& dialog) {wixName      = getText(dialog.wixNameEB);}
   void storeWixVer(   WixDataDlg& dialog) {wixVersion   = getText(dialog.wixVersionEB);}
-  void storeCompany(  WixDataDlg& dialog) {company      = getText(dialog.companyEB);}
-  void storeProduct(  WixDataDlg& dialog) {productName  = getText(dialog.productNameEB);}
 
   void browseIcon(WixDataDlg& dialog);
 
   void setInstallerIconPath(String& path) {installerIconPath = path;}
 
-  void identifyIcons();
+  void markIcon();
 
-  void output(Component* app, Prolog& prolog, Feature& feature);
+  void output(Component* app, Prolog& prolog, Features& features);
 
 private:
 

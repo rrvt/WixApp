@@ -43,7 +43,7 @@ String t;
 
 
 String getWixID(String& id, TCchar* ext)
-                 {String s = replaceNonWixCh(id);   if (!s.empty()) {s += _T("."); s += ext;}   return s;}
+              {String s = replaceNonWixCh(id);   if (!s.isEmpty()) {s += _T("."); s += ext;}   return s;}
 
 
 String replaceNonWixCh(String& s) {
@@ -72,18 +72,17 @@ String t;
   }
 
 
-void parse(String& path, String& parent, String& name) {
+void findLastName(String& path, String& parent, String& name) {
 String s   = path;
 int    lng = s.length();
-Tchar   ch  = s.find(_T('/')) >= 0 ? _T('/') : _T('\\');
+Tchar  ch  = s.find(_T('/')) >= 0 ? _T('/') : _T('\\');
 int    pos;
-int    i;
 
-  for (i = 0, pos = s.find(ch); i < lng && pos == 0; i++, pos = s.find(ch)) s = s.substr(1);
+  while (s[0] == ch) s = s.substr(1);
 
-  if (pos == s.length() - 1) {parent.clear(); name = s.substr(0, pos); return;}
+  pos = s.find(ch);      if (pos == s.length() - 1) {parent.clear(); name = s.substr(0, pos); return;}
 
-  if (pos > 0) {parent = s.substr(0, pos); name = s.substr(pos+1); return;}
+  pos = s.findLast(ch);  if (pos > 0) {name = s.substr(pos+1);  parent = s.substr(0, pos);   return;}
 
   parent.clear();  name = s;
   }
@@ -92,7 +91,7 @@ int    i;
 String combineNames(String& parent, String& name) {
 String s;
 
-  if (!parent.empty()) s = parent + _T('\\');
+  if (!parent.isEmpty()) s = parent + _T('\\');
   s += name;  return s;
   }
 
@@ -136,7 +135,7 @@ Tchar fullPath[MAX_PATH];
 void outputLine(int tab, TCchar* prefix, String& s, TCchar* suffix, FileIO& file) {
 String line;
 
-  if (s.empty()) return;
+  if (s.isEmpty()) return;
 
   line = prefix + s + suffix + _T("\n");    outputStg(tab, line, file);
   }

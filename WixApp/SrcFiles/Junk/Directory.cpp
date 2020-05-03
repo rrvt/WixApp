@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Directory.h"
-#include "Group.h"
+#include "Feature.h"
 #include "WixUtilities.h"
 
 TCchar* PffExt       = _T("pff");
@@ -17,13 +17,11 @@ TCchar* DeskTopDir   = _T("DesktopFolder");
 Directory directory;
 
 
-
+#if 0
 void DirDesc::store(CString& cs, TCchar* ext) {
-
-  parse(String(cs), parent, name);
-
-  wixID = getWixID(id,ext);
+  findLastName(String(cs), parent, name);   wixID = getWixID(id, ext);
   }
+#endif
 
 
 void Directory::output() {
@@ -71,6 +69,6 @@ void Directory::outputRemoves(int tab) {
 
 
 
-void Directory::prepareUninstalls(Group* grp) {pmf.prepareUninstalls(grp);}
+void Directory::prepareUninstalls(Feature* grp) {pmf.prepareUninstalls(grp);}
 
 

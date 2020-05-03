@@ -10,70 +10,93 @@
 DefaultPath defaultPath;
 
 
-static TCchar* Section = _T("DefaultPath");
+static TCchar* Section    = _T("DefaultPath");
+static TCchar* NPathsKey  = _T("NPaths");
+static TCchar* DefKey     = _T("DefKey%i");
+static TCchar* DscPathKey = _T("%s.Path");
 
 
-
-TCchar* DefaultPath::get(TCchar* key) {
+void DefaultPath::readWixData() {
+int         n = wxd.readInt(Section, NPathsKey, 99);
+int         i;
+String      key;
+String      entity;
 DefPathDsc* dsc;
-String      s;
 
-  if (dsc = find(key)) return dsc->path.str();
 
-  return wxd.readString(Section, key, s) ? add(key, s) : 0;
+  for (i = 0; i < n; i++) {
+    key.format(DefKey, i);   if (!wxd.readString(Section, key, entity)) continue;
+    dsc = find(entity);      if (!dsc) dsc = &paths[nPaths()];
+
+    dsc->key = entity;
+    key.format(DscPathKey, entity.str());   dsc->pathDsc.readWixData(Section, key);
+    }
   }
 
 
 
-int DefaultPath::getInt(TCchar* key) {
-int         val;
-DefPathDsc* dsc;
+void DefaultPath::writeWixData() {
+int    i;
+String key;
+String entity;
 
-  if (dsc = find(key)) return dsc->val;
+  wxd.writeInt(Section, NPathsKey, nPaths());
 
-  val = wxd.readInt(Section, key, 0);   add(key, val);   return val;
+  for (i = 0; i < nPaths(); i++) {
+    DefPathDsc& dsc = paths[i];
+
+    if (!dsc.inUse) continue;
+
+    entity = dsc.key;
+
+    key.format(DefKey, i);                  wxd.writeString(Section, key, entity);
+    key.format(DscPathKey, entity.str());   dsc.pathDsc.writeWixData(Section, key);
+    }
   }
 
 
+void DefaultPath::setCurPath(TCchar* key)
+                 {curPath = find(key);   if (!curPath) {curPath = &paths[nPaths()]; curPath->key = key;}}
+
+
+String DefaultPath::getCurPath() {
+String s = _T("");
+
+  if (!curPath && nPaths()) curPath = &paths[0];
+  if (!curPath) return s;
+
+  s = curPath->pathDsc.path();   return s;
+  }
+
+
+void DefaultPath::save(String& path) {if (curPath) {curPath->pathDsc = getPath(path);}}
+
+
+void DefaultPath::del(TCchar* key) {
+int i;
+int n = nPaths();
+
+  for (i = 0; i < n; i++) if (paths[i].key == key) {paths.del(i); return;}
+  }
+
+
+
+#if 0
 TCchar* DefaultPath::add(TCchar* key, String& fullPath) {
 String      path = getPath(fullPath);
 DefPathDsc* dsc;
 
   if (dsc = find(key)) {dsc->path = path; return dsc->path.str();}
 
-  dsc = &paths[nPaths++];
-
-  dsc->key = key;   dsc->path = path;  dsc->dscType = StgType;   return dsc->path.str();
+  dsc = &paths[nPaths()];   dsc->key = key;   dsc->path = path;  return dsc->path.str();
   }
-
-
-int DefaultPath::add(TCchar* key, int v) {
-DefPathDsc* dsc;
-
-  if (dsc = find(key)) {dsc->val = v; return dsc->val;}
-
-  dsc = &paths[nPaths++];   dsc->key = key;   dsc->val = v;  dsc->dscType = IntType;   return dsc->val;
-  }
-
-
-void DefaultPath::writeWixData() {
-int i;
-
-  for (i = 0; i < nPaths; i++) {
-    DefPathDsc& dsc = paths[i];
-
-    switch (dsc.dscType) {
-      case StgType: wxd.writeString(Section, dsc.key, dsc.path); break;
-      case IntType: wxd.writeInt(   Section, dsc.key, dsc.val);  break;
-      }
-    }
-  }
+#endif
 
 
 DefPathDsc* DefaultPath::find(TCchar* key) {
 int i;
 
-  for (i = 0; i < nPaths; i++) {
+  for (i = 0; i < nPaths(); i++) {
     DefPathDsc& dsc = paths[i];   if (dsc.key == key) return &dsc;
     }
 

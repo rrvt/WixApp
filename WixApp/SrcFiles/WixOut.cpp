@@ -15,7 +15,7 @@ IniFile wxd;                 // WixApp data file (contains description of instal
 void WixOut::out(int tabVal, TCchar* prefix, String& s, TCchar* suffix) {
 String line;
 
-  if (s.empty()) return;
+  if (s.isEmpty()) return;
 
   line = prefix + s + suffix + _T("\n");    stg(tabVal, line);
   }
