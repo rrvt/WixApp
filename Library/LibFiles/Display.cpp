@@ -10,104 +10,175 @@
 
 
 static const long maxScroll = 2147483648;
+static const int  Margin    = 3;
 
-Manip dCenter;
-Manip dRight;      // right align the String following up to the nCrlf
-Manip dCrlf;
-Manip dEndPage;    // add to stream to terminate a page when printing or do nothing
-Manip dflushFtr;   // add to stream to terminate a footer when printing
-Manip dClrTabs;    // add to stream to clear tabs: dsp << dClrTabs;
-Manip dTab;
-Manip dBeginLine;
-Manip dEndLine;
-Manip dPrevFont;   // Restore previous font
-Manip dBoldFont;
-Manip dItalicFont;
-Manip dUnderLineFont;
-Manip dStrikeOutFont;
+static DspManip1& setupManip1(DspManip1::Func fn, int val);
 
 
-// Manipulator functions -- do not call directly
-static Display& doCrlf(          Display& d);
-static Display& doEndPage(       Display& d);
-static Display& doFlushFtr(      Display& d);
-static Display& doClrTabs(       Display& d) {d.tPos.clrTabs(); return d;}
-static Display& doTab(           Display& d);
-static Display& doCenter(        Display& d);
-static Display& doRight(         Display& d);
-static Display& doPrevFont(      Display& d);
-static Display& doBoldFont(      Display& d);
-static Display& doItalicFont(    Display& d);
-static Display& doUnderLineFont( Display& d);
-static Display& doStrikeOutFont( Display& d);
+DspManip dClrTabs;    // add to stream to clear tabs: dsp << dClrTabs;
+DspManip dCrlf;
+DspManip dEndPage;    // add to stream to terminate a page when printing or do nothing
+DspManip dTab;
+DspManip dCenter;
+DspManip dRight;      // right align the String following up to the nCrlf
+DspManip dBeginLine;
+DspManip dEndLine;
+DspManip dPrevFont;   // Restore previous font
+DspManip dBoldFont;
+DspManip dItalicFont;
+DspManip dUnderLineFont;
+DspManip dStrikeOutFont;
+DspManip dflushFtr;   // add to stream to terminate a footer when printing
 
+DspManip1& dSetLMargin(int val) {return setupManip1(Display::doSetLMargin, val);}
+DspManip1& dSetTab(    int val) {return setupManip1(Display::doSetTab,     val);}
+DspManip1& dSetRTab(   int val) {return setupManip1(Display::doSetRTab,    val);}
+DspManip1& dFSize(     int val) {return setupManip1(Display::doFSize,      val);}
+DspManip1& dEditBox(   int val) {return setupManip1(Display::doEditBox,    val);}
 
-static Display& doBeginLine(   Display& d);
-static Display& doEndLine(     Display& d);
-
-static Display& doSetLMargin(  Display& d, int v) {d.tPos.setLeftMargin(v); return d;}
-static Display& doSetTab(      Display& d, int v) {d.tPos.setTab(v);  return d;}
-static Display& doSetRTab(     Display& d, int v) {d.tPos.setRTab(v); return d;}
-static Display& doFSize(       Display& d, int v);
-static Display& doEditBox(     Display& d, int v);
-
-Manip1& dSetLMargin(int val) {Manip1* m = new Manip1(doSetLMargin,  val); return *m;}
-Manip1& dSetTab(    int val) {Manip1* m = new Manip1(doSetTab,      val); return *m;}
-Manip1& dSetRTab(   int val) {Manip1* m = new Manip1(doSetRTab,     val); return *m;}
-Manip1& dFSize(     int val) {Manip1* m = new Manip1(doFSize,       val); return *m;}
-Manip1& dEditBox(   int val) {Manip1* m = new Manip1(doEditBox,     val); return *m;}
+DspManip1& setupManip1(DspManip1::Func fn, int val)
+              {NewAlloc(DspManip1);   DspManip1* m = AllocNode;  new(m) DspManip1(fn, val);  return *m;}
 
 
 
-Display::Display() : tPos() {
+Display::Display()          : tPos(), initialYPos(0),   points{{0,0}}    {initialize();}
+Display::Display(int initY) : tPos(), initialYPos(initY), points{{0,0}} {initialize();}
 
-  noPoints = maxHeight = curHeight = toLine = maxY = y = topEdge = bottomEdge = 0;
+
+void Display::initialize() {
+
+  noPoints = maxHeight = curHeight = toLine = maxY = topEdge = bottomEdge = 0;   y = initialYPos + Margin;
   center = right = beginPage = endPageFlag = false;
   dc = 0; tPos.clrTabs();
-  points[0].x = 0;
+  points[0] = {0,0};
 
   output = printing = false;   noPages = 0;  nonBlankLine = true;
 
-  dCrlf.d           = this; dCrlf.func           = &doCrlf;
-  dEndPage.d        = this; dEndPage.func        = &doEndPage;
-  dflushFtr.d       = this; dflushFtr.func       = &doFlushFtr;
-  dTab.d            = this; dTab.func            = &doTab;
-  dClrTabs.d        = this; dClrTabs.func        = &doClrTabs;
-  dCenter.d         = this; dCenter.func         = &doCenter;
-  dRight.d          = this; dRight.func          = &doRight;
-  dBeginLine.d      = this; dBeginLine.func      = &doBeginLine;
-  dEndLine.d        = this; dEndLine.func        = &doEndLine;
+  dCrlf.n           = this; dCrlf.func           = &doCrlf;
+  dEndPage.n        = this; dEndPage.func        = &doEndPage;
+  dflushFtr.n       = this; dflushFtr.func       = &doFlushFtr;
+  dTab.n            = this; dTab.func            = &doTab;
+  dClrTabs.n        = this; dClrTabs.func        = &doClrTabs;
+  dCenter.n         = this; dCenter.func         = &doCenter;
+  dRight.n          = this; dRight.func          = &doRight;
+  dBeginLine.n      = this; dBeginLine.func      = &doBeginLine;
+  dEndLine.n        = this; dEndLine.func        = &doEndLine;
 
-  dPrevFont.d       = this; dPrevFont.func       = &doPrevFont;
-  dBoldFont.d       = this; dBoldFont.func       = &doBoldFont;
-  dItalicFont.d     = this; dItalicFont.func     = &doItalicFont;
-  dUnderLineFont.d  = this; dUnderLineFont.func  = &doUnderLineFont;
-  dStrikeOutFont.d  = this; dStrikeOutFont.func  = &doStrikeOutFont;
+  dPrevFont.n       = this; dPrevFont.func       = &doPrevFont;
+  dBoldFont.n       = this; dBoldFont.func       = &doBoldFont;
+  dItalicFont.n     = this; dItalicFont.func     = &doItalicFont;
+  dUnderLineFont.n  = this; dUnderLineFont.func  = &doUnderLineFont;
+  dStrikeOutFont.n  = this; dStrikeOutFont.func  = &doStrikeOutFont;
   }
 
 
-void Display::prepareDisplay( TCchar* face, int fontSize, CDC* pDC, CPrintInfo* pInfo, bool doOutput) {
+
+
+Display& Display::doEditBox(Display& d, int v) {
+int curPos = d.tPos.cursorPos;
+
+  d.rightTab = d.tPos.tab();
+
+  editBoxes.create(d.y, v, curPos+1, d.y-2, d.tPos.cursorPos-curPos-1, d.curHeight+1);
+
+  return d;
+  }
+
+
+void Display::crlf() {
+
+  y += maxHeight; maxHeight = curHeight; setMaxY(y);
+
+  if (printing && y >= bottomEdge)
+    endPageFlag = true;
+
+  tPos.crlf();
+  }
+
+
+
+Display& Display::doEndPage(Display& d) {
+
+  if (d.printing && d.topEdge < d.y && d.y < d.bottomEdge) {
+
+    d.textOut();
+
+    d.y = d.bottomEdge; d.endPageFlag = true;
+
+    d.tPos.crlf();
+    }
+
+  return d;
+  }
+
+
+Display& Display::doFlushFtr(Display& d) {
+
+  d.textOut();
+
+  d.y += d.maxHeight; d.maxHeight = d.curHeight;  d.nonBlankLine = false; d.setMaxY(d.y);
+
+  d.tPos.crlf(); return d;
+  }
+
+
+Display& Display::doBeginLine(Display& d) {
+  if (!d.sum.empty() || d.rightTab.right) d.textOut();
+
+  d.points[0].x = d.tPos.cursorPos; d.points[0].y = d.y + d.toLine; d.noPoints = 1;
+  return d;
+  }
+
+
+Display& Display::doEndLine(Display& d) {
+  if (!d.sum.empty() || d.center || d.right || d.rightTab.right) d.textOut();
+
+  d.points[1].x = d.tPos.cursorPos; d.points[1].y = d.y + d.toLine;
+
+  if (d.points[0].y == d.points[1].y && d.output) d.dc->Polyline(d.points, 2);
+
+  LOGPEN logPen;
+  CPen*   pen = d.dc->GetCurrentPen(); pen->GetLogPen(&logPen);
+
+  d.noPoints = 0; return d;
+  }
+
+
+void Display::prepareDisplay( TCchar* face, int fontSize, CDC* pDC, bool doOutput) {
 RECT  winSz;
 CWnd* win     = 0;
-int   yOffset = 0;
 int   cx      = 0;
 int   cy      = 0;
 
   dc = pDC; output = doOutput; printing = false;
 
-  sum.clear(); noPoints = maxHeight = curHeight = y = 0;
+  sum.clear(); noPoints = maxHeight = curHeight = 0;   y = initialYPos + Margin;
 
   tPos.initialize(); center = right = rightTab.right = false; tPos.clrTabs();
 
   win = pDC->GetWindow(); win->GetClientRect(&winSz);
 
-  cy = winSz.bottom; cx = winSz.right; tPos.iPos(Margin, cx-Margin); y = yOffset = Margin; setMaxY(y);
+  cy = winSz.bottom; cx = winSz.right; tPos.iPos(Margin, cx-Margin); setMaxY(y);
 
-  initializeFont(face, fontSize);
+  dc->SetMapMode(MM_TEXT);  initializeFont(face, fontSize);
   }
 
 
-void Display::beginPrinting(CDC* pDC, CPrintInfo* pInfo, bool doOutput) {
+void Display::preparePrinting(TCchar* face, int fontSize, CDC* pDC, bool doOutput) {
+
+  dc = pDC; output = doOutput; printing = true;
+
+  sum.clear(); noPoints = maxHeight = curHeight = y = 0;
+
+  tPos.initialize(); center = right = rightTab.right = false; tPos.clrTabs();
+
+  beginPage = true; endPageFlag = false;
+
+  dc->SetMapMode(MM_TEXT);  initializeFont(face, fontSize);
+  }
+
+
+void Display::beginPrinting(CPrintInfo* pInfo) {
 CPrintDialog* pPD           = 0;                // pointer to print dialog
 LPDEVMODE     devMode       = 0;
 bool          portrait      = true;
@@ -120,8 +191,6 @@ int           cy            = 0;
 int           qtrInch       = 0;
 int           sixteenThInch = 0;
 
-  dc = pDC; output = doOutput; printing = true;
-
   if (pInfo) {
     pInfo->m_bContinuePrinting = true;
 
@@ -132,14 +201,8 @@ int           sixteenThInch = 0;
       }
     }
 
-  sum.clear(); noPoints = maxHeight = curHeight = y = 0;
-
-  tPos.initialize(); center = right = rightTab.right = false; tPos.clrTabs();
-
-  dc->SetMapMode(MM_TEXT);
-
-  cy      = pDC->GetDeviceCaps(VERTRES);        cx = pDC->GetDeviceCaps(HORZRES);
-  h       = pDC->GetDeviceCaps(PHYSICALHEIGHT);  w = pDC->GetDeviceCaps(PHYSICALWIDTH);
+  cy      = dc->GetDeviceCaps(VERTRES);        cx = dc->GetDeviceCaps(HORZRES);
+  h       = dc->GetDeviceCaps(PHYSICALHEIGHT);  w = dc->GetDeviceCaps(PHYSICALWIDTH);
 
   qtrInch = portrait ? w * 10 / 85 / 4 : w * 10 / 110 / 4;
 
@@ -155,12 +218,8 @@ int           sixteenThInch = 0;
   }
 
 
-void Display::preparePrinting(TCchar* face, int fontSize)
-                                {beginPage = true; endPageFlag = false; initializeFont(face, fontSize);}
-
-
 void Display::initializeFont(TCchar* face, int fontSize)
-                           {font.initialize(face, fontSize, dc); setMetric();}
+                                        {font.initialize(face, fontSize, dc); setMetric();}
 
 
 void Display::setFontSize(int fontSize) {font.setSize(fontSize); setMetric();}
@@ -168,8 +227,19 @@ void Display::setFontSize(int fontSize) {font.setSize(fontSize); setMetric();}
 
 void Display::setMetric() {
 TEXTMETRIC metric;
+int        buf[26];
+int        i;
+double     sum;
+double     avg;
+int        chWidth;
 
   if (dc->GetTextMetrics(&metric)) {
+
+    dc->GetCharWidth(_T('A'), _T('Z'), buf);
+    for (i = 0, sum = 0; i < noElements(buf); i++) sum += buf[i];
+    avg = sum / noElements(buf) + 0.5;   chWidth = (int) avg;
+
+    if (metric.tmAveCharWidth > chWidth) chWidth = metric.tmAveCharWidth;
 
     curHeight = metric.tmHeight + metric.tmExternalLeading + 2;
 
@@ -177,141 +247,10 @@ TEXTMETRIC metric;
 
     toLine = curHeight - metric.tmInternalLeading - metric.tmExternalLeading;
 
-    tPos.lastWidth = metric.tmAveCharWidth;  if (tPos.lastWidth > tPos.width) tPos.width = tPos.lastWidth;
+    if (chWidth > tPos.width) tPos.width = chWidth;    tPos.lastWidth = chWidth;
     }
   }
 
-
-
-Display& Display::stg(TCchar* s) {
-
-  if (*s) nonBlankLine = true;
-
-  sum += s; return *this;
-  }
-
-
-static Display& doFSize(Display& d, int v) {d.textOut();  d.setFontSize(v);  return d;}
-
-
-static Display& doPrevFont(Display& d) {d.prevFont();   return d;}
-
-
-void Display::prevFont() {textOut(); font.prevFont(); setMetric();}
-
-
-Display& doBoldFont(      Display& d) {d.boldFont(); return d;}
-
-void Display::boldFont() {textOut(); font.setBold();}
-
-
-Display& doItalicFont(    Display& d) {d.italicFont(); return d;}
-
-void Display::italicFont() {textOut(); font.setItalic();}
-
-
-Display& doUnderLineFont( Display& d) {d.underLineFont(); return d;}
-
-void Display::underLineFont() {textOut(); font.setUnderLine();}
-
-
-Display& doStrikeOutFont( Display& d) {d.strikeOutFont(); return d;}
-
-void Display::strikeOutFont() {textOut(); font.setStrikeOut();}
-
-
-void Display::clrFont() {textOut(); font.uninstall();}
-
-
-
-static Display& doEditBox(Display& d, int v) {
-int curPos = d.tPos.cursorPos;
-
-  d.rightTab = d.tPos.tab();
-
-  editBoxes.create(d.y, v, curPos+1, d.y-2, d.tPos.cursorPos-curPos-1, d.curHeight+1);
-
-  return d;
-  }
-
-
-static Display& doCenter(Display& d) {d.textOut();  d.center = true;  return d;}
-
-
-
-static Display& doRight(Display& d) {d.textOut();  d.right = true;  return d;}
-
-
-
-static Display& doTab(Display& d) {d.textOut();  d.rightTab = d.tPos.tab();  return d;}
-
-
-static Display& doCrlf(Display& d) {
-
-  d.textOut();
-
-  if (d.nonBlankLine) {d.crlf();}
-
-  return d;
-  }
-
-
-void Display::crlf() {
-
-  y += maxHeight; maxHeight = curHeight; setMaxY(y);
-
-  if (printing && y >= bottomEdge) endPageFlag = true;
-
-  tPos.crlf();
-  }
-
-
-
-static Display& doEndPage(Display& d) {
-
-  if (d.printing && d.topEdge < d.y && d.y < d.bottomEdge) {
-
-    d.textOut();
-
-    d.y = d.bottomEdge; d.endPageFlag = true;
-
-    d.tPos.crlf();
-    }
-
-  return d;
-  }
-
-
-static Display& doFlushFtr(Display& d) {
-
-  d.textOut();
-
-  d.y += d.maxHeight; d.maxHeight = d.curHeight;  d.nonBlankLine = false; d.setMaxY(d.y);
-
-  d.tPos.crlf(); return d;
-  }
-
-
-static Display& doBeginLine(Display& d) {
-  if (!d.sum.empty() || d.rightTab.right) d.textOut();
-
-  d.points[0].x = d.tPos.cursorPos; d.points[0].y = d.y + d.toLine; d.noPoints = 1;
-  return d;
-  }
-
-
-static Display& doEndLine(Display& d) {
-  if (!d.sum.empty() || d.center || d.right || d.rightTab.right) d.textOut();
-
-  d.points[1].x = d.tPos.cursorPos; d.points[1].y = d.y + d.toLine;
-
-  if (d.points[0].y == d.points[1].y && d.output) d.dc->Polyline(d.points, 2);
-
-  LOGPEN logPen;
-  CPen*   pen = d.dc->GetCurrentPen(); pen->GetLogPen(&logPen);
-
-  d.noPoints = 0; return d;
-  }
 
 
 void Display::textOut() {
@@ -434,7 +373,7 @@ int Display::getWidth(String& s, CString& cs) {
 CSize sz;
 bool  italic = font.getAttr()->italic;
 
-  cs = s;  sz = dc->GetOutputTextExtent(cs);
+  cs = s;   sz = dc->GetOutputTextExtent(cs);
 
   if (italic) sz.cx += 2;
 

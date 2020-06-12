@@ -1,5 +1,5 @@
 [SolutionInfo]
-Path=D:\Sources\WixApp\WixApp.sln\
+Path=D:\Sources\WixApp\WixApp\
 Name=WixApp
 Version=2.0
 [Icons]
@@ -18,11 +18,11 @@ WixApp.ftr.Path=D:\Sources\WixApp\Release\
 ProductName=WixApp
 Company=Bob -- K6RWY
 WixName=WixApp
-WixVersion=1.5.2.0
+WixVersion=1.5.6.0
 UpgradeGUID=B3A97B8C-87EE-401E-8447-E7458AE8DE14
 SaveVerAllowed=0
 LicenseRequired=0
-LicensePath=D:\Sources\WixApp\WixApp.sln\
+LicensePath=D:\Sources\WixApp\WixApp\
 IconID=WixApp
 [PFFDirectories]
 NoDirectories=1

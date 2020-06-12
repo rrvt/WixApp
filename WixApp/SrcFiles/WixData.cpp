@@ -124,8 +124,7 @@ void WixData::openFile(WixDataDlg* dialog) {
 
   if (!readWixData()) return;
 
-//  solution.loadEB(*dialog);
-   product.loadCB( *dialog);
+   product.loadCB(*dialog);
   features.loadCB(*dialog);
   }
 
@@ -168,7 +167,7 @@ void WixData::output() {
 String      wxsPath;
 String      pathOnly;
 String      msg = _T("Output a new Wix Product File: ");
-Component*  app = features.findAnApp();
+Component*  app;
 String      currentGroup;
 String      defPath;
 
@@ -178,7 +177,7 @@ String      defPath;
 
     saveWixPath(wxsPath);
 
-    if (app) pffDirectories.appDir = app->getProgFile();
+    app = features.findAnApp();   if (app) pffDirectories.appDir = app->getProgFile();
 
     backupFile(wxsPath, 10);
 
@@ -192,7 +191,7 @@ String      defPath;
 
     prolog.output();
 
-    product.output(app, prolog, features);
+    product.output(features.findAnApp(), prolog, features);
 
     features.outputFeatureTables(0);
 
@@ -211,17 +210,15 @@ String      defPath;
   }
 
 
-
-
-
 void WixData::prepareUninstalls() {
 Component* app = features.findAnApp();
 Feature*   ftr = 0;
 Component* cmp = 0;
 
   if (app && app->isStartMenu) {
-    ftr = features.newItem();   cmp = ftr->newItem();
+    ftr = features.newItem();   cmp = ftr->newItem();       // potential changing of app pointer
 
+    app                 = features.findAnApp();
     ftr->id             = _T("Uninstall ") + app->id;
     ftr->wixID          = getWixID(ftr->id, FeatureExt);
     ftr->isUninstall    = true;
@@ -250,28 +247,4 @@ String toFile   = wxsPath       + fileName;
 
   copyFile(fromFile, toFile);
   }
-
-
-
-//void WixData::finalMsg() {Finish finish; finish.DoModal();}
-
-
-
-#if 0
-
-  <Component Id="UninstallWixApp.cmp"  Guid="CE0AF1E2-A4EB-4DFA-B49A-C1DCBECDE3CD"
-                                                                              Directory="WixApp.pmf">
-
-    <Shortcut Id               = "UninstallWixApp.shc"
-              Name             = "Uninstall WixApp"
-              Description      = "Uninstalls WixApp"
-              Target           = "[System64Folder]msiexec.exe"
-              Arguments        = "/x [ProductCode]"
-              Icon             = "WixAppIcon.ico"
-              />
-    <RemoveFolder Id="WixApp.uni" Directory="WixApp.pmf" On="uninstall"/>
-    <RegistryValue Root="HKCU" Key="Software\UninstallWixApp.cmp" Name="installed"
-                   Type="integer" Value="1" KeyPath="yes"/>
-  </Component>
-#endif
 

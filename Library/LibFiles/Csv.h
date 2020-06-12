@@ -50,7 +50,7 @@ Tchar     quote_ch;               // Current quote character
 
 bool      print_source_line;      // print source line when true
 int       line_number;            // current line number
-int      tokenNo;               // Number of token from left margin
+int       tokenNo;               // Number of token from left margin
 
 public:
 
@@ -58,6 +58,7 @@ Token* token;                   // token returned    static const
 Token* token1;                  // Next token in input stream
 
   Csv(Archive& arch);
+ ~Csv() {NewAlloc(Token);  FreeNode(token);  FreeNode(token1); token = token1 = 0;}
 
   bool        initialize();                       // Initialize input mechanism
 
@@ -157,7 +158,9 @@ static Character_Classes character_class_table[] = {
 
 
 template<long sz> Csv<sz>::Csv(Archive& arch) : ar(arch), getNext(true) {
-  token = new Token; token1 = new Token; source[0] = &source_line; source[1] = &source_line1;
+NewAlloc(Token);
+
+  token = AllocNode; token1 = AllocNode; source[0] = &source_line; source[1] = &source_line1;
   initialize();
   }
 
@@ -216,6 +219,13 @@ Character_Classes ch_class;                 // character class of current charac
 
     nextChar();   ch_class = character_class_table[ch];
 
+if (ch_class == eofch) {
+int x = 1;
+}
+if (ch_class == quote) {
+int y = 1;
+}
+
     switch (state) {
 
       // Begin Token State, Look for the first character of each token type
@@ -272,6 +282,8 @@ fin_op:                 start_token(tok); move_char(); terminate(tok, source); r
 
           case quote:   accept_char(); add_to_line();
           case cr   :   state = got_quote; continue;
+
+          case eofch:   tok->code = StringToken; goto fin_tok;
 
           default   :   val++; break;
           }

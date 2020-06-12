@@ -470,8 +470,8 @@ char* p;
 
 public:
 
-  ToAnsi(TCchar* s) : p(0) {convert(s);}
-  ToAnsi(String& s) : p(0) {convert(s.str());}
+  ToAnsi(TCchar* s) : p(0), cnt(0) {convert(s);}
+  ToAnsi(String& s) : p(0), cnt(0) {convert(s.str());}
 
  ~ToAnsi() {if (p) delete[] p;}
 
@@ -480,7 +480,7 @@ public:
 
 private:
 
-  ToAnsi() : p(0) {}
+  ToAnsi() : p(0), cnt(0) {}
 
   void convert(TCchar* tp);
   };
@@ -496,7 +496,7 @@ Tchar* p;
 
 public:
 
-  ToUniCode(Cchar* s) : p(0) {convert(s);}
+  ToUniCode(Cchar* s) : p(0), cnt(0) {convert(s);}
 
  ~ToUniCode() {if (p) delete[] p;}
 
@@ -505,7 +505,7 @@ public:
 
 private:
 
-  ToUniCode() : p(0) {}
+  ToUniCode() : p(0), cnt(0) {}
 
   void convert(Cchar* tp);
   };

@@ -14,7 +14,7 @@ HGLOBAL hData;
 
   cbStr = n + 1;
 
-  p = new char[cbStr];   if (!p) return false;
+  NewAlloc(char);   p = AllocArray(cbStr);   if (!p) return false;
 
   for (i = 0; i < n; i++) p[i] = (char) s[i];    p[i] = 0;
 
@@ -22,7 +22,7 @@ HGLOBAL hData;
 
   memcpy_s(GlobalLock(hData), cbStr, p, cbStr);
 
-  GlobalUnlock(hData);   delete[] p;
+  GlobalUnlock(hData);   FreeArray(p);
 
   if (!OpenClipboard(0)) {AfxMessageBox(_T("Cannot open the Clipboard")); return false;}
 

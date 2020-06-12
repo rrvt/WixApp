@@ -54,12 +54,10 @@ protected:
 
 Node* head;
 Node* tail;
-//Node* prev;
-//Node* rover;
 
 public:
 
-           List() {initialize();}
+           List() : head(0), tail(0) {initialize();}
 
            List(const List& h);
 

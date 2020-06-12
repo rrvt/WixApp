@@ -101,10 +101,8 @@ RecordSetP TableDesc::openRecordSet(DaoOptions option) {
 
 
 
-void TableDesc::copy(TableDesc& src, TableDesc& dst) {
-  dst.name = src.name; dst.table = src.table; dst.flds = src.flds; dst.nFlds = src.nFlds;
-  dst.nRcds = src.nRcds;
-  }
+void TableDesc::copy(TableDesc& src)
+              {name = src.name; table = src.table; flds = src.flds; nFlds = src.nFlds; nRcds = src.nRcds;}
 
 
 
@@ -157,7 +155,7 @@ int i;
 
 
 
-                                                          //AceDao::
+
 void comError(ComError& e) {
 HRESULT hrstl = e.Error();
 bstr_t  desc  = e.Description();

@@ -87,15 +87,7 @@ WixDataDlg::~WixDataDlg() { }
 void WixDataDlg::OnFileNew() {wixData.newFile(this);}    //solution.newFile(); solution.loadEB(*this);}
 
 
-void WixDataDlg::OnFileOpen() {wixData.openFile(this);
-#if 0
-  if (!wixData.readWixData()) return;
-
-  solution.loadEB(*this);
-  product.loadCB(*this);
-  loadFeatures();
-#endif
-  }
+void WixDataDlg::OnFileOpen() {wixData.openFile(this);}
 
 
 void WixDataDlg::OnFileRecent() { }

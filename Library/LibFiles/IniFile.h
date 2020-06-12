@@ -7,18 +7,19 @@
 
 
 class IniFile {
+CWinApp* app;
+String   iniFilePath;
+int      pathLng;
 
-String iniFilePath;
-
-Tchar* p;
-Tchar* q;
-Tchar* buf;
-Random rand;
+Tchar*   p;
+Tchar*   q;
+Tchar*   buf;
+Random   rand;
 
 public:
 
-  IniFile() : p(0), q(0), buf(0), rand() {}
- ~IniFile() {}
+  IniFile() : app(0), p(0), q(0), buf(0), rand() {}
+ ~IniFile();
 
 //  String  getFilePath(TCchar* helpPath);    // Sets ini File Name & path to exe directory,
                                               // returns path to directory

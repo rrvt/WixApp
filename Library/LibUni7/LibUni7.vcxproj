@@ -112,26 +112,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\LibFiles\AceDao.h" />
-    <ClInclude Include="..\LibFiles\AppAvail.h" />
-    <ClInclude Include="..\LibFiles\AppDoc.h" />
     <ClInclude Include="..\LibFiles\Archive.h" />
-    <ClInclude Include="..\LibFiles\ArchiveIO.h" />
     <ClInclude Include="..\LibFiles\Button.h" />
     <ClInclude Include="..\LibFiles\CDoc.h" />
     <ClInclude Include="..\LibFiles\ComboBox.h" />
     <ClInclude Include="..\LibFiles\comdef.h" />
     <ClInclude Include="..\LibFiles\CopyFile.h" />
     <ClInclude Include="..\LibFiles\Crypt.h" />
+    <ClInclude Include="..\LibFiles\CScrView.h" />
     <ClInclude Include="..\LibFiles\Csv.h" />
-    <ClInclude Include="..\LibFiles\CSVrecord.h" />
-    <ClInclude Include="..\LibFiles\CSVrecords.h" />
     <ClInclude Include="..\LibFiles\Currency.h" />
-    <ClInclude Include="..\LibFiles\DataFile.h" />
     <ClInclude Include="..\LibFiles\Date.h" />
     <ClInclude Include="..\LibFiles\Debug.h" />
     <ClInclude Include="..\LibFiles\Display.h" />
-    <ClInclude Include="..\LibFiles\DisplayFns.h" />
-    <ClInclude Include="..\LibFiles\DisplayView.h" />
+    <ClInclude Include="..\LibFiles\DisplayDev.h" />
+    <ClInclude Include="..\LibFiles\EditBox.h" />
     <ClInclude Include="..\LibFiles\EditBoxes.h" />
     <ClInclude Include="..\LibFiles\Expandable.h" />
     <ClInclude Include="..\LibFiles\FileIO.h" />
@@ -147,10 +142,12 @@
     <ClInclude Include="..\LibFiles\LexT.h" />
     <ClInclude Include="..\LibFiles\LexTOut.h" />
     <ClInclude Include="..\LibFiles\LoadScratchPad.h" />
+    <ClInclude Include="..\LibFiles\ManipT.h" />
     <ClInclude Include="..\LibFiles\MapsT.h" />
     <ClInclude Include="..\LibFiles\MapTable.h" />
     <ClInclude Include="..\LibFiles\match.h" />
     <ClInclude Include="..\LibFiles\MessageBox.h" />
+    <ClInclude Include="..\LibFiles\NewAllocator.h" />
     <ClInclude Include="..\LibFiles\Node.h" />
     <ClInclude Include="..\LibFiles\Note.h" />
     <ClInclude Include="..\LibFiles\NotePad.h" />
@@ -180,20 +177,20 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="..\LibFiles\AceDao.cpp" />
-    <ClCompile Include="..\LibFiles\AppAvail.cpp" />
+    <ClCompile Include="..\LibFiles\Archive.cpp" />
     <ClCompile Include="..\LibFiles\Button.cpp" />
     <ClCompile Include="..\LibFiles\ComboBox.cpp" />
     <ClCompile Include="..\LibFiles\CopyFile.cpp" />
     <ClCompile Include="..\LibFiles\CryptDe.cpp" />
     <ClCompile Include="..\LibFiles\CryptEn.cpp" />
     <ClCompile Include="..\LibFiles\CryptInit.cpp" />
-    <ClCompile Include="..\LibFiles\CSVrecords.cpp" />
+    <ClCompile Include="..\LibFiles\CScrView.cpp" />
     <ClCompile Include="..\LibFiles\Currency.cpp" />
-    <ClCompile Include="..\LibFiles\DataFile.cpp" />
     <ClCompile Include="..\LibFiles\Date.cpp" />
     <ClCompile Include="..\LibFiles\Debug.cpp" />
     <ClCompile Include="..\LibFiles\Display.cpp" />
-    <ClCompile Include="..\LibFiles\DisplayFns.cpp" />
+    <ClCompile Include="..\LibFiles\DisplayDev.cpp" />
+    <ClCompile Include="..\LibFiles\EditBox.cpp" />
     <ClCompile Include="..\LibFiles\EditBoxes.cpp" />
     <ClCompile Include="..\LibFiles\FileIO.cpp" />
     <ClCompile Include="..\LibFiles\filename.cpp" />

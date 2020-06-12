@@ -22,13 +22,28 @@ static char FF = (char) 0xff;
 static char FE = (char) 0xfe;
 
 
-FileIO::FileIO() : encoding(NilEncode), encdState(0), openParms(0), pos(0),
-                                  pbuf(buf), ebuf(buf), rtnSeen(false), tabSize(2), col(0) {buf[0] = 0;}
+FileIO::FileIO() : encoding(NilEncode), encdState(0), openParms(0), pos(0), pbuf(buf), ebuf(buf), 
+																						rtnSeen(false), tabSize(2), col(0), lastOP(0) {buf[0] = 0;}
 
 
-bool FileIO::open(String& filePath, OpenParms parms) {
+bool FileIO::open(String& filePath, int parms) {
 
   if (isOpen()) return true;
+
+  setMode(parms);
+
+//  if ((openParms & 3) == CFile::modeRead) pbuf = ebuf = buf;
+//  else                                   {pbuf = buf; ebuf = buf + noElements(buf);}
+
+  pbuf = ebuf = buf;  path = filePath;
+
+  if (cfile.Open(path, openParms, &err) != 0) return true;
+
+  return false;
+  }
+
+
+void FileIO::setMode(int parms) {
 
   openParms = 0;
 
@@ -39,11 +54,6 @@ bool FileIO::open(String& filePath, OpenParms parms) {
   openParms |= (openParms & 3) == CFile::modeWrite ? CFile::modeCreate : CFile::modeNoTruncate;
 
   openParms |= CFile::typeBinary | CFile::shareDenyNone;
-
-  if ((openParms & 3) == CFile::modeRead) pbuf = ebuf = buf;
-  else                                   {pbuf = buf; ebuf = buf + noElements(buf);}
-
-  path = filePath;   return cfile.Open(path, openParms, &err) != 0;
   }
 
 
@@ -51,9 +61,16 @@ bool FileIO::reOpen() {
 
   if (isOpen()) return true;   if (path.isEmpty()) return false;
 
-  if (cfile.Open(path, openParms, &err) != 0) {cfile.Seek(pos, 0);   return true;}
+  if (cfile.Open(path, openParms, &err) != 0) {cfile.Seek(pos, 0); pbuf = ebuf = buf; return true;}
 
   return false;
+  }
+
+
+void FileIO::seekEnd() {
+  if ((lastOP & Write) && (openParms & WriteMode)) flush();
+
+  pos = cfile.SeekToEnd(); pbuf = ebuf = buf;
   }
 
 
@@ -74,7 +91,6 @@ CFileStatus status;
 
   time = status.m_mtime; return true;
   }
-
 
 
 bool FileIO::write(TCchar* s) {
@@ -170,7 +186,7 @@ bool FileIO::write(Byte v) {
 
 
 
-void FileIO::sendChar(char ch) {if (pbuf >= ebuf) flush();   *pbuf++ = ch;}
+void FileIO::sendChar(char ch) {if (pbuf >= ebuf) flush();   *pbuf++ = ch;  lastOP = Write;}
 
 
 void FileIO::flush() {
@@ -178,7 +194,7 @@ uint noBytes = (uint) (pbuf - buf);
 
   if (noBytes) try {cfile.Write(buf, noBytes);} catch (CFileException* e) {saveExcp(e); return;}
 
-  pbuf = buf;
+  pbuf = buf;   ebuf = buf + noElements(buf);
   }
 
 
@@ -257,7 +273,7 @@ bool FileIO::getChar(char& ch) {
 
   if (pbuf >= ebuf && !fillBuf()) return false;
 
-  ch = *pbuf++; return true;
+  ch = *pbuf++;   lastOP = Read;   return true;
   }
 
 

@@ -18,21 +18,22 @@ ResourceData::ResourceData(String& path) : success(false), handle(0), data(0), d
   initialize(path);
   }
 
+ResourceData::~ResourceData() {NewAlloc(Byte); FreeArray(data); data = 0; success = false;}
+
+
 
 
 void ResourceData::initialize(String& path) {
-struct LANGANDCODEPAGE {
-  WORD wLanguage;
-  WORD wCodePage;
-} *lpTranslate;
+struct LANGANDCODEPAGE {WORD wLanguage; WORD wCodePage;} *lpTranslate;
 uint   cbTranslate;
 uint   lng;
+
 
   this->path = path;
 
   dataSize = GetFileVersionInfoSize( path, &handle);    if (!dataSize) return;
 
-  data = new Byte[dataSize];
+  NewAlloc(Byte); data = AllocArray(dataSize);
 
   if (!GetFileVersionInfo(path, handle, dataSize, data)) return;
 

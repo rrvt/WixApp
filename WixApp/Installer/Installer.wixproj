@@ -35,7 +35,7 @@
     <EmbeddedResource Include="My_en-us.wxl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WixApp.sln\WixApp.vcxproj">
+    <ProjectReference Include="..\WixApp\WixApp.vcxproj">
       <Name>WixApp</Name>
       <Project>{e43069c0-1479-46e1-9e05-9768afde2d20}</Project>
       <Private>True</Private>

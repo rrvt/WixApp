@@ -9,6 +9,8 @@
 // Call as follows:
 // qsort(&array[firstIndex], &array[lastIndex]);   or equivalent
 
+#pragma once
+
 
 template <class N>
 

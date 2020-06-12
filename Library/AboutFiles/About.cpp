@@ -6,7 +6,6 @@
 #include "resources.h"
 
 
-
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD) { }
 
 

@@ -24,6 +24,8 @@ bool           rtnSeen;
 int            tabSize;
 int            col;
 
+int            lastOP;
+
 public:
 
 enum OpenParms {Read=1, Write=2, Create=4};
@@ -31,8 +33,11 @@ enum OpenParms {Read=1, Write=2, Create=4};
   FileIO();
  ~FileIO() {close();}
 
-  bool open(String& filePath, OpenParms parms);
+  void setMode(int parms);                   // Set if parms
+  bool open(String& filePath, int parms);
   void close();
+
+  void seekEnd();
 
   bool reOpen();
 

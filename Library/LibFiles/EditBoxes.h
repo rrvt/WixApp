@@ -3,73 +3,22 @@
 
 
 #pragma once
-#include "Expandable.h"
+#include "EditBox.h"
 
 
-enum BoxType {NilBox, TimeBox, OrdinalClassBox, OrdinalRideBox, BreakBox};
-
-
-class EditBox {
-bool    created;
-BoxType boxType;
-CEdit*  box;
-String  initialVal;
-int     vertPos;
-
-public:
-  EditBox() : created(false), boxType(NilBox), box(0), vertPos(0) { }
- ~EditBox() {clearBox();}
-
-  void create(int vPos, RECT& rect, CWnd* view, int id, bool integerOnly = false);
-
-  void set(String& s, BoxType bt) {initialVal = s; boxType = bt;}
-
-  void setFocus() {
-    if (created) {
-      box->SetFocus(); box->SetSel(0, -1); box->SetSel(-1);
-      }
-    }
-
-  int  getVertPos() {return vertPos;}
-
-  void getRect(RECT& rect);
-
-  void getWindowPos(HWND hWnd, int* x, int* y);
-
-  void getLine(String& line);
-
-  void clearBox() {
-    if (created) box->DestroyWindow(); created = false;
-    }
-
-  friend class EditBoxes;
-  friend struct EditBoxP;
-  };
+//enum BoxType {NilBox, TimeBox, OrdinalClassBox, OrdinalRideBox, BreakBox};
 
 
 struct EditBoxP {
 EditBox* p;
-  EditBoxP() {p = new EditBox;}
- ~EditBoxP() {p = 0;}
 
- EditBoxP(EditBoxP& fd) {copy(fd, *this);}
 
- EditBoxP& operator= (EditBoxP& fd) {copy(fd, *this); return *this;}
+  EditBoxP() {NewAlloc(EditBox); p = AllocNode;}
+ ~EditBoxP() {NewAlloc(EditBox); FreeNode(p); p = 0;}
 
-private:
+  EditBoxP(EditBoxP& fd) {p = fd.p;}
 
-  void copy(EditBoxP& src, EditBoxP& dst) {
-    EditBox* q = dst.p;
-    EditBox* r = src.p;
-    if (!r) {dst.p = 0; return;}
-
-    if (!q) q = dst.p = new EditBox;
-
-    q->created = r->created;
-    q->boxType = r->boxType;
-    q->box = r->box;
-    q->initialVal = r->initialVal;   q->vertPos = r->vertPos;
-    }
+  EditBoxP& operator= (EditBoxP& fd) {p = fd.p; return *this;}
   };
 
 
@@ -81,7 +30,7 @@ Expandable<EditBoxP, 64> boxes;
 public:
 
   EditBoxes() : view(0) {}
- ~EditBoxes() {clear();}
+ ~EditBoxes() {deleteBoxes();}
 
   void    setView(CWnd* v) {view = v;}
 
@@ -90,8 +39,8 @@ public:
   void    set(    int x, String& s, BoxType bt) {if (-1 < x && x < boxes.end()) boxes[x].p->set(s, bt);}
   void    setFocus(int x)              {if (-1 < x && x < boxes.end()) boxes[x].p->setFocus();}
   void    getLine(int x, String& line) {if (-1 < x && x < boxes.end()) boxes[x].p->getLine(line);}
-  void    clear(int x)                 {if (-1 < x && x < boxes.end()) boxes[x].p->clearBox();}
-  void    clear();
+  void    deleteBox(int x)                 {if (-1 < x && x < boxes.end()) boxes[x].p->deleteBox();}
+  void    deleteBoxes();
   int     getVertPos(int x)            {return -1 < x && x < boxes.end() ? boxes[x].p->getVertPos() : 0;}
   void    getRect(int x, RECT& rect) {
             if (-1 < x && x < boxes.end()) boxes[x].p->getRect(rect);
@@ -100,7 +49,7 @@ public:
   void    getWindowPos(int x, int* xx, int* yy)
                             {if (-1 < x && x < boxes.end()) boxes[x].p->getWindowPos(getHWND(x), xx, yy);}
 
-  HWND    getHWND(int x) {return -1 < x && x < boxes.end() ? boxes[x].p->box->m_hWnd : 0;}
+  HWND    getHWND(int x) {return -1 < x && x < boxes.end() ? boxes[x].p->m_hWnd : 0;}
 
   String getInitialVal(int x) {
     if (-1 < x && x < boxes.end()) return boxes[x].p->initialVal;
@@ -121,7 +70,7 @@ int x;
 public:
 
   EditBoxX() {x = -1; get();}
- ~EditBoxX() {if (x > -1) editBoxes.clear(x);}
+ ~EditBoxX() {if (x > -1) editBoxes.deleteBox(x);}
 
   operator int() {if (x < 0) get();  return x;}
 
@@ -137,7 +86,7 @@ public:
 
   void getLine(String& line) {if (x < 0) get(); editBoxes.getLine(x, line);}
 
-  void clear() {if (x >= 0) editBoxes.clear(x);}
+  void deleteBox() {if (x >= 0) editBoxes.deleteBox(x);}
 
   HWND getHWND() {return editBoxes.getHWND(x);}
   };

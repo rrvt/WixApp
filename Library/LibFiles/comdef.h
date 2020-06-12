@@ -312,7 +312,7 @@ inline _com_error::_com_error(const _com_error& that) throw()
     }
 }
 
-inline _com_error::~_com_error() throw()
+inline _com_error::~_com_error()  throw()
 {
     if (m_perrinfo != NULL) {
         m_perrinfo->Release();

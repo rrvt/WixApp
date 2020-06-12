@@ -16,15 +16,15 @@ bool   strikeout;
 String face;
 
   FontAttributes() : dc(0), sz(0), bold(false), italic(false), underline(false), strikeout(false) {}
-  FontAttributes(FontAttributes& fd) {copy(fd, *this);}
+  FontAttributes(FontAttributes& fd) {copy(fd);}
 
-  FontAttributes& operator= (FontAttributes& fd) {copy(fd, *this); return *this;}
+  FontAttributes& operator= (FontAttributes& fd) {copy(fd); return *this;}
 
 private:
 
-  void copy(FontAttributes& src, FontAttributes& dst) {
-    dst.dc = src.dc;   dst.sz = src.sz;    dst.bold = src.bold;  dst.italic = src.italic;
-    dst.underline = src.underline;   dst.strikeout = src.strikeout;   dst.face = src.face;
+  void copy(FontAttributes& src) {
+    dc        = src.dc;           sz        = src.sz;          bold = src.bold;  italic = src.italic;
+    underline = src.underline;    strikeout = src.strikeout;   face = src.face;
     }
   };
 

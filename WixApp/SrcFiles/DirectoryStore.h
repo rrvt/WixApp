@@ -90,7 +90,7 @@ void DirStore<Data, n>::outputSubs(String& parent, int tab) {
 DirStorIter iter(*this);
 DirDesc*    dsc;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
+  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
 
 if (dsc->parent == _T("MakeApp\\TestApp.prj") || dsc->id == _T("MakeApp\\TestApp.prj")) {
 int x = 1;
@@ -150,7 +150,7 @@ DirDesc*    dsc;
 String      uniID;
 String      line;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
+  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
 
     if (!dsc->inUse) continue;
 
@@ -167,7 +167,7 @@ DirStorIter iter(*this);
 DirDesc*    dsc;
 Component*  cmp;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
+  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
 
     if (dsc->id.isEmpty()) continue;
 
@@ -228,20 +228,21 @@ DirDesc* dsc;
 
 template <class Data, const int n>
 void DirStore<Data, n>::writeWixData() {
-int      nToWrite;
-String   section;
-String   e = ext;
-DirDesc* dsc;
-int      i;
+EStoreIter<Data, n> iter(*this);
+int                 nToWrite;
+String              section;
+String              e = ext;
+DirDesc*            dsc;
+int                 i;
 
-  for (nToWrite = 0, dsc = startLoop(); dsc; dsc = nextItem())
+  for (nToWrite = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem())
                                                         if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
 
   e.upperCase();   section.format(DfltSection, e.str());
 
   wxd.writeInt(section, NoKeys, nToWrite);
 
-  for (i = 0, dsc = startLoop(); dsc; dsc = nextItem(), i++) {
+  for (i = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem(), i++) {
 
     section.format(DirDescSect, e.str(), i);
 

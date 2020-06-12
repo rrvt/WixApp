@@ -54,11 +54,11 @@ IconDesc* dsc;
 int       i;
 
 
-  for (nToWrite = 0, dsc = iter.startLoop(); dsc; dsc = iter.next())
+  for (nToWrite = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem())
                                                         if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
   wxd.writeInt(IconsSection, NoKeys, nToWrite);
 
-  for (i = 0, dsc = iter.startLoop(); dsc; dsc = iter.next(), i++) {
+  for (i = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem(), i++) {
 
     section.format(IconSection, i);
 
@@ -138,7 +138,7 @@ ListIter  iter(iconList);
 IconDesc* dsc;
 bool      rslt = true;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.next()) if (!dsc->validate()) rslt &= false;;
+  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) if (!dsc->validate()) rslt &= false;;
 
   return rslt;
   }
@@ -149,7 +149,7 @@ void Icons::output(int tab) {
 ListIter  iter(iconList);
 IconDesc* dsc;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
+  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
     dsc->outputOne(tab);
     }
   }

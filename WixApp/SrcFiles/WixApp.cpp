@@ -14,11 +14,6 @@
 #include "afxdialogex.h"
 
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#endif
-
-
 // WixApp
 
 BEGIN_MESSAGE_MAP(WixApp, CWinAppEx)

@@ -35,18 +35,18 @@ Expandable <Data, n> data;
   void  delItem(String& id);
 
   void  editUpdate(ComboBox& cb);
-  void  loadCB(ComboBox& cb);
-  Data* storeCB(ComboBox& cb);
+  void  loadCB(    ComboBox& cb);
+  Data* storeCB(   ComboBox& cb);
 
   void  setCur(String& s, ComboBox& cb);         // Set current icon in combobox to s
   void  setNewCur(ComboBox& cb);                 // Respond to change in combo box
   void  leavingCB(ComboBox& cb);                 // Leaving combo box, check for a new name in edit box
-  void  delItem(ComboBox& cb);
+  void  delItem(  ComboBox& cb);
 
-  Data* startLoop() {loopX = 0; return loopX < data.end() ? &data[loopX] : 0;}
-  Data* nextItem()  {loopX++;   return loopX < data.end() ? &data[loopX] : 0;}
 
 private:
+//  Data* startLoop() {loopX = 0; return loopX < data.end() ? &data[loopX] : 0;}
+//  Data* nextItem()  {loopX++;   return loopX < data.end() ? &data[loopX] : 0;}
 
   void  setCurData(String& id);
   void  delData();
@@ -65,7 +65,7 @@ public:
  ~EStoreIter() { }
 
   Data* startLoop() {i = 0; return retNext();}
-  Data* next()      {i++;   return retNext();}
+  Data* nextItem()      {i++;   return retNext();}
 
 private:
 

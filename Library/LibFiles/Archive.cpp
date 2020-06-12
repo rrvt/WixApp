@@ -4,8 +4,11 @@
 
 #include "stdafx.h"
 #include "Archive.h"
-#include "CDoc.h"
 
 
 
+ArchManip aCrlf;                  // add to stream to terminate a line on display: dsp << "xyz" << dCrlf;
+
+
+void Archive::initialize() {aCrlf.n = this; aCrlf.func = Archive::doCrlf;}
 

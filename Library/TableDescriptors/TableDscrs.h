@@ -28,7 +28,7 @@ bool      selected;
 
 class TableDscrs {
 int                      i;
-Expandable<TableDsc, 64> dscrs;
+Expandable<TableDsc, 2> dscrs;
 
 public:
 

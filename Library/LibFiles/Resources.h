@@ -18,7 +18,7 @@ String path;
 
   ResourceData();
   ResourceData(String& path);
- ~ResourceData() {delete[] data; data = 0; success = false;}
+ ~ResourceData();
 
   bool   getAppID(String& s);
   String getAboutNameVer();

@@ -4,7 +4,7 @@
 #pragma once
 #include "AceDao.h"
 #include "Expandable.h"
-#include "ArchiveIO.h"
+//#include "ArchiveIO.h"
 #include <map>
 
 
@@ -36,8 +36,8 @@ public:
   virtual  String getFldVal(int i) {return _T("");}
 
 
-  virtual  void write(ArchiveIO& ario) {}
-  virtual  void read( ArchiveIO& ario) {}
+//  virtual  void write(ArchiveIO& ario) {}
+//  virtual  void read( ArchiveIO& ario) {}
   };
 
 

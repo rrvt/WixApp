@@ -50,6 +50,7 @@ RegExpr         regExpr;
 WIN32_FIND_DATA findData;
 HANDLE          h;
 BOOL            rslt;
+NewAlloc(FSNode);
 
   tgtNames.removeAll();
 
@@ -72,7 +73,7 @@ BOOL            rslt;
         if (!_tcscmp(findData.cFileName, _T(".."))) continue;
 
         if (all || regExpr.match(findData.cFileName)) {
-          FSNode* fnd = new FSNode;
+          FSNode* fnd = AllocNode;
           fnd->name = curPath; fnd->name += findData.cFileName; fnd->name += pathSepChar;
           tgtNames.append(fnd);
           }
@@ -81,7 +82,7 @@ BOOL            rslt;
 
     else if (!isDirectory) {
       if (all || regExpr.match(findData.cFileName)) {
-        FSNode* fnd = new FSNode;
+        FSNode* fnd = AllocNode;
         fnd->name = curPath; fnd->name += findData.cFileName;
         tgtNames.append(fnd);
         }
@@ -101,7 +102,7 @@ BOOL            rslt;
 bool FileSrch::getName(String& name) {
 FSNode* node = tgtNameLoop.removeHead();
 
-  if (node) {name = node->name; delete node; return true;}
+  if (node) {NewAlloc(FSNode); name = node->name; FreeNode(node); return true;}
 
   return false;
   }
@@ -116,6 +117,9 @@ int lng;
   }
 
 
-FSNode* FSNode::clone() {FSNode* node = new FSNode;  node->name = name; return node;}
+FSNode* FSNode::clone() {NewAlloc(FSNode);  FSNode* node = AllocNode;  node->name = name; return node;}
 
+
+
+void FSNode::remove() {NewAlloc(FSNode); FreeNode(this);}
 

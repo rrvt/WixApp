@@ -32,7 +32,7 @@ String      s;
 
   fo.write(title); fo.crlf(); fo.crlf();
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
+  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
 
     if (!dsc->inUse || dsc->id.isEmpty()) continue;
 

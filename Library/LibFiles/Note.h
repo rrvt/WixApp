@@ -39,7 +39,7 @@ bool   debug;
 
   Note* clone();
 
-  void      remove() {delete this;}
+  void  remove() {NewAlloc(Note); FreeNode(this);}
   };
 
 
@@ -47,7 +47,7 @@ class NoteList : public List {
 public:
 
   NoteList() {};
- ~NoteList() {};
+ ~NoteList() {removeAll();};
 
   // Copy one list into another calling Note::clone to create a new node and copy data from one
   // node into another.

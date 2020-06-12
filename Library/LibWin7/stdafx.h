@@ -29,6 +29,7 @@
 #include <afxcmn.h>                         // MFC support for Windows Common Controls
 #endif
 
+#include <afxdialogex.h>
 #include <afxcontrolbars.h>                 // MFC support for ribbons and control bars
 
 #include <comutil.h>
@@ -42,4 +43,5 @@ using namespace std;
 typedef basic_string<Tchar> tstring;
 
 #include "Strings.h"
+#include "Variant.h"
 

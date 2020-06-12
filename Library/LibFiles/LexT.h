@@ -79,6 +79,7 @@ Token* token;                   // token returned    static const
 Token* token1;                  // Next token in input stream
 
   LexT();
+ ~LexT() {NewAlloc(Token); FreeNode(token); FreeNode(token1); token = token1 = 0;}
 
   void        initialize();                      // Initialize input mechanism
 
@@ -177,7 +178,8 @@ static Character_Classes character_class_table[] = {
 
 template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
                    LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::LexT() : pline(0), backOne(0) {
-  token = new Token; token1 = new Token; source[0] = &source_line; source[1] = &source_line1;
+  NewAlloc(Token); token = AllocNode; token1 = AllocNode;
+  source[0] = &source_line; source[1] = &source_line1;
   }
 
 

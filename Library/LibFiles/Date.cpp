@@ -171,7 +171,7 @@ bool Date::amPM(int& h, String& txt) {
   }
 
 
-static const double secPerDay = 60 * 60 * 24;
+static const double secPerDay = 86400;   // 60 * 60 * 24
 
 
 
@@ -183,10 +183,11 @@ variant_t v;
   }
 
 
-String Date::getTime() {CString s; s = dt.Format("%X"); return s;}
+String Date::getTime() {CString s; s = dt.Format(_T("%X")); return s;}
 
 
-String Date::getDate() {CString s = dt.Format("%x");  return s;}
+String Date::getDate() {CString s = dt.Format(_T("%x"));  return s;}
+
 
 
 String Date::dayOfWeek() {CString s = dt.Format("%a"); return s;}

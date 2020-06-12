@@ -13,13 +13,13 @@ bool  allocated;
 
   ByteBlock()                 : noBytes(0), bytes(0), allocated(false) {}
   ByteBlock(ulong n, Byte* d) : noBytes(n), bytes(d), allocated(false) {}
- ~ByteBlock() {if (allocated) delete [] bytes; noBytes = 0; bytes = 0;}
+ ~ByteBlock() {if (allocated) {NewAlloc(Byte); FreeNode(bytes);} noBytes = 0; bytes = 0;}
   };
 
 
 class Crypt {
 
-BOOL initialized;
+BOOL       initialized;
 HCRYPTPROV hProv;
 HCRYPTHASH hHash;
 HCRYPTKEY  hKey;

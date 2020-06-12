@@ -39,7 +39,10 @@ Tab xTab;
 
 // set cursorPos to next tab position and return new position and type
 
-Tab TextPosition::tab() {Tab tab = findNextTab();   cursorPos = tab.pos; return tab;}
+Tab TextPosition::tab() {
+Tab tab = findNextTab();
+  cursorPos = tab.pos; return tab;
+  }
 
 
 Tab TextPosition::findNextTab() {

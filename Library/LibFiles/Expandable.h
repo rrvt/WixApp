@@ -9,6 +9,11 @@
 //      object *this and returns *this
 //   -- Destructor, e.g. ~Data() that releases objects obtained from the heap and zeros all data
 //      components
+// Furthermore, if the Data class contains a pointer to an object, then the copy operator must be
+// considered to be a move operator.  This means that the Data destructor must do no more than place
+// a zero in the pointer.  In the event that there are a mix of pointers and say Strings (which have
+// allocated content) then the Strings must be allowed to destruct normally and the pointers must just be
+// zeroed.
 
 
 #pragma once
@@ -23,9 +28,12 @@ Data* tbl;
 
 public:
 
-  Expandable()              : endN(0), tblN(n > 0 ? n : 1), tbl(new Data[tblN]) { }
+  Expandable() : endN(0), tblN(n > 0 ? n : 1) {NewAlloc(Data); tbl = AllocArray(tblN);} //new Data[tblN];
 
- ~Expandable() {if (tbl) delete [] tbl; tbl = 0; endN = tblN = 0;}
+ ~Expandable() {
+    if (tbl) {NewAlloc(Data);  FreeArray(tbl);}
+    tbl = 0; endN = tblN = 0;
+    }
 
   Expandable& operator= (Expandable& e) {clr(); copy(e); return *this;}
 
@@ -99,11 +107,11 @@ private:
 
     while (tblN <= i && tblN < INT_MAX/2) tblN = tblN ? tblN * 2 : 1;
 
-    tbl = new Data[tblN];
+    NewAlloc(Data); tbl = AllocArray(tblN);
 
-    for (j = 0; j < nItems; j++, p++) {tbl[j] = *p; ZeroMemory(p, sizeof(Data));}
+    for (j = 0; j < nItems; j++, p++) tbl[j] = *p;
 
-    delete [] q;
+    FreeArray(q);
     }
   };
 

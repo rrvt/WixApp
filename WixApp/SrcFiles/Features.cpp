@@ -108,13 +108,13 @@ String     prefix;
 Feature*   ftr;
 int        nToWrite;
 
-  for (nToWrite = 0, ftr = iter.startLoop(); ftr; ftr = iter.next())
+  for (nToWrite = 0, ftr = iter.startLoop(); ftr; ftr = iter.nextItem())
                                     if (ftr->save && !ftr->isUninstall && !ftr->id.isEmpty()) nToWrite++;
 
   wxd.writeInt(FtrsSection, FtrsCountKey, nToWrite);
   if (!store.curID.isEmpty()) wxd.writeString(FtrsSection, CurSelKey,    store.curID);
 
-  for (i = 0, ftr = iter.startLoop(); ftr; ftr = iter.next()) {
+  for (i = 0, ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) {
 
     if (!ftr->save || ftr->isUninstall || ftr->id.isEmpty()) continue;
 
@@ -133,12 +133,12 @@ int        nToWrite;
 
   writeCurSel();
 
-  for (nToWrite = 0, ftr = iter.startLoop(); ftr; ftr = iter.next())
+  for (nToWrite = 0, ftr = iter.startLoop(); ftr; ftr = iter.nextItem())
                             if (ftr->save && !ftr->isUninstall && !ftr->id.isEmpty()) nToWrite++;
 
   wxd.writeInt(Section, NoKey, nToWrite);
 
-  for (i = 0, ftr = iter.startLoop(); ftr; ftr = iter.next()) {
+  for (i = 0, ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) {
 
     if (!ftr->save || ftr->isUninstall || ftr->id.isEmpty()) continue;
 
@@ -153,7 +153,7 @@ Iter iter(store);
 
   if (ftr && ftr->save && !ftr->isUninstall && !ftr->id.isEmpty()) {writeCurID(ftr->id); return;}
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) {
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) {
     if (ftr && ftr->save && !ftr->isUninstall && !ftr->id.isEmpty()) {writeCurID(ftr->id); return;}
     }
   }
@@ -193,7 +193,7 @@ String   id;
 
     Iter iter(store);
 
-    for (ftr = iter.startLoop(); ftr; ftr = iter.next())
+    for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem())
                               if (ftr->id.find(_T("< Feature ")) >= 0) {store.delItem(ftr->id); break;}
     return;
     }
@@ -253,7 +253,7 @@ Iter iter(store);
 Feature*   ftr;
 Component* c;
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) {c = ftr->findAnApp(); if (c) return c;}
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) {c = ftr->findAnApp(); if (c) return c;}
 
   return 0;
   }
@@ -264,7 +264,7 @@ Iter iter(store);
 Feature*     ftr;
 bool       crlfOut = false;
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) ftr->outputSetPath(tab, crlfOut);
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) ftr->outputSetPath(tab, crlfOut);
   }
 
 
@@ -278,7 +278,7 @@ String     line;
 
   wix.lit(tab, _T("<Feature Id=\"ProductFeatures\" Title=\"Main Product\" Level=\"1\" >\n"));
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next())
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem())
                             wix.out(tab+1, _T("<ComponentGroupRef Id=\""), ftr->wixID, _T("\"/>"));
 
   wix.lit(tab, _T("</Feature>\n"));
@@ -293,7 +293,7 @@ String       line;
   wix.crlf();
   wix.lit(0, _T("<Fragment>\n"));
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) {
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) {
 
     wix.out(tab, _T("<ComponentGroup Id=\""), ftr->wixID, _T("\">"));
 
@@ -310,7 +310,7 @@ void Features::markIconsUsed() {
 Iter iter(store);
 Feature*   ftr;
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) {
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) {
     ftr->markIconsUsed();
     }
   }
@@ -320,7 +320,7 @@ void Features::markDirs() {
 Iter iter(store);
 Feature*   ftr;
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) ftr->markDirs();
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) ftr->markDirs();
   }
 
 
@@ -329,7 +329,7 @@ Iter iter(store);
 Feature*     ftr;
 bool       rslt = true;
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) if (!ftr->validate()) rslt &= false;
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) if (!ftr->validate()) rslt &= false;
 
   return rslt;
   }
@@ -339,6 +339,6 @@ void Features::outputComponents() {
 Iter iter(store);
 Feature*  ftr;
 
-  for (ftr = iter.startLoop(); ftr; ftr = iter.next()) ftr->output();
+  for (ftr = iter.startLoop(); ftr; ftr = iter.nextItem()) ftr->output();
   }
 

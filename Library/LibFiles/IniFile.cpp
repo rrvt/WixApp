@@ -8,6 +8,21 @@
 #include <Shlobj.h>
 
 
+const int BufSize = 1024;
+
+
+IniFile::~IniFile() {
+Tchar* p;
+
+  if (app) {
+    p = (Tchar*) app->m_pszProfileName;
+
+    if (p)   {NewAlloc(Tchar); FreeArray(p);   app->m_pszProfileName = 0;}
+    if (buf) {NewAlloc(Tchar); FreeArray(buf); buf                   = 0;}
+    }
+  }
+
+
 String IniFile::getAppDataPath(TCchar* helpPath) {
 Tchar   stg[1024];
 String path;
@@ -38,27 +53,28 @@ HRESULT rslt;
 
   iniFilePath += mainName; iniFilePath += _T(".ini");
 
-  checkPath(); setTheAppPath(theApp);
+  checkPath(); setTheAppPath(theApp);   app = &theApp;
   }
 
 
 void IniFile::setFilePath(String& pth, CWinApp& theApp)
-                                    {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
+                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);   app = &theApp;}
 
 
 void IniFile::setFilePath(TCchar* pth, CWinApp& theApp)
-                                    {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
+                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);   app = &theApp;}
 
 
 void IniFile::setTheAppPath(CWinApp& theApp) {
-int     lng  = iniFilePath.size() + 4;
 TCchar* prfl = theApp.m_pszProfileName;
 
   try {if (prfl) free((void*) prfl);} catch (...) {}
 
-  theApp.m_pszProfileName = new Tchar[lng];
+  pathLng  = iniFilePath.size() + 4;
 
-  _tcscpy_s((Tchar*) theApp.m_pszProfileName, lng, iniFilePath);
+  NewAlloc(Tchar);   theApp.m_pszProfileName = AllocArray(pathLng);
+
+  _tcscpy_s((Tchar*) theApp.m_pszProfileName, pathLng, iniFilePath);   app = &theApp;
   }
 
 
@@ -124,9 +140,9 @@ CFile cFile(iniFilePath, CFile::modeWrite);
 Tchar* IniFile::startReadSection() {
 int n;
 
-  if (!buf) {buf = new Tchar[1024]; p = buf;}
+  if (!buf) {NewAlloc(Tchar);   buf = AllocArray(BufSize); p = buf;}
 
-  n = GetPrivateProfileString(0, 0, 0, buf, 1024, iniFilePath);
+  n = GetPrivateProfileString(0, 0, 0, buf, BufSize, iniFilePath);
 
   q = p + n;  return getSection();
   }

@@ -3,40 +3,16 @@
 
 #pragma once
 
-#include "TextPosition.h"
 #include "FontMgr.h"
-
-//#include "Debug.h"
-
-enum {MaxTabs = 20, Margin = 3};
+#include "ManipT.h"
+#include "TextPosition.h"
 
 
 class Display;
 
 
-struct Manip {
-
-typedef Display& (*Func)(Display&);
-
-Display* d;
-Func     func;
-
-  Manip()                        : d(0),   func(0)    {}
-  Manip(Display* dsp, Func func) : d(dsp), func(func) {}
-  };
-
-
-struct Manip1 {
-
-typedef Display& (*Func)(Display&, int);
-
-Func     func;
-int      v;
-
-  Manip1()                : func(0), v(0)   {}
-  Manip1(Func f, int val) : func(f), v(val) {}
-  };
-
+typedef ManipT<   Display> DspManip;
+typedef ManipValT<Display> DspManip1;
 
 
 class Display {
@@ -46,9 +22,10 @@ FontMgr      font;
 int          noPoints;
 POINT        points[20];
 CDC*         dc;
-int          curHeight;                        // Text height
+int          curHeight;                     // Text height
 int          maxHeight;                     // Max text height to deal with font changes
 int          toLine;                        // Distance to Line
+const int    initialYPos;                   // Initial vertical position in pixels from the top of window
 int          y;                             // Vertical position in pixels from top of window
 int          maxY;
 int          topEdge;                       // pixels from top edge of screen/printer
@@ -67,50 +44,74 @@ public:
 
 bool         output;                        // Just count pages when false
 bool         printing;                      // Printing when true, else displaying
-UINT         noPages;
+uint         noPages;
 
   Display();
+  Display(int initY);
  ~Display() {}
 
-  int  getMaxVertPos() {return y;}
+ Display& operator<< (String&    s) {return stg(s);}
+ Display& operator<< (TCchar*    s) {return stg(s);}
+ Display& operator<< (DspManip&  m) {return m.func(*this);}
+ Display& operator<< (DspManip1& m) {m.func(*this, m.v); NewAlloc(DspManip1); FreeNode(&m); return *this;}
 
-  void prepareDisplay( TCchar* face, int fontSize, CDC* pDC, CPrintInfo* pInfo, bool doOutput);
-  void beginPrinting(  CDC* pDC, CPrintInfo* pInfo, bool doOutput);
-  void preparePrinting(TCchar* face, int fontSize);
-  void resetMaxY()    {maxY = 0;}
-  void setMaxY(int t) {if (t > maxY) maxY = t;}
-  void setLMargin(int lm) {tPos.setLeftMargin(lm);}
-  void getMaxPos(int& maxX, int& maxY) {maxX = tPos.maxCursorPos; maxY = this->maxY;}
+ void     prepareDisplay( TCchar* face, int fontSize, CDC* pDC, bool doOutput);
+ void     preparePrinting(TCchar* face, int fontSize, CDC* pDC, bool doOutput);
+ void     beginPrinting(CPrintInfo* pInfo);
 
-  int  getHeight()  {return curHeight;}
-  void crlf();
-  int  getWidth()   {return tPos.width;}
-  bool isEndPage()  {
-    if (endPageFlag) {
-      int x = topEdge;
-    }
-    return printing && endPageFlag && y > topEdge;
-    }
-  bool setEndPage() {endPageFlag = printing; return endPageFlag;}
-  bool withinBounds() {return topEdge < y && y < bottomEdge;}
+ void     clrFont()                       {textOut(); font.uninstall();}
+ void     resetMaxY()                     {maxY = 0;}
+ void     getMaxPos(long& maxX, long& maxY) {maxX = tPos.maxCursorPos; maxY = this->maxY;}
+ bool     withinBounds()                  {return topEdge < y && y < bottomEdge;}
+ bool     isEndPage()                     {return printing && endPageFlag && y > topEdge;}
+ int      getWidth()                      {return tPos.width;}
+ int      getHeight()                     {return curHeight;}
 
-  void initializeFont(TCchar* face, int fontSize);
-  void setFontSize(int fontSize);
-  void setMetric();
-  void setFontBold();
-  void setFontItalicize();
-  void setFontUnderline();
-  void setFontStrikeOut();
-  void prevFont();
-  void boldFont();
-  void italicFont();
-  void underLineFont();
-  void strikeOutFont();
-  void clrFont();
+private:
+
+  static Display& doClrTabs(       Display& d) {d.tPos.clrTabs(); return d;}
+  static Display& doCrlf(          Display& d) {d.textOut(); if (d.nonBlankLine) {d.crlf();}  return d;}
+  static Display& doEndPage(       Display& d);
+  static Display& doTab(           Display& d) {d.textOut();  d.rightTab = d.tPos.tab();  return d;}
+  static Display& doCenter(        Display& d) {d.textOut();  d.center = true;  return d;}
+  static Display& doRight(         Display& d) {d.textOut();  d.right = true;  return d;}
+  static Display& doBeginLine(     Display& d);
+  static Display& doEndLine(       Display& d);
+  static Display& doPrevFont(      Display& d) {d.prevFont();      return d;}
+  static Display& doBoldFont(      Display& d) {d.boldFont();      return d;}
+  static Display& doItalicFont(    Display& d) {d.italicFont();    return d;}
+  static Display& doUnderLineFont( Display& d) {d.underLineFont(); return d;}
+  static Display& doStrikeOutFont( Display& d) {d.strikeOutFont(); return d;}
+  static Display& doFlushFtr(      Display& d);
+
+  static Display& doSetTab(        Display& d, int v) {d.tPos.setTab(v);  return d;}
+  static Display& doSetRTab(       Display& d, int v) {d.tPos.setRTab(v); return d;}
+  static Display& doSetLMargin(    Display& d, int v) {d.tPos.setLeftMargin(v); return d;}
+  static Display& doEditBox(       Display& d, int v);
+  static Display& doFSize(         Display& d, int v) {d.textOut();  d.setFontSize(v);  return d;}
 
 
-  Display& stg(TCchar* stg);
+  void     initialize();
+  Display& stg(TCchar* s) {if (*s) nonBlankLine = true;   sum += s; return *this;}
   Display& stg(String& s) {return this->stg(s.str());}
+
+  int      getMaxVertPos() {return y;}
+
+  void     setMaxY(int t) {if (t > maxY) maxY = t;}
+  void     setLMargin(int lm) {tPos.setLeftMargin(lm);}
+
+  void     crlf();
+  bool     setEndPage() {endPageFlag = printing; return endPageFlag;}
+
+  void     initializeFont(TCchar* face, int fontSize);
+  void     setFontSize(int fontSize);
+  void     setMetric();
+  void     boldFont()      {textOut(); font.setBold();}
+  void     prevFont()      {textOut(); font.prevFont(); setMetric();}
+  void     italicFont()    {textOut(); font.setItalic();}
+  void     underLineFont() {textOut(); font.setUnderLine();}
+  void     strikeOutFont() {textOut(); font.setStrikeOut();}
+
   void     textOut();
   void     fragmentOut(String& s);
   bool     exceedsMargin(String& s);
@@ -121,60 +122,39 @@ UINT         noPages;
   int      findLastChar(String& s);
   void     outError(TCchar* stg);
 
-  friend Display& doClrTabs(      Display& d);
-  friend Display& doSetLMargin(   Display& d, int v);
-  friend Display& doSetTab(       Display& d, int v);
-  friend Display& doSetRTab(      Display& d, int v);
-  friend Display& doFSize(        Display& d, int v);
-  friend Display& doEditBox(      Display& d, int v);
-  friend Display& doTab(          Display& d);
-  friend Display& doCrlf(         Display& d);
-  friend Display& doEndPage(      Display& d);
-  friend Display& doFlushFtr(     Display& d);
-  friend Display& doCenter(       Display& d);
-  friend Display& doRight(        Display& d);
-  friend Display& doBeginLine(    Display& d);
-  friend Display& doEndLine(      Display& d);
-  friend Display& doPrevFont(     Display& d);
-  friend Display& doBoldFont(     Display& d);
-  friend Display& doItalicFont(   Display& d);
-  friend Display& doUnderLineFont(Display& d);
-  friend Display& doStrikeOutFont(Display& d);
+  friend DspManip1& dSetLMargin(int val);
+  friend DspManip1& dSetTab(    int val);
+  friend DspManip1& dSetRTab(   int val);
+  friend DspManip1& dFSize(     int val);
+  friend DspManip1& dEditBox(   int val);
   };
 
 
-inline Display& operator <<(Display& d, String& s) {return d.stg(s);}
-inline Display& operator <<(Display& d, TCchar* s) {return d.stg(s);}
+// No Argument Manipulator
 
-// no Argument Manipulator
-
-extern Manip dClrTabs;        // add to stream to clear tabs:                   dsp << dClrTabs;
-extern Manip dCrlf;           // add to stream to terminate a line on display:  dsp << "xyz" << dCrlf;
-extern Manip dEndPage;        // add to stream to terminate a page when printing or do nothing
-extern Manip dflushFtr;       // add to stream to terminate a footer when printing
-extern Manip dTab;            // add to stream to tab to next tab position:     dsp << dTab << "xyz";
-extern Manip dCenter;         // center the string following up to the nCrlf
-extern Manip dRight;          // right align the string following up to the nCrlf
-extern Manip dBeginLine;      // begin line here
-extern Manip dEndLine;        // end line here -- Does not affect current position
-extern Manip dPrevFont;       // Restore previous font
-extern Manip dBoldFont;
-extern Manip dItalicFont;
-extern Manip dUnderLineFont;
-extern Manip dStrikeOutFont;
-
-
-inline Display& operator <<(Display& d, Manip& manip)  {return manip.func(d);}
+extern DspManip dClrTabs;        // add to stream to clear tabs:                   dsp << dClrTabs;
+extern DspManip dCrlf;           // add to stream to terminate a line on display:  dsp << "xyz" << dCrlf;
+extern DspManip dEndPage;        // add to stream to terminate a page when printing or do nothing
+extern DspManip dflushFtr;       // add to stream to terminate a footer when printing
+extern DspManip dTab;            // add to stream to tab to next tab position:     dsp << dTab << "xyz";
+extern DspManip dCenter;         // center the string following up to the nCrlf
+extern DspManip dRight;          // right align the string following up to the nCrlf
+extern DspManip dBeginLine;      // begin line here
+extern DspManip dEndLine;        // end line here -- Does not affect current position
+extern DspManip dPrevFont;       // Restore previous font
+extern DspManip dBoldFont;
+extern DspManip dItalicFont;
+extern DspManip dUnderLineFont;
+extern DspManip dStrikeOutFont;
 
 // One Argument Manipulator
 
-inline Display& operator <<(Display& d, Manip1& manip)
-                                               {Manip1* m = &manip; m->func(d, m->v); delete m; return d;}
+// insert in stream dsp << dSetTab(n) << ... where n is ~no of characters from margin, etc.
 
-// insert in stream dsp << dSetTab(n) << ... where n is ~no of characters from margin
+DspManip1& dSetLMargin(int val);
+DspManip1& dSetTab(    int val);
+DspManip1& dSetRTab(   int val);
+DspManip1& dFSize(     int val);
+DspManip1& dEditBox(   int val);
 
-Manip1& dSetLMargin(int val);
-Manip1& dSetTab(    int val);
-Manip1& dSetRTab(   int val);
-Manip1& dFSize(     int val);
-Manip1& dEditBox(   int val);
+

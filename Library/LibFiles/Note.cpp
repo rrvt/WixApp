@@ -16,9 +16,5 @@ Note::Note() {
   }
 
 
-Note* Note::clone() {
-Note* p = new Note;
-
-  p->line = line;  return p;
-  }
+Note* Note::clone() {NewAlloc(Note);   Note* p = AllocNode;  p->line = line;  return p;}
 

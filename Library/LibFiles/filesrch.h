@@ -17,7 +17,7 @@ String name;
 
   FSNode* clone();
 
-  void     remove() {delete this;}
+  void     remove();
   };
 
 

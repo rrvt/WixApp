@@ -24,15 +24,6 @@
     <ClInclude Include="..\LibFiles\AceDao.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LibFiles\AppAvail.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LibFiles\AppDoc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LibFiles\ArchiveIO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\LibFiles\Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,16 +42,7 @@
     <ClInclude Include="..\LibFiles\Csv.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LibFiles\CSVrecord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LibFiles\CSVrecords.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\LibFiles\Currency.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LibFiles\DataFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\LibFiles\Date.h">
@@ -70,12 +52,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\LibFiles\Display.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LibFiles\DisplayFns.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\LibFiles\DisplayView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\LibFiles\EditBoxes.h">
@@ -204,12 +180,21 @@
     <ClInclude Include="..\LibFiles\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\LibFiles\EditBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibFiles\ManipT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibFiles\CScrView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibFiles\DisplayDev.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\LibFiles\AceDao.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\LibFiles\AppAvail.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\LibFiles\Button.cpp">
@@ -230,13 +215,7 @@
     <ClCompile Include="..\LibFiles\CryptInit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LibFiles\CSVrecords.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\LibFiles\Currency.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\LibFiles\DataFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\LibFiles\Date.cpp">
@@ -246,9 +225,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\LibFiles\Display.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\LibFiles\DisplayFns.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\LibFiles\EditBoxes.cpp">
@@ -339,6 +315,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\LibFiles\Random.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\EditBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\Archive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\CScrView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\DisplayDev.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

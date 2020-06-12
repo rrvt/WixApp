@@ -52,8 +52,8 @@ Tchar   line[512];
 
 public:
 
-  RegExpr() { line[0] = 0; pattern[0].key = nilKey; }
-  RegExpr(TCchar* pat) { line[0] = 0; setPattern(pat);}
+  RegExpr()            {line[0] = 0; pattern[0].key = nilKey; }
+  RegExpr(TCchar* pat) {line[0] = 0; pattern[0].key = nilKey; setPattern(pat);}
  ~RegExpr() {}
 
   bool setWildCardPattern(TCchar* name);

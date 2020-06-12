@@ -70,15 +70,15 @@ int       nFlds;
 int       nRcds;
 
   TableDesc() : table(0), flds(0), nFlds(0), nRcds(0) {}
-  TableDesc(TableDesc& dsc) {copy(dsc, *this);}
+  TableDesc(TableDesc& dsc) {copy(dsc);}
 
-  TableDesc& operator= (TableDesc& dsc) {copy(dsc, *this); return *this;}
+  TableDesc& operator= (TableDesc& dsc) {copy(dsc); return *this;}
 
   RecordSetP openRecordSet(DaoOptions option);
 
 private:
 
-  void copy(TableDesc& src, TableDesc& dst);
+  void copy(TableDesc& src);    // Error:  Fix
   };
 
 

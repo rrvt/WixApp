@@ -4,6 +4,10 @@
 
 #pragma once
 
+#ifndef _SECURE_ATL
+#define _SECURE_ATL 1
+#endif
+
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN                        // Exclude rarely-used stuff from Windows headers
 #endif
@@ -18,8 +22,6 @@
 #include <afx.h>
 #include <afxwin.h>                         // MFC core and standard components
 #include <afxext.h>                         // MFC extensions
-
-
 #include <afxdisp.h>                        // MFC Automation classes
 
 #ifndef _AFX_NO_OLE_SUPPORT
@@ -30,6 +32,7 @@
 #endif
 
 #include <afxcontrolbars.h>                 // MFC support for ribbons and control bars
+#include <afxdialogex.h>
 
 #include <comutil.h>
 #include <string>
@@ -44,5 +47,8 @@ using namespace std;
 typedef basic_string<Tchar> tstring;
 
 #include "Strings.h"
+#include "Variant.h"
+#include "NewAllocator.h"
+
 
 

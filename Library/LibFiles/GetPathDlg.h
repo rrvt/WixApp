@@ -15,8 +15,15 @@
 
 bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
 
+
+// Overwrites existing file
+
 bool getSaveAsPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
 
+
+// Allows adding to existing file
+
+bool getSaveIncPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
 
 bool getDirPathDlg(TCchar* title, String& path);
 
