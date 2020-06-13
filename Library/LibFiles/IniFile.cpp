@@ -17,8 +17,8 @@ Tchar* p;
   if (app) {
     p = (Tchar*) app->m_pszProfileName;
 
-    if (p)   {NewAlloc(Tchar); FreeArray(p);   app->m_pszProfileName = 0;}
-    if (buf) {NewAlloc(Tchar); FreeArray(buf); buf                   = 0;}
+//    if (p)   {NewAlloc(Tchar); free(p);   app->m_pszProfileName = 0;}
+    if (buf) {NewAlloc(Tchar); FreeArray(buf); buf              = 0;}
     }
   }
 
@@ -72,7 +72,7 @@ TCchar* prfl = theApp.m_pszProfileName;
 
   pathLng  = iniFilePath.size() + 4;
 
-  NewAlloc(Tchar);   theApp.m_pszProfileName = AllocArray(pathLng);
+  theApp.m_pszProfileName = (LPCTSTR) malloc(pathLng*sizeof(TCchar));
 
   _tcscpy_s((Tchar*) theApp.m_pszProfileName, pathLng, iniFilePath);   app = &theApp;
   }
