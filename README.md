@@ -141,7 +141,7 @@ file by using the File/Open menu item in WixApp.  Most things are easily editted
 
 ## Authors
 
-Robert R. Van Tuyl, rrvt@swde.com
+Robert R. Van Tuyl, romeo romeo victor tango alpha tango sam whisky delta echo dot charlie oscar mike
 
 ## License
 
