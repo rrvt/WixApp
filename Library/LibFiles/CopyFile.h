@@ -11,6 +11,7 @@ inline bool moveFile(String& source, String& dst) {return _trename(source, dst) 
 
 //int  backupFile(String& path, int lastBackup, int nBackups);    // Returns last backup index
 
-void backupFile(String& filePath, int noBackups);
+void backupFile(String& filePath, int noBackups);     // Moves filePath to backup name
+void backupCopy(String& filePath, int noBackups);     // Copies filePath to backup name
 
 bool isFilePresent(String& path);

@@ -34,6 +34,8 @@ public:
 
   bool     isOpen()                      {return opened;}
 
+  void     seekEnd()                     {fil.seekEnd();}
+
   bool     write(String&       s)        {return fil.write(s);}             // interprets \n or \r
   bool     write(TCchar*      ts)        {return fil.write(ts);}
   bool     write(Tchar        ch)        {return fil.write(ch);}

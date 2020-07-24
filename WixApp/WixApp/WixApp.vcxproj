@@ -181,9 +181,10 @@ copy $(SolutionDir)..\SrcFiles\res\dialog.bmp $(OutDir)</Command>
     <None Include="..\SrcFiles\res\WixApp.ico" />
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
     <None Include="..\SrcFiles\res\WixApp.rc2" />
-    <None Include="..\Data\MakeApp.wxd" />
     <None Include="..\Data\Product.wxs" />
     <None Include="..\ReadMe.md" />
+    <None Include="C:\Users\rrvt\AppData\Roaming\MakeAppII\MakeAppII.ini" />
+    <None Include="..\..\MakeAppII\Installer\MakeAppII.wxd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\LibUni7\LibUni7.vcxproj">

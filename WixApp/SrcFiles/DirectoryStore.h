@@ -17,25 +17,25 @@ String ext;
   DirStore(TCchar* extension) : ext(extension) {}
  ~DirStore() { }
 
-  DirDesc* add(String& fullPath);
+  Data* add(String& fullPath);
 
-  DirDesc* getDefault() {EStoreIter<Data, n> iter(*this); return iter.startLoop();}
+  Data* getDefault() {EStoreIter<Data, n> iter(*this); return iter();} //
 
-  void     outputSubs(String& parent, int tab);
-  int      noSubs(String& parent);
-  void     outputRemoves(int tab);
+  void  outputSubs(String& parent, int tab);
+  int   noSubs(String& parent);
+  void  outputRemoves(int tab);
 
-  void     prepareUninstalls(Feature* ftr);
+  void  prepareUninstalls(Feature* ftr);
 
-  void     readWixData();
-  void     writeWixData();
+  void  readWixData();
+  void  writeWixData();
 
 private:
-  DirDesc* addOne(String fullPath);
-  void     readDesc(String& section);
-  void     writeDesc(   DirDesc& dsc, String& section);
-  void     outputOne(   DirDesc* dsc, int tab);
-  void     outputParent(DirDesc* dsc, int tab);
+  Data* addOne(String fullPath);
+  void  readDesc(String& section);
+  void  writeDesc(   DirDesc& dsc, String& section);
+  void  outputOne(   DirDesc* dsc, int tab);
+  void  outputParent(DirDesc* dsc, int tab);
 
 
   DirStore() {}
@@ -60,8 +60,8 @@ typedef DirStoreIter<DirDesc, 1> DirStorIter;
 
 
 template <class Data, const int n>
-DirDesc* DirStore<Data, n>::add(String& fullPath) {
-DirDesc* dsc;
+Data* DirStore<Data, n>::add(String& fullPath) {
+Data* dsc;
 
   fullPath.trim();
 
@@ -72,8 +72,8 @@ DirDesc* dsc;
 
 
 template <class Data, const int n>
-DirDesc* DirStore<Data, n>::addOne(String fullPath) {
-DirDesc* dsc;
+Data* DirStore<Data, n>::addOne(String fullPath) {
+Data* dsc;
 
   if (fullPath.isEmpty()) return 0;
 
@@ -90,7 +90,7 @@ void DirStore<Data, n>::outputSubs(String& parent, int tab) {
 DirStorIter iter(*this);
 DirDesc*    dsc;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
+  for (dsc = iter(); dsc; dsc = iter++) {             // .startLoop .nextItem()
 
 if (dsc->parent == _T("MakeApp\\TestApp.prj") || dsc->id == _T("MakeApp\\TestApp.prj")) {
 int x = 1;
@@ -135,7 +135,7 @@ DirStorIter iter(*this);
 DirDesc*    dsc;
 int         no = 0;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.next()) {
+  for (dsc = iter(); dsc; dsc = iter++) {
     if (dsc->parent == parent) no++;
     }
 
@@ -150,7 +150,7 @@ DirDesc*    dsc;
 String      uniID;
 String      line;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
+  for (dsc = iter(); dsc; dsc = iter++) {
 
     if (!dsc->inUse) continue;
 
@@ -167,7 +167,7 @@ DirStorIter iter(*this);
 DirDesc*    dsc;
 Component*  cmp;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
+  for (dsc = iter(); dsc; dsc = iter++) {
 
     if (dsc->id.isEmpty()) continue;
 
@@ -235,14 +235,13 @@ String              e = ext;
 DirDesc*            dsc;
 int                 i;
 
-  for (nToWrite = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem())
-                                                        if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
+  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++) if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
 
   e.upperCase();   section.format(DfltSection, e.str());
 
   wxd.writeInt(section, NoKeys, nToWrite);
 
-  for (i = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem(), i++) {
+  for (i = 0, dsc = iter(); dsc; dsc = iter++, i++) {
 
     section.format(DirDescSect, e.str(), i);
 

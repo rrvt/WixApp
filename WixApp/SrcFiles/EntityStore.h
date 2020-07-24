@@ -7,7 +7,6 @@
 #include "MessageBox.h"
 
 
-
 template <class Data, const int n>
 
 class EntityStore {
@@ -45,8 +44,6 @@ Expandable <Data, n> data;
 
 
 private:
-//  Data* startLoop() {loopX = 0; return loopX < data.end() ? &data[loopX] : 0;}
-//  Data* nextItem()  {loopX++;   return loopX < data.end() ? &data[loopX] : 0;}
 
   void  setCurData(String& id);
   void  delData();
@@ -64,8 +61,8 @@ public:
   EStoreIter(EntityStore<Data,n>& store) : stor(store), i(0), nn(stor.data.end()) {}
  ~EStoreIter() { }
 
-  Data* startLoop() {i = 0; return retNext();}
-  Data* nextItem()      {i++;   return retNext();}
+  Data* operator() ()     {i = 0; return retNext();}
+  Data* operator++  (int) {i++;   return retNext();}
 
 private:
 

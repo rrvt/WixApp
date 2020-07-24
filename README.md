@@ -12,7 +12,35 @@ getting it right, I just sat down one day and started this program.  It has been
 I don't need to think too carefully about getting the WiX input right, I just need to make sure I
 know all the files needed in the output.
 
-## Update May 2020
+## Updates
+
+### July 24, 2020
+
+Add a Save Wix Data button and made an attempt to save everything input.  There is some logic in the
+program to not save some things that are unused.  However, that prevented the user from incrementally
+adding things to the list of file.  The insisting that everything be written when requested seems like
+a better algorithm.
+
+Changed the way the input and output are handled.  Upon selecting the Save Wix Data button a save file
+dialog box is displayed and the user must specify where the data is to go.  It is initialized with the
+last place the data was read from so that it is not a big chore to confirm the location.  This path
+is then used for initial path to the product.wxs file.  This change allows the product name to be
+different from the installer name.
+
+Made some changes in the way loops are formulated using
+  OBIter iter(obj);                      // Where OBIter is the name of a class that implements the iter
+  ...
+  for (p = iter(); p; p = iter++) { ... }
+
+instead of
+
+  for (p = obj.startLoop(); p; p = obj.nextItem()) { ... }
+
+For non-template classes the OBIter class is formed from a simple template typedef.  There is a slightly
+more complex version of the declaration of the Iterator class for template classes but the loop is
+created in the same way.  The iterator always returns a pointer or zero.
+
+###May 2020
 
 It became clear when building the MakeApp program that specifying the Program Files Directory and Start
 Menu Name for each Component was a drag.  They were moved to the Feature section.  Also there was a

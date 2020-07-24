@@ -14,9 +14,12 @@ public:
   Date();
   Date(int hr, int min, int sec) : dt(1901, 1, 1, hr, min, sec) {}
   Date(int yr, int mon, int day, int hr, int min, int sec) : dt(yr, mon, day, hr, min, sec) {}
+  Date(String& s) {*this = s;}
+  Date(CString& cs) {String s = cs; *this = s;}
  ~Date() {}
 
-  Date operator= (String& s);                   // Translates m/d/yy h/m/s all digits to CTime
+  Date operator= (String& s);                    // Translates m/d/yy h/m/s all digits to CTime
+  Date operator= (CString& cs) {String s = cs; return s;}
 
   void getToday() {dt = CTime::GetCurrentTime();}
 
@@ -25,6 +28,8 @@ public:
   Date& operator= (variant_t& v)
           {double t;   if (v.vt == VT_DATE) {t = v; t *= SecondsPerDay; dt = time_t(t);}   return *this;}
 
+  static void onChangeDate(CEdit& ctrl);
+  static void onChangeTime(CEdit& ctrl);
 
   String   getDate();
   String   getTime();

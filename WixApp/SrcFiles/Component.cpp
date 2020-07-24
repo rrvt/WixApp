@@ -354,11 +354,11 @@ String t;
   }
 
 
-bool Component::validate() {
+bool Component::validate(bool rptErrors) {
 struct _stat buffer;
 String s = pathDsc.path();
 
-  if (!s.isEmpty() && (_tstat(s, &buffer) != 0)) {
+  if (!s.isEmpty() && (_tstat(s, &buffer) != 0) && rptErrors) {
 
     String msg = _T("File not found: ") + pathDsc.path();
 

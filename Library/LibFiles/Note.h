@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Node.h"
+#include "Wrap.h"
 
 
 class Note : public Node {
@@ -28,6 +29,7 @@ bool   strikeOut;                 // Strike out font
 bool   center;                    // center all text to crlf in window
 bool   right;                     // right adjust text to crlf in window
 bool   beginLine;                 // begin underline at current position
+Wrap   wrap;                      // Multiple lines to be treated as a group
 String line;                      // add text to output after all of the above is performed
 bool   endLine;                   // end underline at current position
 bool   endPage;                   // end page when printing

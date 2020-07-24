@@ -60,7 +60,9 @@ void Feature::storeProgFileName(WixDataDlg& dialog) {
 String   s   = getText(dialog.progFileEB);
 DirDesc* dsc = pffDirectories.add(s);
 
-  progFileID  = dsc ? dsc->id : _T("");
+  if (!dsc) {progFileID  = _T(""); return;}
+
+  progFileID = dsc->id;  dsc->inUse = true;
   }
 
 
@@ -68,7 +70,9 @@ void Feature::storeMenuName(WixDataDlg& dialog) {
 String   s   = getText(dialog.startMenuEB);
 DirDesc* dsc = pmfDirectories.add(s);
 
-  startMenuID = dsc ? dsc->id : _T("");
+  if (!dsc) {startMenuID = _T(""); return;}
+
+  startMenuID = dsc->id;  dsc->inUse = true;
   }
 
 
@@ -119,7 +123,7 @@ String         cmpSection;
 
   wxd.writeInt(section, NoKey, nComponents());
 
-  for (cmp = iter.startLoop(), i = 0; cmp; cmp = iter.nextItem(), i++) {
+  for (cmp = iter(), i = 0; cmp; cmp = iter++, i++) {
 
     cmpSection.format(CmpSection, prefix.str(), i);   //wxd.writeString(section, key, cmp->id);
 
@@ -227,7 +231,7 @@ String     id;
 
     ComponentsIter iter(components);
 
-    for (cmp = iter.startLoop(); cmp; cmp = iter.nextItem())
+    for (cmp = iter(); cmp; cmp = iter++)
                          if (cmp->id.find(_T("< Component ")) >= 0) {components.delItem(cmp->id); break;}
     return;
     }
@@ -265,7 +269,7 @@ void Feature::delAllComponents(WixDataDlg& dialog) {
 ComponentsIter iter(components);
 Component*     cmp;
 
-  for (cmp = iter.startLoop(); cmp; cmp = iter.nextItem()) delComponent(dialog);
+  for (cmp = iter(); cmp; cmp = iter++) delComponent(dialog);
   }
 
 
@@ -277,8 +281,8 @@ Component* Feature::findAnApp() {
 ComponentsIter iter(components);
 Component*     c;
 
-  for (c = iter.startLoop(); c; c = iter.nextItem()) if (c->isApp && c->isVersionAvail) return c;
-  for (c = iter.startLoop(); c; c = iter.nextItem()) if (c->isOnPath)                   return c;
+  for (c = iter(); c; c = iter++) if (c->isApp && c->isVersionAvail) return c;
+  for (c = iter(); c; c = iter++) if (c->isOnPath)                   return c;
   return 0;
   }
 
@@ -287,7 +291,7 @@ void Feature::markIconsUsed() {
 ComponentsIter iter(components);
 Component*     c;
 
-  for (c = iter.startLoop(); c; c = iter.nextItem()) c->identifyIconUsed();
+  for (c = iter(); c; c = iter++) c->identifyIconUsed();
   }
 
 
@@ -295,7 +299,7 @@ void Feature::markDirs() {
 ComponentsIter iter(components);
 Component*     c;
 
-  for (c = iter.startLoop(); c; c = iter.nextItem()) c->markDirs(*this);
+  for (c = iter(); c; c = iter++) c->markDirs(*this);
 
   defaultPath.mark(wixID);
   }
@@ -309,15 +313,19 @@ void Feature::outputSetPath(int tab, bool& crlfOut) {
 ComponentsIter iter(components);
 Component*     cmp;
 
-  for (cmp = iter.startLoop(); cmp; cmp = iter.nextItem()) cmp->outputSetPath(tab, crlfOut);
+  for (cmp = iter(); cmp; cmp = iter++) cmp->outputSetPath(tab, crlfOut);
   }
 
 
-bool Feature::validate() {
+bool Feature::validate(bool rptErrors) {
 int  i;
 bool rslt = true;
 
-  for (i = 0; i < nComponents(); i++) if (!components.data[i].validate()) rslt &= false;
+if (wixID == _T("TestAppHlp.ftr")) {
+int x = 1;
+}
+
+  for (i = 0; i < nComponents(); i++) if (!components.data[i].validate(rptErrors)) rslt &= false;
 
   return rslt;
   }
@@ -327,7 +335,7 @@ void Feature::outputRefs(int tab) {
 ComponentsIter iter(components);
 Component*     cmp;
 
-  for (cmp = iter.startLoop(); cmp; cmp = iter.nextItem())
+  for (cmp = iter(); cmp; cmp = iter++)
                                       {wix.out(tab, _T("<ComponentRef Id=\""), cmp->wixID, _T("\"/>"));}
   }
 

@@ -5,8 +5,28 @@
 #pragma once
 #include "Expandable.h"
 
+/*
+typedef struct tagLOGFONTW {
+  LONG  lfHeight;
+  LONG  lfWidth;
+  LONG  lfEscapement;
+  LONG  lfOrientation;
+  LONG  lfWeight;
+  BYTE  lfItalic;
+  BYTE  lfUnderline;
+  BYTE  lfStrikeOut;
+  BYTE  lfCharSet;
+  BYTE  lfOutPrecision;
+  BYTE  lfClipPrecision;
+  BYTE  lfQuality;
+  BYTE  lfPitchAndFamily;
+  WCHAR lfFaceName[LF_FACESIZE];
+  } LOGFONTW, *PLOGFONTW, *NPLOGFONTW, *LPLOGFONTW;
 
-struct FontAttributes {
+*/
+
+
+struct FontAttr {
 CDC*   dc;
 int    sz;
 bool   bold;
@@ -15,44 +35,66 @@ bool   underline;
 bool   strikeout;
 String face;
 
-  FontAttributes() : dc(0), sz(0), bold(false), italic(false), underline(false), strikeout(false) {}
-  FontAttributes(FontAttributes& fd) {copy(fd);}
+  FontAttr() {clear();}
+  FontAttr(FontAttr& fd) {copy(fd);}
 
-  FontAttributes& operator= (FontAttributes& fd) {copy(fd); return *this;}
+  void clear() {dc = 0; sz = 0; bold = italic = underline = strikeout = false; face.clear();}
+
+  FontAttr& operator= (FontAttr& fd) {copy(fd); return *this;}
 
 private:
 
-  void copy(FontAttributes& src) {
+  void copy(FontAttr& src) {
     dc        = src.dc;           sz        = src.sz;          bold = src.bold;  italic = src.italic;
     underline = src.underline;    strikeout = src.strikeout;   face = src.face;
     }
   };
 
 
+class FontAttrP {
+public:
+FontAttr* p;
+
+  FontAttrP() {p = 0;}
+  FontAttrP(FontAttrP& attr) {p = attr.p;}
+ ~FontAttrP() {p = 0;}
+
+  void       clear() {if (p) delete p; p = 0;}
+
+  FontAttrP& operator= (FontAttrP& attr) {p = attr.p; return *this;}
+
+  FontAttr* operator() ();
+  };
+
+
 class FontMgr {
-CFont*                         original;
-int                            stkX;
-Expandable <FontAttributes, 4> stk;
+int                       stkX;
+Expandable <FontAttrP, 4> stk;
 
 public:
+LOGFONT curLogFont;
 
-  FontMgr() : stkX(0), original(0) {}
+  FontMgr();
  ~FontMgr();
 
+  void clear();
+
   void initialize(TCchar* face, int fontSize, CDC* dc);
-  void setSize(   int fontSize);
+  void pop();
+  void setSize(int fontSize);
   void setBold();
   void setItalic();
   void setUnderLine();
   void setStrikeOut();
-  int  prevFont();
 
-  FontAttributes* getAttr() {return &stk[stkX];}    // Returns a temporary pointer to the current attr
-
-  void uninstall();
+  FontAttr& getAttr();//    {FontAttrP* ap = &stk[stkX]; return *(*ap)();}
+  LOGFONT&  getLogFont() {return curLogFont;}
 
 private:
 
-;
-  bool setFont(FontAttributes& attr, LOGFONT& logFont);
+  FontAttr& push();
+  void      install(FontAttr& attr, CFont& font);
+  void      update(FontAttr& attr, TCchar* fn);
+  void      createFailed(TCchar* fn);
   };
+

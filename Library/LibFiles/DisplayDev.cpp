@@ -5,49 +5,61 @@
 #include "DisplayDev.h"
 
 
+//#define DebugDD
 
-
-void DisplayDev::initialize() {note = 0; lastPageNo = 0; lastLeftMargin = 0; endDoc = debugging = false;}
-
+#ifdef DebugDD
+static String dbgLastLine[10];
+static void   saveDbgLine(String& line);
+static void   saveDbgWrap(Wrap& w);
+static void   rippleDbgLine();
+#endif
 
 
 void DisplayDev::startDev()
-                        {note = notePadLp.start(); dev.noPages = 0; lastPageNo = 0; lastLeftMargin = 0;}
+             {note = notePadLp.start(); lastPageNo = 0; lastLeftMargin = 0;  endDoc = debugging = false;}
 
 
-  // Output to Device (Display or Printer)
+// Output to Device (Display or Printer)
 
-void DisplayDev::toDevice() {
-bool endLoopNow = false;
+void DisplayDev::operator() () {
+bool endLoop = false;
 
-  for (; note && !endLoopNow; note = notePadLp.nextNode()) {
+  for ( ; note && !endLoop; note = notePadLp.nextNode()) {
 
-    if (note->beginLine)     dev << dBeginLine;
+    if (note->beginLine)    {dev << dBeginLine;                 if (dev.doEndPageChk()) break;}
     if (note->leftMargin != lastLeftMargin)
                             {dev << dSetLMargin(note->leftMargin); lastLeftMargin = note->leftMargin;}
     if (note->clrTabs)       dev << dClrTabs;
     if (note->tabValue)      dev << dSetTab(note->tabValue);
     if (note->rTabValue)     dev << dSetRTab(note->rTabValue);
 
-    if (note->fSize)         dev << dFSize(note->fSize);
-    if (note->prevFont)      dev << dPrevFont;
-    if (note->bold)          dev << dBoldFont;
-    if (note->italic)        dev << dItalicFont;
-    if (note->underline)     dev << dUnderLineFont;
-    if (note->strikeOut)     dev << dStrikeOutFont;
+    if (note->fSize)         {dev << dFSize(note->fSize);       if (dev.doEndPageChk()) break;}
+    if (note->prevFont)      {dev << dPrevFont;                 if (dev.doEndPageChk()) break;}
+    if (note->bold)          {dev << dBoldFont;                 if (dev.doEndPageChk()) break;}
+    if (note->italic)        {dev << dItalicFont;               if (dev.doEndPageChk()) break;}
+    if (note->underline)     {dev << dUnderLineFont;            if (dev.doEndPageChk()) break;}
+    if (note->strikeOut)     {dev << dStrikeOutFont;            if (dev.doEndPageChk()) break;}
 
-    if (note->tab == true)   dev << dTab;
-    if (note->center)        dev << dCenter;
-    if (note->right)         dev << dRight;
+    if (note->tab == true)   {dev << dTab;                      if (dev.doEndPageChk()) break;}
+    if (note->center)        {dev << dCenter;                   if (dev.doEndPageChk()) break;}
+    if (note->right)         {dev << dRight;                    if (dev.doEndPageChk()) break;}
 
-    if (note->editBoxX >= 0) dev << dEditBox(note->editBoxX);
+    if (note->editBoxX >= 0) {dev << dEditBox(note->editBoxX);  if (dev.doEndPageChk()) break;}
 
-                             dev << note->line;
-    if (note->endLine)       dev << dEndLine;
+#ifdef DebugDD
+saveDbgLine(note->line);
+saveDbgWrap(note->wrap);
+#endif
+                              dev << note->line;                if (dev.doEndPageChk()) break;
 
-    if (note->endPage)      {dev << dEndPage; if (dev.isEndPage()) endLoopNow = true;}
+                              dev << note->wrap;                if (dev.doEndPageChk()) break;
 
-    if (note->crlf)         {dev << dCrlf;    if (dev.isEndPage()) endLoopNow = true;}
+
+    if (note->endLine)       {dev << dEndLine;                  if (dev.doEndPageChk()) break;}
+
+    if (note->crlf)          {dev << dCrlf;                     if (dev.doEndPageChk()) break;}
+
+    if (note->endPage)       {dev << dEndPage;                  dev.atEndPageCond(); endLoop = true;}
 
     if (note->debug)         debugging = true;
     }
@@ -57,18 +69,32 @@ bool endLoopNow = false;
 
 
 
-void DisplayDev::printFooter(int pageNo, String& license, Date& licDate) {
-int i;
 
-  if (dev.withinBounds())
-    for (i = 0; !dev.isEndPage() && i < 65; i++) dev << dCrlf;
+#ifdef DebugDD
+void saveDbgWrap(Wrap& w) {
+String* s;
 
-  if (!license.empty()) dev << license;
+  if (w.isEmpty()) return;
 
-  dev << dCenter << toString(pageNo);
-
-  if (!licDate.isEmpty()) {dev << dRight; dev << licDate.getDate();}
-
-  dev << dflushFtr;
+  for (s = w.startLoop(); s; s = w.nextLine()) saveDbgLine(*s);
   }
 
+
+void saveDbgLine(String& line) {
+
+  if (line.isEmpty()) return;
+
+  rippleDbgLine();
+
+  dbgLastLine[noElements(dbgLastLine)-1] = line;
+  }
+
+
+
+void rippleDbgLine() {
+int n = noElements(dbgLastLine);
+int i;
+
+  for (i = 1; i < n; i++) dbgLastLine[i-1] = dbgLastLine[i];
+  }
+#endif

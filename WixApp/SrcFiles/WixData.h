@@ -17,19 +17,22 @@ public:
   WixData() : newFileNow(false) {}
  ~WixData() {}
 
-  void        updatePath(String& s);
   bool        readWixData();              //String& wixPath
-  void        writeWixData();
+  void        writeWixData(TCchar* filePath);
   void        clearAllSections();
 
   void        newFile(WixDataDlg* dialog);
   void        openFile(WixDataDlg* dialog);
   void        setDefaults(WixDataDlg* dialog);
 
-  TCchar*     getWixPath(String& path);
-  void        saveWixPath(TCchar* path);
+//  void        updatePath(String& s);
+//  TCchar*     getWixPath( String& path);
+//  void        saveWixPath(TCchar* path);
 
-  bool        validate();
+  void        getWxdPath( String& path);
+  void        saveWxdPath(TCchar* path);
+
+  bool        validate(bool rptErrors = true);
   void        output();
 
 private:

@@ -34,7 +34,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
-    <None Include="..\Data\MakeApp.wxd" />
     <None Include="..\Data\Product.wxs" />
   </ItemGroup>
   <ItemGroup>

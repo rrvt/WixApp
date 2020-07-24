@@ -11,10 +11,10 @@ PathUnits pathUnits;
 String    version;
 
 public:
-
+PUIter    iter;
 String    name;
 
-  Solution() { }
+  Solution() : iter(pathUnits) { }
  ~Solution() { }
 
   String&  getVersion() {return version;}
@@ -25,15 +25,10 @@ String    name;
   void     clear() {name.clear(); pathUnits.clear();}
   bool     isEmpty() {return pathUnits.isEmpty();}
 
-//  void     loadEB(WixDataDlg& dialog);
-
-//void getRelSolution(String& path, String& varPath);
   void     readWixData();
   void     writeWixData();
 
-  String*  startLoop()  {return pathUnits.startLoop();}
-  String*  nextSubDir() {return pathUnits.nextUnit();}
-  int      noUnits()    {return pathUnits.noUnits();}
+  int      noUnits()    {return pathUnits.nData();}
 
   String*  operator[](int i) {return pathUnits[i];}
   };

@@ -20,6 +20,7 @@
 
 static TCchar* IniSection     = _T("Current");
 static TCchar* IniPathKey     = _T("WixFullPath");
+static TCchar* WxdFilePathKey = _T("WxdFullPath");
 
 
 WixData wixData;
@@ -27,70 +28,62 @@ WixData wixData;
 
 // A new Solution has been found, so update the WixPath on the off chance it is for a new application
 
-void WixData::updatePath(String& s) {String path = getPath(s);   saveWixPath(path);}
+//void WixData::updatePath(String& s) {String path = getPath(s);   saveWixPath(path);}
 
 
 
 bool WixData::readWixData() {
 String path;
-TCchar* p;
 
-  p = getWixPath(path);
+  getWxdPath(path);
 
-  if (!getPathDlg(_T("Wix Data File"), p, _T("wxd"), _T("*.wxd"), path)) return false;
+  if (!getPathDlg(_T("Wix Data File"), path, _T("wxd"), _T("*.wxd"), path)) return false;
 
-  saveWixPath(path);
+  saveWxdPath(path);    wxd.setPath(path);
 
-  wxd.setPath(path);
+        solution.readWixData();
+           icons.readWixData();
+     defaultPath.readWixData();
 
-     solution.readWixData();
-        icons.readWixData();
-  defaultPath.readWixData();
-
-  product.readWixData();
+         product.readWixData();
 
   pffDirectories.readWixData();
   pmfDirectories.readWixData();
 
-  features.readWixData();
+        features.readWixData();
   return true;
   }
 
 
-void WixData::writeWixData() {
-String path;
-String wixDataPath;
+void WixData::writeWixData(TCchar* filePath) {
+String wixDataPath = filePath;
 
-  getWixPath(path);
-
-  wixDataPath = path + product.wixName + _T(".wxd");
   iniFile.writeString(IniSection, _T("WixName"),  product.wixName);
 
-  wxd.setPath(wixDataPath);
+  wxd.setPath(wixDataPath);     backupFile(wixDataPath, 10);
 
   clearAllSections();
 
-     solution.writeWixData();
-        icons.writeWixData();
-  defaultPath.writeWixData();
+        solution.writeWixData();
+           icons.writeWixData();
+     defaultPath.writeWixData();
 
-  product.writeWixData();
+         product.writeWixData();
 
   pffDirectories.writeWixData();
   pmfDirectories.writeWixData();
 
-  features.writeWixData();
+        features.writeWixData();
   }
 
 
-TCchar* WixData::getWixPath(String& path) {
-  return iniFile.readString(IniSection, IniPathKey, path) ? path.str() : 0;
-  }
 
 
-void WixData::saveWixPath(TCchar* path) {
-  iniFile.writeString(IniSection, IniPathKey, getPath(path));
-  }
+void WixData::getWxdPath(String& path) {iniFile.readString(IniSection, WxdFilePathKey, path, _T(""));}
+
+
+void WixData::saveWxdPath(TCchar* path)
+                            {String pth = path;   iniFile.writeString(IniSection, WxdFilePathKey, pth);}
 
 
 void WixData::clearAllSections() {
@@ -130,34 +123,34 @@ void WixData::openFile(WixDataDlg* dialog) {
 
 
 
-bool WixData::validate() {
+bool WixData::validate(bool rptErrors) {
 bool        rslt      = true;
 Component*  app       = features.findAnApp();
 int         wixVerLng = product.wixVersion.length();
 
-  if (product.wixName.isEmpty()) {messageBox(_T("WixName is empty, please provide one.")); return false;}
-
+  if (product.wixName.isEmpty() && rptErrors)
+                                {messageBox(_T("WixName is empty, please provide one.")); return false;}
   features.markDirs();
 
   product.markIcon();   features.markIconsUsed();    defaultPath.mark(DefLicensePathKey);
 
-  if (!app && !wixVerLng) {
+  if (!app && !wixVerLng && rptErrors) {
 
     String msg = _T("There is no App designated and the no version was input.");
 
     MessageBox(0, msg, _T("WixApp"), MB_OK);   rslt &= false;
     }
 
-  if (!icons.validate()) rslt &= false;
+  if (!icons.validate(rptErrors)) rslt &= false;
 
-  if (!solution.isEmpty() && !PathFileExists(String(solution))) {
+  if (!solution.isEmpty() && !PathFileExists(String(solution)) && rptErrors) {
 
     String msg = _T("Solution path not found:  ") + solution;
 
     MessageBox(0, msg, _T("WixApp"), MB_OK);   rslt &= false;
     }
 
-  if (!features.validate()) rslt &= false;
+  if (!features.validate(rptErrors)) rslt &= false;
 
   return rslt;
   }
@@ -171,11 +164,9 @@ Component*  app;
 String      currentGroup;
 String      defPath;
 
-  getWixPath(defPath);   defPath += _T("Product");
+  getWxdPath(defPath);   defPath = getPath(defPath);   defPath += _T("Product");
 
   if (getSaveAsPathDlg(_T("Product"), defPath, _T("wxs"), _T("*.wxs"), wxsPath)) {
-
-    saveWixPath(wxsPath);
 
     app = features.findAnApp();   if (app) pffDirectories.appDir = app->getProgFile();
 
@@ -247,4 +238,18 @@ String toFile   = wxsPath       + fileName;
 
   copyFile(fromFile, toFile);
   }
+
+
+
+
+#if 0
+TCchar* WixData::getWixPath(String& path) {
+  return iniFile.readString(IniSection, IniPathKey, path) ? path.str() : 0;
+  }
+
+
+void WixData::saveWixPath(TCchar* path) {
+  iniFile.writeString(IniSection, IniPathKey, getPath(path));
+  }
+#endif
 

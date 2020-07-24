@@ -8,6 +8,7 @@
 #include "DspDirs.h"
 #include "filename.h"
 #include "Finish.h"
+#include "GetPathDlg.h"
 #include "MessageBox.h"
 #include "Options.h"
 #include "Product.h"
@@ -71,9 +72,9 @@ BEGIN_MESSAGE_MAP(WixDataDlg, CDialogEx)
   ON_COMMAND(       ID_SOLUTION,             &WixDataDlg::OnGetSolution)
   ON_COMMAND(       ID_OPTIONS,              &WixDataDlg::OnOptions)
   ON_COMMAND(       ID_DisplayDirectories,   &WixDataDlg::OnDisplayDirectories)
-  ON_COMMAND(ID_FILE_SAVEWXDFILE, &WixDataDlg::OnSaveWXDfile)
-  ON_COMMAND(ID_FILE_EXIT, &WixDataDlg::OnExit)
-  ON_COMMAND(ID_TEST_VALIDATE, &WixDataDlg::OnValidate)
+  ON_COMMAND(ID_FILE_SAVEWXDFILE,             &WixDataDlg::OnSaveWXDfile)
+  ON_COMMAND(ID_FILE_EXIT,                    &WixDataDlg::OnExit)
+  ON_COMMAND(ID_TEST_VALIDATE,                &WixDataDlg::OnValidate)
 END_MESSAGE_MAP()
 
 
@@ -215,6 +216,8 @@ DspDirs dspDirs;
 
 void WixDataDlg::createProduct() {
 Finish finish;
+String path;
+String wixDataPath;
 
   if (!wixData.validate()) return;
 
@@ -222,19 +225,29 @@ Finish finish;
 
   wixData.output();
 
-  wixData.writeWixData();
+  wixData.getWxdPath(wixDataPath);
+
+  wixData.writeWixData(wixDataPath);
 
   finish.DoModal();
   }
 
 
-void WixDataDlg::OnBnClickedCancel() {
-  // TODO: Add your control notification handler code here
-  CDialogEx::OnCancel();
+void WixDataDlg::OnBnClickedCancel() {CDialogEx::OnCancel();}
+
+
+void WixDataDlg::OnSaveWXDfile() {
+String title        = _T("Wix Data File");
+String iniFileName;
+String defExt       = _T("wxd");
+String extPat       = _T("*.wxd");
+String path;
+
+  wixData.getWxdPath(iniFileName);
+
+  if (getSaveAsPathDlg(title, iniFileName, defExt, extPat, path))
+                                                   {wixData.validate(false); wixData.writeWixData(path);}
   }
-
-
-void WixDataDlg::OnSaveWXDfile() {wixData.validate();   wixData.writeWixData();}
 
 
 void WixDataDlg::OnExit() {CDialogEx::OnOK();}

@@ -99,19 +99,20 @@ String s;
 
 String findExeFile(TCchar* name) {
 FilePaths fp;
+FPsIter   iter(fp);
 String*   path;
 
   fp.findFiles(_T("C:\\Program Files (x86)\\"), name);
 
-  for (path = fp.startLoop(); path; ) return *path;
+  for (path = iter(); path; ) return *path;
 
   fp.findFiles(_T("C:"), _T("Program Files*"), name);
 
-  for (path = fp.startLoop(); path; ) return *path;
+  for (path = iter(); path; ) return *path;
 
   fp.findFiles(_T("D:\\Sources\\"), name);
 
-  for (path = fp.startLoop(); path; ) return *path;
+  for (path = iter(); path; ) return *path;
 
   String t; return t;
   }

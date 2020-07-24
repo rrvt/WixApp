@@ -86,7 +86,7 @@ bool     isApp;
 
   void       outputSetPath(int tab, bool& crlfOut);
 
-  bool validate();
+  bool validate(bool rptErrors = true);
   void output(int tab);
 
 private:

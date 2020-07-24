@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "Display.h"
 #include "EditBoxes.h"
-
 #include "MessageBox.h"
 
 
@@ -15,20 +14,21 @@ static const int  Margin    = 3;
 static DspManip1& setupManip1(DspManip1::Func fn, int val);
 
 
-DspManip dClrTabs;    // add to stream to clear tabs: dsp << dClrTabs;
+DspManip dClrTabs;                      // add to stream to clear tabs: dsp << dClrTabs;
 DspManip dCrlf;
-DspManip dEndPage;    // add to stream to terminate a page when printing or do nothing
+DspManip dCR;                           // add to stream to perform a carriage return (only)
+DspManip dEndPage;                      // add to stream to terminate a page when printing or do nothing
 DspManip dTab;
 DspManip dCenter;
-DspManip dRight;      // right align the String following up to the nCrlf
+DspManip dRight;                        // right align the String following up to the nCrlf
 DspManip dBeginLine;
 DspManip dEndLine;
-DspManip dPrevFont;   // Restore previous font
+DspManip dPrevFont;                     // Restore previous font
 DspManip dBoldFont;
 DspManip dItalicFont;
 DspManip dUnderLineFont;
 DspManip dStrikeOutFont;
-DspManip dflushFtr;   // add to stream to terminate a footer when printing
+DspManip dflushFtr;                     // add to stream to terminate a footer when printing
 
 DspManip1& dSetLMargin(int val) {return setupManip1(Display::doSetLMargin, val);}
 DspManip1& dSetTab(    int val) {return setupManip1(Display::doSetTab,     val);}
@@ -41,20 +41,12 @@ DspManip1& setupManip1(DspManip1::Func fn, int val)
 
 
 
-Display::Display()          : tPos(), initialYPos(0),   points{{0,0}}    {initialize();}
-Display::Display(int initY) : tPos(), initialYPos(initY), points{{0,0}} {initialize();}
 
-
-void Display::initialize() {
-
-  noPoints = maxHeight = curHeight = toLine = maxY = topEdge = bottomEdge = 0;   y = initialYPos + Margin;
-  center = right = beginPage = endPageFlag = false;
-  dc = 0; tPos.clrTabs();
-  points[0] = {0,0};
-
-  output = printing = false;   noPages = 0;  nonBlankLine = true;
+Display::Display() {
+  clear();
 
   dCrlf.n           = this; dCrlf.func           = &doCrlf;
+  dCR.n             = this; dCR.func             = &doCR;
   dEndPage.n        = this; dEndPage.func        = &doEndPage;
   dflushFtr.n       = this; dflushFtr.func       = &doFlushFtr;
   dTab.n            = this; dTab.func            = &doTab;
@@ -72,14 +64,35 @@ void Display::initialize() {
   }
 
 
+void Display::clear() {
+
+  dc = 0; hz.clear(); vert.clear();  font.clear();
+
+  sum.clear(); noPoints = 0;  points[0] = {0,0};  nonBlankLine = true;
+
+  topMargin = botMargin = leftMargin = rightMargin = 0.0;
+
+  center = right = false;  rightTab.clear();
+
+  footer = false;
+
+  printing = suppress = false;  noPages = 0;  wrapEnabled = true;
+  }
+
+
+Display& Display::append(int   v) {String s;   s.format(_T("%li"),  v); sum += s; return *this; }
+
+
+Display& Display::append(ulong v) {String s;   s.format(_T("%uli"), v);    sum += s; return *this;}
 
 
 Display& Display::doEditBox(Display& d, int v) {
-int curPos = d.tPos.cursorPos;
+int curPos = d.hz.currentPos();
+int curY   = d.vert.pos();
 
-  d.rightTab = d.tPos.tab();
+  d.hz.tab(d.rightTab);
 
-  editBoxes.create(d.y, v, curPos+1, d.y-2, d.tPos.cursorPos-curPos-1, d.curHeight+1);
+  editBoxes.create(curY, v, curPos+1, curY-2, d.hz.currentPos() - curPos-1, d.chHeight()+1);
 
   return d;
   }
@@ -87,25 +100,30 @@ int curPos = d.tPos.cursorPos;
 
 void Display::crlf() {
 
-  y += maxHeight; maxHeight = curHeight; setMaxY(y);
+//  if (!footer && printing && vert.exceedsBnd(1)) {setEndPage(); return;}
 
-  if (printing && y >= bottomEdge)
-    endPageFlag = true;
-
-  tPos.crlf();
+  if (vert.lf(printing, footer)) hz.cr();
   }
 
+
+bool Display::doEndPageChk() {
+  if (printing && vert.isEndPage())
+    {vert.atEndPageCond();  return true;}
+  return false;
+  }
+
+void Display::atEndPageCond() {if (printing) vert.atEndPageCond();}
 
 
 Display& Display::doEndPage(Display& d) {
 
-  if (d.printing && d.topEdge < d.y && d.y < d.bottomEdge) {
+  if (d.printing && d.vert.withinBounds()) {
 
-    d.textOut();
+    if (!d.textOut()) return d;
 
-    d.y = d.bottomEdge; d.endPageFlag = true;
+    d.setEndPage();
 
-    d.tPos.crlf();
+    d.hz.cr();
     }
 
   return d;
@@ -116,26 +134,26 @@ Display& Display::doFlushFtr(Display& d) {
 
   d.textOut();
 
-  d.y += d.maxHeight; d.maxHeight = d.curHeight;  d.nonBlankLine = false; d.setMaxY(d.y);
-
-  d.tPos.crlf(); return d;
+  d.nonBlankLine = false;   d.vert.lf(d.printing, d.footer);   d.hz.cr(); return d;
   }
 
 
 Display& Display::doBeginLine(Display& d) {
-  if (!d.sum.empty() || d.rightTab.right) d.textOut();
 
-  d.points[0].x = d.tPos.cursorPos; d.points[0].y = d.y + d.toLine; d.noPoints = 1;
+  if (!d.sum.empty() || d.rightTab.right) if (!d.textOut()) return d;
+
+  d.points[0].x = d.hz.currentPos(); d.points[0].y = d.vert.getUlinePos(); d.noPoints = 1;
+
   return d;
   }
 
 
 Display& Display::doEndLine(Display& d) {
-  if (!d.sum.empty() || d.center || d.right || d.rightTab.right) d.textOut();
+  if (!d.sum.empty() || d.center || d.right || d.rightTab.right) if (!d.textOut()) return d;
 
-  d.points[1].x = d.tPos.cursorPos; d.points[1].y = d.y + d.toLine;
+  d.points[1].x = d.hz.currentPos(); d.points[1].y = d.vert.getUlinePos();
 
-  if (d.points[0].y == d.points[1].y && d.output) d.dc->Polyline(d.points, 2);
+  if (d.points[0].y == d.points[1].y && !d.suppress) d.dc->Polyline(d.points, 2);
 
   LOGPEN logPen;
   CPen*   pen = d.dc->GetCurrentPen(); pen->GetLogPen(&logPen);
@@ -144,240 +162,166 @@ Display& Display::doEndLine(Display& d) {
   }
 
 
-void Display::prepareDisplay( TCchar* face, int fontSize, CDC* pDC, bool doOutput) {
+void Display::prepareDisplay( TCchar* face, int fontSize, CDC* pDC) {
 RECT  winSz;
 CWnd* win     = 0;
 int   cx      = 0;
 int   cy      = 0;
 
-  dc = pDC; output = doOutput; printing = false;
+  dc = pDC; printing = false;
 
-  sum.clear(); noPoints = maxHeight = curHeight = 0;   y = initialYPos + Margin;
+  sum.clear(); noPoints = 0;
 
-  tPos.initialize(); center = right = rightTab.right = false; tPos.clrTabs();
+  center = right = rightTab.right = false;
 
   win = pDC->GetWindow(); win->GetClientRect(&winSz);
 
-  cy = winSz.bottom; cx = winSz.right; tPos.iPos(Margin, cx-Margin); setMaxY(y);
+  cy = winSz.bottom; cx = winSz.right;
 
-  dc->SetMapMode(MM_TEXT);  initializeFont(face, fontSize);
+  initializeFont(face, fontSize);
+
+  vert.setAttributes(cy, topMargin, botMargin);
+
+  hz.setAttributes(cx, leftMargin + 0.3, rightMargin + 0.3);    hz.clrTabs();
   }
 
 
-void Display::preparePrinting(TCchar* face, int fontSize, CDC* pDC, bool doOutput) {
+void Display::preparePrinting(TCchar* face, int fontSize, CDC* pDC, CPrintInfo* pInfo) {
 
-  dc = pDC; output = doOutput; printing = true;
+  dc = pDC; printing = true;   suppress = false;
 
-  sum.clear(); noPoints = maxHeight = curHeight = y = 0;
+  sum.clear(); noPoints = 0;
 
-  tPos.initialize(); center = right = rightTab.right = false; tPos.clrTabs();
+  center = right = rightTab.right = false;
 
-  beginPage = true; endPageFlag = false;
+  vert.setBeginPage();
 
-  dc->SetMapMode(MM_TEXT);  initializeFont(face, fontSize);
+  initializeFont(face, fontSize);   initializeFrame(pInfo);
   }
 
 
-void Display::beginPrinting(CPrintInfo* pInfo) {
-CPrintDialog* pPD           = 0;                // pointer to print dialog
-LPDEVMODE     devMode       = 0;
-bool          portrait      = true;
-int           h             = 0;
-int           w             = 0;
-int           yOffset       = 0;
-int           xOffset       = 0;
+void Display::initializeFrame(CPrintInfo* pInfo) {
 int           cx            = 0;
 int           cy            = 0;
-int           qtrInch       = 0;
-int           sixteenThInch = 0;
 
-  if (pInfo) {
-    pInfo->m_bContinuePrinting = true;
-
-    pPD = pInfo->m_pPD;
-    if (pPD) {
-      devMode = pPD->GetDevMode();
-      if (devMode && devMode->dmOrientation & DMORIENT_LANDSCAPE) portrait = false;
-      }
-    }
+  if (pInfo) pInfo->m_bContinuePrinting = true;
 
   cy      = dc->GetDeviceCaps(VERTRES);        cx = dc->GetDeviceCaps(HORZRES);
-  h       = dc->GetDeviceCaps(PHYSICALHEIGHT);  w = dc->GetDeviceCaps(PHYSICALWIDTH);
 
-  qtrInch = portrait ? w * 10 / 85 / 4 : w * 10 / 110 / 4;
+  vert.setAttributes(cy, topMargin, botMargin);
+  hz.setAttributes(cx, leftMargin, rightMargin);    hz.clrTabs();
+  }
 
-  sixteenThInch = qtrInch / 4;  yOffset = (h - cy) / 2;   xOffset = (w - cx) / 2;
 
-  xOffset = qtrInch + sixteenThInch - xOffset;
+bool Display::isPortrait(CPrintInfo* pInfo) {
+CPrintDialog* pPD     = pInfo->m_pPD;                  // pointer to print dialog
+LPDEVMODE     devMode;
 
-  topEdge = y = qtrInch + sixteenThInch - yOffset;                              // + sixteenThInch;
+  if (pPD) {
+    devMode = pPD->GetDevMode();
+    if (devMode && devMode->dmOrientation & DMORIENT_LANDSCAPE) return false;
+    }
 
-  bottomEdge = cy - y - 3*sixteenThInch;
-
-  tPos.iPos(xOffset, cx - xOffset);
+  return true;
   }
 
 
 void Display::initializeFont(TCchar* face, int fontSize)
-                                        {font.initialize(face, fontSize, dc); setMetric();}
+                                 {font.initialize(face, fontSize, dc); setMetric();}
+void Display::setFontSize(int v) {if (textOut()) {font.setSize(v);     setMetric();}}
+void Display::boldFont()         {if (textOut()) {font.setBold();      setMetric();}}
+void Display::italicFont()       {if (textOut()) {font.setItalic();    setMetric();}}
+void Display::underLineFont()    {if (textOut()) {font.setUnderLine(); setMetric();}}
+void Display::strikeOutFont()    {if (textOut()) {font.setStrikeOut(); setMetric();}}
+void Display::prevFont()         {if (textOut()) {font.pop();          setMetric();}}
 
 
-void Display::setFontSize(int fontSize) {font.setSize(fontSize); setMetric();}
+void Display::setMetric() {hz.setAvgChWidth(dc);    vert.setHeight(dc);}
 
 
-void Display::setMetric() {
-TEXTMETRIC metric;
-int        buf[26];
-int        i;
-double     sum;
-double     avg;
-int        chWidth;
+Display& Display::append(Wrap& w) {
+WrapIter iter(w);
+int     i;
+String* s;
 
-  if (dc->GetTextMetrics(&metric)) {
+  if (w.isEmpty()) return *this;
 
-    dc->GetCharWidth(_T('A'), _T('Z'), buf);
-    for (i = 0, sum = 0; i < noElements(buf); i++) sum += buf[i];
-    avg = sum / noElements(buf) + 0.5;   chWidth = (int) avg;
+  if (printing && !footer && vert.exceedsBnd(w.noLines())) {setEndPage(); return *this;}
 
-    if (metric.tmAveCharWidth > chWidth) chWidth = metric.tmAveCharWidth;
+  hz.saveCurPos();
 
-    curHeight = metric.tmHeight + metric.tmExternalLeading + 2;
-
-    if (!tPos.getCharPos() || curHeight > maxHeight) maxHeight = curHeight;
-
-    toLine = curHeight - metric.tmInternalLeading - metric.tmExternalLeading;
-
-    if (chWidth > tPos.width) tPos.width = chWidth;    tPos.lastWidth = chWidth;
+  for (i = 0, s = iter(); s; i++, s = iter++) {
+    if (i) {crlf(); hz.restorePos();}
+    sum = *s;  textOut();
     }
+
+  return *this;
   }
 
 
+bool Display::textOut() {
+int      wth = width(sum);
+Wrap     wrap(wrapEnabled);
+WrapIter iter(wrap);
+int      i;
+int      nLines;
+String*  s;
 
-void Display::textOut() {
-CString cs;
-int     width = getWidth(sum, cs);
-int     pos;
-int     posComma;
-String  part;
-
-  if (center) {        tPos.centerPos(width);             center         = false;}
-  if (right)          {tPos.rightPos(width);              right          = false;}
+  if (center) {hz.centerText(wth); center = false; hz.centerText(wth);}
+  if (right)  {hz.rightText(wth);  right  = false; hz.rightText(wth);}
   if (rightTab.right)
-    {tPos.rightTabPos(rightTab, width); rightTab.right = false;}
+              {hz.rightTabText(rightTab, wth); rightTab.right = false;}
 
-  if (sum.empty()) return;
+  if (sum.empty()) return true;
 
-  if (beginPage) {noPages++; beginPage = false;}
+  if (vert.isBeginPage()) noPages++;
 
-  if (endPageFlag) {endPageFlag = false; beginPage = true;}
+  vert.atEndPageCond();
 
-  while (exceedsMargin(sum)) {
-    posComma = findLast(',', sum);
-    pos      = findLastBlank(sum);
+  wrap.initialize(dc, hz.remaining(), font.getAttr().italic);
 
-    if (pos < 0 && posComma < 0) {
-      if (tPos.pastThreshold()) {crlf(); if (sum[0] == ' ') sum = sum.substr(1); continue;}
-      pos = findLastChar(sum); posComma = findLast(',', sum);
-      }
+  nLines = wrap(sum);
 
-    if (pos < 0 && posComma < 0) break;
+  if (!footer && printing && vert.exceedsBnd(nLines)) {setEndPage(); return false;}
 
-    if (pos < 0 || (tPos.pastThreshold() && posComma + 2 > pos)) pos = posComma+1;
+  hz.saveCurPos();
 
-    part = sum.substr(0, pos); fragmentOut(part); crlf();
-    sum = sum[pos] == ' ' ? sum.substr(pos+1) : sum.substr(pos);
+  if (footer) vert.setBottom();
+
+  for (i = 0, s = iter(); s; i++, s = iter++) {
+    if (i) {crlf(); hz.restorePos();}
+
+    fragmentOut(*s);
     }
 
-  fragmentOut(sum);  sum.clear();
+  sum.clear();  return true;
   }
-
 
 
 void Display::fragmentOut(String& frag) {
-CString cs;
-int     width = getWidth(frag, cs);
+CString cs;  cs = frag;
 
-  if (output) {
-    try {if (!dc->TextOut(tPos.cursorPos, y, cs)) {outError(cs); return;}}
-    catch (...)                                   {outError(cs); return;}
+  if (!suppress) {
+
+    try {if (!dc->TextOut(hz.currentPos(), vert.pos(), cs)) {outError(cs); return;}}
+    catch (...)                                             {outError(cs); return;}
     }
 
-  tPos.move(width);
-  }
-
-
-int Display::findLastBlank(String& s) {
-int     i;
-int     lng = s.size();
-String  part;
-CString cs;
-int     lastPos = -1;
-
-  for (i = 0; i < lng; i++) {
-    if (s[i] == ' ') {
-      part = s.substr(0, i);
-      if (exceedsMargin(part)) break;
-      lastPos = i;
-      }
-    }
-
-  return lastPos;
-  }
-
-
-int Display::findLast(Tchar ch, String& s) {
-int     i;
-int     lng = s.size();
-String  part;
-CString cs;
-int     lastPos = -1;
-
-  for (i = 0; i < lng; i++) {
-    if (s[i] == ch) {
-      part = s.substr(0, i);
-      if (exceedsMargin(part)) break;
-      lastPos = i;
-      }
-    }
-
-  return lastPos;
-  }
-
-
-int Display::findLastChar(String& s) {
-int     i;
-int     lng = s.size();
-String  part;
-CString cs;
-
-  for (i = 0; i < lng; i++) {
-    part = s.substr(0, i);
-    if (exceedsMargin(part)) break;
-    }
-
-  return i-1;
-  }
-
-
-bool Display::exceedsMargin(String& s) {
-CString cs;
-
-  return tPos.exceedsRtMargin(getWidth(s, cs));
+  hz.move(width(frag));
   }
 
 
 
 // returns CString and width in current units
 
-int Display::getWidth(String& s, CString& cs) {
-CSize sz;
-bool  italic = font.getAttr()->italic;
+int Display::width(String& s) {
+CString cs;
+CSize   sz;
+bool    italic = font.getAttr().italic;
 
   cs = s;   sz = dc->GetOutputTextExtent(cs);
 
-  if (italic) sz.cx += 2;
-
-  return sz.cx;
+  return italic ? sz.cx + 2 : sz.cx;
   }
 
 

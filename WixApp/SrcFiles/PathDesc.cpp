@@ -40,14 +40,15 @@ void PathDesc::relativeSolution(const String& fullPath) {
 String    pathOnly = getPath(fullPath);
 String    fileName = removePath(fullPath);
 PathUnits pathU = pathOnly;
+PUIter    iter(pathU);
 String*   pathSub;
 String*   solSub;
 int       i;
 
   if (pathOnly.find(_T(':')) < 0) {relSol = fullPath; return;}
 
-  for (solSub = solution.startLoop(), pathSub = pathU.startLoop(), i = 0; solSub && pathSub;
-       solSub = solution.nextSubDir(), pathSub = pathU.nextUnit(), i++) {
+  for (solSub = solution.iter(), pathSub = iter(), i = 0; solSub && pathSub;
+       solSub = solution.iter++, pathSub = iter++, i++) {
 
     if (*solSub != *pathSub) break;
     }
@@ -56,9 +57,9 @@ int       i;
 
   if (i > 0) {
 
-    for (; solSub;  solSub  = solution.nextSubDir()) relSol += _T("..\\");
+    for (; solSub;  solSub  = solution.iter++) relSol += _T("..\\");
 
-    for (; pathSub; pathSub = pathU.nextUnit())      relSol += *pathSub + _T('\\');
+    for (; pathSub; pathSub = iter++)          relSol += *pathSub + _T('\\');
 
     relSol += fileName;
     }
@@ -67,6 +68,7 @@ int       i;
 
 String  PathDesc::path() {
 PathUnits units    = getPath(relSol);
+PUIter    iter(units);
 String    fileName = removePath(relSol);
 String    path = _T("");
 String*   sub;
@@ -74,10 +76,10 @@ int       i;
 int       j;
 int       n = solution.noUnits();
 
-  for (sub = units.startLoop(), i = 0; sub; sub = units.nextUnit(), i++) if (*sub != _T("..")) break;
+  for (sub = iter(), i = 0; sub; sub = iter++, i++) if (*sub != _T("..")) break;
 
-  for (j = 0, sub = solution.startLoop(); j < n - i && sub;
-                                             j++, sub = solution.nextSubDir()) path += *sub + _T('\\');
+  for (j = 0, sub = solution.iter(); j < n - i && sub;
+                                                    j++, sub = solution.iter++) path += *sub + _T('\\');
 
   for (i, sub = units[i]; sub; i++, sub = units[i]) path += *sub + _T('\\');
 

@@ -12,36 +12,19 @@ String path;
 
 public:
 
-  virtual BOOL OnNewDocument() override {return CDocument::OnNewDocument();}
+  virtual BOOL OnNewDocument() override {path.clear(); return true;}
 
-  virtual BOOL OnOpenDocument(LPCTSTR lpszPathName) override {
+  virtual BOOL OnOpenDocument(LPCTSTR lpszPathName) override;
 
-    path = lpszPathName;
+          bool reOpenDocument();              // Position to end of file
 
-    Archive ar(path, FileIO::Read);   if (!ar.isOpen()) return false;
+  virtual BOOL OnSaveDocument(LPCTSTR lpszPathName) override;
+          bool onSaveDocument(LPCTSTR lpszPathName, bool savePath = false);
 
-    serialize(ar); return true;
-    }
+  virtual BOOL DoFileSave() override;
 
-  virtual BOOL OnSaveDocument(LPCTSTR lpszPathName) override {
+  virtual const CString& GetPathName();
 
-    String path = lpszPathName;
-
-    Archive ar(path, FileIO::Write);   if (!ar.isOpen()) return false;
-
-    serialize(ar); return true;
-    }
-
-  virtual BOOL DoFileSave() override {
-
-    if (path.isEmpty()) return false;
-
-    Archive ar(path, FileIO::Write);   if (!ar.isOpen()) return false;
-
-    serialize(ar); return true;
-    }
-
-  virtual const CString& GetPathName() {static CString cs = path; return cs;}
 
   virtual void SetPathName(LPCTSTR lpszPathName, BOOL bAddToMRU = TRUE)
     {path = lpszPathName; SetupAddToSourceList(SRCLIST_USER, path);}

@@ -3,7 +3,11 @@
 
 #pragma once
 #include "Expandable.h"
+#include "IterT.h"
 
+
+class FilePaths;
+typedef IterT<FilePaths, String> FPsIter;                        // Iterator for the DataStore
 
 
 // Searches for a directory or file recursively in all subdirectories of the startPath that match the
@@ -43,8 +47,18 @@ public:
 
   int     noFound() {return nPaths;}
 
+private:
+
   String* startLoop() {i = 0; return nextPath();}
 
   String* nextPath() {return i < nPaths ? &paths[i++] : 0;}
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+  String* datum(int i) {return 0 <= i && i < nData() ? &paths[i] : 0;}
+
+  // returns number of data items in array
+  int   nData()      {return paths.end();}
+
+  friend typename FPsIter;
   };
 

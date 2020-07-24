@@ -74,6 +74,37 @@ String                 time;
   }
 
 
+
+
+void backupCopy(String& filePath, int noBackups) {
+String                 name;
+String                 path;
+FileSrch               srch;
+Expandable<String, 16> names;
+int                    i;
+int                    n;
+String                 bkupName;
+String                 time;
+
+  if (!isFilePresent(filePath)) return;
+
+  name = removePath(filePath) + _T(".*");
+  path = getPath(filePath);
+
+  if (srch.findFiles(path, name)) {
+    for (i = 0; srch.getName(bkupName); i++) names[i] = bkupName;
+    }
+
+  CTime t = CTime::GetCurrentTime();   time = t.Format(_T("%C%m%d%H%M%S"));
+
+  bkupName = filePath + _T('.') + time;
+
+  copyFile(filePath, bkupName);   n = names.end() - noBackups + 1;
+
+  for (i = 0; i < n; i++) _tremove(names[i]);
+  }
+
+
 bool isFilePresent(String& path) {
 WIN32_FIND_DATA findData;
 HANDLE          h;

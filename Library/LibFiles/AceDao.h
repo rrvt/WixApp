@@ -4,6 +4,7 @@
 
 #pragma once
 #include "Expandable.h"
+#include "IterT.h"
 
 
 #import <C:\Program Files (x86)\Microsoft Office\root\Office16\ACEDAO.DLL> rename(_T("EOF"), _T("DaoEof"))
@@ -82,6 +83,15 @@ private:
   };
 
 
+
+
+// Define the iterator used to look at the data in the datastore.  It is here so that it can be friended
+
+class AceTables;
+typedef IterT<AceTables, TableDesc> ATIter;                       // Iterator for the DataStore
+
+
+
 class AceTables {
 AceDao&                  dao;
 int                      i;                        // Loop index
@@ -99,6 +109,7 @@ public:
 
   TableDesc* startLoop() {i = -1; return nextTable();}
   TableDesc* nextTable() {i++; return i < nTables ? &tables[i] : 0;}
+  friend typename ATIter;
   };
 
 

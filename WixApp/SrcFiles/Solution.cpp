@@ -32,7 +32,7 @@ Solution solution;
 
 void Solution::newFile() {
 SolutionPath dlg;
-String s;
+String s;                                                                 //wixData.updatePath(s);
 
   dlg.explanation  = explanation;
   dlg.Expanation2  = explanation2;
@@ -40,7 +40,7 @@ String s;
 
   switch (dlg.DoModal()) {
     case IDOK     : if (getPathDlg(_T("Solution File"), 0, _T("sln"), _T("*.sln"), s))
-                               {name = getMainName(s);   pathUnits = getPath(s);  wixData.updatePath(s);}
+                                                {name = getMainName(s);   pathUnits = getPath(s);} // ^^^
                     break;
 
     case IDCANCEL : clear(); break;

@@ -7,6 +7,18 @@
 #include "StringInput.h"
 
 
+// Helper functions for dealing with Edit boxes
+
+static bool vrfyMnth( int cnt, TCchar ch, int& v);
+static bool vrfyDay(  int cnt, TCchar ch, int& v);
+static bool vrfyYr(   int cnt, TCchar ch, int& v);
+static void replDtSel(int i,   TCchar ch, CEdit& ctrl);
+
+static bool vrfyHr(  int cnt, TCchar ch, int& v);
+static bool vrfyMin( int cnt, TCchar ch, int& v);
+static void replTmSel(int i,  TCchar ch, CEdit& ctrl);
+
+
 
 typedef struct tm Tm;
 const double Date::SecondsPerDay = 86400;
@@ -191,4 +203,145 @@ String Date::getDate() {CString s = dt.Format(_T("%x"));  return s;}
 
 
 String Date::dayOfWeek() {CString s = dt.Format("%a"); return s;}
+
+
+
+static bool updateDate = false;
+
+
+void Date::onChangeDate(CEdit& ctrl) {
+CString date;
+int     i;
+int     n;
+String  s;
+int     count = 0;
+int     slCnt = 0;
+bool    legal;
+int     mon   = 0;
+int     day   = 0;
+int     yr    = 0;
+
+  if (!updateDate) {                                                      // To avoid infinite recursion
+    updateDate = true;
+
+    ctrl.GetWindowText(date);   s = date;
+
+    for (i = 0, n = s.length(); i < n; i++) {
+      Tchar ch = s[i];    legal = false;
+
+      if (_T('0') <= ch && ch <= _T('9')) {
+       legal = true;
+
+       if (count || ch != _T('0')) {
+         if (slCnt == 0 && !vrfyMnth(count, ch, mon)) {replDtSel(i, 0, ctrl); break;}
+         if (slCnt == 1 && !vrfyDay( count, ch, day)) {replDtSel(i, 0, ctrl); break;}
+         if (slCnt == 2 && !vrfyYr(  count, ch, yr))  {replDtSel(i, 0, ctrl); break;}
+         }
+
+       if (count > 1) {replDtSel(i, slCnt < 2 ? ch : 0, ctrl); break;}
+
+       count++;
+       }
+
+      if (ch == _T('/')) {
+
+        if (slCnt >= 2) {replDtSel(i, 0, ctrl); break;}
+
+        count = 0;   slCnt++;   legal = true;
+        }
+
+      if (!legal) {replDtSel(i, 0, ctrl); break;}
+      }
+
+    updateDate = false;
+    }
+  }
+
+
+
+bool vrfyMnth(int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return 1 <= v && v <= 12;}
+bool vrfyDay( int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return 1 <= v && v <= 31;}
+bool vrfyYr(  int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return 0 <= v && v <= 40;}
+
+
+void replDtSel(int i, TCchar ch, CEdit& ctrl) {
+bool   aCh = ch != 0;
+String s;
+
+  if (aCh) {s = _T('/'); s += ch;}
+  else     {Beep(1500, 120);}
+
+  ctrl.SetSel(i, i+1);   ctrl.ReplaceSel(s);
+  }
+
+
+static bool updateTime = false;
+
+
+void Date::onChangeTime(CEdit& ctrl) {
+CString time;
+int     i;
+int     n;
+String  s;
+int     count     = 0;
+int     clnCnt    = 0;
+bool    legal;
+int     hr  = 0;
+int     min = 0;
+
+  if (!updateTime) {                                                      // To avoid infinite recursion
+    updateTime = true;
+
+      ctrl.GetWindowText(time);   s = time;
+
+      for (i = 0, n = s.length(); i < n; i++) {
+        Tchar ch = s[i];   legal = false;
+
+        if (_T('0') <= ch && ch <= _T('9')) {
+          legal = true;
+
+          if (count || ch != _T('0')) {
+            if (i     > 4) {replTmSel(i, 0, ctrl); break;}
+            if (count > 1) {replTmSel(i, ch, ctrl); clnCnt++; count = 1; break; }
+
+            if (    !clnCnt && !vrfyHr( count, ch, hr))  {replTmSel(i, 0, ctrl); break;}
+            else if (clnCnt && !vrfyMin(count, ch, min)) {replTmSel(i, 0, ctrl); break;}
+            }
+
+          count++;
+          }
+
+        if (ch == _T(':')) {
+
+          if (clnCnt >= 1) {replTmSel(i, 0, ctrl); break;}
+
+          count = 0;   clnCnt++;  legal = true;
+          }
+
+        if (!legal) {replTmSel(i, 0, ctrl); break;}
+        }
+
+    updateTime = false;
+    }
+
+
+  }
+
+
+
+
+bool vrfyHr( int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return v < 24;}
+bool vrfyMin(int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return v < 60;}
+
+
+void replTmSel(int i, TCchar ch, CEdit& ctrl) {
+bool   aCh = ch != 0;
+String s;
+
+  if (aCh) {s = _T(':'); s += ch;}
+  else     {Beep(1500, 120);}
+
+  ctrl.SetSel(i, i+1);   ctrl.ReplaceSel(s);
+  }
+
 

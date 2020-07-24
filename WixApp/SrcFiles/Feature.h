@@ -75,7 +75,7 @@ bool    isUninstall;
   void       outputSetPath(int tab, bool& crlfOut);
 
   void       outputRefs(int tab);
-  bool       validate();
+  bool       validate(bool rptErrors = true);
   void       output();
 
 private:

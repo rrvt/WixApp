@@ -16,29 +16,29 @@ void PathUnits::parse(const String& path) {
 String t = path;
 int    end;
 
-  nUnits = 0;
-
-  while ((end = t.find(_T('\\'))) > 0) {units[nUnits++] = t.substr(0, end);   t = t.substr(end+1);}
+  while ((end = t.find(_T('\\'))) > 0) {units[units.end()] = t.substr(0, end);   t = t.substr(end+1);}
   }
 
 
 PathUnits::operator String() {
+int n = units.end();
 int i;
 
   tempPath.clear();
 
-  for (i = 0; i < nUnits; i++) tempPath += units[i] + _T('\\');
+  for (i = 0; i < n; i++) tempPath += units[i] + _T('\\');
 
   return tempPath;
   }
 
 
 PathUnits& PathUnits::copy(PathUnits& p) {
+int n = units.end();
 int j;
 
-  i = p.i;   nUnits = p.nUnits;   tempPath = p.tempPath;
+  tempPath = p.tempPath;
 
-  for (j = 0; j < nUnits; j++) units[j] = p.units[j];
+  for (j = 0; j < n; j++) units[j] = p.units[j];
 
   return *this;
   }

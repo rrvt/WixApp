@@ -114,7 +114,9 @@
     <ClInclude Include="..\LibFiles\AceDao.h" />
     <ClInclude Include="..\LibFiles\Archive.h" />
     <ClInclude Include="..\LibFiles\Button.h" />
+    <ClInclude Include="..\LibFiles\CApp.h" />
     <ClInclude Include="..\LibFiles\CDoc.h" />
+    <ClInclude Include="..\LibFiles\CMainFrm.h" />
     <ClInclude Include="..\LibFiles\ComboBox.h" />
     <ClInclude Include="..\LibFiles\comdef.h" />
     <ClInclude Include="..\LibFiles\CopyFile.h" />
@@ -137,8 +139,10 @@
     <ClInclude Include="..\LibFiles\GetPathDlg.h" />
     <ClInclude Include="..\LibFiles\Guid.h" />
     <ClInclude Include="..\LibFiles\Handle.h" />
+    <ClInclude Include="..\LibFiles\Horiz.h" />
     <ClInclude Include="..\LibFiles\IniFile.h" />
     <ClInclude Include="..\LibFiles\InsertSorted.h" />
+  <ClInclude Include="..\LibFiles\IterT.h" />
     <ClInclude Include="..\LibFiles\LexT.h" />
     <ClInclude Include="..\LibFiles\LexTOut.h" />
     <ClInclude Include="..\LibFiles\LoadScratchPad.h" />
@@ -168,8 +172,10 @@
     <ClInclude Include="..\LibFiles\ToString.h" />
     <ClInclude Include="..\LibFiles\trim.h" />
     <ClInclude Include="..\LibFiles\Variant.h" />
+    <ClInclude Include="..\LibFiles\VertMgmt.h" />
     <ClInclude Include="..\LibFiles\WindowData.h" />
     <ClInclude Include="..\LibFiles\WindowPos.h" />
+    <ClInclude Include="..\LibFiles\Wrap.h" />
     <ClInclude Include="..\LibFiles\XTerm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -179,12 +185,16 @@
     <ClCompile Include="..\LibFiles\AceDao.cpp" />
     <ClCompile Include="..\LibFiles\Archive.cpp" />
     <ClCompile Include="..\LibFiles\Button.cpp" />
+    <ClCompile Include="..\LibFiles\CApp.cpp" />
+    <ClCompile Include="..\LibFiles\CDoc.cpp" />
+    <ClCompile Include="..\LibFiles\CMainFrm.cpp" />
     <ClCompile Include="..\LibFiles\ComboBox.cpp" />
     <ClCompile Include="..\LibFiles\CopyFile.cpp" />
     <ClCompile Include="..\LibFiles\CryptDe.cpp" />
     <ClCompile Include="..\LibFiles\CryptEn.cpp" />
     <ClCompile Include="..\LibFiles\CryptInit.cpp" />
     <ClCompile Include="..\LibFiles\CScrView.cpp" />
+    <ClCompile Include="..\LibFiles\Csv.cpp" />
     <ClCompile Include="..\LibFiles\Currency.cpp" />
     <ClCompile Include="..\LibFiles\Date.cpp" />
     <ClCompile Include="..\LibFiles\Debug.cpp" />
@@ -200,6 +210,7 @@
     <ClCompile Include="..\LibFiles\GetPathDlg.cpp" />
     <ClCompile Include="..\LibFiles\Guid.cpp" />
     <ClCompile Include="..\LibFiles\Handle.cpp" />
+    <ClCompile Include="..\LibFiles\Horiz.cpp" />
     <ClCompile Include="..\LibFiles\IniFile.cpp" />
     <ClCompile Include="..\LibFiles\LexTOut.cpp" />
     <ClCompile Include="..\LibFiles\LoadScratchPad.cpp" />
@@ -218,8 +229,10 @@
     <ClCompile Include="..\LibFiles\ToolBar.cpp" />
     <ClCompile Include="..\LibFiles\ToString.cpp" />
     <ClCompile Include="..\LibFiles\trim.cpp" />
+    <ClCompile Include="..\LibFiles\VertMgmt.cpp" />
     <ClCompile Include="..\LibFiles\WindowData.cpp" />
     <ClCompile Include="..\LibFiles\WindowPos.cpp" />
+    <ClCompile Include="..\LibFiles\Wrap.cpp" />
     <ClCompile Include="..\LibFiles\XTerm.cpp" />
   </ItemGroup>
 </Project>

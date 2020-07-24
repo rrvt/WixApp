@@ -33,7 +33,7 @@ bool     inUse;
 
   IconDesc& operator= (IconDesc& d) {copyObj(d); return *this;}
 
-  bool validate();
+  bool validate(bool rptErrors = true);
   void outputOne(int tab);
 
 private:
@@ -73,7 +73,7 @@ public:
 
   IconDesc* find(String& s) {return iconList.find(s);}
 
-  bool      validate();
+  bool      validate(bool rptErrors = true);
   void      output(int tab);
 
 private:

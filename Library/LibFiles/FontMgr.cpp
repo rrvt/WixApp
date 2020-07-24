@@ -4,169 +4,118 @@
 
 #include "stdafx.h"
 #include "FontMgr.h"
+#include "MessageBox.h"
 
 
-FontMgr::~FontMgr() {}
+FontMgr::FontMgr() : stkX(0) {clear();}
+
+FontMgr::~FontMgr() {clear();}
+
+
+void FontMgr::clear() {
+
+  while (stkX > 0) pop();
+
+  stk[0].clear();   stkX = 0;   stk.clr();
+  }
+
+
+FontAttr& FontMgr::getAttr() {FontAttrP& x  = stk[stkX];      return *x();}
 
 
 void FontMgr::initialize(TCchar* face, int fontSize, CDC* dc) {
-CFont          font;
-FontAttributes attr;
+CFont   font;
+CFont*  original;
+LOGFONT logFont;
 
-  if (stkX) uninstall();
+  stkX = 0;   dc->SetMapMode(MM_TEXT);
 
+  if (!font.CreatePointFont(fontSize, face, dc)) {createFailed(_T("initialize")); return;}
+
+  original = dc->SelectObject(&font);    font.GetLogFont(&curLogFont);
+
+  if (original) {
+    original->GetLogFont(&logFont);    original->DeleteObject();
+
+    FontAttr& attr = getAttr();
+    attr.dc        = dc;
+    attr.sz        = logFont.lfHeight;
+    attr.bold      = logFont.lfWeight == FW_BOLD;
+    attr.italic    = logFont.lfItalic;
+    attr.underline = logFont.lfUnderline;
+    attr.strikeout = logFont.lfStrikeOut;
+    attr.face      = logFont.lfFaceName;
+    }
+
+  stkX++;
+
+  FontAttr& attr = getAttr();
   attr.dc   = dc;
   attr.sz   = fontSize;
   attr.face = face;
-
-  stk[++stkX] = attr;
-
-  if (font.CreatePointFont(attr.sz, attr.face, attr.dc)) {
-    original = dc->SelectObject(&font);
-    }
   }
 
 
-void FontMgr::setSize(int fontSize) {
-FontAttributes  attr = stk[stkX];
-CFont           font;
-
-  if (!stkX) return;
-
-  attr.sz = fontSize;
-
-  if (font.CreatePointFont(attr.sz, attr.face, attr.dc))
-    {CFont* x = attr.dc->SelectObject(&font); if (x) x->DeleteObject(); stk[++stkX] = attr;}
-  }
+void FontMgr::setSize(int fontSize)
+                          {FontAttr& attr = push();   attr.sz = fontSize;   update(attr, _T("setSize"));}
 
 
 
-void FontMgr::setBold() {
-FontAttributes  attr = stk[stkX];
-CFont           font;
-LOGFONT         logFont;
-
-  if (!stkX) return;
-
-  if (font.CreatePointFont(attr.sz, attr.face, attr.dc)) {
-
-    font.GetLogFont(&logFont); font.DeleteObject();
-
-    attr.bold = true;
-
-    if (setFont(attr, logFont)) stk[++stkX] = attr;
-    }
-  }
+void FontMgr::setBold()   {FontAttr& attr = push();   attr.bold = true;    update(attr, _T("setBold"));}
+void FontMgr::setItalic() {FontAttr& attr = push();   attr.italic = true;  update(attr, _T("setItalic"));}
+void FontMgr::setUnderLine()
+                    {FontAttr& attr = push();  attr.underline = true; update(attr, _T("setUnderLine"));}
+void FontMgr::setStrikeOut()
+                    {FontAttr& attr = push();  attr.strikeout = true; update(attr, _T("setStrikeOut"));}
 
 
+FontAttr& FontMgr::push() {
+FontAttr& prev = getAttr();     stkX++;
+FontAttr& cur  = getAttr();     cur = prev;  return cur;}
 
-void FontMgr::setItalic() {
-FontAttributes  attr = stk[stkX];
-CFont           font;
-LOGFONT         logFont;
 
-  if (!stkX) return;
+void FontMgr::pop() {
 
-  if (font.CreatePointFont(attr.sz, attr.face, attr.dc)) {
+  if (stkX <= 0) return;
 
-    font.GetLogFont(&logFont); font.DeleteObject();
-
-    attr.italic = true;
-
-    if (setFont(attr, logFont)) stk[++stkX] = attr;
-    }
-  }
+FontAttrP& cur = stk[stkX];     cur.clear();   --stkX;
+FontAttr& attr = getAttr();     update(attr, _T("pop"));}
 
 
 
-void FontMgr::setUnderLine() {
-FontAttributes  attr = stk[stkX];
-CFont           font;
-LOGFONT         logFont;
+void FontMgr::update(FontAttr& attr, TCchar* fn) {
+CFont   font;
+LOGFONT logFont;
+CFont   f;
 
-  if (!stkX) return;
+  if (!font.CreatePointFont(attr.sz, attr.face, attr.dc)) {createFailed(fn); return;}
 
-  if (font.CreatePointFont(attr.sz, attr.face, attr.dc)) {
+  font.GetLogFont(&logFont); font.DeleteObject();
 
-    font.GetLogFont(&logFont); font.DeleteObject();
-
-    attr.underline = true;
-
-    if (setFont(attr, logFont)) stk[++stkX] = attr;
-    }
-  }
-
-
-
-void FontMgr::setStrikeOut() {
-FontAttributes  attr = stk[stkX];
-CFont           font;
-LOGFONT         logFont;
-
-  if (!stkX) return;
-
-  if (font.CreatePointFont(attr.sz, attr.face, attr.dc)) {
-
-    font.GetLogFont(&logFont); font.DeleteObject();
-
-    attr.strikeout = true;
-
-    if (setFont(attr, logFont)) stk[++stkX] = attr;
-    }
-  }
-
-
-
-
-
-int FontMgr::prevFont() {
-FontAttributes attr;
-CFont          font;
-LOGFONT        logFont;
-
-  if (stkX < 2) return 0;
-
-  attr = stk[--stkX];
-
-  if (font.CreatePointFont(attr.sz, attr.face, attr.dc)) {
-
-    font.GetLogFont(&logFont); font.DeleteObject();
-
-    setFont(attr, logFont);
-    }
-
-  return attr.sz;
-  }
-
-
-bool FontMgr::setFont(FontAttributes& attr, LOGFONT& logFont) {
-CFont f;
-
-  logFont.lfHeight = attr.sz;
-  if (attr.bold)      logFont.lfWeight = FW_BOLD;
-  if (attr.italic)    logFont.lfItalic = -1;
+                      logFont.lfHeight    = attr.sz;
+  if (attr.bold)      logFont.lfWeight    = FW_BOLD;
+  if (attr.italic)    logFont.lfItalic    = -1;
   if (attr.underline) logFont.lfUnderline = true;
   if (attr.strikeout) logFont.lfStrikeOut = true;
 
-  if (f.CreatePointFontIndirect(&logFont, attr.dc))
-                         {CFont* x = attr.dc->SelectObject(&f); if (x) x->DeleteObject(); return true;}
+  if (!f.CreatePointFontIndirect(&logFont, attr.dc)) {createFailed(_T("update")); return; }
 
-  return false;
+  install(attr, f);
   }
 
 
+void FontMgr::install(FontAttr& attr, CFont& font) {
+CFont* x;
 
+  font.GetLogFont(&curLogFont);
 
-void FontMgr::uninstall() {
-FontAttributes attr;
-
-  if (stkX && original) {
-
-    attr = stk[stkX];
-
-    CFont* f = attr.dc->SelectObject(original); if (f) f->DeleteObject();
-
-    original = 0; stkX = 0;
-    }
+  x = attr.dc->SelectObject(&font);   if (x) x->DeleteObject();
   }
+
+
+void FontMgr::createFailed(TCchar* fn)
+                            {String s;   s.format(_T("Create Font failed in %s"), fn);   messageBox(s);}
+
+
+FontAttr* FontAttrP::operator() () {if (!p) p = new FontAttr;  return p;}
 

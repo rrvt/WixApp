@@ -54,11 +54,11 @@ IconDesc* dsc;
 int       i;
 
 
-  for (nToWrite = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem())
+  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++)
                                                         if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
   wxd.writeInt(IconsSection, NoKeys, nToWrite);
 
-  for (i = 0, dsc = iter.startLoop(); dsc; dsc = iter.nextItem(), i++) {
+  for (i = 0, dsc = iter(); dsc; dsc = iter++, i++) {
 
     section.format(IconSection, i);
 
@@ -133,12 +133,12 @@ IconDesc* p;
   }
 
 
-bool Icons::validate() {
+bool Icons::validate(bool rptErrors) {
 ListIter  iter(iconList);
 IconDesc* dsc;
 bool      rslt = true;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) if (!dsc->validate()) rslt &= false;;
+  for (dsc = iter(); dsc; dsc = iter++) if (!dsc->validate(rptErrors)) rslt &= false;;
 
   return rslt;
   }
@@ -149,7 +149,7 @@ void Icons::output(int tab) {
 ListIter  iter(iconList);
 IconDesc* dsc;
 
-  for (dsc = iter.startLoop(); dsc; dsc = iter.nextItem()) {
+  for (dsc = iter(); dsc; dsc = iter++) {
     dsc->outputOne(tab);
     }
   }
@@ -164,10 +164,10 @@ String main = getMainName(fullPath);
   }
 #endif
 
-bool IconDesc::validate() {
+bool IconDesc::validate(bool rptErrors) {
 struct _stat buffer;
 
-  if (!inUse || _tstat(pathDsc.path(), &buffer) == 0) return true;
+  if (!inUse || _tstat(pathDsc.path(), &buffer) == 0 || !rptErrors) return true;
 
   String msg = _T("Icon file not found: ") + pathDsc.path();
 
