@@ -48,7 +48,7 @@ For non-template classes the OBIter class is formed from a simple template typed
 more complex version of the declaration of the Iterator class for template classes but the loop is
 created in the same way.  The iterator always returns a pointer or zero.
 
-###May 2020
+### May 2020
 
 It became clear when building the MakeApp program that specifying the Program Files Directory and Start
 Menu Name for each Component was a drag.  They were moved to the Feature section.  Also there was a
