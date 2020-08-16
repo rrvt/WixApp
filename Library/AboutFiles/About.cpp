@@ -6,14 +6,14 @@
 #include "resources.h"
 
 
-CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD) { }
+CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD) { }
 
 
-void CAboutDlg::DoDataExchange(CDataExchange* pDX) {CDialog::DoDataExchange(pDX);}
+void CAboutDlg::DoDataExchange(CDataExchange* pDX) {CDialogEx::DoDataExchange(pDX);}
 
 //Manipulate RACES DB, Version 1.6.0
 
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
+BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
@@ -26,7 +26,7 @@ String       companyName;
 String       name;
 String       aboutName;
 
-  CDialog::OnInitDialog();
+  CDialogEx::OnInitDialog();
 
   if (!res.getProductName(aboutName)) aboutName = _T("Product");    aboutName = _T("About ") + aboutName;
   aboutName.trim();

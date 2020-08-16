@@ -1,5 +1,18 @@
 // Scroll View
 
+// CScrView printing
+/* The following functions are called for printing a page in the order given with one exception:
+void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);  -- 1st
+BOOL OnPreparePrinting(        CPrintInfo* pInfo);  -- 2nd
+     CDC::StartDoc()                                -- 3rd      // Handled by CView
+void OnPrepareDC(    CDC* pDC, CPrintInfo* pInfo);  -- 4th                         <-
+     CDC::StartPage()                               -- 5th                          ^ // Handled by CView
+void OnPrint(        CDC* pDC, CPrintInfo* pInfo);  -- 6th                          ^
+     CDC::EndPage()                                 -- 7th then loops for each page ^ // Handled by CView
+     CDC::EndDoc()                                  -- after last page                // Handled by CView
+void OnEndPrinting(  CDC* pDC, CPrintInfo* pInfo);  -- last
+*/
+
 
 #include "stdafx.h"
 #include "CScrView.h"
@@ -16,22 +29,25 @@ END_MESSAGE_MAP()
 
 
 
+bool CScrView::setPrntrOrient(HANDLE h, CDC* dc) {
+DEVMODE* devMode;
 
+  if (!h) return false;
 
+  devMode = (DEVMODE*)::GlobalLock(h);    if (!devMode) return false;
 
-// CScrView printing
-/* The following functions are called for printing a page in the order given with one exception:
-void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);  -- 1st
-BOOL OnPreparePrinting(        CPrintInfo* pInfo);  -- 2nd
-     CDC::StartDoc()                                -- 3rd      // Handled by CView
-void OnPrepareDC(    CDC* pDC, CPrintInfo* pInfo);  -- 4th                         <-
-     CDC::StartPage()                               -- 5th                          ^ // Handled by CView
-void OnPrint(        CDC* pDC, CPrintInfo* pInfo);  -- 6th                          ^
-     CDC::EndPage()                                 -- 7th then loops for each page ^ // Handled by CView
-     CDC::EndDoc()                                  -- after last page                // Handled by CView
-void OnEndPrinting(  CDC* pDC, CPrintInfo* pInfo);  -- last
-*/
+  switch (orient) {
+    case Portrait : devMode->dmOrientation = DMORIENT_PORTRAIT;               // portrait mode
+                    devMode->dmFields     |= DM_ORIENTATION; break;
 
+    case Landscape: devMode->dmOrientation = DMORIENT_LANDSCAPE;              // landscape mode
+                    devMode->dmFields     |= DM_ORIENTATION; break;
+    }
+
+  if (dc) dc->ResetDC(devMode);
+
+  ::GlobalUnlock(h); return true;
+  }
 
 
 void CScrView::OnPrepareDC(CDC* pDC, CPrintInfo* pInfo) {
@@ -61,9 +77,15 @@ BOOL CScrView::OnPreparePrinting(CPrintInfo* pInfo) {
 
 
 // Initialize dc for printer and other initialization, called for each page
+//BOOL ResetDC(const DEVMODE* lpDevMode);
 
 void CScrView::preparePrinter(CPrintInfo* pInfo) {
-int pageNo = pInfo->m_nCurPage;
+int     pageNo = pInfo->m_nCurPage;
+DEVMODE devMode;
+
+  memset(&devMode, 0, sizeof(devMode));
+
+  dc->ResetDC(&devMode);
 
   pInfo->m_bContinuePrinting = true;     endPrinting = false;
 

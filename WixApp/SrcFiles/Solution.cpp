@@ -36,14 +36,11 @@ String s;                                                                 //wixD
 
   dlg.explanation  = explanation;
   dlg.Expanation2  = explanation2;
-  s = pathUnits;     dlg.solutionPath = s.str();
+  s = pathUnits;     dlg.solutionPath = s;  //.str()
 
-  switch (dlg.DoModal()) {
-    case IDOK     : if (getPathDlg(_T("Solution File"), 0, _T("sln"), _T("*.sln"), s))
-                                                {name = getMainName(s);   pathUnits = getPath(s);} // ^^^
-                    break;
-
-    case IDCANCEL : clear(); break;
+  if (dlg.DoModal() == IDOK) {
+    if (getPathDlg(_T("Solution File"), 0, _T("sln"), _T("*.sln"), s))
+                                                {name = getMainName(s);   pathUnits = getPath(s);}
     }
   }
 

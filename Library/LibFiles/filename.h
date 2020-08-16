@@ -34,3 +34,5 @@ void   removeFile(TCchar* name);
 
 String noBlanks(TCchar* name);
 
+void   removeOneDir(String& t);
+

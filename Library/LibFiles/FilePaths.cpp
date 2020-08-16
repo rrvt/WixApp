@@ -24,7 +24,7 @@ int                    i;
 
   for (i = 0; i < nDir; i++) {
     String& pth     = directories[i];
-    int     pos     = pth.findLast('\\');
+    int     pos     = pth.findLastOf('\\');
     String  dirName = pos >= 0 ? pth.substr(pos+1) : pth;
 
     if (tgt.match(dirName)) {paths[nPaths] = pth; nPaths++;}
@@ -51,7 +51,7 @@ String                 name;
   fileSrch.findAllFiles(startPath);
 
   while (fileSrch.getName(name)) {
-    int    pos      = name.findLast('\\');
+    int    pos      = name.findLastOf('\\');
     String fileName = pos >= 0 ? name.substr(pos+1) : name;
 
     if (tgt.match(fileName)) {paths[nPaths] = name; nPaths++;}
@@ -91,7 +91,7 @@ String                 name;
     fileSrch.findAllFiles(pth);
 
     while (fileSrch.getName(name)) {
-      int    pos      = name.findLast('\\');
+      int    pos      = name.findLastOf('\\');
       String fileName = pos >= 0 ? name.substr(pos+1) : name;
 
       if (tgt.match(fileName)) {paths[nPaths] = name; nPaths++;}

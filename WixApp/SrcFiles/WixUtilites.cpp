@@ -82,7 +82,7 @@ int    pos;
 
   pos = s.find(ch);      if (pos == s.length() - 1) {parent.clear(); name = s.substr(0, pos); return;}
 
-  pos = s.findLast(ch);  if (pos > 0) {name = s.substr(pos+1);  parent = s.substr(0, pos);   return;}
+  pos = s.findLastOf(ch);  if (pos > 0) {name = s.substr(pos+1);  parent = s.substr(0, pos);   return;}
 
   parent.clear();  name = s;
   }

@@ -57,9 +57,6 @@ BEGIN_MESSAGE_MAP(WixDataDlg, CDialogEx)
 
   ON_EN_KILLFOCUS(  IDC_StartMenuName,       &WixDataDlg::OnLeavingStartMenu)
 
-  ON_BN_CLICKED(    IDOK,                    &WixDataDlg::createProduct)
-  ON_BN_CLICKED(    IDCANCEL,                &WixDataDlg::OnBnClickedCancel)
-
   ON_LBN_SELCHANGE( IDC_LIST1,               &WixDataDlg::OnLbnSelchangeList1)
   ON_BN_CLICKED(    IDC_OnStartMenu,         &WixDataDlg::OnBnClickedOnstartmenu)
   ON_BN_CLICKED(    IDC_OnDeskTop,           &WixDataDlg::OnBnClickedOndesktop)
@@ -72,9 +69,12 @@ BEGIN_MESSAGE_MAP(WixDataDlg, CDialogEx)
   ON_COMMAND(       ID_SOLUTION,             &WixDataDlg::OnGetSolution)
   ON_COMMAND(       ID_OPTIONS,              &WixDataDlg::OnOptions)
   ON_COMMAND(       ID_DisplayDirectories,   &WixDataDlg::OnDisplayDirectories)
-  ON_COMMAND(ID_FILE_SAVEWXDFILE,             &WixDataDlg::OnSaveWXDfile)
-  ON_COMMAND(ID_FILE_EXIT,                    &WixDataDlg::OnExit)
-  ON_COMMAND(ID_TEST_VALIDATE,                &WixDataDlg::OnValidate)
+  ON_COMMAND(       ID_FILE_SAVEWXDFILE,     &WixDataDlg::OnSaveWXDfile)
+  ON_COMMAND(       ID_FILE_EXIT,            &WixDataDlg::OnExit)
+  ON_COMMAND(       ID_TEST_VALIDATE,        &WixDataDlg::OnValidate)
+
+  ON_BN_CLICKED(    IDOK,                    &WixDataDlg::createProduct)
+  ON_BN_CLICKED(    IDCANCEL,                &WixDataDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -146,8 +146,8 @@ void WixDataDlg::OnAppAbout() {CAboutDlg aboutDlg; aboutDlg.DoModal();}
 
 void WixDataDlg::OnLeaveProductname() {wixData.setDefaults(this);  UpdateWindow();}
 void WixDataDlg::OnLeaveCompanyname() {product.storeCompany(*this);}
-void WixDataDlg::OnLeaveWixname() {    product.storeWixName(*this);}
-void WixDataDlg::OnLeaveWixVersion() { product.storeWixVer(*this);}
+void WixDataDlg::OnLeaveWixname()     {product.storeWixName(*this);}
+void WixDataDlg::OnLeaveWixVersion()  {product.storeWixVer(*this);}
 
 void WixDataDlg::OnBrowseCtrlPanelIcon() {product.browseIcon(*this);  UpdateWindow();}
 
@@ -157,18 +157,13 @@ void WixDataDlg::OnBrowseCtrlPanelIcon() {product.browseIcon(*this);  UpdateWind
 // files associated with the entity.
 
 void WixDataDlg::OnLeaveFeature()     {features.storeFeatureData(*this);}
+void WixDataDlg::OnChangeFeature()    {features.changeFeature(*this); UpdateWindow();}
+void WixDataDlg::OnNewFeature()       {features.newFeature(*this);    UpdateWindow();}
+void WixDataDlg::OnDelFeature()       {features.delFeature(*this);  features.loadCB(*this);
+                                                                                        UpdateWindow();}
 void WixDataDlg::OnLeavingProgFile()  {features.getCurFeature()->storeProgFileName(*this);}
 void WixDataDlg::OnLeavingStartMenu() {features.getCurFeature()->storeMenuName(*this);}
 
-void WixDataDlg::OnChangeFeature() {features.changeFeature(*this); UpdateWindow();}
-void WixDataDlg::OnNewFeature()    {features.newFeature(*this);    UpdateWindow();}
-
-
-void WixDataDlg::OnDelFeature() {features.delFeature(*this);  features.loadCB(*this);    UpdateWindow();}
-
-
-
-void WixDataDlg::loadFeatures() {features.loadCB(*this); UpdateWindow();}
 
 
 // Component ...
@@ -199,7 +194,6 @@ void WixDataDlg::OnBnClickedIsWin2K()      {features.getCurComponent()->storeIsW
 
 
 void WixDataDlg::OnLbnSelchangeList1() {
-  // TODO: Add your control notification handler code here
 }
 
 
@@ -246,7 +240,7 @@ String path;
   wixData.getWxdPath(iniFileName);
 
   if (getSaveAsPathDlg(title, iniFileName, defExt, extPat, path))
-                                                   {wixData.validate(false); wixData.writeWixData(path);}
+                    {wixData.saveWxdPath(path);   wixData.validate(false);   wixData.writeWixData(path);}
   }
 
 

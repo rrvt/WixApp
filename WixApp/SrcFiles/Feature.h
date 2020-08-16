@@ -55,7 +55,9 @@ bool    isUninstall;
   void       changeComponent(   WixDataDlg& dialog);
   void       newComponent(      WixDataDlg& dialog);
 
-  Component* newItem(TCchar* id = 0);
+  Component* newItem();
+  Component* newItem(TCchar* id);
+
   void       delAllComponents(WixDataDlg& dialog);
   void       delComponent(    WixDataDlg& dialog);
 
@@ -68,7 +70,6 @@ bool    isUninstall;
   void       markIconsUsed();
 
   void       markDirs();
-  void       markDfltDirs();
 
   Component* findCmp(TCchar* id) {return components.find(id);}
 

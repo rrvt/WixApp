@@ -16,13 +16,15 @@ typedef IterT<FilePaths, String> FPsIter;                        // Iterator for
 
 // The number found is returned by nofound (which can trigger a boolean statment).
 
-// StartLoop and nextPath may be used to scan the names found, for example:
-// String* path;
-// String  successPath[100];
+// A FPsIter object may be used to scan the names found, for example:
 //
-//   for (path = filePaths.startLoop(), i = 0; path; path = nextPath(), i++) {
-//     successPath[i] = *path;        // or whatever one needs to do (this not being a good example)
-//     }
+//   FPsIter iter(filePaths);
+//   String* path;
+//   String  successPath[100];
+//
+//     for (path = iter(), i = 0; path; path = iter++, i++) {
+//       successPath[i] = *path;        // or whatever one needs to do (this not being a good example)
+//       }
 //
 // clear will initialize the internal data structures so that another find... may be called.  The inherent
 // recursion prevents
@@ -48,10 +50,6 @@ public:
   int     noFound() {return nPaths;}
 
 private:
-
-  String* startLoop() {i = 0; return nextPath();}
-
-  String* nextPath() {return i < nPaths ? &paths[i++] : 0;}
 
   // returns either a pointer to data (or datum) at index i in array or zero
   String* datum(int i) {return 0 <= i && i < nData() ? &paths[i] : 0;}

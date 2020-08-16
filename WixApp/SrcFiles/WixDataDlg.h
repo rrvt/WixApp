@@ -67,8 +67,8 @@ public:
 
   afx_msg void OnBrowseCtrlPanelIcon();
 
-  afx_msg void OnChangeFeature();
   afx_msg void OnLeaveFeature();
+  afx_msg void OnChangeFeature();
   afx_msg void OnNewFeature();
   afx_msg void OnDelFeature();
 
@@ -104,7 +104,7 @@ public:
 
 private:
 
-  void loadFeatures();
+//  void loadFeatures();
 public:
   afx_msg void OnOptions();
   afx_msg void OnDisplayDirectories();

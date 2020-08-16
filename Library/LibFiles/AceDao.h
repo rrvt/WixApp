@@ -107,8 +107,14 @@ public:
   int        count() {return nTables;}
   TableDesc* find(TCchar* name);
 
-  TableDesc* startLoop() {i = -1; return nextTable();}
-  TableDesc* nextTable() {i++; return i < nTables ? &tables[i] : 0;}
+private:
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+  TableDesc* datum(int i) {return 0 <= i && i < nData() ? &tables[i] : 0;}
+
+  // returns number of data items in array
+  int   nData()      {return tables.end();}
+
   friend typename ATIter;
   };
 
@@ -132,12 +138,11 @@ public:
 
   bool       startLoop();
   bool       nextRecord();
+  RecordSetP getCurRcd() {return recordSet;}
 
   bool       addNew() {return recordSet ? recordSet->AddNew() == S_OK : false;}
   long       edit()   {return recordSet ? recordSet->Edit()   : 0;}
   long       update();
-
-  RecordSetP getCurRcd() {return recordSet;}
 
   bool       findRecord(const long    id);
   bool       findRecord(const float   id);
@@ -166,6 +171,10 @@ long         attr;
   };
 
 
+class AceFieldNames;
+typedef ObjIterT<AceFieldNames, AceFldNameDsc> AFNIter;
+
+
 // The field names are stored in the table definition
 
 class AceFieldNames {
@@ -185,10 +194,17 @@ public:
 
   bool isOpen() {return fields != 0;}
 
-  bool startLoop(AceFldNameDsc& fldDsc);
-  bool nextDesc( AceFldNameDsc& fldDsc);
-
   int  noFields() {return n;}
+
+private:
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+  AceFldNameDsc* getDatum(int i, AceFldNameDsc& datum);
+
+  // returns number of data items in array
+  int   nData() {return fields ? fields->Count : 0;}
+
+  friend typename AFNIter;
   };
 
 
@@ -208,6 +224,10 @@ long      attr;
   };
 
 
+class AceFields;
+typedef ObjIterT<AceFields, AceFieldDsc> AFIter;
+
+
 // Manage Fields in Current Record
 
 class AceFields {
@@ -221,12 +241,25 @@ int        n;                     // Number of fields in record, used in loop lo
 public:
 
   AceFields(AceRecordSet& currentRcd) : curRcd(currentRcd.getCurRcd()), fields(0), field(0), i(0), n(0)
-                               {if (curRcd) fields = curRcd->GetFields(); if (fields) n = fields->Count;}
-  bool startLoop(AceFieldDsc& dsc);
-  bool nextField(AceFieldDsc& dsc);
+                              {if (curRcd) fields = curRcd->GetFields(); if (fields) n = fields->Count;}
 
-  int  noFields() {return n;}
+private:
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+  AceFieldDsc* getDatum(int i, AceFieldDsc& datum);
+
+  // returns number of data items in array
+  int   nData() {return fields ? fields->Count : 0;}
+
+  friend typename AFIter;
   };
 
 
+//  bool startLoop(AceFieldDsc& dsc);
+//  bool nextField(AceFieldDsc& dsc);
+
+//  int  noFields() {return n;}
+
+//  bool startLoop(AceFldNameDsc& fldDsc);
+//  bool nextDesc( AceFldNameDsc& fldDsc);
 

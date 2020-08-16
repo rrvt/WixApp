@@ -38,6 +38,7 @@ private:
 
   void   initialize(String& path);
   bool   getStg(TCchar* pat, String& s);
+  void   threeSect(String& t);
   };
 
 

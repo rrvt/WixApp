@@ -31,7 +31,13 @@
 //   CBS_SORT         Automatically sorts strings entered into the list box.
 
 #pragma once
+#include "IterT.h"
 #include "ToolBar.h"
+
+
+class ComboBox;
+typedef ObjIterT<ComboBox, String> CBIter;
+
 
 class ComboBox : public CComboBox {
 int i;
@@ -51,13 +57,19 @@ public:
   void setFocus() {SetFocus();}
   void del(String& s);
   void add(String& s);
-  int  find(String& s);
-
-  bool startLoop(String& s) {i = -1; n = GetCount(); return nextItem(s);}
-  bool nextItem(String&  s) {i++; return i < n ? getText(i, s) : false;}
+  int  find(TCchar* s);
 
 private:
 
   bool getText(int i, String& s);
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+  String* getDatum(int i, String& s);
+//                              {CString t; return 0 <= i && i < nData() ? {GetLBText(i, t);   s = t} : 0;}
+
+  // returns number of data items in array
+  int   nData()      {return GetCount();}
+
+  friend typename CBIter;
   };
 

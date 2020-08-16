@@ -21,6 +21,9 @@ static TCchar* FeatureID     = _T("FeatureID");
 static TCchar* CmpSection    = _T("%sCmp%02i");
 static TCchar* IDkey         = _T("ID");
 
+static TCchar* NilCmp        = _T("NilComponent");
+
+
 
 void Feature::readWixData() {
 String     curSel;
@@ -129,8 +132,6 @@ String         cmpSection;
 
     cmp->writeWixData2(cmpSection);
     }
-
-//  for (; i < n; i++) {key.format(CmpsKey, i);  wxd.deleteString(section, key);}
   }
 
 
@@ -229,10 +230,8 @@ String     id;
 
   if (id.isEmpty()) {
 
-    ComponentsIter iter(components);
+    components.delNil(NilCmp);
 
-    for (cmp = iter(); cmp; cmp = iter++)
-                         if (cmp->id.find(_T("< Component ")) >= 0) {components.delItem(cmp->id); break;}
     return;
     }
 
@@ -255,14 +254,8 @@ Component* cmp;
 void Feature::newComponent(WixDataDlg& dialog) {newItem()->loadNew(dialog);}
 
 
-Component* Feature::newItem(TCchar* id) {
-Component* cmp = components.curData();
-String     s = id && *id ? id : _T("< Component ");
-
-  if (!cmp || cmp->id.find(s) < 0) cmp = components.newItem(s);
-
-  return cmp;
-  }
+Component* Feature::newItem()           {return components.addNil(NilCmp);}
+Component* Feature::newItem(TCchar* id) {return components.add(id);}
 
 
 void Feature::delAllComponents(WixDataDlg& dialog) {
@@ -302,10 +295,6 @@ Component*     c;
   for (c = iter(); c; c = iter++) c->markDirs(*this);
 
   defaultPath.mark(wixID);
-  }
-
-
-void Feature::markDfltDirs() {
   }
 
 
@@ -353,6 +342,5 @@ String line;
     }
 
   wix.crlf();  wix.lit(0, _T("</Fragment>\n"));
-
   }
 

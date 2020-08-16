@@ -1,4 +1,4 @@
-// A List Table Descriptors
+// A List  Access Table Descriptors
 
 
 #pragma once
@@ -7,7 +7,7 @@
 
 
 struct TableDsc {
-String    name;
+String    accName;
 MapTable* mapTable;
 Maps*     maps;
 bool      selected;
@@ -21,9 +21,15 @@ bool      selected;
 
   private:
 
-  void copy(TableDsc& src, TableDsc& dst)
-    {dst.name = src.name; dst.mapTable = src.mapTable; dst.maps = src.maps; dst.selected = src.selected;}
+  void copy(TableDsc& src, TableDsc& dst) {
+    dst.accName = src.accName; dst.mapTable = src.mapTable; dst.maps = src.maps;
+    dst.selected = src.selected;
+    }
   };
+
+
+class TableDscrs;
+typedef IterT<TableDscrs, TableDsc> TDIter;
 
 
 class TableDscrs {
@@ -35,13 +41,22 @@ public:
   TableDscrs() : i(0) {}
  ~TableDscrs() {}
 
-  void      add(                 MapTable& table, Maps* mps) {add(table.name, &table, mps);}
-  void      add(String&   name,  MapTable* table, Maps* mps);
-  TableDsc* find(String& name);
+  void      add(                     MapTable& table, Maps* mps) {add(table.name, &table, mps);}
+  void      add(String& accessName,  MapTable* table, Maps* mps);
+  TableDsc* find(String& accessName);
 
-  TableDsc* startLoop()  {i = -1; return nextEntry();}
-  TableDsc* nextEntry()  {i++; return i < dscrs.end() ? &dscrs[i] : 0;}
+private:
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+  TableDsc* datum(int i) {return 0 <= i && i < nData() ? &dscrs[i] : 0;}
+
+  // returns number of data items in array
+  int   nData()      {return dscrs.end();}
+
+  friend typename TDIter;
+
   };
 
 
 extern TableDscrs tableDscrs;
+

@@ -56,10 +56,10 @@ void MapsT<MapData>::dspPath(TCchar* title, String& path)
 
 template <class MapData>
 void MapsT<MapData>::loadAllMaps() {
-TableDsc* tableDsc;
+TDIter    iter(tableDscrs);
+TableDsc* dsc;
 
-  for (tableDsc = tableDscrs.startLoop(); tableDsc; tableDsc = tableDscrs.nextEntry())
-                                                                                   loadRecords(tableDsc);
+  for (dsc = iter(); dsc; dsc = iter++) loadRecords(dsc);
   }
 
 
@@ -79,9 +79,9 @@ AceRecordSet records;
 bool         rslt;
 int          count;
 
-  if (!data.openRcdSet(tblDsc->name, DaoReadOnly, records)) return false;
+  if (!data.openRcdSet(tblDsc->accName, DaoReadOnly, records)) return false;
 
-  notePad << nSetRTab(25) << nSetRTab(33) << tblDsc->name;
+  notePad << nSetRTab(25) << nSetRTab(33) << tblDsc->accName;
 
   for (rslt = records.startLoop(), count = 0; rslt; rslt = records.nextRecord(), count++)
                                                                               mapTable->toTable(records);

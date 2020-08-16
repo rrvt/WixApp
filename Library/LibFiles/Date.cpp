@@ -198,6 +198,9 @@ variant_t v;
 String Date::getTime() {CString s; s = dt.Format(_T("%X")); return s;}
 
 
+String Date::getHHMM() {CString s; s = dt.Format(_T("%R")); return s;}
+
+
 String Date::getDate() {CString s = dt.Format(_T("%x"));  return s;}
 
 

@@ -69,7 +69,19 @@ String s;
 
   if (!getVersion(t)) t = _T("0/0/0");
 
+  threeSect(t);
+
   s = s + _T(", Version ") + t;  return s.trim();
+  }
+
+
+void ResourceData::threeSect(String& t) {
+int i;
+int pos;
+
+  for (i = 0, pos = -1; i < 3; i++) {pos = t.find(_T('.'), ++pos);  if (pos < 0) return;}
+
+  if (pos > 0) t = t.substr(0, pos);
   }
 
 

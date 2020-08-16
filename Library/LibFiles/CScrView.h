@@ -19,8 +19,12 @@ void OnEndPrinting(  CDC* pDC, CPrintInfo* pInfo);  -- last
 */
 
 
+enum PrtrOrient {Portrait, Landscape};
+
+
 class CScrView : public CScrollView {
 
+PrtrOrient  orient;
 bool        printing;
 bool        endPrinting;
 bool        outputDone;
@@ -47,8 +51,8 @@ public:
 String      rightFooter;                                          // Data to print at right side of footer
 Date        date;                                                 // Date to print at left edge of footer
 
-  CScrView() : printing(false), endPrinting(false), outputDone(false), startDocDone(false),
-               wrapEnabled(true), font(_T("Arial")), fontSize(120), dc(0), info(0),
+  CScrView() : orient(Portrait), printing(false), endPrinting(false), outputDone(false),
+               startDocDone(false), wrapEnabled(true), font(_T("Arial")), fontSize(120), dc(0), info(0),
                leftMargin(1.0), rightMargin(1.0), topMargin(1.0), botMargin(1.0) {}
  ~CScrView() { }
 
@@ -59,8 +63,10 @@ Date        date;                                                 // Date to pri
   virtual void onPrepareOutput();
   virtual void OnDraw(CDC* pDC);                                  // overridden to draw this view
 
-          void invalidate() {Invalidate();}
+          void     invalidate() {Invalidate();}
 
+          void     setOrientation(PrtrOrient orientation) {orient = orientation;}
+          bool     setPrntrOrient(HANDLE h, CDC* dc = 0);
 
   virtual void     trialRun(int& maxLines, int& noPages);
   virtual void     OnPrint(CDC* pDC, CPrintInfo* pInfo);
@@ -77,10 +83,12 @@ Date        date;                                                 // Date to pri
           void     negateSuppress() {if (printing) printer.negateSuppress();}
           void     disableWrap()    {wrapEnabled = false;}
           void     enableWrap()     {wrapEnabled = true;}
-private:
+
+protected:
 
   virtual BOOL     OnPreparePrinting(CPrintInfo* pInfo);
 
+private:
 
   virtual BOOL     OnScroll(UINT nScrollCode, UINT nPos, BOOL bDoScroll = TRUE);
 

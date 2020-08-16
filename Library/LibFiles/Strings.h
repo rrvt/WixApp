@@ -187,13 +187,15 @@ typedef tstring::reverse_iterator reverseIterator;
   int find(const String& stg, int offset=0)
                                           {tstring& s = *this; return (int) s.find(stg, offset);}
 
-  int findLast(Tchar          ch,  int offset=npos)
+  // Find last character in the string given a single character or a group of characters
+
+  int findLastOf(Tchar          ch,  int offset=npos)
                                   {tstring& s = *this; return (int) s.find_last_of(ch,  offset);}
-  int findLast(TCchar*       stg, int offset=npos)
+  int findLastOf(TCchar*       stg, int offset=npos)
                                   {tstring& s = *this; return (int) s.find_last_of(stg, offset);}
-  int findLast(TCchar*       stg, int offset, int count)
+  int findLastOf(TCchar*       stg, int offset, int count)
                                   {tstring& s = *this; return (int) s.find_last_of(stg,  offset, count);}
-  int findLast(const String& stg, int offset=npos)
+  int findLastOf(const String& stg, int offset=npos)
                                   {tstring& s = *this; return (int) s.find_last_of(stg, offset);}
 
 // Conversion to numbers, integer, unsigned long integer and double

@@ -78,7 +78,7 @@ public:
 
 private:
 
-  IconDesc* getNew() {return iconList.newItem(_T("Icon"));}
+  IconDesc* getNew() {return iconList.addNil(_T("Icon"));}
 
   void oneIconAvail();
   };

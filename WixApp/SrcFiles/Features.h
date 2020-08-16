@@ -44,7 +44,9 @@ public:
 
   Feature*   getCurFeature() {if (!nFeatures()) oneFeatureAvail(); return store.curData();}
   Feature*   find(String& id) {return store.find(id);}
-  Feature*   newItem(TCchar* id = 0);
+
+  Feature*   newItem();
+  Feature*   newItem(TCchar* id);
 
   void       setDefaults(WixDataDlg& dialog);
 

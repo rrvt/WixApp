@@ -7,7 +7,7 @@
 
 // CAboutDlg dialog used for App About
 
-class CAboutDlg : public CDialog {
+class CAboutDlg : public CDialogEx {
 public:
 
 enum { IDD = IDD_ABOUTBOX };     // Dialog Data

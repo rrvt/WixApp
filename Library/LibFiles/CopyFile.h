@@ -5,13 +5,13 @@
 #pragma once
 
 
-bool copyFile(String& source, String& dst);
+bool copyFile(TCchar*  source, String& dst);
 
-inline bool moveFile(String& source, String& dst) {return _trename(source, dst) == 0;}
+inline bool moveFile(TCchar*  source, String& dst) {return _trename(source, dst) == 0;}
 
 //int  backupFile(String& path, int lastBackup, int nBackups);    // Returns last backup index
 
-void backupFile(String& filePath, int noBackups);     // Moves filePath to backup name
-void backupCopy(String& filePath, int noBackups);     // Copies filePath to backup name
+void backupFile(TCchar* filePath, int noBackups);     // Moves filePath to backup name
+void backupCopy(TCchar* filePath, int noBackups);     // Copies filePath to backup name
 
-bool isFilePresent(String& path);
+bool isFilePresent(TCchar* path);

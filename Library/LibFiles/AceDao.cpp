@@ -187,6 +187,7 @@ bool AceRecordSet::open(TableDesc* dsc, DaoOptions option) {
   }
 
 
+//#if 0
 bool AceRecordSet::startLoop() {
 
   if (nRecords && recordSet) {recordSet->MoveFirst(); return !recordSet->DaoEof;}
@@ -201,7 +202,7 @@ bool AceRecordSet::nextRecord() {
 
   return false;
   }
-
+//#endif
 
 
 bool AceRecordSet::findRecord(const long id) {
@@ -327,48 +328,33 @@ bool AceFieldNames::open(TableDesc* dsc) {
   }
 
 
-
-bool AceFieldNames::startLoop(AceFldNameDsc& fldDsc) {
-
-  if (!fields) return false;
-
-  n = fields->Count; i = -1;  return nextDesc(fldDsc);
-  }
-
-
-bool AceFieldNames::nextDesc( AceFldNameDsc& fldDsc) {
+AceFldNameDsc* AceFieldNames::getDatum(int i, AceFldNameDsc& datum) {
 FieldP field;
 
-  if (++i >= n) return false;
+  if (i < 0 || i >= nData()) return 0;
 
-  field = fields->GetItem(i); if (!field)   return false;
+  field = fields->GetItem(i);   if (!field) return 0;
 
-  fldDsc.name = field->GetName();
-  fldDsc.type = (DataTypeEnum) field->Type;
-  fldDsc.attr = field->Attributes;            return true;
+  datum.name = field->GetName();
+  datum.type = (DataTypeEnum) field->Type;
+  datum.attr = field->Attributes;
+
+  return &datum;
   }
 
 
-
-
-bool AceFields::startLoop(AceFieldDsc& dsc) {
-
-  if (!fields) {i = n = 0; return false;}
-
-  n = fields->Count; i = -1;  return nextField(dsc);
-  }
-
-
-bool AceFields::nextField(AceFieldDsc& dsc) {
+AceFieldDsc* AceFields::getDatum(int i, AceFieldDsc& datum) {
 FieldP field;
 
-  if (++i >= n) return false;
+  if (i < 0 || i >= nData()) return 0;
 
-  field = fields->GetItem(i);    if (!field) return false;
+  field = fields->GetItem(i);   if (!field) return 0;
 
-  dsc.field = field;
-  dsc.value = field->GetValue();   notNull(dsc.value);
-  dsc.attr  = field->Attributes;   return true;
+  datum.field = field;
+  datum.value = field->GetValue();   notNull(datum.value);
+  datum.attr  = field->Attributes;
+
+  return &datum;
   }
 
 
@@ -420,4 +406,51 @@ String getDbCppType(DataTypeEnum type) {
     }
   String t = _T("<"); t += type; t += _T(">");  return t;
   }
+
+
+
+#if 0
+bool AceFieldNames::startLoop(AceFldNameDsc& fldDsc) {
+
+  if (!fields) return false;
+
+  n = fields->Count; i = -1;  return nextDesc(fldDsc);
+  }
+
+
+bool AceFieldNames::nextDesc( AceFldNameDsc& fldDsc) {
+FieldP field;
+
+  if (++i >= n) return false;
+
+  field = fields->GetItem(i); if (!field)   return false;
+
+  fldDsc.name = field->GetName();
+  fldDsc.type = (DataTypeEnum) field->Type;
+  fldDsc.attr = field->Attributes;            return true;
+  }
+#endif
+
+
+#if 0
+bool AceFields::startLoop(AceFieldDsc& dsc) {
+
+  if (!fields) {i = n = 0; return false;}
+
+  n = fields->Count; i = -1;  return nextField(dsc);
+  }
+
+
+bool AceFields::nextField(AceFieldDsc& dsc) {
+FieldP field;
+
+  if (++i >= n) return false;
+
+  field = fields->GetItem(i);    if (!field) return false;
+
+  dsc.field = field;
+  dsc.value = field->GetValue();   notNull(dsc.value);
+  dsc.attr  = field->Attributes;   return true;
+  }
+#endif
 

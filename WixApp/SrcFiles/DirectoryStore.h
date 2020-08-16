@@ -31,12 +31,12 @@ String ext;
   void  writeWixData();
 
 private:
+
   Data* addOne(String fullPath);
   void  readDesc(String& section);
   void  writeDesc(   DirDesc& dsc, String& section);
   void  outputOne(   DirDesc* dsc, int tab);
   void  outputParent(DirDesc* dsc, int tab);
-
 
   DirStore() {}
   };
@@ -91,10 +91,6 @@ DirStorIter iter(*this);
 DirDesc*    dsc;
 
   for (dsc = iter(); dsc; dsc = iter++) {             // .startLoop .nextItem()
-
-if (dsc->parent == _T("MakeApp\\TestApp.prj") || dsc->id == _T("MakeApp\\TestApp.prj")) {
-int x = 1;
-}
 
     if (dsc->inUse && dsc->parent == parent) {
 
@@ -177,7 +173,6 @@ Component*  cmp;
     }
   }
 
-//static TCchar* DLSection     = _T("%sDirectoryList");
 static TCchar* NoKeys        = _T("NoDirectories");
 static TCchar* DirDescSect   = _T("%sDirDesc%02i");
 static TCchar* DDID          = _T("ID");
@@ -217,7 +212,7 @@ DirDesc* dsc;
 
   if (!wxd.readString(section, DDID, id)) return;
 
-  dsc = newItem(id);   dsc->wixID = getWixID(id, ext);   dsc->inUse = false;
+  dsc = add(id);   dsc->wixID = getWixID(id, ext);   dsc->inUse = false;
 //  wxd.readString(section, DDWixID,  dsc->wixID);
   wxd.readString(section, DDParent, dsc->parent);
   wxd.readString(section, DDName,   dsc->name);
@@ -259,23 +254,4 @@ void DirStore<Data, n>::writeDesc(DirDesc& dsc, String& section) {
   wxd.writeString(section, DDName,        dsc.name);
   wxd.writeInt(   section, DDHasChildren, dsc.hasChildren);
   }
-
-
-
-#if 0
-template <class Data, const int n>
-void DirStore<Data, n>::markDir(String& id) {
-DirDesc* dsc;
-
-  if (!id.isEmpty()) {dsc = find(id);  if (dsc) dsc->inUse = true;}
-  }
-#endif
-
-
-#if 0
-    cmp->id             = dsc->id;
-    cmp->wixID          = getWixID(cmp->id, _T("uni"));
-    cmp->progFileID     = dsc->id;
-    cmp->isUninstallDir = true;
-#endif
 

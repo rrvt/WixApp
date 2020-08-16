@@ -85,6 +85,6 @@ void WixApp::OnHelp() {
 String topic;
 
   topic = helpFile; topic += _T(">Introduction");
-//  HtmlHelp()
+
   ::HtmlHelp(m_pMainWnd->m_hWnd, topic,  HH_DISPLAY_TOC, 20);
   }

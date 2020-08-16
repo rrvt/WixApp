@@ -26,12 +26,6 @@ static TCchar* WxdFilePathKey = _T("WxdFullPath");
 WixData wixData;
 
 
-// A new Solution has been found, so update the WixPath on the off chance it is for a new application
-
-//void WixData::updatePath(String& s) {String path = getPath(s);   saveWixPath(path);}
-
-
-
 bool WixData::readWixData() {
 String path;
 
@@ -93,10 +87,15 @@ Tchar*  p;
   }
 
 
-                                                                         //solution.loadEB(*dialog);
+void WixData::newFile(WixDataDlg* dialog) {
+String path;
 
-void WixData::newFile(WixDataDlg* dialog)
-                                    {solution.newFile(); newFileNow = true;}
+  solution.newFile();
+
+  path = solution;   removeOneDir(path);
+
+  saveWxdPath(path);   newFileNow = true;
+  }
 
 
 void WixData::setDefaults(WixDataDlg* dialog) {
@@ -239,17 +238,4 @@ String toFile   = wxsPath       + fileName;
   copyFile(fromFile, toFile);
   }
 
-
-
-
-#if 0
-TCchar* WixData::getWixPath(String& path) {
-  return iniFile.readString(IniSection, IniPathKey, path) ? path.str() : 0;
-  }
-
-
-void WixData::saveWixPath(TCchar* path) {
-  iniFile.writeString(IniSection, IniPathKey, getPath(path));
-  }
-#endif
 

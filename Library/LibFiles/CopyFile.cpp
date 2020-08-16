@@ -14,6 +14,13 @@ using namespace std::experimental::filesystem;
 #endif
 
 
+typedef Expandable<String, 16> Names;
+
+
+static bool bkupFileName(TCchar* filePath, String& bkupName, Names& names);
+static void removeExcess(Names& names, int noBackups);
+
+
 #ifdef Win2K
 
 bool copyFile(String& source, String& dst) {
@@ -36,7 +43,7 @@ CFile dstFile(hFile);                                   // Attach a CFile object
 #else
 
 
-bool copyFile(String& source, String& dst) {
+bool copyFile(TCchar* source, String& dst) {
 
   return copy_file(source, dst,  copy_options::overwrite_existing);
   }
@@ -45,67 +52,25 @@ bool copyFile(String& source, String& dst) {
 
 
 
-void backupFile(String& filePath, int noBackups) {
-String                 name;
-String                 path;
-FileSrch               srch;
-Expandable<String, 16> names;
-int                    i;
-int                    n;
-String                 bkupName;
-String                 time;
+void backupFile(TCchar* filePath, int noBackups) {
+Names  names;
+String bkupName;
 
-  if (!isFilePresent(filePath)) return;
-
-  name = removePath(filePath) + _T(".*");
-  path = getPath(filePath);
-
-  if (srch.findFiles(path, name)) {
-    for (i = 0; srch.getName(bkupName); i++) names[i] = bkupName;
-    }
-
-  CTime t = CTime::GetCurrentTime();   time = t.Format(_T("%C%m%d%H%M%S"));
-
-  bkupName = filePath + _T('.') + time;
-
-  moveFile(filePath, bkupName);   n = names.end() - noBackups + 1;
-
-  for (i = 0; i < n; i++) _tremove(names[i]);
+  if (bkupFileName(filePath, bkupName, names))
+                                        {moveFile(filePath, bkupName);   removeExcess(names, noBackups);}
   }
 
 
+void backupCopy(TCchar* filePath, int noBackups) {
+String bkupName;
+Names  names;
 
-
-void backupCopy(String& filePath, int noBackups) {
-String                 name;
-String                 path;
-FileSrch               srch;
-Expandable<String, 16> names;
-int                    i;
-int                    n;
-String                 bkupName;
-String                 time;
-
-  if (!isFilePresent(filePath)) return;
-
-  name = removePath(filePath) + _T(".*");
-  path = getPath(filePath);
-
-  if (srch.findFiles(path, name)) {
-    for (i = 0; srch.getName(bkupName); i++) names[i] = bkupName;
-    }
-
-  CTime t = CTime::GetCurrentTime();   time = t.Format(_T("%C%m%d%H%M%S"));
-
-  bkupName = filePath + _T('.') + time;
-
-  copyFile(filePath, bkupName);   n = names.end() - noBackups + 1;
-
-  for (i = 0; i < n; i++) _tremove(names[i]);
+  if (bkupFileName(filePath, bkupName, names)) {
+                                        copyFile(filePath, bkupName);  removeExcess(names, noBackups);}
   }
 
 
-bool isFilePresent(String& path) {
+bool isFilePresent(TCchar*  path) {
 WIN32_FIND_DATA findData;
 HANDLE          h;
 
@@ -114,6 +79,40 @@ HANDLE          h;
   FindClose(h);   return true;
   }
 
+
+
+bool bkupFileName(TCchar* filePath, String& bkupName, Names& names) {
+String                 name;
+String                 path;
+FileSrch               srch;
+int                    i;
+String                 time;
+
+  bkupName.clear();
+
+  if (!isFilePresent(filePath)) return false;
+
+  name = removePath(filePath) + _T(".*");
+  path = getPath(filePath);
+
+  if (srch.findFiles(path, name)) {
+    for (i = 0; srch.getName(bkupName); i++) names[i] = bkupName;
+    }
+
+  CTime t = CTime::GetCurrentTime();   time = t.Format(_T("%C%m%d%H%M%S"));
+
+  bkupName = filePath;  bkupName += _T('.');  bkupName += time;
+
+  return true;
+  }
+
+
+void removeExcess(Names& names, int noBackups) {
+int n = names.end() - noBackups + 1;
+int i;
+
+  for (i = 0; i < n; i++) _tremove(names[i]);
+  }
 
 
 
@@ -157,5 +156,62 @@ int    k;
 
   return i;
   }
+#endif
+
+
+
+#if 0
+String                 name;
+String                 path;
+FileSrch               srch;
+int                    i;
+int                    n;
+String                 time;
+
+  if (!isFilePresent(filePath)) return;
+
+  name = removePath(filePath) + _T(".*");
+  path = getPath(filePath);
+
+  if (srch.findFiles(path, name)) {
+    for (i = 0; srch.getName(bkupName); i++) names[i] = bkupName;
+    }
+
+  CTime t = CTime::GetCurrentTime();   time = t.Format(_T("%C%m%d%H%M%S"));
+
+  bkupName = filePath + _T('.') + time;
+#endif
+#if 0
+  n = names.end() - noBackups + 1;
+
+  for (i = 0; i < n; i++) _tremove(names[i]);
+#endif
+#if 0
+String                 name;
+String                 path;
+FileSrch               srch;
+int                    i;
+int                    n;
+String                 time;
+
+  if (!isFilePresent(filePath)) return;
+
+  name = removePath(filePath) + _T(".*");
+  path = getPath(filePath);
+
+  if (srch.findFiles(path, name)) {
+    for (i = 0; srch.getName(bkupName); i++) names[i] = bkupName;
+    }
+
+  CTime t = CTime::GetCurrentTime();   time = t.Format(_T("%C%m%d%H%M%S"));
+
+  bkupName = filePath + _T('.') + time;
+#endif
+
+
+#if 0
+  n = names.end() - noBackups + 1;
+
+  for (i = 0; i < n; i++) _tremove(names[i]);
 #endif
 

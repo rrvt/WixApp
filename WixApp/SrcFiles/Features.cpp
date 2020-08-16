@@ -21,6 +21,8 @@ static TCchar* FtrsCountKey = _T("Count");
 static TCchar* FtrPrefix    = _T("Ftr%02i");
 static TCchar* FeatureID    = _T("FeatureID");
 
+static TCchar* NilFtr       = _T("Feature");
+
 
 Features features;
 
@@ -189,20 +191,13 @@ String   id;
 
   dialog.featureCB.getWindowText(id);
 
-  if (id.isEmpty()) {
-
-    Iter iter(store);
-
-    for (ftr = iter(); ftr; ftr = iter++)
-                              if (ftr->id.find(_T("< Feature ")) >= 0) {store.delItem(ftr->id); break;}
-    return;
-    }
+  if (id.isEmpty()) {store.delNil(NilFtr);  return;}
 
   if (ftr && (ftr->id.isEmpty() || ftr->id != id)) store.curID = ftr->id = id;
 
-  else if (!ftr) ftr = store.newItem(id);
+  else if (!ftr) ftr = store.add(id);
 
-  ftr->store(dialog);
+  store.add(id, dialog.featureCB);    ftr->store(dialog);
   }
 
 
@@ -225,14 +220,9 @@ Feature* ftr = newItem();
   }
 
 
-Feature* Features::newItem(TCchar* id) {
-Feature* ftr = store.curData();
-String   s = id && *id ? id : _T("< Feature ");
+Feature* Features::newItem()           {Feature* ftr = store.addNil(NilFtr); ftr->newItem(); return ftr;}
+Feature* Features::newItem(TCchar* id) {Feature* ftr = store.add(id);        ftr->newItem(); return ftr;}
 
-  if (!ftr || ftr->id.find(s) < 0) ftr = store.newItem(s);
-
-  ftr->newItem();   return ftr;
-  }
 
 
 void Features::delFeature(WixDataDlg& dialog) {
@@ -341,4 +331,5 @@ Feature*  ftr;
 
   for (ftr = iter(); ftr; ftr = iter++) ftr->output();
   }
+
 

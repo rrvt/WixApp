@@ -37,7 +37,7 @@ IconDesc* dsc;
 
     if (!wxd.readString(section, IconIDKey, id)) continue;
 
-    dsc = iconList.newItem(id);  dsc->readWixData(section);
+    dsc = iconList.add(id);  dsc->readWixData(section);
     }
   }
 
@@ -58,12 +58,9 @@ int       i;
                                                         if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
   wxd.writeInt(IconsSection, NoKeys, nToWrite);
 
-  for (i = 0, dsc = iter(); dsc; dsc = iter++, i++) {
-
-    section.format(IconSection, i);
-
-    if (dsc->inUse && !dsc->id.isEmpty()) dsc->writeWixData(section);
-    }
+  for (i = 0, dsc = iter(); dsc; dsc = iter++)
+    if (dsc->inUse && !dsc->id.isEmpty())
+                                      {section.format(IconSection, i); dsc->writeWixData(section); i++;}
   }
 
 
@@ -88,7 +85,7 @@ IconDesc* dsc;
 
     if (!id.isEmpty()) {
 
-      dsc = find(id);   if (!dsc) {dsc = iconList.newItem(_T("Icon"));   dsc->id = id;   dsc->setWixID();}
+      dsc = find(id);   if (!dsc) {dsc = iconList.addNil(_T("Icon"));   dsc->id = id;   dsc->setWixID();}
 
       *dsc = pathDsc;
       }
@@ -155,15 +152,6 @@ IconDesc* dsc;
   }
 
 
-
-#if 0
-void IconDesc::parse(String& fullPath) {
-String main = getMainName(fullPath);
-
-  id = main; pathDsc = fullPath;
-  }
-#endif
-
 bool IconDesc::validate(bool rptErrors) {
 struct _stat buffer;
 
@@ -182,27 +170,4 @@ String relPath = pathDsc.relative();
   line  = _T("<Icon     Id=\"") + wixID + _T("\" SourceFile=\"") + relPath + _T("\"/>\n");
   wix.stg(tab, line);
   }
-
-
-
-
-
-#if 0
-
-IconDesc* Icons::update(String& id, String& path) {
-
-  }
-
-IconDesc* Icons::add(IconDesc& d) {
-IconDesc* p;
-
-  if (d.id.isEmpty()) return 0;
-
-  p = iconList.add(d.id); *p = d;  p->setWixID();   // p->wixID = getWixID(p->id, IconExt);
-
-  p->inUse = false;
-
-  return p;
-  }
-#endif
 

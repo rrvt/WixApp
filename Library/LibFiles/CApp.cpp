@@ -41,3 +41,12 @@ POSITION   pos;
   view = doc->GetNextView(pos);   return view;
   }
 
+
+HANDLE CApp::defDevMode() {
+PRINTDLG pd;
+
+  pd.lStructSize = (DWORD) sizeof(PRINTDLG);
+
+  return GetPrinterDeviceDefaults(&pd) ? pd.hDevMode : 0;
+  }
+

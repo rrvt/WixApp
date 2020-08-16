@@ -88,7 +88,8 @@ CFont   font;
 LOGFONT logFont;
 CFont   f;
 
-  if (!font.CreatePointFont(attr.sz, attr.face, attr.dc)) {createFailed(fn); return;}
+  try {if (!font.CreatePointFont(attr.sz, attr.face, attr.dc)) {createFailed(fn); return;}}
+  catch (...) {createFailed(fn); return;}
 
   font.GetLogFont(&logFont); font.DeleteObject();
 

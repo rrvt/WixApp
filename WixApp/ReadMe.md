@@ -13,6 +13,14 @@ I don't need to think too carefully about getting the WiX input right, I just ne
 know all the files needed in the output.
 
 ## Updates
+### August 15, 2020
+
+Moved the Istaller directory current path to the WixApp.ini file.  Do a better job of updating the path
+in the ini file.
+
+Added logic to update the combo boxes when a new entry is created.  They were being stored in the interior
+data stores but feature combo box was not updated.  Also do a better job with the Nil identifier both
+adding it to the stores and with presenting a blank combo box edit region when dealing with a new entry.
 
 ### July 24, 2020
 

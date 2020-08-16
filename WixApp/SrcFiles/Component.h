@@ -60,7 +60,7 @@ bool     isApp;
   String&    getStartMenuID() {return startMenuID;}
   DirDesc*   getStartMenu();
 
-//  void       updateComponent(    WixDataDlg& dialog);
+//void       updateComponent(    WixDataDlg& dialog);
   void       browsePath(         WixDataDlg& dialog);
   void       storeDescription(   WixDataDlg& dialog);
   void       storeIsStartMenu(   WixDataDlg& dialog);
@@ -86,21 +86,21 @@ bool     isApp;
 
   void       outputSetPath(int tab, bool& crlfOut);
 
-  bool validate(bool rptErrors = true);
-  void output(int tab);
+  bool       validate(bool rptErrors = true);
+  void       output(int tab);
 
 private:
 
-  void   setApp(String& path);
+  void       setApp(String& path);
 
-  void   outputStartMenu(int tab);
-  void   outputDesktop(  int tab);
-  void   outputRegistry( int tab);
-  void   outputCondition(int tab, int firstCond, int lastCond = 0);
-  String getSetEnvPath();
+  void       outputStartMenu(int tab);
+  void       outputDesktop(  int tab);
+  void       outputRegistry( int tab);
+  void       outputCondition(int tab, int firstCond, int lastCond = 0);
+  String     getSetEnvPath();
 
-  void   readOne(TCchar* key, String& v);
-//  void   readDir(TCchar* key, DirDesc& dir, DirStor& stor);
-  void   copyObj(Component& c);
+  void       readOne(TCchar* key, String& v);
+//void       readDir(TCchar* key, DirDesc& dir, DirStor& stor);
+  void       copyObj(Component& c);
   };
 

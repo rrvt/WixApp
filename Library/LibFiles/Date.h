@@ -33,6 +33,7 @@ public:
 
   String   getDate();
   String   getTime();
+  String   getHHMM();
   String   dayOfWeek();
   String   format(TCchar* f) {Cstring s; s = dt.Format(f);                    return s;}
   operator String ()         {Cstring s; s = dt.Format(_T("%#m/%#d/%y %H:%M")); return s;}
