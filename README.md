@@ -13,6 +13,11 @@ I don't need to think too carefully about getting the WiX input right, I just ne
 know all the files needed in the output.
 
 ## Updates
+
+### August 16, 2020
+
+Exchanged the Help and About Menus (make them more like other Applications, at least mine).
+
 ### August 15, 2020
 
 Moved the Istaller directory current path to the WixApp.ini file.  Do a better job of updating the path
