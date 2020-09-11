@@ -124,7 +124,7 @@ int        i;
 
     if (table->GetAttributes()) continue;           // Non zero attribute is a hidden table
 
-    TableDesc& dsc = tables[tables.end()];
+    TableDesc& dsc = tables.nextData();
 
     dsc.name = table->GetName();  dsc.table = table;   dsc.flds = table->GetFields();
 

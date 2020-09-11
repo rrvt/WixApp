@@ -11,8 +11,6 @@ typedef IterT<PathUnits, String> PUIter;
 
 
 class PathUnits {
-//int                     i;
-//int                     nUnits;                 // No. of units in the path (e.g. D:\, \abc\, etc.)
 Expandable <String, 16> units;
 String                  tempPath;
 
@@ -25,7 +23,7 @@ public:
 
   PathUnits& operator= (PathUnits& p) {return copy(p);}
 
-  void       clear()    {units.clr();}
+  void       clear()    {units.clear();}
   bool       isEmpty() {return units.end() == 0;}
 
   PathUnits& operator= (String& path);

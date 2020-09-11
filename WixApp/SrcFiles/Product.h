@@ -5,7 +5,6 @@
 #include "Features.h"
 #include "WixOut.h"
 #include "Prolog.h"
-#include "Expandable.h"
 #include "WixUtilities.h"
 
 

@@ -16,9 +16,9 @@ void PathUnits::parse(const String& path) {
 String t = path;
 int    end;
 
-  units.clr();
+  units.clear();
 
-  while ((end = t.find(_T('\\'))) > 0) {units[units.end()] = t.substr(0, end);   t = t.substr(end+1);}
+  while ((end = t.find(_T('\\'))) > 0) {units += t.substr(0, end);   t = t.substr(end+1);}
   }
 
 

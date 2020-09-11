@@ -216,7 +216,10 @@
     <ClInclude Include="..\LibFiles\CopyFile.h" />
     <ClInclude Include="..\LibFiles\Crypt.h" />
     <ClInclude Include="..\LibFiles\CScrView.h" />
-    <ClInclude Include="..\LibFiles\Csv.h" />
+    <ClInclude Include="..\LibFiles\CSVLex.h" />
+    <ClInclude Include="..\LibFiles\CSVOut.h" />
+    <ClInclude Include="..\LibFiles\CSVRcdB.h" />
+    <ClInclude Include="..\LibFiles\CSVRcdsT.h" />
     <ClInclude Include="..\LibFiles\Currency.h" />
     <ClInclude Include="..\LibFiles\Date.h" />
     <ClInclude Include="..\LibFiles\Debug.h" />
@@ -225,6 +228,7 @@
     <ClInclude Include="..\LibFiles\EditBox.h" />
     <ClInclude Include="..\LibFiles\EditBoxes.h" />
     <ClInclude Include="..\LibFiles\Expandable.h" />
+    <ClInclude Include="..\LibFiles\ExpandableP.h" />
     <ClInclude Include="..\LibFiles\FileIO.h" />
     <ClInclude Include="..\LibFiles\filename.h" />
     <ClInclude Include="..\LibFiles\FilePaths.h" />
@@ -288,7 +292,9 @@
     <ClCompile Include="..\LibFiles\CryptEn.cpp" />
     <ClCompile Include="..\LibFiles\CryptInit.cpp" />
     <ClCompile Include="..\LibFiles\CScrView.cpp" />
-    <ClCompile Include="..\LibFiles\Csv.cpp" />
+    <ClCompile Include="..\LibFiles\CSVLex.cpp" />
+    <ClCompile Include="..\LibFiles\CSVOut.cpp" />
+    <ClCompile Include="..\LibFiles\CSVRcdB.cpp" />
     <ClCompile Include="..\LibFiles\Currency.cpp" />
     <ClCompile Include="..\LibFiles\Date.cpp" />
     <ClCompile Include="..\LibFiles\Debug.cpp" />
@@ -317,6 +323,7 @@
     <ClCompile Include="..\LibFiles\Random.cpp" />
     <ClCompile Include="..\LibFiles\Resources.cpp" />
     <ClCompile Include="..\LibFiles\SrchFile.cpp" />
+    <ClCompile Include="..\LibFiles\stdafx.cpp" />
     <ClCompile Include="..\LibFiles\Strings.cpp" />
     <ClCompile Include="..\LibFiles\TabStops.cpp" />
     <ClCompile Include="..\LibFiles\TextPosition.cpp" />

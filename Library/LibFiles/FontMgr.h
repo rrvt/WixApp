@@ -3,7 +3,7 @@
 
 
 #pragma once
-#include "Expandable.h"
+#include "ExpandableP.h"
 
 /*
 typedef struct tagLOGFONTW {
@@ -51,25 +51,22 @@ private:
   };
 
 
-class FontAttrP {
+
+
+typedef RcdPtrT<FontAttr> FontAttrPB;
+
+
+class FontAttrP : public FontAttrPB {
+
 public:
-FontAttr* p;
 
-  FontAttrP() {p = 0;}
-  FontAttrP(FontAttrP& attr) {p = attr.p;}
- ~FontAttrP() {p = 0;}
 
-  void       clear() {if (p) delete p; p = 0;}
-
-  FontAttrP& operator= (FontAttrP& attr) {p = attr.p; return *this;}
-
-  FontAttr* operator() ();
   };
 
 
 class FontMgr {
 int                       stkX;
-Expandable <FontAttrP, 4> stk;
+ExpandableP<FontAttr, FontAttrP, 4> stk;
 
 public:
 LOGFONT curLogFont;
@@ -87,7 +84,8 @@ LOGFONT curLogFont;
   void setUnderLine();
   void setStrikeOut();
 
-  FontAttr& getAttr();//    {FontAttrP* ap = &stk[stkX]; return *(*ap)();}
+  FontAttr& getAttr() {return stk.getData(stkX);}
+
   LOGFONT&  getLogFont() {return curLogFont;}
 
 private:
@@ -97,4 +95,24 @@ private:
   void      update(FontAttr& attr, TCchar* fn);
   void      createFailed(TCchar* fn);
   };
+
+
+
+
+#if 0
+class FontAttrP {
+public:
+FontAttr* p;
+
+  FontAttrP() {p = 0;}
+  FontAttrP(FontAttrP& attr) {p = attr.p;}
+ ~FontAttrP() {p = 0;}
+
+  void       clear() {if (p) delete p; p = 0;}
+
+  FontAttrP& operator= (FontAttrP& attr) {p = attr.p; return *this;}
+
+  FontAttr* operator() ();
+  };
+#endif
 

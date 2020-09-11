@@ -16,11 +16,8 @@ void FontMgr::clear() {
 
   while (stkX > 0) pop();
 
-  stk[0].clear();   stkX = 0;   stk.clr();
+  getAttr().clear();   stkX = 0;   //stk.clear();
   }
-
-
-FontAttr& FontMgr::getAttr() {FontAttrP& x  = stk[stkX];      return *x();}
 
 
 void FontMgr::initialize(TCchar* face, int fontSize, CDC* dc) {
@@ -78,8 +75,9 @@ void FontMgr::pop() {
 
   if (stkX <= 0) return;
 
-FontAttrP& cur = stk[stkX];     cur.clear();   --stkX;
-FontAttr& attr = getAttr();     update(attr, _T("pop"));}
+  FontAttr& cur  = getAttr();     cur.clear();   --stkX;
+  FontAttr& attr = getAttr();     update(attr, _T("pop"));
+  }
 
 
 
@@ -116,7 +114,4 @@ CFont* x;
 
 void FontMgr::createFailed(TCchar* fn)
                             {String s;   s.format(_T("Create Font failed in %s"), fn);   messageBox(s);}
-
-
-FontAttr* FontAttrP::operator() () {if (!p) p = new FontAttr;  return p;}
 

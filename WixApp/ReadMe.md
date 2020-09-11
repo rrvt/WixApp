@@ -14,6 +14,13 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 9/10/20
+Library improvement project.  Changed the Expandable Array classes, added templates for a pointer only
+class in the ExpandableP class definition.  It turned out I was defining this RcdPtr class many times
+worrying about exactly how it should be defined.  So I turned it into a template, which of course then
+I needed to go back and add it to all the programs.  Severl iterations later I added some documentation
+and I am uploading the programs today.
+
 ### August 16, 2020
 
 Exchanged the Help and About Menus (make them more like other Applications, at least mine).

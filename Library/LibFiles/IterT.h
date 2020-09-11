@@ -4,19 +4,19 @@
 #pragma once
 
 
-// Data should be seen, sometimes all the data needs to be seen.  The iterator class implements an
-// object that serves up each Data entry in the array (not the pointer, the Data object).  It is used:
-//    DataStoreIter iter(dataStore);
-//    Data*         data;
-//
-//      for (data = iter(); data; data = iter++) {
-//        String& s = data->get();   Use data as a pointer to the record, it is guaranteed to be non-zero
-//
-// last gives a heads up when the last entry is being processed
-// The template requires two functions be part of Store:
-//   int nData() -- returns number of data items in array
-//   Data* datum(int i) -- returns either a pointer to data (or datum) at index i in array or zero
 /*
+Data should be seen, sometimes all the data needs to be seen.  The iterator class implements an
+object that serves up each Data entry in the array (not the pointer, the Data object).  It is used:
+   DataStoreIter iter(dataStore);
+   Data*         data;
+
+     for (data = iter(); data; data = iter++) {
+       String& s = data->get();   Use data as a pointer to the record, it is guaranteed to be non-zero
+
+last gives a heads up when the last entry is being processed
+The template requires two functions be part of Store:
+  int nData() -- returns number of data items in array
+  Data* datum(int i) -- returns either a pointer to data (or datum) at index i in array or zero
 private:
 
   // returns either a pointer to data (or datum) at index i in array or zero
@@ -24,6 +24,8 @@ private:
   Data* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}       // or data[i].p
 
   int   nData()      {return data.end();}                       // returns number of data items in array
+
+  void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
 
   friend typename DataIter;
 */
@@ -52,6 +54,8 @@ enum Dir {Fwd, Rev};
 
   bool  isLast()         {return iterX + 1 == store.nData();}
   bool  isFirst()        {return iterX <= 0;}
+
+  void  remove(Dir rev = Fwd) {store.removeDatum(rev ? iterX++ : iterX--);}
 
 private:
 
@@ -82,9 +86,11 @@ Data   datum;
 
 public:
 
+  enum Dir {Fwd, Rev};
+
   ObjIterT(Store& dataStore) : store(dataStore), iterX(0) { }
 
-  Data* operator() (bool rev = false) {iterX = rev ? store.nData() : 0; return rev ? decr() : current();}
+  Data* operator() (Dir rev = Fwd) {iterX = rev ? store.nData() : 0; return rev ? decr() : current();}
   Data* operator++ (int) {return iterX < store.nData() ? incr() : 0;}
   Data* operator-- (int) {return iterX > 0             ? decr() : 0;}
 
@@ -92,6 +98,8 @@ public:
 
   bool  isLast()         {return iterX + 1 == store.nData();}
   bool  isFirst()        {return iterX <= 0;}
+
+  void  remove(Dir rev = Fwd) {store.removeDatum(rev ? iterX++ : iterX--);}
 
 private:
 

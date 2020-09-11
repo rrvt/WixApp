@@ -49,7 +49,7 @@ public:
   TabMgmt() { }
  ~TabMgmt() { }
 
-  void   clear()   {tabs.clr();}
+  void   clear()   {tabs.clear();}
 
   void   setTab( Horiz& hz, int pos);           // Insert an character position for the next
                                                 // tab position

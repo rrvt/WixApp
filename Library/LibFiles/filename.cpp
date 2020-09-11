@@ -110,7 +110,7 @@ Tchar* r;
   }
 
 
-bool change_extension(String& name, Tchar* ext) {
+bool change_extension(String& name, TCchar* ext) {
 Tchar stg[256];
 
   _tcscpy_s(stg, noElements(stg), name);
@@ -128,7 +128,7 @@ Tchar stg[256];
 // true when extension successfully added to name
 // name - contains modified file name
 
-bool change_extension(Tchar* name, int dSize, Tchar* ext) {
+bool change_extension(Tchar* name, int dSize, TCchar* ext) {
 Tchar* p = 0;
   p = _tcsrchr(name, '.');
   if (p) {
@@ -140,7 +140,7 @@ Tchar* p = 0;
   }
 
 
-void add_extension(Tchar* name, int dSize, Tchar* ext) {
+void add_extension(Tchar* name, int dSize, TCchar* ext) {
 Tchar* backslash = _tcsrchr(name, pathSepChar);
 Tchar* dot       = _tcsrchr(name, '.');
 

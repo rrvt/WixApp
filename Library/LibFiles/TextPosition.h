@@ -35,7 +35,7 @@ int rightEdge;                    // right edge of output window
 int leftMargin;
 
 
-Expandable<Tab, 0> tabs;         // Tab positions/Left/Right
+Expandable<Tab, 0> tabs;          // Tab positions/Left/Right
 
 public:
 
@@ -43,7 +43,7 @@ public:
 
   void initialize() {
     width = 1; leftEdge = rightEdge = leftMargin = cursorPos = maxCursorPos = lastWidth = 0;
-    tabs.clr();
+    tabs.clear();
     }
 
   void setLeftMargin( int lm)
@@ -60,7 +60,7 @@ public:
   int  getCharPos(){return width ? (cursorPos - leftEdge)/width - leftMargin: 0;}
                                              // Returns the current cursor position in characters
 
-  void clrTabs()   {tabs.clr();}             // Clear Tabs
+  void clrTabs()   {tabs.clear();}             // Clear Tabs
   void setTab( int charPos);                 // Insert an character position for the next
                                              // tab position
   void setRTab(int charPos);                 // Insert an character position for the next right

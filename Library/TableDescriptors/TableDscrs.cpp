@@ -9,11 +9,10 @@ TableDscrs tableDscrs;
 
 
 void TableDscrs::add(String& accessName, MapTable* table, Maps* mps) {
-TableDsc* p;
 
   if (find(accessName)) return;
 
-  p = &dscrs[dscrs.end()];  p->accName = accessName; p->mapTable = table;  p->maps = mps;
+  TableDsc& p = dscrs.nextData();  p.accName = accessName; p.mapTable = table;  p.maps = mps;
   }
 
 

@@ -23,7 +23,7 @@
 //
 //   MewAlloc(Node); Node* p = AllocArray(3);         // Three entries in an array of Nodes are created
 //                                                    // and the Node's constructor called for each entry
-// Free the the nodes must be done with the FreeNode or FreeArray macros.  The destructor for each
+// Freeing the nodes must be done with the FreeNode or FreeArray macros.  The destructor for each
 // Node is called and then the block of memory is freed.
 
 
@@ -81,7 +81,9 @@ public:
     T*   q;
     int  i;
 
-    for (i = 0, q = p; i < n; i++, q++) q->~T();   _free_dbg(pn, _NORMAL_BLOCK);
+    for (i = 0, q = p; i < n; i++, q++) q->~T();
+
+    _free_dbg(pn, _NORMAL_BLOCK);
     }
 
 #else

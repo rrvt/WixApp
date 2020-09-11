@@ -16,6 +16,8 @@ public:
 
   virtual BOOL OnOpenDocument(LPCTSTR lpszPathName) override;
 
+  virtual bool OnOpenIncDocument(LPCTSTR lpszPathName);
+
           bool reOpenDocument();              // Position to end of file
 
   virtual BOOL OnSaveDocument(LPCTSTR lpszPathName) override;

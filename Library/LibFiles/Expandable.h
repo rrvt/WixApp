@@ -1,19 +1,83 @@
 // Expandable Array
 // Copyright Software Design & Engineering, Robert R. Van Tuyl, 2013.  All rights reserved.
 
-// Data is a class, e.g. class Data {...}, and requires the following methods:
-//   -- Constructor with no argument, e.g. Data(), which initializes all components of the class
-//   -- Copy Constructor, e.g. Data(const Data& d), which copies all components of object d to
-//      object *this
-//   -- Assignment operator, e.g. Data& operator= (Data& d), which copies all components of object d to
-//      object *this and returns *this
-//   -- Destructor, e.g. ~Data() that releases objects obtained from the heap and zeros all data
-//      components
-// Furthermore, if the Data class contains a pointer to an object, then the copy operator must be
-// considered to be a move operator.  This means that the Data destructor must do no more than place
-// a zero in the pointer.  In the event that there are a mix of pointers and say Strings (which have
-// allocated content) then the Strings must be allowed to destruct normally and the pointers must just be
-// zeroed.
+/*
+Data is a class, e.g. class Data {...}, and requires the following methods:
+ -- Constructor with no argument, e.g. Data(), which initializes all components of the class
+ -- Copy Constructor, e.g. Data(const Data& d), which copies all components of object d to
+    object *this
+ -- Assignment operator, e.g. Data& operator= (Data& d), which copies all components of object d to
+    object *this and returns *this
+ -- Destructor, e.g. ~Data() that releases objects obtained from the heap and zeros all data
+    components
+Furthermore, if the Data class contains a pointer to an object, then the copy operator must be
+considered to be a move operator.  This means that the Data destructor must do no more than place
+a zero in the pointer.  In the event that there are a mix of pointers and say Strings (which have
+allocated content) then the Strings must be allowed to destruct normally and the pointers must just be
+zeroed.
+
+The easiest way to loop through all the elements in the array is to use an iterator.  It IterT.h file
+contains a template for creating an iterator for Expandable files.  First one must declare the Iterator
+class so that an object may be created somewhere that it is going to be used.  The Datum class is a record
+that is stored in an expandable array which is housed in class Xyz
+
+  class Xyz;
+  typedef IterT<Xyz, Datum> DataIter;                        // Iterator for the Xyz
+
+Now that is not all there is to do.  The Xyz class must implement the following:
+
+The template requires two functions be part of Store:
+
+  int   nData()            -- returns number of data items in array
+  Data* datum(int i)       -- returns either a pointer to data (or datum) at index i in array or zero
+  void  removeDatum(int i) -- if i in bounds, removes and deallocates record
+  friend typename DataIter -- required to give access to private area of Xyz.
+
+private:
+
+  // returns either a pointer to data (or datum) at index i in array or zero
+
+  Data* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}
+
+  int   nData()      {return data.end();}                       // returns number of data items in array
+
+  void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
+
+  friend typename DataIter;
+  };
+
+Once the iterator class is defined then the following is how it would be used:
+
+   DataIter iter(xyz);                          // Where: Xyz xyz;  (i.e. xyz is an object of class Xyz
+   Datum*   data;                               //
+
+     for (data = iter(); data; data = iter++) {
+       <Use data as a pointer to the record, it is guaranteed to be non-zero>
+       }
+
+
+The operations supported by an Expandable array where the declaration is:
+
+  Expandable<Datum, 2> data;
+  Datum                datum;
+
+the operations supported are:
+
+  datum = data[i];                  // where 0 <= i < endN
+  data[i] = datum;                  // array expands to encompass i
+  data.clear();                     // content is ignored but number of elements is set to zero
+  data = datum;                     // datum is inserted into the sorted array at the correct position
+                                    // ">=" and "==" operators in datum must be defined
+  data += datum;                    // datum is appended to array (at new last element)
+  Datum& d = data.nextData();       // A reference to new last element of array is returned.  It may used
+                                    // as shown or immedialy with a dot operator or even as a target of
+  data.nextData() = _T("xxx");      // an assignment (where a Datum operator= is defined)
+  data(i, datum);                   // datum is inserted at index i, the contents at i and above are moved
+                                    // up one element
+  data.del(i);                      // The datum at index i is deleted and the elements above are moved
+                                    // down to fill in the hole.  The number of elements in the array is
+                                    // reduced by one
+*/
 
 
 #pragma once
@@ -28,14 +92,14 @@ Data* tbl;
 
 public:
 
-  Expandable() : endN(0), tblN(n > 0 ? n : 1) {NewAlloc(Data); tbl = AllocArray(tblN);} //new Data[tblN];
+  Expandable() : endN(0), tblN(n > 0 ? n : 1) {NewAlloc(Data); tbl = AllocArray(tblN);}
 
  ~Expandable() {
     if (tbl) {NewAlloc(Data);  FreeArray(tbl);}
     tbl = 0; endN = tblN = 0;
     }
 
-  Expandable& operator= (Expandable& e) {clr(); copy(e); return *this;}
+  Expandable& operator= (Expandable& e) {clear(); copy(e); return *this;}
 
   Data& operator[] (int i) {
     if (i >= tblN) expand(i);
@@ -43,9 +107,8 @@ public:
     return tbl[i];
     }
 
-  void clr() {endN = 0;}            // Clears the number of items in array (without deleting data)
-  int  get() {return endN++;}       // Returns next item and increments
-  int  end() {return endN;}         // Returns number of items in array if inserted sequentially
+  void clear() {endN = 0;}            // Clears the number of items in array (without deleting data)
+  int  end()   {return endN;}         // Returns number of items in array if inserted sequentially
 
 
   // Insert Data d into array sorted (being sure to expand it if necessary.  Note, if one use [] to insert
@@ -64,6 +127,16 @@ public:
       }
     return *this;
     }
+
+  // Append Data to end of array, copies data into array entry
+
+  Expandable& operator+= (Data& d) {Data& data = (*this)[endN];  data = d;  return *this;}
+  Expandable& operator+= (Data* d)
+          {if (!d) return *this;    Data& data = (*this)[endN];  data = *d; return *this;}
+
+  // Return reference to next available node in array (at end)
+
+  Data& nextData() {return (*this)[endN];}
 
   // Insert data at index, moving other entries out of the way
 

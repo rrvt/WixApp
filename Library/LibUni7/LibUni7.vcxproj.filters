@@ -39,9 +39,6 @@
     <ClInclude Include="..\LibFiles\Crypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\LibFiles\Csv.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\LibFiles\Currency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -213,6 +210,21 @@
     <ClInclude Include="..\LibFiles\IterT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\LibFiles\CSVLex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibFiles\CSVOut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibFiles\CSVRcdB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibFiles\CSVRcdsT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LibFiles\ExpandableP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\LibFiles\AceDao.cpp">
@@ -359,9 +371,6 @@
     <ClCompile Include="..\LibFiles\CMainFrm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\LibFiles\Csv.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\LibFiles\Wrap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -369,6 +378,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\LibFiles\VertMgmt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\CSVLex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\CSVOut.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LibFiles\CSVRcdB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

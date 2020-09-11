@@ -10,8 +10,6 @@
 #include "Product.h"
 #include "Resources.h"
 #include "WixDataDlg.h"
-#include "afxwinappex.h"
-#include "afxdialogex.h"
 
 
 // WixApp

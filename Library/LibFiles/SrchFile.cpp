@@ -15,13 +15,13 @@ SrchFile::SrchFile(TCchar* path) {
 // lines have form:  Key=val
 
 bool SrchFile::forValOf(TCchar* key, CString& val) {
-String pat = '^';   pat += key;   pat += '=';
+String pat = _T('^');   pat += key;   pat += _T('=');
 
   if (!opened) return false;
 
   if (!forPat(pat)) return false;
 
-  String s = line;   val = s.substr(s.find('=') + 1);   return true;
+  String s = line;   val = s.substr(s.find(_T('=')) + 1);   return true;
   }
 
 

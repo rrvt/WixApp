@@ -19,11 +19,11 @@ int    posComma;
 int    brkPt;
 String word = _T("Word");
 
-  lines.clr();
+  lines.clear();
 
-  if (!enabled) {lines[0] = s;  return lines.end();}
+  if (!enabled) {lines += s;  return lines.end();}
 
-  if (extent <= width(word)) {lines[lines.end()] = s; return 1;}
+  if (extent <= width(word)) {lines += s; return 1;}
 
   while (width(s) > extent) {
     brkPt    = 0;   t.clear();
@@ -38,10 +38,10 @@ String word = _T("Word");
     if (width(t) < threshold) {brkPt = findLastChar(s); t = s.substr(0, brkPt);}
     if (t.isEmpty())          {brkPt = s.length() / 2;  t = s.substr(0, brkPt);}
 
-    lines[lines.end()] = t; s = s.substr(brkPt); s.trim();
+    lines += t; s = s.substr(brkPt); s.trim();
     }
 
-  if (!s.isEmpty()) lines[lines.end()] = s;
+  if (!s.isEmpty()) lines += s;
 
   return lines.end();
   }

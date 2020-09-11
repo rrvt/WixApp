@@ -4,6 +4,7 @@
 
 #pragma once
 #include "EditBox.h"
+#include "Expandable.h"
 
 
 //enum BoxType {NilBox, TimeBox, OrdinalClassBox, OrdinalRideBox, BreakBox};
@@ -34,7 +35,7 @@ public:
 
   void    setView(CWnd* v) {view = v;}
 
-  int     get() {return boxes.get();}
+//  int     get() {return boxes.get();}
   void    create(int vPos, int editBoxX, int x, int y, int width, int height);
   void    set(    int x, String& s, BoxType bt) {if (-1 < x && x < boxes.end()) boxes[x].p->set(s, bt);}
   void    setFocus(int x)              {if (-1 < x && x < boxes.end()) boxes[x].p->setFocus();}
@@ -74,7 +75,7 @@ public:
 
   operator int() {if (x < 0) get();  return x;}
 
-  void get()   {if (x < 0) x = editBoxes.get();}
+  void get()   {if (x < 0) x = 1/*editBoxes.get()*/;}
 
   void set(String& initialVal, BoxType bt)   {get(); editBoxes.set(x, initialVal, bt);}
 

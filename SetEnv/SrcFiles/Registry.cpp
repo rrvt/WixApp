@@ -189,8 +189,8 @@ void Registry::insertInTable(String& t) {
 int i;
 
   for (i = 0; i < tbl.end(); i++)
-    if (t == tbl[i]) {deleteValue(t); t = _T("Duplicated: ") + t + _T("\n");  Output(t); return;}
-  tbl[tbl.end()] = t;
+            if (t == tbl[i]) {deleteValue(t); t = _T("Duplicated: ") + t + _T("\n");  Output(t); return;}
+  tbl += t;
   }
 
 

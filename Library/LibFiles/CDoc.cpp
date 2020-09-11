@@ -18,6 +18,18 @@ BOOL CDoc::OnOpenDocument(LPCTSTR lpszPathName) {
   }
 
 
+bool CDoc::OnOpenIncDocument(LPCTSTR lpszPathName) {
+
+  if (!lpszPathName) return false;
+
+  path = lpszPathName;
+
+  Archive ar(path, FileIO::Read | FileIO::Write);   if (!ar.isOpen()) return false;
+
+  serialize(ar); return true;
+  }
+
+
 // Position to end of file
 
 bool CDoc::reOpenDocument() {

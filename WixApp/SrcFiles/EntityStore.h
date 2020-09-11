@@ -22,7 +22,7 @@ Expandable <Data, n> data;
 
   EntityStore& operator= (EntityStore& es) {copyObj(es); return *this;}
 
-  void  clear() {data.clr(); curID.clear(); loopX = 0;}
+  void  clear() {data.clear(); curID.clear(); loopX = 0;}
 
   Data* curData() {return curID.isEmpty() ? 0 : find(curID);}
 
@@ -79,7 +79,7 @@ void EntityStore<Data, n>::copyObj(EntityStore& es) {
 int i;
 int n = es.data.end();
 
-  data.clr();   loopX = es.loopX;  curID = es.curID;
+  data.clear();   loopX = es.loopX;  curID = es.curID;
 
   for (i = 0; i < n; i++) data[i] = es.data[i];
   }
@@ -108,7 +108,7 @@ Data* p = find(id);   if (p) return p;
 template <class Data, const int n>
 Data* EntityStore<Data, n>::newItem(TCchar* id) {
 String s = id;
-Data&  d = data[data.end()];
+Data&  d = data.nextData();
 
   if (s.isEmpty()) s = _T("< Name >");   d.id = curID = s;   return &d;
   }

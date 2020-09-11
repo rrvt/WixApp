@@ -22,8 +22,9 @@ FileIO fil;
 
 public:
 
-  Archive(String& fileName, FileIO::OpenParms mode) : opened(false), storing(false) {
-    opened = fil.open(fileName, mode); storing = mode & (FileIO::Create | FileIO::Write);
+  Archive(String& fileName, int mode) : opened(false), storing(false) {
+    opened = fil.open(fileName, mode);
+    if (mode != (FileIO::Read | FileIO::Write)) storing = mode & (FileIO::Create | FileIO::Write);
     initialize();
     }
 
@@ -34,7 +35,7 @@ public:
 
   bool     isOpen()                      {return opened;}
 
-  void     seekEnd()                     {fil.seekEnd();}
+  void     seekEnd()                     {fil.seekEnd(); storing = true;}
 
   bool     write(String&       s)        {return fil.write(s);}             // interprets \n or \r
   bool     write(TCchar*      ts)        {return fil.write(ts);}
