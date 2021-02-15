@@ -27,11 +27,12 @@
     </Publish>
   </UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
-  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
+  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixApp\WixApp\..\Debug\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixApp\WixApp\..\Debug\banner.bmp"/>
 
-  <Icon     Id="WixAppIcon.ico" SourceFile="$(var.SolutionDir)..\SrcFiles\res\WixApp.ico"/>
-  <Property Id="ARPPRODUCTICON"  Value="WixAppIcon.ico" />
+  <Icon     Id="WixAppIcon.ico" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\WixApp.ico"/>
+  <Icon     Id="UninstallIcon.ico" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\Uninstall.ico"/>
+  <Property Id="ARPPRODUCTICON"  Value="UninstallIcon.ico" />
 
   <Feature Id="ProductFeatures" Title="Main Product" Level="1" >
     <ComponentGroupRef Id="WixApp.ftr"/>
@@ -115,7 +116,7 @@
 
 <Fragment>
 
-  <Component Id="UninstallWixApp.cmp"  Guid="3AB264BF-6004-4B51-8BF1-3E55B2E9B59E"
+  <Component Id="UninstallWixApp.cmp"  Guid="675EE81B-3338-4840-A672-86CBD4BA9AEA"
                                                                               Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"
@@ -123,7 +124,7 @@
               Description      = "Uninstalls WixApp"
               Target           = "[System64Folder]msiexec.exe"
               Arguments        = "/x [ProductCode]"
-              Icon             = "WixAppIcon.ico"
+              Icon             = "UninstallIcon.ico"
               />
     <RemoveFolder Id="WixApp.uni" Directory="WixApp.pmf" On="uninstall"/>
     <RegistryValue Root="HKCU" Key="Software\UninstallWixApp.cmp" Name="installed"

@@ -1,0 +1,72 @@
+//
+// CalibDspPrtDlg.RC2 - resources Microsoft Visual C++ does not edit directly
+//
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_Calibrate DIALOGEX 0, 0, 332, 243
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Calibrate Display/Printer"
+FONT 12, "Arial", 400, 0, 0x0
+BEGIN
+    LTEXT           "",IDC_CalibInstr,14,7,304,75,WS_BORDER
+    GROUPBOX        "Calibrate",IDC_STATIC,14,92,302,28,BS_FLAT,WS_EX_CLIENTEDGE
+    CONTROL         "Display",IDC_Display,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,27,101,46,13
+    CONTROL         "Printer",IDC_Printer,"Button",BS_AUTORADIOBUTTON,165,101,44,13
+    CTEXT           "Left Value",IDC_LeftValue,46,153,44,14,SS_CENTERIMAGE,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_Scale,127,153,44,14,ES_CENTER | NOT WS_BORDER,WS_EX_CLIENTEDGE
+    CTEXT           "Right Value",IDC_RightValue,212,153,44,14,SS_CENTERIMAGE,WS_EX_CLIENTEDGE
+    GROUPBOX        "Choose Next Value",IDC_STATIC,14,139,304,59,BS_FLAT,WS_EX_CLIENTEDGE
+    CONTROL         "Left of Left",IDC_LeftLeft,"Button",
+                                     BS_AUTORADIOBUTTON | BS_VCENTER | WS_GROUP | WS_TABSTOP,20,178,43,10
+    CONTROL         "Left Middle",IDC_LeftMid,"Button",BS_AUTORADIOBUTTON,106,178,47,10
+    CONTROL         "Right Middle",IDC_RightMid,"Button",BS_AUTORADIOBUTTON,188,178,50,10
+    CONTROL         "Right of Right",IDC_RightRight,"Button",BS_AUTORADIOBUTTON,248,178,51,10,WS_EX_RIGHT
+    DEFPUSHBUTTON   "OK",IDOK,6,222,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,275,222,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_Calibrate, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 325
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 141
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_Calibrate AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+STRINGTABLE
+BEGIN
+  ID_CalibDspPrt "Calibrate Display/Print Font/nCalibrate Display/Print Font"
+END
+

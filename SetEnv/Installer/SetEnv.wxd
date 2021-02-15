@@ -7,18 +7,18 @@ NoIcons=1
 [Icon00]
 IconID=Airstream
 WixID=AirstreamIcon.ico
-IconPath=D:\Sources\SetEnv\SrcFiles\Airstream.ico
+IconPath=D:\Sources\SetEnv\SetEnv.prj\Airstream.ico
 [DefaultPath]
 NPaths=2
 DefKey0=SetEnv.ftr
 SetEnv.ftr.Path=D:\Sources\SetEnv\SetEnv\
 DefKey1=Icon
-Icon.Path=D:\Sources\SetEnv\SrcFiles\
+Icon.Path=D:\Sources\SetEnv\SetEnv.prj\
 [Product]
 ProductName=SetEnv
 Company=Bob -- K6RWY
 WixName=SetEnv
-WixVersion=1.2.2.0
+WixVersion=1.2.4.0
 UpgradeGUID=242E8886-014A-42B0-AAEC-CB819CE99BD8
 SaveVerAllowed=0
 LicenseRequired=0

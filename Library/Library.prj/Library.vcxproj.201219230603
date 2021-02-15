@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AceDao.cpp" />
+    <ClCompile Include="Archive.cpp" />
+    <ClCompile Include="CalibDpsPrt.cpp" />
+    <ClCompile Include="CApp.cpp" />
+    <ClCompile Include="CDoc.cpp" />
+    <ClCompile Include="CMainFrm.cpp" />
+    <ClCompile Include="ComboBox.cpp" />
+    <ClCompile Include="CopyFile.cpp" />
+    <ClCompile Include="CryptDe.cpp" />
+    <ClCompile Include="CryptEn.cpp" />
+    <ClCompile Include="CryptInit.cpp" />
+    <ClCompile Include="CScrView.cpp" />
+    <ClCompile Include="CSVLex.cpp" />
+    <ClCompile Include="CSVOut.cpp" />
+    <ClCompile Include="CSVRcdB.cpp" />
+    <ClCompile Include="Currency.cpp" />
+    <ClCompile Include="Date.cpp" />
+    <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Display.cpp" />
+    <ClCompile Include="DisplayDev.cpp" />
+    <ClCompile Include="DsplyMgr.cpp" />
+    <ClCompile Include="EditBox.cpp" />
+    <ClCompile Include="EditBoxes.cpp" />
+    <ClCompile Include="FileIO.cpp" />
+    <ClCompile Include="filename.cpp" />
+    <ClCompile Include="FilePaths.cpp" />
+    <ClCompile Include="filesrch.cpp" />
+    <ClCompile Include="FontMgr.cpp" />
+    <ClCompile Include="GetPathDlg.cpp" />
+    <ClCompile Include="Guid.cpp" />
+    <ClCompile Include="Handle.cpp" />
+    <ClCompile Include="Horiz.cpp" />
+    <ClCompile Include="IniFile.cpp" />
+    <ClCompile Include="LexTOut.cpp" />
+    <ClCompile Include="LoadScratchPad.cpp" />
+    <ClCompile Include="MapTable.cpp" />
+    <ClCompile Include="match.cpp" />
+    <ClCompile Include="MessageBox.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Note.cpp" />
+    <ClCompile Include="NoteMgr.cpp" />
+    <ClCompile Include="NotePad.cpp" />
+    <ClCompile Include="NoteRptB.cpp" />
+    <ClCompile Include="Options.cpp" />
+    <ClCompile Include="PrintMgr.cpp" />
+    <ClCompile Include="Random.cpp" />
+    <ClCompile Include="ReportBase.cpp" />
+    <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="ShowMgr.cpp" />
+    <ClCompile Include="SrchFile.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Strings.cpp" />
+    <ClCompile Include="TabStops.cpp" />
+    <ClCompile Include="TBButton.cpp" />
+    <ClCompile Include="TBComboBox.cpp" />
+    <ClCompile Include="TBEditBox.cpp" />
+    <ClCompile Include="TextPosition.cpp" />
+    <ClCompile Include="ToolBar.cpp" />
+    <ClCompile Include="ToString.cpp" />
+    <ClCompile Include="trim.cpp" />
+    <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="VertMgmt.cpp" />
+    <ClCompile Include="WindowData.cpp" />
+    <ClCompile Include="WindowPos.cpp" />
+    <ClCompile Include="Wrap.cpp" />
+    <ClCompile Include="XTerm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AceDao.h" />
+    <ClInclude Include="Archive.h" />
+    <ClInclude Include="CalibDspPrt.h" />
+    <ClInclude Include="CApp.h" />
+    <ClInclude Include="CDoc.h" />
+    <ClInclude Include="CMainFrm.h" />
+    <ClInclude Include="ComboBox.h" />
+    <ClInclude Include="comdef.h" />
+    <ClInclude Include="CopyFile.h" />
+    <ClInclude Include="Crypt.h" />
+    <ClInclude Include="CScrView.h" />
+    <ClInclude Include="CSVLex.h" />
+    <ClInclude Include="CSVOut.h" />
+    <ClInclude Include="CSVRcdB.h" />
+    <ClInclude Include="CSVRcdsT.h" />
+    <ClInclude Include="Currency.h" />
+    <ClInclude Include="Date.h" />
+    <ClInclude Include="Debug.h" />
+    <ClInclude Include="Display.h" />
+    <ClInclude Include="DisplayDev.h" />
+    <ClInclude Include="DsplyMgr.h" />
+    <ClInclude Include="EditBox.h" />
+    <ClInclude Include="EditBoxes.h" />
+    <ClInclude Include="Expandable.h" />
+    <ClInclude Include="ExpandableP.h" />
+    <ClInclude Include="FileIO.h" />
+    <ClInclude Include="filename.h" />
+    <ClInclude Include="FilePaths.h" />
+    <ClInclude Include="filesrch.h" />
+    <ClInclude Include="FontMgr.h" />
+    <ClInclude Include="GetPathDlg.h" />
+    <ClInclude Include="Guid.h" />
+    <ClInclude Include="Handle.h" />
+    <ClInclude Include="Horiz.h" />
+    <ClInclude Include="IniFile.h" />
+    <ClInclude Include="InsertSorted.h" />
+    <ClInclude Include="IterT.h" />
+    <ClInclude Include="LexT.h" />
+    <ClInclude Include="LexTOut.h" />
+    <ClInclude Include="LoadScratchPad.h" />
+    <ClInclude Include="ManipT.h" />
+    <ClInclude Include="MapsT.h" />
+    <ClInclude Include="MapTable.h" />
+    <ClInclude Include="match.h" />
+    <ClInclude Include="MessageBox.h" />
+    <ClInclude Include="NewAllocator.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Note.h" />
+    <ClInclude Include="NoteMgr.h" />
+    <ClInclude Include="NotePad.h" />
+    <ClInclude Include="NoteRptB.h" />
+    <ClInclude Include="Options.h" />
+    <ClInclude Include="PrintMgr.h" />
+    <ClInclude Include="qsort.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="ReportBase.h" />
+    <ClInclude Include="Resources.h" />
+    <ClInclude Include="ShowMgr.h" />
+    <ClInclude Include="SrchFile.h" />
+    <ClInclude Include="std.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringInput.h" />
+    <ClInclude Include="Strings.h" />
+    <ClInclude Include="TabStops.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TBButton.h" />
+    <ClInclude Include="TBComboBox.h" />
+    <ClInclude Include="TBEditBox.h" />
+    <ClInclude Include="TextPosition.h" />
+    <ClInclude Include="Token.h" />
+    <ClInclude Include="ToolBar.h" />
+    <ClInclude Include="ToString.h" />
+    <ClInclude Include="trim.h" />
+    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Variant.h" />
+    <ClInclude Include="VertMgmt.h" />
+    <ClInclude Include="WindowData.h" />
+    <ClInclude Include="WindowPos.h" />
+    <ClInclude Include="Wrap.h" />
+    <ClInclude Include="XTerm.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Project</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>
+      </SDLCheck>
+      <PreprocessorDefinitions>WIN32;_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>Setupapi.lib;Version.lib</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4006,4221</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>Setupapi.lib;Version.lib</AdditionalDependencies>
+      <AdditionalOptions>/ignore:4006,4221</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

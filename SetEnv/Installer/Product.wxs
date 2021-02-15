@@ -30,7 +30,7 @@
   <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
   <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
 
-  <Icon     Id="AirstreamIcon.ico" SourceFile="$(var.SolutionDir)..\SrcFiles\Airstream.ico"/>
+  <Icon     Id="AirstreamIcon.ico" SourceFile="$(var.SolutionDir)..\SetEnv.prj\Airstream.ico"/>
   <Property Id="ARPPRODUCTICON"  Value="AirstreamIcon.ico" />
 
   <!-- Custom Action to set the system (Machine) Path Variable -->
