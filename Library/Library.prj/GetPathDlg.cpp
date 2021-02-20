@@ -5,8 +5,18 @@
 #include "GetPathDlg.h"
 
 
+// Local function
+
 static bool saveDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, bool overwrt,
                                                                                             String& path);
+
+
+PathDlgDsc::PathDlgDsc(TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat)
+                                                        {title = ttl; name = nm; ext = e; pattern = pat;}
+
+
+void PathDlgDsc::copy(PathDlgDsc& dsc)
+                          {title = dsc.title;  name = dsc.name;   ext = dsc.ext;  pattern = dsc.pattern;}
 
 
 static bool dlgPath(CFileDialog* dlg, TCchar* title, String& path);
@@ -18,6 +28,14 @@ static bool dlgPath(CFileDialog* dlg, TCchar* title, String& path);
 //                 needed
 //   extPat      - one or more wild card filter of the extensions requested (e.g. "*.txt;*.cpp")
 //                 The All Files filter is appended to the list as another alternative
+
+
+
+
+bool getPathDlg(PathDlgDsc& dsc, String& path)
+                                    {return getPathDlg(dsc.title, dsc.name, dsc.ext, dsc.pattern, path);}
+
+
 
 bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path) {
 String e = title;   e += _T('|');    e += extPat;    e += _T("|All Files|*.*||");

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Component.h"
-#include "DefaultPath.h"
+//#include "DefaultPath.h"
 #include "Feature.h"
 #include "filename.h"
 #include "Guid.h"
@@ -15,29 +15,30 @@
 #include "WixApp.h"
 
 
-static TCchar* Section        = _T("%s.cmp");
-static TCchar* IDkey          = _T("ID");
-static TCchar* PathKey        = _T("Path");
-static TCchar* GuidKey        = _T("Guid");
-static TCchar* DescKey        = _T("Description");
-static TCchar* IconKey        = _T("IconID");
-static TCchar* IsStartMenuKey = _T("IsStartMenu");
-static TCchar* IsDeskTopKey   = _T("IsDeskTop");
-static TCchar* IsVersionKey   = _T("IsVersionAvail");
-static TCchar* IsOnPathKey    = _T("IsOnPath");
-static TCchar* IsWin7Key      = _T("IsWin7");
-static TCchar* IsWinXPKey     = _T("IsWinXP");
-static TCchar* IsWin2KKey     = _T("IsWin2K");
-static TCchar* ProgKey        = _T("Program");
-static TCchar* StartKey       = _T("Start");
+static TCchar*    Section        = _T("%s.cmp");
+static TCchar*    IDkey          = _T("ID");
+static TCchar*    PathKey        = _T("Path");
+static TCchar*    GuidKey        = _T("Guid");
+static TCchar*    DescKey        = _T("Description");
+static TCchar*    IconKey        = _T("IconID");
+static TCchar*    IsStartMenuKey = _T("IsStartMenu");
+static TCchar*    IsDeskTopKey   = _T("IsDeskTop");
+static TCchar*    IsVersionKey   = _T("IsVersionAvail");
+static TCchar*    IsOnPathKey    = _T("IsOnPath");
+static TCchar*    IsWin7Key      = _T("IsWin7");
+static TCchar*    IsWinXPKey     = _T("IsWinXP");
+static TCchar*    IsWin2KKey     = _T("IsWin2K");
+static TCchar*    ProgKey        = _T("Program");
+static TCchar*    StartKey       = _T("Start");
 
-static TCchar* ComponentExt   = _T("cmp");
+static TCchar*    ComponentExt   = _T("cmp");
 
-static TCchar* SetEnvSect     = _T("SetEnv");
-static TCchar* SetEnvPath     = _T("Path");
+static TCchar*    SetEnvSect     = _T("SetEnv");
+static TCchar*    SetEnvPath     = _T("Path");
 
-static TCchar* CmpPathKey     = _T("Component");
+static TCchar*    CmpPathKey     = _T("Component");
 
+static BrowseDsc  browseDsc      = {_T("Cmp"), _T("Component File"), _T(""), _T("*"), _T("")};
 
 
 Component::Component() : isStartMenu(false), isDesktop(false),   isVersionAvail(false),
@@ -46,12 +47,15 @@ Component::Component() : isStartMenu(false), isDesktop(false),   isVersionAvail(
                          isWin2K(false),     iconUsed(false) { }
 
 
-void Component::readWixData( ) {
+void Component::readWixData(String& ftrID) {
 
   section.format(Section,      id.str());
 
   readOne(IDkey,   id);          wixID = getWixID(id, ComponentExt);
-  pathDsc.readWixData(section, PathKey);      setApp(pathDsc.path());
+
+  browseDsc.dfltKey = ftrID;   pathDsc.readWixData(browseDsc, section, PathKey);
+
+  setApp(pathDsc.path());
   readOne(GuidKey, guid);
   readOne(DescKey, description);
   readOne(IconKey, iconID);
@@ -74,11 +78,11 @@ void Component::readOne(TCchar* key, String& v) {
 
 
 
-void Component::readWixData2(String& cmpSection) {
+void Component::readWixData2(String& ftrID, String& cmpSection) {
 
   wixID = getWixID(id, ComponentExt);
 
-  pathDsc.readWixData(cmpSection, PathKey);
+  browseDsc.dfltKey = ftrID; pathDsc.readWixData(browseDsc, cmpSection, PathKey);
 
   guid.clear();        wxd.readString(cmpSection, GuidKey, guid);
   description.clear(); wxd.readString(cmpSection, DescKey, description);
@@ -190,9 +194,9 @@ void Component::updateComponent(WixDataDlg& dialog) {
 #endif
 
 
-void Component::browsePath(WixDataDlg& dialog) {
+void Component::browsePath(String& ftrID, WixDataDlg& dialog) {
 
-  pathDsc.browse(_T("Get Component Directory"), _T("*"), _T(""));
+  browseDsc.dfltKey = ftrID; pathDsc.browse(browseDsc);
 
   dialog.pathEB.SetWindowText(pathDsc);
 

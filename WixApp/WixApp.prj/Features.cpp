@@ -207,7 +207,7 @@ Feature* ftr;
 
   dialog.featureCB.getCurSel(s);   ftr = store.find(s);
 
-  if (ftr) {ftr->load(dialog); defaultPath.setCurPath(ftr->wixID);}
+  if (ftr) ftr->load(dialog);                   //defaultPath.setKey(ftr->wixID);}
   }
 
 

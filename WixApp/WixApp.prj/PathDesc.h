@@ -3,6 +3,25 @@
 
 
 #pragma once
+#include "GetPathDlg.h"
+
+
+class BrowseDsc : public PathDlgDsc {
+public:
+
+String dfltKey;
+
+  BrowseDsc() { }
+  BrowseDsc(TCchar* key, TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat);
+  BrowseDsc(BrowseDsc& dsc) {copy(dsc);}
+ ~BrowseDsc() { }
+
+  BrowseDsc& operator= (BrowseDsc& dsc) {copy(dsc); return *this;}
+
+private:
+
+  void copy(BrowseDsc& dsc) {PathDlgDsc::copy(dsc); dfltKey = dsc.dfltKey;}
+  };
 
 
 class PathDesc {
@@ -15,17 +34,17 @@ public:
   PathDesc(PathDesc& p) {relSol = p.relSol;}
  ~PathDesc() { }
 
- void    clear() {relSol.clear();}
+ void       clear() {relSol.clear();}
 
-  void readWixData(TCchar* section, TCchar* key);
-  void writeWixData(TCchar* section, TCchar* key);
+  void      readWixData(BrowseDsc& dsc, TCchar* section, TCchar* key);
+  void      writeWixData(TCchar* section, TCchar* key);
 
   PathDesc& operator= (PathDesc& p) {relSol = p.relSol; return *this;}
   PathDesc& operator= (String& fullPath) {relativeSolution(fullPath); return *this;}
 
   bool      isEmpty()  {return relSol.isEmpty();}
   operator  TCchar*()  {return relSol;}
-  String&   browse(TCchar* title, TCchar* ext, TCchar* pat);
+  String&   browse(BrowseDsc& dsc);
   String    path();
   String    relative() {return relSol.isEmpty() ? _T("") : _T("$(var.SolutionDir)") + relSol;}
 
@@ -33,4 +52,9 @@ private:
 
   void      relativeSolution(const String& fullPath);
   };
+
+
+
+//void      readWixData(TCchar* section, TCchar* key);
+//String&   browse(TCchar* title, TCchar* ext, TCchar* pat);
 

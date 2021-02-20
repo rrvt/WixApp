@@ -5,16 +5,34 @@
 #include "PathDesc.h"
 #include "DefaultPath.h"
 #include "filename.h"
-#include "GetPathDlg.h"
 #include "Solution.h"
 #include "WixOut.h"
 
 
-void PathDesc::readWixData(TCchar* section, TCchar* key) {
+
+
+BrowseDsc::BrowseDsc(TCchar* key, TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat) :
+                                                            dfltKey(key), PathDlgDsc(ttl, nm, e, pat) { }
+
+
+void PathDesc::readWixData(BrowseDsc& dsc, TCchar* section, TCchar* key) {
 String path;
 
-  wxd.readString(section, key, path);  if (!path.isEmpty()) relativeSolution(path);
+  wxd.readString(section, key, path);
+
+  if (!path.isEmpty()) {
+
+    if (!PathFileExists(path) && !dsc.dfltKey.isEmpty()) {
+      BrowseDsc pthDsc = dsc;  pthDsc.name = path;
+
+      browse(pthDsc); return;
+      }
+
+    relativeSolution(path);
+    }
   }
+
+
 
 
 void PathDesc::writeWixData(TCchar* section, TCchar* key) {
@@ -22,13 +40,16 @@ void PathDesc::writeWixData(TCchar* section, TCchar* key) {
   }
 
 
-String& PathDesc::browse(TCchar* title, TCchar* ext, TCchar* pat) {
-String defPath = defaultPath.getCurPath();
+String& PathDesc::browse(BrowseDsc& dsc) {
+String defPath = defaultPath.getPath(dsc.dfltKey);
+String name    = dsc.name.isEmpty() ? defPath : dsc.name;
 String path;
 
-  getPathDlg(title, defPath, ext, pat, path);   relativeSolution(path);
+  if (!getPathDlg(dsc.title, name, dsc.ext, dsc.pattern, path)) path = dsc.name;
 
-  defaultPath.save(path);
+  relativeSolution(path);
+
+  defaultPath.save(dsc.dfltKey, path);
 
   return relSol;
   }
@@ -39,11 +60,13 @@ String path;
 void PathDesc::relativeSolution(const String& fullPath) {
 String    pathOnly = getPath(fullPath);
 String    fileName = removePath(fullPath);
-PathUnits pathU = pathOnly;
+PathUnits pathU    = pathOnly;
 PUIter    iter(pathU);
 String*   pathSub;
 String*   solSub;
 int       i;
+
+  relSol.clear();
 
   if (pathOnly.find(_T(':')) < 0) {relSol = fullPath; return;}
 
@@ -52,8 +75,6 @@ int       i;
 
     if (*solSub != *pathSub) break;
     }
-
-  relSol.clear();
 
   if (i > 0) {
 
@@ -99,4 +120,30 @@ String prefix;
 
   if (!prefix.isEmpty() || !fileName.isEmpty()) relSol = _T("...") + prefix + fileName;
 #endif
+
+
+#if 0
+void PathDesc::readWixData(TCchar* section, TCchar* key) {
+String path;
+
+  wxd.readString(section, key, path);  if (!path.isEmpty()) relativeSolution(path);
+  }
+#endif
+
+
+#if 0
+String& PathDesc::browse(TCchar* title, TCchar* ext, TCchar* pat) {
+String defPath = defaultPath.getCurPath();
+String path;
+
+  getPathDlg(title, defPath, ext, pat, path);   relativeSolution(path);
+
+  defaultPath.save(path);
+
+  return relSol;
+  }
+#endif
+
+
+
 

@@ -8,16 +8,20 @@
 #include "WixUtilities.h"
 
 
-static TCchar* IconsSection = _T("Icons");
-static TCchar* NoKeys       = _T("NoIcons");
-static TCchar* IconSection  = _T("Icon%02i");
-static TCchar* IconIDKey    = _T("IconID");
-static TCchar* WixIDKey     = _T("WixID");
+static TCchar*    IconsSection = _T("Icons");
+static TCchar*    NoKeys       = _T("NoIcons");
+static TCchar*    IconSection  = _T("Icon%02i");
+static TCchar*    IconIDKey    = _T("IconID");
+static TCchar*    WixIDKey     = _T("WixID");
 
-static TCchar* IconPath     = _T("IconPath");
-static TCchar* IconExt      = _T("ico");
-static TCchar* Icon         = _T("Icon");
-static TCchar* IconPathKey  = _T("Icon");
+static TCchar*    IconPath     = _T("IconPath");
+static TCchar*    IconExt      = _T("ico");
+static TCchar*    Icon         = _T("Icon");
+static TCchar*    IconPathKey  = _T("Icon");
+
+static BrowseDsc  browseDsc    = {IconPathKey, _T("Icon File"), _T(""), _T("ico"), _T("*.ico")};
+
+
 
 Icons icons;
 
@@ -42,8 +46,11 @@ IconDesc* dsc;
   }
 
 
-void IconDesc::readWixData(TCchar* section)
-                  {String path;   setWixID();   pathDsc.readWixData(section, IconPath);   inUse = false;}
+void IconDesc::readWixData(TCchar* section) {
+String path;
+
+  setWixID();   pathDsc.readWixData(browseDsc, section, IconPath);   inUse = false;
+  }
 
 
 void Icons::writeWixData() {
@@ -77,7 +84,9 @@ String    path;
 String    id;
 IconDesc* dsc;
 
-  defaultPath.setCurPath(IconPathKey);   path = pathDsc.browse(_T("Icon"), _T("ico"), _T("*.ico"));
+  //defaultPath.setKey(IconPathKey);
+
+  path = pathDsc.browse(browseDsc);
 
   if (!path.isEmpty()) {
 

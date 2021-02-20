@@ -14,6 +14,7 @@ class IconDesc : public Data {
 PathDesc pathDsc;
 
 public:
+
 bool     inUse;
 
   IconDesc() : inUse(false) { }

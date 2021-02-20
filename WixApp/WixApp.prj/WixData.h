@@ -11,6 +11,7 @@ class WixDataDlg;
 class WixData {
 
 bool newFileNow;
+bool loadingFileNow;
 
 public:
 
@@ -24,10 +25,6 @@ public:
   void        newFile(WixDataDlg* dialog);
   void        openFile(WixDataDlg* dialog);
   void        setDefaults(WixDataDlg* dialog);
-
-//  void        updatePath(String& s);
-//  TCchar*     getWixPath( String& path);
-//  void        saveWixPath(TCchar* path);
 
   void        getWxdPath( String& path);
   void        saveWxdPath(TCchar* path);

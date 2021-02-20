@@ -38,21 +38,30 @@ String s;                                                                 //wixD
   dlg.Expanation2  = explanation2;
   s = pathUnits;     dlg.solutionPath = s;  //.str()
 
-  if (dlg.DoModal() == IDOK) {
-    if (getPathDlg(_T("Solution File"), 0, _T("sln"), _T("*.sln"), s))
-                                                {name = getMainName(s);   pathUnits = getPath(s);}
-    }
+  if (dlg.DoModal() == IDOK) getSolutionPath();
   }
 
 
 void Solution::readWixData() {
 String path;
 
-  wxd.readString(SolutionSection, SolPathKey, path);   pathUnits = path;
+  wxd.readString(SolutionSection, SolPathKey, path);
   wxd.readString(SolutionSection, SolNameKey, name);
+
+  if (!PathFileExists(path)) getSolutionPath(path);
+  else                       pathUnits = path;
+
   wxd.readString(SolutionSection, SolVersion, version);
 
   if (pathUnits.isEmpty() || name.isEmpty()) newFile();
+  }
+
+
+void Solution::getSolutionPath(TCchar* fullPath) {
+String s;
+
+  if (getPathDlg(_T("Solution File"), fullPath, _T("sln"), _T("*.sln"), s))
+                                                       {name = getMainName(s);   pathUnits = getPath(s);}
   }
 
 
@@ -61,35 +70,13 @@ String path;
 void Solution::writeWixData() {
 Tchar  buf[32];
 String version;
+String fullPath = solution.pathUnits + name + _T(".sln");
 
   LoadString(0, IDR_WXDversion, buf, noElements(buf));    version = buf;
 
-  wxd.writeString(SolutionSection, SolPathKey, (String) solution.pathUnits);
+  wxd.writeString(SolutionSection, SolPathKey, fullPath);
   wxd.writeString(SolutionSection, SolNameKey, name);
   wxd.writeString(SolutionSection, SolVersion, version);
   }
-
-
-//void Solution::loadEB(WixDataDlg& dialog) {dialog.wixNameEB.SetWindowText(name);}
-
-
-#if 0
-void Solution::getRelSolution(String& path, String& varPath) {
-String    main;
-PathUnits var;
-String    s;
-
-  if (pathUnits.isEmpty()) {varPath = path.isEmpty() ? _T("") : path;   return;}
-
-  main = removePath(path);
-
-  var = getPath(path);
-
-  if (!pathUnits.relativePath(var, s)) varPath = path;
-
-  varPath = VarSolution + s + main;
-  }
-#endif
-
 
 

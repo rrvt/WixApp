@@ -44,9 +44,9 @@ bool     isApp;
 
   Component& operator= (Component& c) {copyObj(c); return *this;}
 
-  void       readWixData();
+  void       readWixData(String& ftrID);
   void       writeWixData();
-  void       readWixData2(String& cmpSection);
+  void       readWixData2(String& ftrID, String& cmpSection);
   void       writeWixData2(String& cmpSection);
   void       delWixData() {}
 
@@ -60,8 +60,7 @@ bool     isApp;
   String&    getStartMenuID() {return startMenuID;}
   DirDesc*   getStartMenu();
 
-//void       updateComponent(    WixDataDlg& dialog);
-  void       browsePath(         WixDataDlg& dialog);
+  void       browsePath(String& ftrID, WixDataDlg& dialog);
   void       storeDescription(   WixDataDlg& dialog);
   void       storeIsStartMenu(   WixDataDlg& dialog);
   void       storeIsDeskTop(     WixDataDlg& dialog);
@@ -100,7 +99,6 @@ private:
   String     getSetEnvPath();
 
   void       readOne(TCchar* key, String& v);
-//void       readDir(TCchar* key, DirDesc& dir, DirStor& stor);
   void       copyObj(Component& c);
   };
 

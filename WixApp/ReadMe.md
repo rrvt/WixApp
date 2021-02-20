@@ -14,6 +14,12 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 2/19/21
+
+Well I tend to move code around and this program would choke every time that I wanted to make a new
+installer.  So When the file is read each path is checked.  If the path is not available then the
+user is asked to provide the correct path to the specific file.  This should help.
+
 ### Update 2/15/21
 
 The backup file date was dependent on the wrong year parameter which unfortunately worked during 2020

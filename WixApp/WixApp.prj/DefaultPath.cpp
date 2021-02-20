@@ -10,10 +10,12 @@
 DefaultPath defaultPath;
 
 
-static TCchar* Section    = _T("DefaultPath");
-static TCchar* NPathsKey  = _T("NPaths");
-static TCchar* DefKey     = _T("DefKey%i");
-static TCchar* DscPathKey = _T("%s.Path");
+static TCchar*   Section    = _T("DefaultPath");
+static TCchar*   NPathsKey  = _T("NPaths");
+static TCchar*   DefKey     = _T("DefKey%i");
+static TCchar*   DscPathKey = _T("%s.Path");
+
+static BrowseDsc browseDsc  = {_T(""), _T(""), _T(""), _T(""), _T("")};
 
 
 void DefaultPath::readWixData() {
@@ -26,58 +28,87 @@ DefPathDsc* dsc;
 
   for (i = 0; i < n; i++) {
     key.format(DefKey, i);   if (!wxd.readString(Section, key, entity)) continue;
-    dsc = find(entity);      if (!dsc) dsc = &paths[nPaths()];
+    dsc = find(entity);      if (!dsc) dsc = &paths.nextData();
 
     dsc->key = entity;
-    key.format(DscPathKey, entity.str());   dsc->pathDsc.readWixData(Section, key);
+    key.format(DscPathKey, entity.str());   dsc->pathDsc.readWixData(browseDsc, Section, key);
     }
   }
 
 
 
 void DefaultPath::writeWixData() {
-int    i;
-String key;
-String entity;
+DPIter      iter(*this);
+DefPathDsc* dsc;
+int         i;
+int         n;
+String      key;
+String      entity;
 
-  wxd.writeInt(Section, NPathsKey, nPaths());
+  for (n = 0, dsc = iter(); dsc; dsc = iter++) if (dsc->inUse) n++;
 
-  for (i = 0; i < nPaths(); i++) {
-    DefPathDsc& dsc = paths[i];
+  wxd.writeInt(Section, NPathsKey, n);
 
-    if (!dsc.inUse) continue;
+  for (i = 0, dsc = iter(); dsc; i++, dsc = iter++) {
 
-    entity = dsc.key;
+    if (!dsc->inUse) continue;
+
+    entity = dsc->key;
 
     key.format(DefKey, i);                  wxd.writeString(Section, key, entity);
-    key.format(DscPathKey, entity.str());   dsc.pathDsc.writeWixData(Section, key);
+    key.format(DscPathKey, entity.str());   dsc->pathDsc.writeWixData(Section, key);
     }
   }
 
 
-void DefaultPath::setCurPath(TCchar* key)
-                 {curPath = find(key);   if (!curPath) {curPath = &paths[nPaths()]; curPath->key = key;}}
+#if 0
+void DefaultPath::setKey(TCchar* key) {
+  curPath = find(key);
+
+  if (!curPath) {curPath = &paths.nextData(); curPath->key = key;}
+  }
+#endif
 
 
-String DefaultPath::getCurPath() {
-String s = _T("");
+String DefaultPath::getPath(TCchar* key) {
+String s;
 
-  if (!curPath && nPaths()) curPath = &paths[0];
-  if (!curPath) return s;
+  if (!nData()) return _T("");
 
-  s = curPath->pathDsc.path();   return s;
+  curPath = find(key);
+
+  if (!curPath) curPath = &paths[0];
+
+  return curPath->pathDsc.path();
   }
 
 
-void DefaultPath::save(String& path) {if (curPath) {curPath->pathDsc = getPath(path);}}
+void DefaultPath::save(TCchar* key, String& path) {
+  curPath = find(key);
+
+  if (!curPath) curPath = &paths.nextData();
+
+  curPath->key = key;   curPath->pathDsc = ::getPath(path);
+  }
 
 
 void DefaultPath::del(TCchar* key) {
-int i;
-int n = nPaths();
+DPIter      iter(*this);
+DefPathDsc* dsc;
 
-  for (i = 0; i < n; i++) if (paths[i].key == key) {paths.del(i); return;}
+  for (dsc = iter(); dsc; dsc = iter++) if (dsc->key == key) {iter.remove(); return;}
   }
+
+
+DefPathDsc* DefaultPath::find(TCchar* key) {
+DPIter      iter(*this);
+DefPathDsc* dsc;
+
+  for (dsc = iter(); dsc; dsc = iter++) if (dsc->key == key) return dsc;
+
+  return 0;
+  }
+
 
 
 
@@ -91,15 +122,4 @@ DefPathDsc* dsc;
   dsc = &paths[nPaths()];   dsc->key = key;   dsc->path = path;  return dsc->path.str();
   }
 #endif
-
-
-DefPathDsc* DefaultPath::find(TCchar* key) {
-int i;
-
-  for (i = 0; i < nPaths(); i++) {
-    DefPathDsc& dsc = paths[i];   if (dsc.key == key) return &dsc;
-    }
-
-  return 0;
-  }
 

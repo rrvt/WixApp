@@ -5,9 +5,11 @@
 #include "WixUtilities.h"
 #include "filename.h"
 #include "FilePaths.h"
+#include "MessageBox.h"
 
 
 static String replaceNonWixCh(String& s);
+
 
 String removeBlnks(String& s) {
 int    n = s.length();
@@ -124,9 +126,6 @@ Tchar fullPath[MAX_PATH];
   if (GetModuleFileName(NULL, fullPath, noElements(fullPath))) return getPath(fullPath);
   return _T("");
   }
-
-
-
 
 
 

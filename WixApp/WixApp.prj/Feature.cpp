@@ -46,7 +46,7 @@ Component* cmp;
 
     key.format(CmpsKey, i);   readOne(key, s);   if (s.isEmpty()) continue;
 
-    cmp = components.add(s);    cmp->readWixData();
+    cmp = components.add(s);    cmp->readWixData(wixID);
     }
 
   for (i = 0; i < nComponents(); i++)
@@ -100,7 +100,7 @@ Component* cmp;
 
     if (!wxd.readString(cmpSection, IDkey, cmpID) || cmpID[0] == _T('<')) continue;
 
-    cmp = components.add(cmpID);    cmp->readWixData2(cmpSection);
+    cmp = components.add(cmpID);    cmp->readWixData2(wixID, cmpSection);
     }
 
   components.defaultCurID(curSelID);
@@ -181,7 +181,7 @@ void Feature::load(WixDataDlg& dialog) {
 void Feature::loadComponent(WixDataDlg& dialog) {
 Component* curCmp = components.curData();
 
-  defaultPath.setCurPath(wixID);
+//  defaultPath.setKey(wixID);
 
   components.loadCB(dialog.componentCB);
 
@@ -207,7 +207,7 @@ void Feature::store(WixDataDlg& dialog) {
 
   wixID = getWixID(id, FeatureExt);
 
-  storeProgFileName(dialog);   storeMenuName(dialog);   defaultPath.setCurPath(wixID);
+  storeProgFileName(dialog);   storeMenuName(dialog);   //defaultPath.setKey(wixID);
 
   storeComponentData(dialog);
   }

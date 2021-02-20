@@ -42,7 +42,7 @@ PathDesc licenseDsc;
 
   void setInstallerIconPath(String& path) {installerIconPath = path;}
 
-  void markIcon();
+  void mark();
 
   void output(Component* app, Prolog& prolog, Features& features);
 

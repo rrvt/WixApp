@@ -3,15 +3,18 @@
 
 #pragma once
 #include "Archive.h"
+#include "GetPathDlg.h"
 #include <setupapi.h>
 
 
+#if 0
 struct PathDesc {
 String title;         // Save As Parameters, examples:
 String name;          // _T("mumble.txt")
 String ext;           // _T("txt")
 String pattern;       // _T("*.txt")
 };
+#endif
 
 
 class CDoc : public CDocument {
@@ -21,7 +24,7 @@ String path;                                     // Path to file being processed
 
 public:
 
-  virtual bool setPath(PathDesc& dsc);
+  virtual bool setPath(PathDlgDsc& dsc) {return getPathDlg(dsc, path);}
 
   virtual BOOL OnNewDocument() override {path.clear(); return true;}
 
@@ -33,8 +36,8 @@ public:
 
   virtual void OnOpenArb(void* arbObj);
 
-  virtual bool setSaveAsPath(PathDesc& dsc);
-  virtual bool setIncSavePath(PathDesc& dsc);
+  virtual bool setSaveAsPath(PathDlgDsc& dsc);
+  virtual bool setIncSavePath(PathDlgDsc& dsc);
 
   virtual BOOL OnSaveDocument(LPCTSTR lpszPathName) override;
           bool onSaveDocument(LPCTSTR lpszPathName, bool savePath = false);

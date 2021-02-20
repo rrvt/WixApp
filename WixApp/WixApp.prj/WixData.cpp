@@ -36,8 +36,8 @@ String path;
   saveWxdPath(path);    wxd.setPath(path);
 
         solution.readWixData();
-           icons.readWixData();
      defaultPath.readWixData();
+           icons.readWixData();
 
          product.readWixData();
 
@@ -59,8 +59,8 @@ String wixDataPath = filePath;
   clearAllSections();
 
         solution.writeWixData();
-           icons.writeWixData();
      defaultPath.writeWixData();
+           icons.writeWixData();
 
          product.writeWixData();
 
@@ -100,7 +100,8 @@ String path;
 
 void WixData::setDefaults(WixDataDlg* dialog) {
 String productName;
-  product.storeProduct(*dialog);   productName = product.productName;
+
+  if (!loadingFileNow) {product.storeProduct(*dialog);   productName = product.productName;}
 
   if (newFileNow && !productName.isEmpty()) {
     product.wixName = productName;   dialog->wixNameEB.SetWindowText(productName);
@@ -114,10 +115,14 @@ String productName;
 
 void WixData::openFile(WixDataDlg* dialog) {
 
+  loadingFileNow = true;
+
   if (!readWixData()) return;
 
    product.loadCB(*dialog);
   features.loadCB(*dialog);
+
+  loadingFileNow = false;
   }
 
 
@@ -131,7 +136,7 @@ int         wixVerLng = product.wixVersion.length();
                                 {messageBox(_T("WixName is empty, please provide one.")); return false;}
   features.markDirs();
 
-  product.markIcon();   features.markIconsUsed();    defaultPath.mark(DefLicensePathKey);
+  product.mark();   features.markIconsUsed();
 
   if (!app && !wixVerLng && rptErrors) {
 

@@ -3,7 +3,9 @@
 
 #pragma once
 #include "Expandable.h"
+#include "IterT.h"
 #include "PathDesc.h"
+
 
 struct DefPathDsc {
 String         key;
@@ -23,6 +25,10 @@ private:
   };
 
 
+class DefaultPath;
+typedef IterT<DefaultPath, DefPathDsc> DPIter;
+
+
 class DefaultPath {
 
 DefPathDsc*                curPath;
@@ -36,20 +42,28 @@ public:
   void        readWixData();
   void        writeWixData();
 
-  void        setCurPath(TCchar* key);
+  String      getPath(TCchar* key);
+  void        save(   TCchar* key, String& path);
+
   void        del(TCchar* key);
 
   void        mark(TCchar* key) {DefPathDsc* dsc = find(key);  if (dsc) dsc->inUse = true;}
 
+  int         nData() {return paths.end();}         // returns number of data items in array
+
 private:
 
-  String      getCurPath();
-  void        save(String& path);
-
-  int         nPaths() {return paths.end();}
   DefPathDsc* find(TCchar* key);
 
-  friend class PathDesc;
+  // returns either a pointer to data (or datum) at index i in array or zero
+
+  DefPathDsc* datum(int i) {return 0 <= i && i < nData() ? &paths[i] : 0;}       // or data[i].p
+
+  void  removeDatum(int i) {if (0 <= i && i < nData()) paths.del(i);}
+
+  friend typename DPIter;
+
+//  friend class PathDesc;
   };
 
 

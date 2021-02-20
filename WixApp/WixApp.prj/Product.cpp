@@ -3,23 +3,27 @@
 
 #include "stdafx.h"
 #include "Product.h"
+#include "DefaultPath.h"
 #include "filename.h"
 #include "Guid.h"
 #include "Icons.h"
+#include "Options.h"
 #include "Resources.h"
 
 
-static TCchar* ProductSection = _T("Product");
-static TCchar* WixNameKey     = _T("WixName");
-static TCchar* WixVersionKey  = _T("WixVersion");
-static TCchar* CompanyKey     = _T("Company");
-static TCchar* ProductNameKey = _T("ProductName");
-static TCchar* UpgradeGUIDKey = _T("UpgradeGUID");
-static TCchar* DefaultCondKey = _T("DefaultCond");
-static TCchar* SameVerAllowed = _T("SaveVerAllowed");
-static TCchar* LicenseReqKey  = _T("LicenseRequired");
-static TCchar* LicensePathKey = _T("LicensePath");
-static TCchar* IconIDKey      = _T("IconID");
+static TCchar*   ProductSection = _T("Product");
+static TCchar*   WixNameKey     = _T("WixName");
+static TCchar*   WixVersionKey  = _T("WixVersion");
+static TCchar*   CompanyKey     = _T("Company");
+static TCchar*   ProductNameKey = _T("ProductName");
+static TCchar*   UpgradeGUIDKey = _T("UpgradeGUID");
+static TCchar*   DefaultCondKey = _T("DefaultCond");
+static TCchar*   SameVerAllowed = _T("SaveVerAllowed");
+static TCchar*   LicenseReqKey  = _T("LicenseRequired");
+static TCchar*   LicensePathKey = _T("LicensePath");
+static TCchar*   IconIDKey      = _T("IconID");
+
+static BrowseDsc browseDsc      = {DefLicensePathKey, _T("License File"), _T(""), _T(""), _T("")};
 
 Product product;
 
@@ -33,7 +37,7 @@ void Product::readWixData() {
   wxd.readString(ProductSection, UpgradeGUIDKey, upgradeGUID);
   isSameVerAllowed = wxd.readInt(ProductSection, SameVerAllowed, 0) != 0;
   isLicenseReq     = wxd.readInt(ProductSection, LicenseReqKey,  0) != 0;
-  licenseDsc.readWixData(ProductSection, LicensePathKey);
+  licenseDsc.readWixData(browseDsc, ProductSection, LicensePathKey);
   wxd.readString(ProductSection, IconIDKey,      iconID);
   }
 
@@ -42,7 +46,9 @@ void Product::updateVersion(String& path)
                                 {ResourceData res(path); wixVersion.clear(); res.getVersion(wixVersion);}
 
 
-void Product::storeProduct(WixDataDlg& dialog) {productName  = getText(dialog.productNameEB);}
+void Product::storeProduct(WixDataDlg& dialog) {
+  productName  = getText(dialog.productNameEB);
+  }
 
 
 
@@ -243,12 +249,14 @@ String line;
 
 
 
-void Product::markIcon() {
+void Product::mark() {
 IconDesc* p;
 
   p = icons.find(iconID);  if (p) p->inUse = true;
 
   icons.markDfltDir();
+
+  if (isLicenseReq) defaultPath.mark(DefLicensePathKey);
   }
 
 

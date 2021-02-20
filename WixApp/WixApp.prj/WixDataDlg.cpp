@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "WixDataDlg.h"
 #include "About.h"
-#include "DefaultPath.h"
+//#include "DefaultPath.h"
 #include "DspDirs.h"
 #include "filename.h"
 #include "Finish.h"
@@ -180,7 +180,7 @@ Feature* ftr = features.getCurFeature();
   }
 
 
-void WixDataDlg::OnBrowseComponentPath()   {features.getCurComponent()->browsePath(*this);}
+void WixDataDlg::OnBrowseComponentPath()   {features.browseCurComponent(*this);}
 void WixDataDlg::OnLeavingDescription()    {features.getCurComponent()->storeDescription(*this);}
 void WixDataDlg::OnBnClickedOnstartmenu()  {features.getCurComponent()->storeIsStartMenu(*this);}
 void WixDataDlg::OnBnClickedOndesktop()    {features.getCurComponent()->storeIsDeskTop(*this);}

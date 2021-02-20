@@ -40,6 +40,10 @@ public:
 
   Component* getCurComponent() {Feature* ftr = getCurFeature();   return ftr->getCur();}
 
+
+  void browseCurComponent(WixDataDlg& dlg)
+                          {Feature* ftr = getCurFeature();   ftr->getCur()->browsePath(ftr->wixID, dlg);}
+
   int        nFeatures() {return store.data.end();}
 
   Feature*   getCurFeature() {if (!nFeatures()) oneFeatureAvail(); return store.curData();}

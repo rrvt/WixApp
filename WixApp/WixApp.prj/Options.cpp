@@ -7,14 +7,16 @@
 #include "WixApp.h"
 
 
-TCchar* DefLicensePathKey = _T("LicensePath");
+TCchar* DefLicensePathKey = _T("License");
 
+
+static BrowseDsc browseDsc = {DefLicensePathKey, _T("License RTF file"), _T(""), _T("*"), _T("")};
 
 // Options dialog
 
 IMPLEMENT_DYNAMIC(Options, CDialogEx)
 
-Options::Options(CWnd* pParent) : CDialogEx(Options::IDD, pParent), allowSameVer(FALSE), addLic(false) { }
+Options::Options(CWnd* pParent) : CDialogEx(Options::IDD, pParent), allowSameVer(FALSE), addLic(false) {}
 
 Options::~Options() { }
 
@@ -24,10 +26,10 @@ Options::~Options() { }
 
 void Options::DoDataExchange(CDataExchange* pDX) {
   CDialogEx::DoDataExchange(pDX);
-  DDX_Check(pDX, IDC_AllowSameVer, allowSameVer);
+  DDX_Check(  pDX, IDC_AllowSameVer, allowSameVer);
   DDX_Control(pDX, IDC_AddLicense, addLicenseCH);
   DDX_Control(pDX, IDC_License, licensePathEB);
-}
+  }
 
 
 BEGIN_MESSAGE_MAP(Options, CDialogEx)
@@ -52,12 +54,12 @@ BOOL Options::OnInitDialog() {
 
 
 void Options::OnAddLicense() {
-//TCchar* defPath;
 
   addLic = addLicenseCH.GetCheck()  != 0;
 
   if (addLic) {
-    defaultPath.setCurPath(DefLicensePathKey);   licPath.browse(_T("License RTF file"), _T("*"), _T(""));
+
+    licPath.browse(browseDsc);
 
     licensePathEB.SetWindowText(String(licPath));
     }

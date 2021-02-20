@@ -31,6 +31,10 @@ String    name;
   int      noUnits()    {return pathUnits.nData();}
 
   String*  operator[](int i) {return pathUnits[i];}
+
+private:
+
+  void     getSolutionPath(TCchar* fullPath = 0);
   };
 
 

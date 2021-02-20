@@ -22,8 +22,6 @@ String findExeFile(TCchar* name);
 
 String getModulePath();
 
-
-
 #if 0
 void outputLine(int tab, TCchar* prefix, String& s, TCchar* suffix, FileIO& file);
 void outputStg(int tab, String& s, FileIO& file);
