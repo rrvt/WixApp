@@ -12,14 +12,8 @@ const int BufSize = 1024;
 
 
 IniFile::~IniFile() {
-Tchar* p;
 
-  if (app) {
-    p = (Tchar*) app->m_pszProfileName;
-
-//    if (p)   {NewAlloc(Tchar); free(p);   app->m_pszProfileName = 0;}
-    if (buf) {NewAlloc(Tchar); FreeArray(buf); buf              = 0;}
-    }
+  if (buf) {NewAlloc(Tchar); FreeArray(buf); buf = 0;}
   }
 
 
@@ -53,16 +47,18 @@ HRESULT rslt;
 
   iniFilePath += mainName; iniFilePath += _T(".ini");
 
-  checkPath(); setTheAppPath(theApp);   app = &theApp;
+  checkPath(); setTheAppPath(theApp);
   }
 
 
 void IniFile::setFilePath(String& pth, CWinApp& theApp)
-                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);   app = &theApp;}
+                                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
+
 
 
 void IniFile::setFilePath(TCchar* pth, CWinApp& theApp)
-                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);   app = &theApp;}
+                                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
+
 
 
 void IniFile::setTheAppPath(CWinApp& theApp) {
@@ -74,7 +70,7 @@ TCchar* prfl = theApp.m_pszProfileName;
 
   theApp.m_pszProfileName = (LPCTSTR) malloc(pathLng*sizeof(TCchar));
 
-  _tcscpy_s((Tchar*) theApp.m_pszProfileName, pathLng, iniFilePath);   app = &theApp;
+  _tcscpy_s((Tchar*) theApp.m_pszProfileName, pathLng, iniFilePath);
   }
 
 

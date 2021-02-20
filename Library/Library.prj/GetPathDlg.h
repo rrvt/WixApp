@@ -28,6 +28,7 @@ String pattern;       // _T("*.txt")
 
   virtual PathDlgDsc& operator= (PathDlgDsc& dsc) {copy(dsc); return *this;}
 
+
   virtual void copy(PathDlgDsc& dsc);
   };
 

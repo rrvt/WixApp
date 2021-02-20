@@ -52,9 +52,3 @@ private:
 
   void      relativeSolution(const String& fullPath);
   };
-
-
-
-//void      readWixData(TCchar* section, TCchar* key);
-//String&   browse(TCchar* title, TCchar* ext, TCchar* pat);
-

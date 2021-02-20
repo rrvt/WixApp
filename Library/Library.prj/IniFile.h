@@ -7,7 +7,6 @@
 
 
 class IniFile {
-CWinApp* app;
 String   iniFilePath;
 int      pathLng;
 
@@ -18,11 +17,9 @@ Random   rand;
 
 public:
 
-  IniFile() : app(0), p(0), q(0), buf(0), rand() {}
+  IniFile() : p(0), q(0), buf(0), rand() {}
  ~IniFile();
 
-//  String  getFilePath(TCchar* helpPath);    // Sets ini File Name & path to exe directory,
-                                              // returns path to directory
   String  getAppDataPath(TCchar* helpPath);   // Sets ini File Name & path to appData/Roming directory
                                               // returns path to directory
   void    setPath(TCchar* filePath);          // Sets ini file name & path.

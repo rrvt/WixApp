@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 2/20/21
+
+Noticed, found and fixed a small memory leak.
+
 ### Update 2/19/21
 
 Well I tend to move code around and this program would choke every time that I wanted to make a new
