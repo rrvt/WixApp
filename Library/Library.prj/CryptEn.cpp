@@ -37,7 +37,7 @@ DWORD      dwLength;
 
 bool Crypt::enc(String& password, String& key, ByteBlock& encryption) {
 DWORD n;
-NewAlloc(Byte);
+NewArray(Byte);
 
   if (!initialized) return FALSE;
 

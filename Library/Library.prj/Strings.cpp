@@ -201,7 +201,7 @@ int ePos;
 
 
 void ToAnsi::convert(TCchar* tp) {
-NewAlloc(char);
+NewArray(char);
 
   cnt = tp ? _tcslen(tp) : 0;    p = AllocArray(cnt+1);
 
@@ -219,7 +219,7 @@ NewAlloc(char);
   }
 
 
-ToAnsi::~ToAnsi() {if (p) {NewAlloc(char); FreeArray(p);}}
+ToAnsi::~ToAnsi() {if (p) {NewArray(char); FreeArray(p);}}
 
 
 void ToUniCode::convert(Cchar* tp) {

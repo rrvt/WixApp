@@ -210,11 +210,23 @@
     <ClCompile Include="MapBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DAOAccess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DAOfields.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DAOrecords.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DAOtables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DBtablesB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AceDao.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Archive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -327,9 +339,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManipT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MapsT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="match.h">
@@ -446,8 +455,27 @@
     <ClInclude Include="NotePadRpt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MapBase.h">
+    <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DAOAccess.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DAOfields.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DAOrecords.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DBtablesB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DAOtables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\acedao.tlh" />
+    <None Include="..\acedao.tli" />
   </ItemGroup>
 </Project>

@@ -14,7 +14,28 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 4/20/21
+
+Library changes only.
+
+### Update 2/20/21
+
+Noticed, found and fixed a small memory leak.
+
+### Update 2/19/21
+
+Well I tend to move code around and this program would choke every time that I wanted to make a new
+installer.  So When the file is read each path is checked.  If the path is not available then the
+user is asked to provide the correct path to the specific file.  This should help.
+
+### Update 2/15/21
+
+The backup file date was dependent on the wrong year parameter which unfortunately worked during 2020
+because it was using the century, not the year (Ugh!!!).  Also the library has been update for other
+applications and this version is to be sure everything still works.
+
 ### Update 9/10/20
+
 Library improvement project.  Changed the Expandable Array classes, added templates for a pointer only
 class in the ExpandableP class definition.  It turned out I was defining this RcdPtr class many times
 worrying about exactly how it should be defined.  So I turned it into a template, which of course then
@@ -72,14 +93,16 @@ to allow recovering from most losses without too much pain.
 ## Getting Started
 
 This version was created with Visual Studion 2017.  It was compiled with the following properties:
-   o  Windows SDK Version: 10.0.18362.0
-   o  Platfor Toolset: visual Studio 2017 (v141)
-   o  MFC: Use MFC in a Shared DLL
-   o  Character Set:  Use Unicode Character Set
-   o  Additional Include Directories:  $(SolutionDir)..\SrcFiles\;$(SolutionDir)..\..\Library\LibFiles\;
-                                       $(SolutionDir)..\..\Library\AboutFiles\
-   o  Precompiled Header:  Not Using Precompiled Headers
-   o  Linker/Additional Dependencies:  Htmlhelp.lib
+  o Windows SDK Version: 10.0.18362.0
+  o Platfor Toolset: visual Studio 2017 (v141)
+  o MFC: Use MFC in a Shared DLL
+  o Character Set:  Use Unicode Character Set
+  o Additional Include Directories:
+    * $(ProjectDir)
+    * $(SolutionDir)..\WixApp.prj\;
+    * $(SolutionDir)..\..\Library\AboutFiles\
+  o  Precompiled Header:  Not Using Precompiled Headers
+  o  Linker/Additional Dependencies:  Htmlhelp.lib
 
 The HTML Help Workshop (HHW), Version 4.74.8702.0 was used to prepare the help file (WixApp.chm).  It is
 copied into the Release directory.  I used Dreamweaver (DW) to do most of the content production of the

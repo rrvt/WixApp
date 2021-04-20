@@ -14,7 +14,7 @@ HGLOBAL hData;
 
   cbStr = n + 1;
 
-  NewAlloc(char);   p = AllocArray(cbStr);   if (!p) return false;
+  NewArray(char);   p = AllocArray(cbStr);   if (!p) return false;
 
   for (i = 0; i < n; i++) p[i] = (char) s[i];    p[i] = 0;
 

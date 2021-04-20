@@ -26,6 +26,6 @@ END
 
 STRINGTABLE
 BEGIN
-  ID_App_About   "Display program information, version number and copyright\nAbout"
+  ID_App_About   "Display program information, version number and copyright\nDisplay program information, version number and copyright"
 END
 

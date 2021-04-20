@@ -7,7 +7,7 @@
 #include "NotePad.h"
 
 
-static String blks = _T("          ");
+static String blks = _T("                                                                         ");
 
 
 String addSepTab(String& s, int max) {
@@ -19,7 +19,22 @@ Tchar ch = _T(',');
   }
 
 
-String addTab(String& s, int max) {int n = max - s.length(); return s + blks.substr(0, n);}
+String rightAdj(TCchar* tc, int right) {
+String s = tc;
+int    t  = s.length();
+int    n  = right - t;     if (n < 0) n = 0;
+
+  return blks.substr(0, n) + s;
+  }
+
+
+String addTab(TCchar* tc, int tab) {
+String s = tc;
+  int n = tab - s.length(); return n > 0 ? s + blks.substr(0, n) : s;
+  }
+
+
+String tabStg(int n) {return blks.substr(0, n);}
 
 
 String nextTok(String& s, int& pos) {
@@ -83,6 +98,33 @@ bool    periodSeen = false;
   }
 
 
+static TCchar quote = _T('"');
+
+
+String addQuotes(TCchar* p) {
+String s;
+bool   needQuotes = false;
+
+  s = p;
+
+  if (s.find(quote) >= 0) {
+    String t;
+    int    n = s.length();
+    int    i;
+
+    for (i = 0; i < n; i++) {Tchar ch = s[i];   if (ch == quote) t += quote;   t += ch;}
+
+    s = t; needQuotes = true;
+    }
+
+  if (s.find(_T(',')) >= 0) needQuotes = true;
+
+  if (needQuotes) s = quote + s + quote;
+
+  return s;
+  }
+
+
 String& removeQuotes(String& s) {
 String t;
 int    i;
@@ -94,5 +136,31 @@ Tchar  ch;
   for (i = 0; i < lng; i++) {ch = t[i];  if (ch != _T('"') && ch != _T('\'')) s += ch;}
 
   return s;
+  }
+
+
+bool isEmpty(String* s, ...) {
+va_list args;
+String* p;
+
+  if (s->size() != 0) return false;
+
+  for (va_start(args, s);  (p = va_arg(args, String*)) && p != 0;) if (p->size() != 0) return false;
+
+  return true;
+  }
+
+
+
+
+
+String formatPhone(TCchar* ph, Tchar sep) {
+String s = ph;
+String t;
+int    n = s.length();   if (!n) return _T("          ");
+
+  t = s.substr(0, 3);   s = t + sep + s.substr(3);
+
+  t = s.substr(0, 7);   s = t + sep + s.substr(7);   return s;
   }
 

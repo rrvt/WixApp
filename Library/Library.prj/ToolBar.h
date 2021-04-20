@@ -65,6 +65,8 @@ int   index;
 CFont font;
 
   ToolBar() : endPos(0), index(0) {getFont();}
+ ~ToolBar() { }
+
   void getFont();
 
   void setBtnCtrl(int id, TCchar* cptn, int width);

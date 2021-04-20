@@ -12,7 +12,7 @@ static bool saveDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* 
 
 
 PathDlgDsc::PathDlgDsc(TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat)
-                                                        {title = ttl; name = nm; ext = e; pattern = pat;}
+            {title = ttl; name = nm ? nm : _T(""); ext = e; pattern = pat;}
 
 
 void PathDlgDsc::copy(PathDlgDsc& dsc)
@@ -51,6 +51,10 @@ CFileDialog fileDialog(true, defExt, iniFileName, OFN_FILEMUSTEXIST, e, 0);
 
 
 // Overwrites existing file
+
+bool getSaveAsPathDlg(PathDlgDsc& dsc, String& path)
+                              {return getSaveAsPathDlg(dsc.title, dsc.name, dsc.ext, dsc.pattern, path);}
+
 
 bool getSaveAsPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path)
                                         {return saveDlg(title, iniFileName, defExt, extPat, true, path);}

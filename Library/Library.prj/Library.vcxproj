@@ -11,7 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AceDao.cpp" />
     <ClCompile Include="Archive.cpp" />
     <ClCompile Include="CalibDpsPrt.cpp" />
     <ClCompile Include="CApp.cpp" />
@@ -27,7 +26,12 @@
     <ClCompile Include="CSVOut.cpp" />
     <ClCompile Include="CSVRcdB.cpp" />
     <ClCompile Include="Currency.cpp" />
+    <ClCompile Include="DAOAccess.cpp" />
+    <ClCompile Include="DAOfields.cpp" />
+    <ClCompile Include="DAOrecords.cpp" />
+    <ClCompile Include="DAOtables.cpp" />
     <ClCompile Include="Date.cpp" />
+    <ClCompile Include="DBtablesB.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DisplayDev.cpp" />
@@ -46,7 +50,6 @@
     <ClCompile Include="IniFile.cpp" />
     <ClCompile Include="LexTOut.cpp" />
     <ClCompile Include="LoadScratchPad.cpp" />
-    <ClCompile Include="MapBase.cpp" />
     <ClCompile Include="match.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -78,7 +81,6 @@
     <ClCompile Include="XTerm.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AceDao.h" />
     <ClInclude Include="Archive.h" />
     <ClInclude Include="CalibDspPrt.h" />
     <ClInclude Include="CApp.h" />
@@ -94,7 +96,12 @@
     <ClInclude Include="CSVRcdB.h" />
     <ClInclude Include="CSVRcdsT.h" />
     <ClInclude Include="Currency.h" />
+    <ClInclude Include="DAOAccess.h" />
+    <ClInclude Include="DAOfields.h" />
+    <ClInclude Include="DAOrecords.h" />
+    <ClInclude Include="DAOtables.h" />
     <ClInclude Include="Date.h" />
+    <ClInclude Include="DBtablesB.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DisplayDev.h" />
@@ -119,8 +126,6 @@
     <ClInclude Include="LexTOut.h" />
     <ClInclude Include="LoadScratchPad.h" />
     <ClInclude Include="ManipT.h" />
-    <ClInclude Include="MapBase.h" />
-    <ClInclude Include="MapsT.h" />
     <ClInclude Include="match.h" />
     <ClInclude Include="MessageBox.h" />
     <ClInclude Include="NewAllocator.h" />
@@ -261,4 +266,8 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ItemGroup>
+    <None Include="..\acedao.tlh" />
+    <None Include="..\acedao.tli" />
+  </ItemGroup>
 </Project>

@@ -10,58 +10,46 @@
 
 void ToolBar::setBtnCtrl(int id, TCchar* cptn, int width) {
 CtrlInfo*  ci     = find(id);
-bool       found  = ci != 0;
 WINDOWINFO info;
 RECT&      client = info.rcClient;
 
   GetWindowInfo(&info);
 
-  if (!found) ci = data.allocate();
+  if (!ci) {CtrlInfo ctrlInfo;  ctrlInfo.id = id;  data = ctrlInfo;   ci = find(id);}
 
   ci->init(BtnCtrl, id, width, client.bottom - client.top, TBBS_BUTTON | TBBS_AUTOSIZE);
   ci->setCaption(cptn);
-
-  if (!found) data = ci;
   }
 
 
 void ToolBar::setCbxCtrl(int id, int width, int depth, ulong style) {
-CtrlInfo* ci     = find(id);
-bool      found  = ci != 0;
+CtrlInfo* ci = find(id);
 
-  if (!found) ci = data.allocate();
+  if (!ci) {CtrlInfo ctrlInfo;  ctrlInfo.id = id;  data = ctrlInfo;   ci = find(id);}
 
   style |= CBS_DROPDOWNLIST;
 
   ci->init(ComboBoxCtrl, id, width, depth, style);
-
-  if (!found) data = ci;
   }
 
 
 void ToolBar::setEbxCtrl(int id, int width) {
-CtrlInfo* ci    = find(id);
-bool      found = ci != 0;
+CtrlInfo* ci = find(id);
 
-  if (!found) ci = data.allocate();
+  if (!ci) {CtrlInfo ctrlInfo;  ctrlInfo.id = id;  data = ctrlInfo;   ci = find(id);}
 
   ci->init(EditBoxCtrl, id, width, 0, 0);
-
-  if (!found) data = ci;
   }
 
 
 void ToolBar::setMnuCtrl(int id, HMENU hMenu, TCchar* cptn) {
 CtrlInfo* ci    = find(id);
-bool      found = ci != 0;
 
-  if (!found) ci = data.allocate();
+  if (!ci) {CtrlInfo ctrlInfo;  ctrlInfo.id = id;  data = ctrlInfo;   ci = find(id);}
 
   ci->init(MenuCtrl, id, 0, 0, 0);
   ci->setMenu(hMenu);
   ci->setCaption(cptn);
-
-  if (!found) data = ci;
   }
 
 

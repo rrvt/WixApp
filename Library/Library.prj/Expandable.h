@@ -2,19 +2,14 @@
 // Copyright Software Design & Engineering, Robert R. Van Tuyl, 2013.  All rights reserved.
 
 /*
-Data is a class, e.g. class Data {...}, and requires the following methods:
- -- Constructor with no argument, e.g. Data(), which initializes all components of the class
- -- Copy Constructor, e.g. Data(const Data& d), which copies all components of object d to
+Datum is a class, e.g. class Datum {...}, and requires the following methods:
+ -- Constructor with no argument, e.g. Datum(), which initializes all components of the class
+ -- Copy Constructor, e.g. Datum(const Datum& d), which copies all components of object d to
     object *this
- -- Assignment operator, e.g. Data& operator= (Data& d), which copies all components of object d to
+ -- Assignment operator, e.g. Datum& operator= (Datum& d), which copies all components of object d to
     object *this and returns *this
- -- Destructor, e.g. ~Data() that releases objects obtained from the heap and zeros all data
+ -- Destructor, e.g. ~Datum() that releases objects obtained from the heap and zeros all data
     components
-Furthermore, if the Data class contains a pointer to an object, then the copy operator must be
-considered to be a move operator.  This means that the Data destructor must do no more than place
-a zero in the pointer.  In the event that there are a mix of pointers and say Strings (which have
-allocated content) then the Strings must be allowed to destruct normally and the pointers must just be
-zeroed.
 
 The easiest way to loop through all the elements in the array is to use an iterator.  It IterT.h file
 contains a template for creating an iterator for Expandable files.  First one must declare the Iterator
@@ -28,16 +23,16 @@ Now that is not all there is to do.  The Xyz class must implement the following:
 
 The template requires two functions be part of Store:
 
-  int   nData()            -- returns number of data items in array
-  Data* datum(int i)       -- returns either a pointer to data (or datum) at index i in array or zero
-  void  removeDatum(int i) -- if i in bounds, removes and deallocates record
+  int    nData()            -- returns number of data items in array
+  Datum* datum(int i)       -- returns either a pointer to data (or datum) at index i in array or zero
+  void   removeDatum(int i) -- if i in bounds, removes and deallocates record
   friend typename DataIter -- required to give access to private area of Xyz.
 
 private:
 
   // returns either a pointer to data (or datum) at index i in array or zero
 
-  Data* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}
+  Datum* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}
 
   int   nData()      {return data.end();}                       // returns number of data items in array
 
@@ -83,25 +78,28 @@ the operations supported are:
 #pragma once
 
 
-template <class Data, const int n>
+#define ExpandableException _T("Corrupted Expandable(P) structure")
+
+
+template <class Datum, const int n>
 
 class Expandable {
-int   endN;
-int   tblN;
-Data* tbl;
+int    endN;
+int    tblN;
+Datum* tbl;
 
 public:
 
-  Expandable() : endN(0), tblN(n > 0 ? n : 1) {NewAlloc(Data); tbl = AllocArray(tblN);}
+  Expandable() : endN(0), tblN(n > 0 ? n : 1) {NewArray(Datum); tbl = AllocArray(tblN);}
 
  ~Expandable() {
-    if (tbl) {NewAlloc(Data);  FreeArray(tbl);}
+    if (tbl) {NewArray(Datum);  FreeArray(tbl);}
     tbl = 0; endN = tblN = 0;
     }
 
   Expandable& operator= (Expandable& e) {clear(); copy(e); return *this;}
 
-  Data& operator[] (int i) {
+  Datum& operator[] (int i) {
     if (i >= tblN) expand(i);
     if (i >= endN) endN = i+1;
     return tbl[i];
@@ -111,36 +109,39 @@ public:
   int  end()   {return endN;}         // Returns number of items in array if inserted sequentially
 
 
-  // Insert Data d into array sorted (being sure to expand it if necessary.  Note, if one use [] to insert
+  // Insert Datum d into array sorted (being sure to expand it if necessary.  Note, if one use [] to insert
   // data into array, sorting is up to the user...!
 
-  Expandable& operator= (Data& d) {
-  Data xNode;
-  Data nextNode;
-  int  i;
+  Datum* operator= (Datum& d) {
+  Datum  xNode;
+  Datum  nextNode;
+  int    i;
+  Datum* dtm;
 
-    for (i = 0; i < endN; i++) if (tbl[i] >= d) {if (tbl[i] == d) return *this; break;}
+    for (i = endN-1; i >= 0; i--)
+                           {dtm = &tbl[i];   if (d >= *dtm) {if (*dtm == d) return dtm;   i++;   break;}}
 
-    for (xNode = d, endN++; i < endN; i++) {
+    if (i < 0) i = 0;   dtm = &tbl[i];
 
-      if (i >= tblN) expand(i);   nextNode = tbl[i]; tbl[i] = xNode; xNode = nextNode;
-      }
-    return *this;
+    for (xNode = d, endN++; i < endN; i++)
+                   {if (i >= tblN) expand(i);   nextNode = tbl[i];   tbl[i] = xNode;   xNode = nextNode;}
+    return dtm;
     }
 
-  // Append Data to end of array, copies data into array entry
 
-  Expandable& operator+= (Data& d) {Data& data = (*this)[endN];  data = d;  return *this;}
-  Expandable& operator+= (Data* d)
-          {if (!d) return *this;    Data& data = (*this)[endN];  data = *d; return *this;}
+  // Append Datum to end of array, copies datum into array entry
+
+  Datum* operator+= (Datum& d) {Datum& datum = (*this)[endN];  datum = d;  return &datum;}
+  Datum* operator+= (Datum* d)
+          {if (!d) return *this;    Datum& datum = (*this)[endN];  datum = *d;  return &datum;}
 
   // Return reference to next available node in array (at end)
 
-  Data& nextData() {return (*this)[endN];}
+  Datum& nextData() {return (*this)[endN];}
 
   // Insert data at index, moving other entries out of the way
 
-  void operator() (int x, Data& d) {
+  void operator() (int x, Datum& d) {
   int i;
 
     if (++endN >= tblN) expand(endN);
@@ -155,11 +156,41 @@ public:
 
     if (endN <= 0 || x < 0 || endN <= x) return;
 
-    Data& d = tbl[endN-1];
+    Datum& d = tbl[endN-1];
 
     for (i = x, --endN; i < endN; i++) tbl[i] = tbl[i+1];
 
-    d.~Data();
+    d.~Datum();
+    }
+
+  template<class Key>
+  Datum* bSearch(Key key) {
+  int beg  = 0;
+  int end  = endN;
+  int last = -1;
+  int i;
+
+    for (i = (beg+end)/2; i < endN && i != last; last = i, i = (beg+end)/2) {
+
+      Datum& rcd = tbl[i];
+
+      if (rcd <  key) {beg = i; continue;}
+      if (rcd >  key) {end = i; continue;}
+      if (rcd == key) return &rcd;
+      throw ExpandableException;
+      }
+
+    return 0;
+    }
+
+
+  template<class Key>
+  Datum* find(Key key) {
+  int i;
+
+    for (i = 0; i < endN; i++) if (tbl[i] == key) return &tbl[i];
+
+    return 0;
     }
 
 private:
@@ -173,14 +204,14 @@ private:
 
 
   void expand(int i) {
-  Data* p      = tbl;
-  Data* q      = tbl;
+  Datum* p      = tbl;
+  Datum* q      = tbl;
   int   nItems = tblN;
   int   j;
 
     while (tblN <= i && tblN < INT_MAX/2) tblN = tblN ? tblN * 2 : 1;
 
-    NewAlloc(Data); tbl = AllocArray(tblN);
+    NewArray(Datum); tbl = AllocArray(tblN);
 
     for (j = 0; j < nItems; j++, p++) tbl[j] = *p;
 

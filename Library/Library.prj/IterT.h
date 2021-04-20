@@ -17,6 +17,7 @@ last gives a heads up when the last entry is being processed
 The template requires two functions be part of Store:
   int nData() -- returns number of data items in array
   Data* datum(int i) -- returns either a pointer to data (or datum) at index i in array or zero
+
 private:
 
   // returns either a pointer to data (or datum) at index i in array or zero
@@ -48,6 +49,7 @@ enum Dir {Fwd, Rev};
   Data* operator++ (int)           {return iterX < store.nData() ? incr() : 0;}
   Data* operator-- (int)           {return iterX > 0             ? decr() : 0;}
 
+  int   index()                    {return iterX;}
   Data* current()                  {return store.datum(iterX);}
 
   IterT& operator= (IterT& iter)   {iterX = iter.iterX; store = iter.store;}

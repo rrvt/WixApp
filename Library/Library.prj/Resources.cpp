@@ -18,7 +18,7 @@ ResourceData::ResourceData(String& path) : success(false), handle(0), data(0), d
   initialize(path);
   }
 
-ResourceData::~ResourceData() {NewAlloc(Byte); FreeArray(data); data = 0; success = false;}
+ResourceData::~ResourceData() {NewArray(Byte); FreeArray(data); data = 0; success = false;}
 
 
 void ResourceData::initialize(String& path) {
@@ -30,7 +30,7 @@ uint   lng;
 
   dataSize = GetFileVersionInfoSize( path, &handle);    if (!dataSize) return;
 
-  NewAlloc(Byte); data = AllocArray(dataSize);
+  NewArray(Byte); data = AllocArray(dataSize);
 
   if (!GetFileVersionInfo(path, handle, dataSize, data)) return;
 

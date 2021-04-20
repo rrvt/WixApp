@@ -13,7 +13,7 @@ const int BufSize = 1024;
 
 IniFile::~IniFile() {
 
-  if (buf) {NewAlloc(Tchar); FreeArray(buf); buf = 0;}
+  if (buf) {NewArray(Tchar); FreeArray(buf); buf = 0;}
   }
 
 
@@ -136,7 +136,7 @@ CFile cFile(iniFilePath, CFile::modeWrite);
 Tchar* IniFile::startReadSection() {
 int n;
 
-  if (!buf) {NewAlloc(Tchar);   buf = AllocArray(BufSize); p = buf;}
+  if (!buf) {NewArray(Tchar);   buf = AllocArray(BufSize); p = buf;}
 
   n = GetPrivateProfileString(0, 0, 0, buf, BufSize, iniFilePath);
 

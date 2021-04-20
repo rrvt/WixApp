@@ -48,6 +48,29 @@ DEVMODE* devMode;
   }
 
 
+
+
+PrtrOrient PrintMgr::getOrient(HANDLE h) {
+DEVMODE*   devMode;
+short      dmOrient;
+PrtrOrient orient = Portrait;
+
+  if (!h) return orient;
+
+  devMode = (DEVMODE*)::GlobalLock(h);    if (!devMode) return orient;
+
+  if ((devMode->dmFields & DM_ORIENTATION) != 0) {
+
+    dmOrient = devMode->dmOrientation;
+
+    if (     dmOrient == DMORIENT_PORTRAIT)  orient = Portrait;
+    else if (dmOrient == DMORIENT_LANDSCAPE) orient = Landscape;
+    }
+
+  ::GlobalUnlock(h); return orient;
+  }
+
+
 void PrintMgr::OnPrepareDC(CDC* dc, CPrintInfo* info) {                       // Override
 
   cdc = dc;  pinfo = info;

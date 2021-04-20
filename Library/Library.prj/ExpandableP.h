@@ -105,10 +105,29 @@ the operations supported are:
                                     // the pointer in RcdPtr contained a base pointer with two varients.
                                     // Thus, the standard deallocation scheme failed to release all the
                                     // memory since it only know about the base class.
+
+
+The Record needs the following functions for the Insertion Sort and Binary Sort to work.
+
+class Record {
+
+  o o o
+
+  // Required for Insertion Sort, i.e. data = dtm;
+  bool operator >= (Record& r) {return key >= r.key;}
+  bool operator == (Record& r) {return key == r.key;}
+
+  // Required for Binary Search
+  bool operator== (TCchar* key) {return this->key == key;}
+  bool operator<  (TCchar* key) {return this->key <  key;}
+  bool operator>  (TCchar* key) {return this->key >  key;}
+  };
 */
 
 #pragma once
 
+
+#define ExpandableException _T("Corrupted Expandable(P) structure")
 
 
 template<class Record>
@@ -119,19 +138,37 @@ Record* p;
  ~RcdPtrT() {p = 0;}
   RcdPtrT(RcdPtrT& x) {p = x.p;}
 
-//  void clear() {NewAlloc(Record); FreeNode(p); p = 0;}        // Use in class that contains Expandable
-                                                              // object.
-
   RcdPtrT& operator=  (Record& r)  {p = &r;  return *this;}
   RcdPtrT& operator=  (Record* r)  {p =  r;  return *this;}
   RcdPtrT& operator=  (RcdPtrT& x) {p = x.p; return *this;}
 
+  // Required for Insertion Sort, i.e. data = dtm;
   bool     operator== (RcdPtrT& x) {return *p == *x.p;}
-  bool     operator!= (RcdPtrT& x) {return *p != *x.p;}
-  bool     operator>  (RcdPtrT& x) {return *p >  *x.p;}
-  bool     operator<  (RcdPtrT& x) {return *p <  *x.p;}
   bool     operator>= (RcdPtrT& x) {return *p >= *x.p;}
+
+  // Required for qsort along with operator== above
+  bool     operator>  (RcdPtrT& x) {return *p >  *x.p;}
   bool     operator<= (RcdPtrT& x) {return *p <= *x.p;}
+
+  // The rest of the conditionsals
+  bool     operator!= (RcdPtrT& x) {return *p != *x.p;}
+  bool     operator<  (RcdPtrT& x) {return *p <  *x.p;}
+
+  // Required for Binary Search
+  // Binary Search of TCchar* (LCD for Strings) and other pointers
+  template<class Key>
+  bool     operator== (Key* key) {return *p == key;}
+
+  template<class Key>
+  bool     operator<  (Key* key) {return *p <  key;}
+
+  template<class Key>
+  bool     operator>  (Key* key) {return *p >  key;}
+
+  // Binary Search using integers as the key...
+  bool     operator== (long key) {return *p == key;}
+  bool     operator<  (long key) {return *p <  key;}
+  bool     operator>  (long key) {return *p >  key;}
   };
 
 
@@ -146,11 +183,11 @@ RcdPtr* tbl;
 public:
 
   ExpandableP() : endN(0), tblN(n > 0 ? n : 1)
-                    {NewAlloc(RcdPtr); tbl = AllocArray(tblN);  ZeroMemory(tbl, tblN * sizeof(RcdPtr));}
+                    {NewArray(RcdPtr); tbl = AllocArray(tblN);  ZeroMemory(tbl, tblN * sizeof(RcdPtr));}
 
 // We have placed ptrs to nodes in the array.  But now we need to free the nodes and clear the pointers
 
- ~ExpandableP() {freeAllNodes();  NewAlloc(RcdPtr); FreeArray(tbl);   tbl = 0; endN = tblN = 0;}
+ ~ExpandableP() {freeAllNodes();  NewArray(RcdPtr); FreeArray(tbl);   tbl = 0; endN = tblN = 0;}
 
 
   Record*  allocate()            {NewAlloc(Record); return AllocNode;}
@@ -174,31 +211,39 @@ public:
 
   // Insert RcdPtr d into array sorted (being sure to expand it if necessary.  Note, if one use [] to
   // insert data into array, sorting is up to the user...!
+  // Returns a pointer to the record in the vector
 
-  ExpandableP& operator= (Record* r) {*this = *r; return *this;}
+  Record* operator= (Record* r) {return *this = *r;}
 
-  ExpandableP& operator= (Record& d) {
+  Record* operator= (Record& d) {
   RcdPtr xNode;
   RcdPtr nextNode;
   int    i;
 
-    for (i = 0; i < endN; i++) if (tbl[i].p && *tbl[i].p >= d) {if (*tbl[i].p == d) return *this; break;}
+    for (i = endN-1; i >= 0; i--)
+                   if (tbl[i].p && d >= *tbl[i].p) {if (*tbl[i].p == d) return tbl[i].p;   i++;   break;}
 
-    for (xNode = d, endN++; i < endN; i++)
+    if (i < 0) i = 0;
+
+    Record* p = allocate();   *p = d;
+
+    for (xNode = p, endN++; i < endN; i++)
                        {if (i >= tblN) expand(i);   nextNode = tbl[i]; tbl[i] = xNode; xNode = nextNode;}
-    return *this;
+    return p;
     }
 
   // Append already allocated record on end of array, places pointer at end of array
+  // Returns a pointer to the record in the vector
 
-  ExpandableP& operator+= (Record* r)
-                        {if (!r) return *this;   RcdPtr& rcdP = (*this)[endN]; rcdP.p = r; return *this;}
+  Record* operator+= (Record* r)
+                        {if (!r) return 0;   RcdPtr& rcdP = (*this)[endN]; rcdP.p = r; return rcdP.p;}
 
   // Append record at end of array, first allocating a record and then copies data from r into node
+  // Returns a pointer to the record in the vector
 
-  ExpandableP& operator+= (Record& r) {
+  Record* operator+= (Record& r) {
     RcdPtr& rcdP = (*this)[endN];
-    Record* node = allocate();    *node = r;   rcdP.p = node;   return *this;
+    Record* node = allocate();    *node = r;   rcdP.p = node;   return node;
     }
 
   // Allocate a node and put it at end of array and return reference to node
@@ -206,7 +251,7 @@ public:
   Record& nextData()
                   {RcdPtr& rcdP = (*this)[endN]; Record* node = allocate(); rcdP.p = node; return *node;}
 
-  // Get a node at index i, allocating it if necessary
+  // Get a node at index i or the end of the vector, allocating it if necessary
 
   Record& getData(int i) {
     if (i < 0 || endN < i) i = endN;
@@ -245,6 +290,41 @@ public:
     NewAlloc(Record);  FreeNode(p);   tbl[endN] = 0;
     }
 
+
+  template<class Key>
+  Record* bSearch(Key key) {
+  int     beg  = 0;
+  int     end  = endN;
+  int     last = -1;
+  int     i;
+
+    for (i = (beg+end)/2; i < endN && i != last; last = i, i = (beg+end)/2) {
+
+      RcdPtr& rcd = tbl[i];   if (!rcd.p) throw ExpandableException;
+
+      if (rcd <  key) {beg = i; continue;}
+      if (rcd >  key) {end = i; continue;}
+      if (rcd == key) return rcd.p;
+      throw ExpandableException;
+      }
+
+    return 0;
+    }
+
+  template<class Key>
+  Record* find(Key key) {
+  int i;
+
+    for (i = 0; i < endN; i++) {
+
+      RcdPtr& rcd = tbl[i];    if (!rcd.p) throw ExpandableException;
+
+      if (rcd == key) return rcd.p;
+      }
+
+    return 0;
+    }
+
 private:
                                                // NewAlloc(Record);   FreeNode(
   void freeAllNodes() {
@@ -270,7 +350,7 @@ private:
 
     while (tblN <= i && tblN < INT_MAX/2) tblN = tblN ? tblN * 2 : 1;
 
-    NewAlloc(RcdPtr); tbl = AllocArray(tblN);
+    NewArray(RcdPtr); tbl = AllocArray(tblN);
 
     for (j = 0; j < nItems; j++, p++) {tbl[j] = *p; p->p = 0;}
     for (     ; j < tblN;   j++) tbl[j].p = 0;

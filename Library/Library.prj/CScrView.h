@@ -43,10 +43,10 @@ public:
                                                                             // Override to draw this view
           void     invalidate() {Invalidate();}
 
-          void     setOrientation(PrtrOrient orientation) {pMgr.setOrientation(orientation);}
-          bool     setPrntrOrient(HANDLE h, CDC* dc = 0) {return pMgr.setOrient(h, dc);}
-
-          int      noLinesPrPg() {return pMgr.noLinesPrPg();}     // Determine no lines per printed page
+          void       setOrientation(PrtrOrient orientation) {pMgr.setOrientation(orientation);}
+          bool       setPrntrOrient(HANDLE h, CDC* dc = 0) {return pMgr.setOrient(h, dc);}
+          PrtrOrient getPrntrOrient(HANDLE h)              {return pMgr.getOrient(h);}
+          int        noLinesPrPg() {return pMgr.noLinesPrPg();}   // Determine no lines per printed page
 
           void     suppressOutput(bool printing);
           void     negateSuppress(bool printing);

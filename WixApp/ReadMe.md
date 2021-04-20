@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 4/20/21
+
+Library changes only.
+
 ### Update 2/20/21
 
 Noticed, found and fixed a small memory leak.

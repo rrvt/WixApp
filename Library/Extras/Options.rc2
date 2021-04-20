@@ -67,7 +67,7 @@ END
 
 STRINGTABLE
 BEGIN
-  ID_Options     "Dispaly & Printer Options\nDispaly & Printer Options"
+  ID_Options     "Display & Printer Options\nDisplay & Printer Options"
 END
 
 

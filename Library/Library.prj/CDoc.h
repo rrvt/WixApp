@@ -7,14 +7,6 @@
 #include <setupapi.h>
 
 
-#if 0
-struct PathDesc {
-String title;         // Save As Parameters, examples:
-String name;          // _T("mumble.txt")
-String ext;           // _T("txt")
-String pattern;       // _T("*.txt")
-};
-#endif
 
 
 class CDoc : public CDocument {
@@ -25,8 +17,6 @@ String path;                                     // Path to file being processed
 public:
 
   virtual bool setPath(PathDlgDsc& dsc) {return getPathDlg(dsc, path);}
-
-  virtual BOOL OnNewDocument() override {path.clear(); return true;}
 
   virtual BOOL OnOpenDocument(LPCTSTR lpszPathName) override;
 
@@ -52,4 +42,5 @@ public:
 
   virtual void serialize(Archive& arcv) = 0;
   };
+
 

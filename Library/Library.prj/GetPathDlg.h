@@ -40,6 +40,8 @@ bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extP
 
 // Overwrites existing file
 
+bool getSaveAsPathDlg(PathDlgDsc& dsc, String& path);
+
 bool getSaveAsPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
 
 
