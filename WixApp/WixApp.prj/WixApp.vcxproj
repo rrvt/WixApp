@@ -108,7 +108,7 @@ copy $(SolutionDir)..\WixApp.prj\res\dialog.bmp $(OutDir)</Command>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Library\Extras\About.cpp" />
+    <ClCompile Include="..\..\Library\Extras\AboutDlg.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DefaultPath.cpp" />
@@ -137,7 +137,7 @@ copy $(SolutionDir)..\WixApp.prj\res\dialog.bmp $(OutDir)</Command>
     <ClCompile Include="WixUtilites.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Library\Extras\About.h" />
+    <ClInclude Include="..\..\Library\Extras\AboutDlg.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DefaultPath.h" />
@@ -175,7 +175,7 @@ copy $(SolutionDir)..\WixApp.prj\res\dialog.bmp $(OutDir)</Command>
     <ResourceCompile Include="WixApp.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Library\Extras\About.rc2" />
+    <None Include="..\..\Library\Extras\AboutDlg.rc2" />
     <None Include="res\banner.bmp" />
     <None Include="res\dialog.bmp" />
     <None Include="res\My_en-us.wxl" />

@@ -27,5 +27,6 @@ typedef unsigned __int64 Uint64;
 
 #define pathSepChar _T('\\')
 #define pathSepStg  _T("\\")
+#define uniSepChar  _T('/')
 
 

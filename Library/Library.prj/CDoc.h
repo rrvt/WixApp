@@ -35,7 +35,7 @@ public:
   virtual BOOL DoFileSave() override;
 
   virtual const CString& GetPathName();
-
+  virtual TCchar* getPath() {return path;}
 
   virtual void SetPathName(LPCTSTR lpszPathName, BOOL bAddToMRU = TRUE)
                                          {path = lpszPathName; SetupAddToSourceList(SRCLIST_USER, path);}

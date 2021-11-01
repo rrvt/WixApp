@@ -46,6 +46,7 @@ public:
 
   friend class List;
   friend class ListLoop;
+  friend class ListIter;
   friend class Debug;
   };
 
@@ -91,6 +92,7 @@ protected:
   void initialize() {head = 0; tail = phantomNode(Node, link, &head);}
 
   friend class ListLoop;
+  friend class ListIter;
   };
 
 
@@ -128,7 +130,45 @@ public:
   // pointer to the node or zero if not pointing to a node.
 
   virtual Node* removeCurNode();
+  };
 
+
+
+
+class ListIter {
+List& lst;
+Node* prev;
+Node* rover;
+bool  nodeRemoved;
+
+public:
+           ListIter(List& list) : lst(list), rover(0), prev(0) {nodeRemoved = false;}
+  virtual ~ListIter() { }
+
+ // initialize for scan of list and return first node on the list or zero if at end
+ // of list.
+
+  Node* operator() () {
+    prev = phantomNode(Node, link, &lst.head); rover = lst.head; nodeRemoved = false;
+    return rover;
+    }
+
+  // move to next node on list and return pointer to that node or zero if at end of list
+
+  Node* operator++ (int) {
+    if (!nodeRemoved) {prev = rover; if (rover) rover = rover->link;}
+
+    nodeRemoved = false; return rover;
+    }
+
+  // remove and return first node on list or returns zero if list empty and adjust rover and prev
+
+  virtual Node* removeHead();
+
+  // Remove the node returned from startLoop or nextNode from the list and return a
+  // pointer to the node or zero if not pointing to a node.
+
+  virtual Node* removeCurNode();
   };
 
 
@@ -138,4 +178,4 @@ inline List::~List() {removeAll();}
 inline Node::~Node() {link = 0;}
 
 
-inline ListLoop::~ListLoop() {}
+inline ListLoop::~ListLoop() { }

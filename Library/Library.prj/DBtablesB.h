@@ -44,6 +44,8 @@ String name;
   DBtable(TCchar* nm) : name(nm) { }
   virtual ~DBtable() = 0;
 
+  virtual void clear() { }
+
   virtual bool load(DAOtable* daoTable) {return false;}
   virtual void store() { }
 
@@ -83,6 +85,8 @@ public:
 
   virtual DBtablesB& operator+= (DBtable* tbl);
   virtual DBtablesB& operator=  (DBtable* tbl);
+
+  virtual void       clear();
 
   virtual bool       load(TCchar* path);
 

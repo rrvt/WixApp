@@ -27,8 +27,8 @@
     </Publish>
   </UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixApp\WixApp\..\Debug\dialog.bmp"/>
-  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixApp\WixApp\..\Debug\banner.bmp"/>
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
 
   <Icon     Id="WixAppIcon.ico" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\WixApp.ico"/>
   <Icon     Id="UninstallIcon.ico" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\Uninstall.ico"/>
@@ -97,11 +97,11 @@
   </Component>
 
   <Component Id="Banner.cmp"  Guid="5E7E76A9-BC71-4287-825C-C1FB4BF7E55E" Directory="WixApp.pff">
-    <File Id="Banner.cmp" Source="$(var.SolutionDir)..\Release\banner.bmp" KeyPath="yes"/>
+    <File Id="Banner.cmp" Source="$(var.SolutionDir)..\Installer\banner.bmp" KeyPath="yes"/>
   </Component>
 
   <Component Id="Dialog.cmp"  Guid="C40F08F4-0D13-40CB-8837-6CEFA81F643D" Directory="WixApp.pff">
-    <File Id="Dialog.cmp" Source="$(var.SolutionDir)..\Release\dialog.bmp" KeyPath="yes"/>
+    <File Id="Dialog.cmp" Source="$(var.SolutionDir)..\Installer\dialog.bmp" KeyPath="yes"/>
   </Component>
 
   <Component Id="MyEnUS.cmp"  Guid="5BB02D77-B732-481D-BAD3-E350989130D2" Directory="WixApp.pff">
@@ -116,7 +116,7 @@
 
 <Fragment>
 
-  <Component Id="UninstallWixApp.cmp"  Guid="675EE81B-3338-4840-A672-86CBD4BA9AEA"
+  <Component Id="UninstallWixApp.cmp"  Guid="F73E9AC9-E781-4FBD-966B-9ACA14118226"
                                                                               Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"

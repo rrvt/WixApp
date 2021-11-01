@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "CDoc.h"
-//#include "GetPathDlg.h"
 
 
 //bool CDoc::setPath(PathDlgDsc& dsc) {return getPathDlg(dsc, path);}

@@ -81,9 +81,10 @@ void WixData::saveWxdPath(TCchar* path)
 
 
 void WixData::clearAllSections() {
-Tchar*  p;
+IniSectIter iter(wxd);
+TCchar*     section;
 
-  for (p = wxd.startReadSection(); p; p = wxd.nextSection()) wxd.deleteSection(p);
+  for (section = iter(); section; section = iter++) wxd.deleteSection(section);
   }
 
 

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "WixDataDlg.h"
-#include "About.h"
+#include "AboutDlg.h"
 //#include "DefaultPath.h"
 #include "DspDirs.h"
 #include "filename.h"
@@ -141,7 +141,7 @@ void WixDataDlg::DoDataExchange(CDataExchange* pDX) {
 void WixDataDlg::OnGetSolution() {solution.newFile();}
 
 
-void WixDataDlg::OnAppAbout() {CAboutDlg aboutDlg; aboutDlg.DoModal();}
+void WixDataDlg::OnAppAbout() {AboutDlg aboutDlg; aboutDlg.DoModal();}
 
 
 void WixDataDlg::OnLeaveProductname() {wixData.setDefaults(this);  UpdateWindow();}

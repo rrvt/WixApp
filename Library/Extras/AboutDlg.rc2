@@ -1,0 +1,30 @@
+// About.RC2 - resources Microsoft Visual C++ does not edit directly
+
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 250, 76
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,4,4,21,20
+    CTEXT           "",IDC_NameVer,    25,14,200,8,SS_NOPREFIX | SS_CENTERIMAGE
+    CTEXT           "",IDC_Copyright,  25,26,200,8,SS_CENTERIMAGE
+    CTEXT           "",IDC_CompanyName,25,38,200,8,SS_CENTERIMAGE
+    DEFPUSHBUTTON   "OK",IDOK,100,55,50,14,BS_CENTER | WS_GROUP
+END
+
+STRINGTABLE
+BEGIN
+  ID_App_About   "Display program information, version number and copyright\nDisplay program information, version number and copyright"
+END
+

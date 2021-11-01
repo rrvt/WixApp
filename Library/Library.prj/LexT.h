@@ -73,11 +73,11 @@ int      offset;                // offset to token
 
 public:
 
-Input  input;                   // Input is performed with this class whatever it is.
+Input   input;                   // Input is performed with this class whatever it is.
 LexTOut output;
 
-Token* token;                   // token returned    static const
-Token* token1;                  // Next token in input stream
+Token*  token;                   // token returned    static const
+Token*  token1;                  // Next token in input stream
 
   LexT();
  ~LexT() {NewAlloc(Token); FreeNode(token); FreeNode(token1); token = token1 = 0;}
@@ -713,7 +713,7 @@ static int error_count;     /* number of syntax errors */
 // Functions
 
 template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-            void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::error(Token* token, TCchar* stg) {
+           void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::error(Token* token, TCchar* stg) {
 int    lng    = (int) _tcslen(stg);
 String f;
 

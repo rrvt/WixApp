@@ -6,26 +6,25 @@
 
 
 void Horiz::clear() {
-  position = maxPos = rightEdge = leftMgn = rightMgn = leftBnd = rightBnd = savePos = 0;
-  avgChWidth = 1.0; tabMgmt.clear();
+  position = maxPos = rightEdge = leftMgn = leftBase = rightMgn = leftBnd = rightBnd = savePos = 0;
+  avgLgChWidth = 1.0; avgFlChWidth = 1.0; tabMgmt.clear();
   }
 
 void Horiz::setAttributes(int width, double leftMargin, double rightMargin)
-              {rightEdge = width; leftMgn = leftMargin; rightMgn = rightMargin; initPos(); setRtEdge();}
+    {rightEdge = width; leftMgn = leftBase = leftMargin; rightMgn = rightMargin; initPos(); setRtEdge();}
 
 
-void Horiz::setLeftMargin( double v) {leftMgn = v;  initPos();}
+void Horiz::setLeftMargin( double v) {leftMgn = v + leftBase;  initPos();}
 void Horiz::setRightMargin(double v) {rightMgn = v; setRtEdge();}
 
 
 
-void Horiz::setAvgChWidth(CDC* dc) {
+void Horiz::setAvgLgChWidth(CDC* dc) {
 TEXTMETRIC metric;
 int        buf[26];
 int        n;
 int        i;
 double     sum;
-double     avg;
 
   if (dc->GetTextMetrics(&metric)) {
 
@@ -33,9 +32,9 @@ double     avg;
 
     for (i = 0, n = noElements(buf), sum = 0; i < n; i++) sum += buf[i];
 
-    avgChWidth = sum / n;
+    avgLgChWidth = sum / n;
 
-    avg = metric.tmAveCharWidth;   if (avg > avgChWidth) avgChWidth = avg;
+    avgFlChWidth = metric.tmAveCharWidth;   if (avgFlChWidth > avgLgChWidth) avgLgChWidth = avgFlChWidth;
     }
   }
 
@@ -55,29 +54,29 @@ void TabMgmt::setRTab(Horiz& hz, int pos) {TabX tab;   tab.right = true; set(hz,
 void TabMgmt::set(Horiz& hz, int pos, TabX& tab) {
 double tabPos = pos;
 
-  tab.pos = tabPos > 0 ? tabPos * hz.avgChWidth + hz.leftBnd : hz.rightBnd + hz.avgChWidth * tabPos;
+  tab.pos = tabPos > 0 ? tabPos * hz.avgLgChWidth + hz.leftBnd : hz.rightBnd + hz.avgLgChWidth * tabPos;
 
   tabs = tab;               // inserts in sorted order
   }
 
 
 void TabMgmt::findNextTab(Horiz& hz, TabX& tabX) {
-double pos     = hz.position;
-double chWidth = hz.avgChWidth;
-double left    = hz.leftBnd;
+double pos       = hz.position;
+double lgChWidth = hz.avgLgChWidth;
+double left      = hz.leftBnd;
 int    i;
 int    n;
 double newCurPos;
 
-  for (i = 0; i < tabs.end(); i++) if (tabs[i].pos - pos >= chWidth) {tabX = tabs[i]; return;}
+  for (i = 0; i < tabs.end(); i++) if (tabs[i].pos - pos >= lgChWidth) {tabX = tabs[i]; return;}
 
   // Not found, so go to then next 5th position
 
-  n = int((pos - left + chWidth - 1) / chWidth);  n = (n + 4) / 5;
+  n = int((pos - left + lgChWidth - 1) / lgChWidth);  n = (n + 4) / 5;
 
-  newCurPos = n * 5 * chWidth + left;
+  newCurPos = n * 5 * lgChWidth + left;
 
-  if (newCurPos - pos < chWidth) newCurPos += 5 * chWidth;
+  if (newCurPos - pos < lgChWidth) newCurPos += 5 * lgChWidth;
 
   tabX.pos = newCurPos; tabX.right = false;
   }

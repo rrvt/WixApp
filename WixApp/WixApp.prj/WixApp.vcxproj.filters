@@ -17,9 +17,6 @@
   <ItemGroup>
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
     <None Include="..\ReadMe.md" />
-    <None Include="..\..\Library\Extras\About.rc2">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\banner.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -47,11 +44,11 @@
     <None Include="res\WixApp.rc2">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\Library\Extras\AboutDlg.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Library\Extras\About.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ChildView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -130,11 +127,11 @@
     <ClCompile Include="WixUtilites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Library\Extras\AboutDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Library\Extras\About.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Library\Extras\ExtraResource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -229,6 +226,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WixUtilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Extras\AboutDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

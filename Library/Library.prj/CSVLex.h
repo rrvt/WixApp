@@ -85,14 +85,14 @@ CSVtok   token1;                 // Next token in input stream
   bool        initialize();                       // Initialize input mechanism
 
   void        set_print_flag(bool flag);          // Set print flag, true will cause
-  bool        get_print_flag(void);               // source line to be printed
+  bool        get_print_flag();                   // source line to be printed
 
-  CSVtokCode  get_token(void);                    // get next token, values set in globals
+  CSVtokCode  get_token();                        // get next token, values set in globals
 
-  void        accept_token(void);                 // Set first token to NO_Token
-  void        accept_two_tokens(void);            // Set both tokens to No_Token
+  void        accept_token();                     // Set first token to NO_Token
+  void        accept_two_tokens();                // Set both tokens to No_Token
 
-  void        error(CSVtok& token, Tchar* stg);    // Error processing
+  void        error(CSVtok& token, Tchar* stg);   // Error processing
 
 private:
 

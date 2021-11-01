@@ -30,7 +30,8 @@ DspManip dBoldFont;
 DspManip dItalicFont;
 DspManip dUnderLineFont;
 DspManip dStrikeOutFont;
-DspManip dflushFtr;                     // add to stream to terminate a footer when printing
+DspManip dFlushFtr;                     // add to stream to terminate a footer when printing
+DspManip dFlush;                        // flush text so tht the next sequence may be setup
 
 DsManipInt&   dSetLMargin(int val) {return setupManipInt(Device::doSetLMargin, val);}
 DsManipInt&   dSetTab(    int val) {return setupManipInt(Device::doSetTab,     val);}
@@ -56,7 +57,8 @@ Device::Device(TCchar* src) : id(src) {
   dCrlf.n           = this; dCrlf.func           = &doCrlf;
   dCR.n             = this; dCR.func             = &doCR;
   dEndPage.n        = this; dEndPage.func        = &doEndPage;
-  dflushFtr.n       = this; dflushFtr.func       = &doFlushFtr;
+  dFlushFtr.n       = this; dFlushFtr.func       = &doFlushFtr;
+  dFlush.n          = this; dFlush.func          = &doFlush;
   dTab.n            = this; dTab.func            = &doTab;
   dClrTabs.n        = this; dClrTabs.func        = &doClrTabs;
   dCenter.n         = this; dCenter.func         = &doCenter;
@@ -134,10 +136,14 @@ Device& Device::doEndPage(Device& d) {
 
 Device& Device::doFlushFtr(Device& d) {
 
-  d.textOut();
+//  d.textOut();   d.nonBlankLine = false;
+  d.doFlush(d);
 
-  d.nonBlankLine = false;   d.vert.lf(d.printing, d.footer);   d.hz.cr(); return d;
+  d.vert.lf(d.printing, d.footer);   d.hz.cr(); return d;
   }
+
+
+Device& Device::doFlush(Device& d) {d.textOut();  d.nonBlankLine = false; return d;}
 
 
 Device& Device::doBeginLine(Device& d) {
@@ -239,7 +245,7 @@ void Device::strikeOutFont()           {if (textOut()) {font.setStrikeOut(); set
 void Device::prevFont()                {if (textOut()) {font.pop();          setMetric();}}
 
 
-void Device::setMetric() {hz.setAvgChWidth(dc);    vert.setHeight(dc);}
+void Device::setMetric() {hz.setAvgLgChWidth(dc);    vert.setHeight(dc);}
 
 
 Device& Device::append(Wrap& w) {

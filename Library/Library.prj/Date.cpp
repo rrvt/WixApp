@@ -20,6 +20,8 @@ static void replTmSel(int i,  TCchar ch, CEdit& ctrl);
 
 
 
+const int Date::MinDate = 30000;
+
 typedef struct tm Tm;
 const double Date::SecondsPerDay = 86400;
 
@@ -349,4 +351,28 @@ String s;
   ctrl.SetSel(i, i+1);   ctrl.ReplaceSel(s);
   }
 
+
+
+
+void ToDate::convert() {
+
+  if (stg.length() < 14) return;
+
+  year  = next(4);
+  month = next(2);
+  day   = next(2);
+  hour  = next(2);
+  min   = next(2);
+  sec   = next(2);
+
+  Date d(year, month, day, hour, min, sec);  date = d;
+  }
+
+
+int ToDate::next(int noChar) {
+String s = stg.substr(pos, noChar);
+uint   x;
+
+  pos += noChar;  return s.stoi(x);
+  }
 

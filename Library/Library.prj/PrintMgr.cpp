@@ -215,7 +215,7 @@ void PrintMgr::printFooter(Device& dev, int pageNo) {          // Overload if di
 
   if (!date.isEmpty()) {dev << dRight; dev << date.getDate() << _T("   ") << date.getTime();}
 
-  dev << dflushFtr;
+  dev << dFlushFtr;
   }
 
 

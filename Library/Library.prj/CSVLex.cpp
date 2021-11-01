@@ -72,14 +72,14 @@ bool CSVLex::initialize() {
 void CSVLex::set_print_flag(bool flag) {print_source_line = flag;}
 
 
-bool CSVLex::get_print_flag(void) {return print_source_line;}
+bool CSVLex::get_print_flag() {return print_source_line;}
 
 
 // accept token by clearing the token code
 
-void CSVLex::accept_token(void)      {token.code = NoToken;}
+void CSVLex::accept_token()      {token.code = NoToken;}
 
-void CSVLex::accept_two_tokens(void) {token.code = token1.code = NoToken;}
+void CSVLex::accept_two_tokens() {token.code = token1.code = NoToken;}
 
 
 // get next token when token is empty, values set in globals
@@ -121,6 +121,7 @@ Character_Classes ch_class;                 // character class of current charac
 fin_eol:                ptok = &tok.name; ptok->clear(); tok.code = EolToken; goto fin_op;
 
           case other:
+          case bslsh:
           case sChar:   state = collect_symbol; start_token(tok); break;
 
 
@@ -137,16 +138,16 @@ fin_op:                 start_token(tok); move_char(); terminate(tok, source); r
         move_char(); continue;
 
 
-      // Collect symbol composed of a letter followed by letters, digits or underscore
+      // Collect string up to a comma or crlf
 
       case collect_symbol:
 
         switch (ch_class) {
-          case other:
-          case sChar:   break;
+          case cr   : accept_char();
+          case eol  :
+          case comma: tok.code = StringToken; terminate(tok, source); state = begin_tok; return;
 
-          case cr:      accept_char();
-          default:      tok.code = StringToken; terminate(tok, source); state = begin_tok; return;
+          default   : break;
           }
         move_char(); continue;
 

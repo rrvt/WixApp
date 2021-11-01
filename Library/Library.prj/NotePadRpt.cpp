@@ -12,13 +12,13 @@ void NotePadRpt::print(CScrView& vw) {
 
   printing = true; maxLines = vw.noLinesPrPg(); vw.disableWrap(printing); detNoPages(vw);
 
-  create();
+  create(vw);
   }
 
 
 
 
-void NotePadRpt::create() {
+void NotePadRpt::create(CScrView& vw) {
 NtPdIter iter(notePad);
 Note*    note;
 int      i;
@@ -87,7 +87,7 @@ void NotePadRpt::footer(Device& dev, int pageN) {
 
   if (pageN > maxPages) maxPages = pageN;
 
-  dev << dCenter << pageN << _T(" of ") << maxPages << dflushFtr;
+  dev << dCenter << pageN << _T(" of ") << maxPages << dFlushFtr;
   }
 
 

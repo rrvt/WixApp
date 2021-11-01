@@ -11,6 +11,9 @@ CTime dt;
 
 public:
 
+static const int MinDate;           // Minimum No of Seconds allowed by MFC, Date date(MinDate);
+
+
   Date();
   Date(int hr, int min, int sec) : dt(1901, 1, 1, hr, min, sec) {}
   Date(int yr, int mon, int day, int hr, int min, int sec) : dt(yr, mon, day, hr, min, sec) {}
@@ -21,11 +24,13 @@ public:
 
   Date       operator= (String& s);                    // Translates m/d/yy h/m/s all digits to CTime
   Date       operator= (CString& cs) {String s = cs; return s;}
+  Date&      operator= (CTime& tm)   {dt = tm; return *this;}
 
   Date&      operator= (variant_t& v)
           {double t;   if (v.vt == VT_DATE) {t = v; t *= SecondsPerDay; dt = time_t(t);}   return *this;}
 
-          void getToday() {dt = CTime::GetCurrentTime();}
+         void getToday() {dt = CTime::GetCurrentTime();}
+
 
   static void onChangeDate(CEdit& ctrl);
   static void onChangeTime(CEdit& ctrl);
@@ -39,6 +44,7 @@ public:
   String   dayOfWeek();
   String   format(TCchar* f) {Cstring s; s = dt.Format(f);                    return s;}
   operator String ()         {Cstring s; s = dt.Format(_T("%#m/%#d/%y %H:%M")); return s;}
+  String   toUnix() {Cstring s; s = dt.Format(_T("%Y%m%d%H%M%S")); return s;}
 
   bool     isEmpty()    {return dt.GetTime() == 0;}
 
@@ -66,6 +72,31 @@ static const double SecondsPerDay;
 inline String toString(Date& d)       {String s; return s;}
 inline String toString(CTimeSpan& sp) {String s; return s;}
 
+
+class ToDate {
+String stg;
+int    pos;
+
+int    year;
+int    month;
+int    day;
+int    hour;
+int    min;
+int    sec;
+
+Date   date;
+
+public:
+
+  ToDate(TCchar* ts) : stg(ts), pos(0) {convert();}
+
+  Date& operator() () {return date;}
+
+private:
+
+  void convert();
+  int  next(int noChar);
+  };
 
 // Format Codes
 // %a -- Abbreviated weekday name in the locale

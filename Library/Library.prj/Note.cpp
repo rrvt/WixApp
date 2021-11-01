@@ -8,7 +8,7 @@
 
 
 Note::Note() {
-  fSize = leftMargin = tabValue = rTabValue = width = precision = 0; editBoxX = -1;
+  fSize = tabValue = rTabValue = width = precision = 0; leftMargin = editBoxX = -1;
 
   isTable = clrTabs = tab = center = right = beginLine = endLine = endPage = crlf = debug = false;
 

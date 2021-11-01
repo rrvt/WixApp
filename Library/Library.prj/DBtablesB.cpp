@@ -16,6 +16,14 @@ DBtable::~DBtable() { }
 DBrcd::~DBrcd()   { }
 
 
+void DBtablesB::clear() {
+DBTiter   iter(*this);
+DBtableP* dsc;
+
+  for (dsc = iter(); dsc; dsc = iter++) {DBtable* dbTable = *dsc;   dbTable->clear();}
+  }
+
+
 bool DBtablesB::load(TCchar* path) {
 DBTiter   iter(*this);
 DBtableP* dsc;
@@ -26,6 +34,8 @@ DBtableP* dsc;
   notePad << path << nCrlf;
 
   notePad << nClrTabs << nSetRTab(14);
+
+  clear();
 
   for (dsc = iter(); dsc; dsc = iter++) {
     DBtable* dbTable = *dsc;

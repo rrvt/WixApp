@@ -14,6 +14,15 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 10/31/21
+
+Changed Resources (i.e. xxx.rc data) access so that it will work with a dll.  Changed the logic in the
+About Box code.  Some other library changes.  Some corresponding changes in the application.  Similar
+changes were made in SetEnv.
+
+An iterator was introduced in the IniFile module and it is being used in the WixData module to clear
+the sections.
+
 ### Update 4/20/21
 
 Library changes only.

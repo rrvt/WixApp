@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "FileIO.h"
+#include "filename.h"
 
 
 static const int WriteMode = CFile::modeWrite | CFile::modeReadWrite;
@@ -27,17 +28,21 @@ FileIO::FileIO() : encoding(NilEncode), encdState(0), openParms(0), pos(0), pbuf
 
 
 bool FileIO::open(String& filePath, int parms) {
+int i;
 
   if (isOpen()) return true;
 
   setMode(parms);
 
-//  if ((openParms & 3) == CFile::modeRead) pbuf = ebuf = buf;
-//  else                                   {pbuf = buf; ebuf = buf + noElements(buf);}
-
   pbuf = ebuf = buf;  path = filePath;
 
-  if (cfile.Open(path, openParms, &err) != 0) return true;
+  for (i = 0; i < 2; i++) {
+    if (cfile.Open(path, openParms, &err) != 0) return true;
+
+    if (parms & Create && CreateDirectory(getPath(filePath), 0)) continue;
+
+    break;
+    }
 
   return false;
   }
@@ -90,6 +95,14 @@ CFileStatus status;
   if (!cfile.GetStatus(status)) return false;
 
   time = status.m_mtime; return true;
+  }
+
+
+int FileIO::getLength() {
+
+  if (cfile.m_hFile == CFile::hFileNull) return 0;
+
+  return (int) cfile.GetLength();
   }
 
 
@@ -158,21 +171,6 @@ bool FileIO::write(Tchar c) {
   }
 
 
-bool FileIO::write(void* blk, int nBytes) {
-int   i;
-char* p = (char*) blk;
-
-  for (i = 0; i < nBytes; i++) {
-
-//    if (pbuf >= ebuf) flush();   *pbuf++ =
-
-    sendChar(*p++);
-    }
-
-  return err.m_cause == CFileException::none;
-  }
-
-
 // Writes one byte without interpretation of /n or /r
 
 bool FileIO::write(Byte v) {
@@ -192,9 +190,17 @@ void FileIO::sendChar(char ch) {if (pbuf >= ebuf) flush();   *pbuf++ = ch;  last
 void FileIO::flush() {
 uint noBytes = (uint) (pbuf - buf);
 
-  if (noBytes) try {cfile.Write(buf, noBytes);} catch (CFileException* e) {saveExcp(e); return;}
+  write(buf, noBytes);
 
   pbuf = buf;   ebuf = buf + noElements(buf);
+  }
+
+
+bool FileIO::write(void* blk, int noBytes) {
+
+  if (noBytes) try {cfile.Write(blk, noBytes);} catch (CFileException* e) {saveExcp(e); return false;}
+
+  return true;
   }
 
 
@@ -240,23 +246,6 @@ char ch;
   }
 
 
-// Read block of data from buffer
-
-bool FileIO::read(void* blk, int n) {
-int   i;
-char* p = (char*) blk;
-char  ch;
-
-  for (i = 0; i < n; i++) {
-    if (!getChar(ch)) return false;
-
-    *p++ = ch;
-    }
-
-  return true;
-  }
-
-
 // Reads one byte without interpretation of /n or /r
 
 bool FileIO::read(Byte& v) {
@@ -280,10 +269,7 @@ bool FileIO::getChar(char& ch) {
 // returns number of bytes read or -1
 
 bool  FileIO::fillBuf() {
-uint noBytes;
-
-  try {noBytes = cfile.Read(buf, noElements(buf));}
-  catch (CFileException* e) {saveExcp(e); return false;}
+int noBytes = read(buf, noElements(buf));
 
   if (noBytes == 0) return false;
 
@@ -298,6 +284,20 @@ uint noBytes;
     }
 
   return true;
+  }
+
+
+
+
+// Read block of data from buffer
+
+int FileIO::read(void* blk, int n) {
+uint noBytes;
+
+  try {noBytes = cfile.Read(blk, n);}
+  catch (CFileException* e) {saveExcp(e); return 0;}
+
+  return noBytes;
   }
 
 

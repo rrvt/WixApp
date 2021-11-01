@@ -69,8 +69,8 @@ public:
   bool     read(String& s, int n)        {return fil.read(s, n);}          // Read n chars into a string
   bool     read(Tchar&        ch)        {return fil.read(ch);}
 
-  bool     read(int&           x)        {return read(&x, sizeof(x));}     // No interpretation of \n or
-  bool     read(void* blk, int n)        {return fil.read(blk, n);}        // \r
+  bool     read(int&           x)        {return readBlk(&x, sizeof(x));}  // No interpretation of \n or
+  int      readBlk(void* blk, int n)     {return fil.read(blk, n);}     // \r
   bool     read(Byte&          v)        {return fil.read(v);}
 
   Tchar*   getLastError()                {return fil.getLastError();}      // Returns last error

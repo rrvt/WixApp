@@ -103,6 +103,7 @@ bool dlgPath(CFileDialog* dlg, TCchar* title, String& path) {
   if (!dlg) return false;
 
   dlg->m_ofn.lpstrTitle = title;
+  if (!path.isEmpty()) dlg->m_ofn.lpstrInitialDir = path;
 
   if (dlg->DoModal() == IDOK) {path = dlg->GetPathName(); return true;}
 

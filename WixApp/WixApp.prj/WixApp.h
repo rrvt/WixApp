@@ -2,11 +2,7 @@
 // WixApp.h : main header file for the WixApp application
 //
 #pragma once
-
-#ifndef __AFXWIN_H__
-  #error "include 'stdafx.h' before including this file for PCH"
-#endif
-
+#include "CApp.h"
 #include "iniFile.h"
 #include "Resource.h"       // main symbols
 
@@ -15,14 +11,14 @@
 // See WixApp.cpp for the implementation of this class
 //
 
-class WixApp : public CWinAppEx {
+class WixApp : public CApp {
 String helpFile;
 public:
 
 String myPath;
 String iniPath;                                   // Path to ini File
 
-  WixApp();
+  WixApp() : CApp(this) { }
 
   // Overrides
 

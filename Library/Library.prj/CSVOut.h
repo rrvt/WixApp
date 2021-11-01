@@ -16,6 +16,10 @@ considered to be a separate field in the CSV file.
 
 #pragma once
 #include "Archive.h"
+#include "Date.h"
+
+
+extern TCchar Comma;
 
 
 class CSVOut;
@@ -29,10 +33,12 @@ public:
 
   CSVOut(Archive& a) : ar(a) {initialize();}
 
-  CSVOut& operator<< (String&    s)     {ar.write(quotes(s));  return *this;}
-  CSVOut& operator<< (TCchar*    p)     {ar.write(quotes(p));  return *this;}
-  CSVOut& operator<< (Tchar     ch)     {ar.write(ch); return *this;}
-  CSVOut& operator<< (int        x)     {ar.write(x);  return *this;}
+  CSVOut& operator<< (String&    s)     {ar.write(quotes(s));                  return *this;}
+  CSVOut& operator<< (TCchar*    p)     {ar.write(quotes(p));                  return *this;}
+  CSVOut& operator<< (Tchar     ch)     {ar.write(ch);                         return *this;}
+  CSVOut& operator<< (int        x)     {String s = x;            ar.write(s); return *this;}
+  CSVOut& operator<< (Date&     dt)     {String s = dt.toUnix();  ar.write(s); return *this;}
+
   CSVOut& operator<< (CSVManip& m)      {return m.func(*this);}
 
   void    crlf()                        {ar.crlf();}

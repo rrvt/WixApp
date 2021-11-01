@@ -86,7 +86,8 @@ bool         wrapEnabled;
   CDC*     getDC()     {return dc;}
   int      remaining() {return hz.remaining();}
   int      maxWidth()  {return hz.maxExtent();}
-  int      chWidth()   {return hz.chWidth();}
+  int      lgChWidth() {return hz.lgChWidth();}
+  int      flChWidth() {return hz.flChWidth();}
   int      chHeight()  {return vert.heightCh();}
   int      maxHeight() {return vert.maxY();}
 
@@ -107,8 +108,7 @@ private:
          int      maxLines()                        {return vert.getMaxLines();}
 
   static Device& doClrTabs(       Device& d) {d.hz.clrTabs(); return d;}
-  static Device& doCrlf(          Device& d)
-                                            {if (d.textOut() && d.nonBlankLine) {d.crlf();}  return d;}
+  static Device& doCrlf(          Device& d) {if (d.textOut() && d.nonBlankLine) {d.crlf();}  return d;}
   static Device& doCR(            Device& d) {if (d.textOut()) d.hz.cr(); return d;}
 
   static Device& doEndPage(       Device& d);
@@ -126,10 +126,11 @@ private:
   static Device& doPrevFont(      Device& d) {d.prevFont();      return d;}
 
   static Device& doFlushFtr(      Device& d);
+  static Device& doFlush(         Device& d);
 
   static Device& doSetTab(        Device& d, int v) {d.hz.setTab(v);  return d;}
   static Device& doSetRTab(       Device& d, int v) {d.hz.setRTab(v); return d;}
-  static Device& doSetLMargin(    Device& d, int v) {d.hz.setLeftMargin(v); return d;}
+  static Device& doSetLMargin(    Device& d, int v) {d.textOut(); d.hz.setLeftMargin(v); return d;}
   static Device& doEditBox(       Device& d, int v);
   static Device& doFFace(         Device& d, String& v) {d.setFontFace(v);  return d;}
   static Device& doFSize(         Device& d, double v)  {d.setFontSize(v);  return d;}
@@ -176,7 +177,8 @@ extern DspManip dClrTabs;        // add to stream to clear tabs:                
 extern DspManip dCrlf;           // add to stream to terminate a line on display:  dsp << "xyz" << dCrlf;
 extern DspManip dCR;             // add to stream to perform a carriage return (only)
 extern DspManip dEndPage;        // add to stream to terminate a page when printing or do nothing
-extern DspManip dflushFtr;       // add to stream to terminate a footer when printing
+extern DspManip dFlush;          // flush text so tht the next sequence may be setup
+extern DspManip dFlushFtr;       // add to stream to terminate a footer when printing
 extern DspManip dTab;            // add to stream to tab to next tab position:     dsp << dTab << "xyz";
 extern DspManip dCenter;         // center the string following up to the nCrlf
 extern DspManip dRight;          // right align the string following up to the nCrlf

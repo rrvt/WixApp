@@ -16,7 +16,7 @@ static void   rippleDbgLine();
 
 
 void DisplayDev::startDev()
-             {note = npIter(); lastPageNo = 0; lastLeftMargin = 0;  endDoc = debugging = false;}
+             {note = npIter(); lastPageNo = 0; endDoc = debugging = false;}
 
 
 // Output to Device (Display or Printer)
@@ -26,15 +26,13 @@ bool endLoop = false;
 
   for ( ; note && !endLoop; note = npIter++) {
 
+    if (note->leftMargin >= 0)   dev << dSetLMargin(note->leftMargin);
     if (note->beginLine)        {dev << dBeginLine;                if (dev.doEndPageChk()) break;}
-    if (note->leftMargin != lastLeftMargin)
-                                {dev << dSetLMargin(note->leftMargin); lastLeftMargin = note->leftMargin;}
     if (note->clrTabs)           dev << dClrTabs;
     if (note->tabValue)          dev << dSetTab(note->tabValue);
     if (note->rTabValue)         dev << dSetRTab(note->rTabValue);
 
-    if (!note->fFace.isEmpty())
-      {dev << dFFace(note->fFace);       if (dev.doEndPageChk()) break;}
+    if (!note->fFace.isEmpty()) {dev << dFFace(note->fFace);       if (dev.doEndPageChk()) break;}
     if (note->fSize)            {dev << dFSize(note->fSize);       if (dev.doEndPageChk()) break;}
     if (note->prevFont)         {dev << dPrevFont;                 if (dev.doEndPageChk()) break;}
     if (note->bold)             {dev << dBoldFont;                 if (dev.doEndPageChk()) break;}

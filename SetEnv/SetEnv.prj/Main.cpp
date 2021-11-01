@@ -171,7 +171,7 @@ String s;
 void Main::ShowCopyright() {
 ResourceData res;
 String       cr;
-String       line = res.getAboutNameVer();
+String       line = getNameVer(res);
 
   if (res.getCopyRight(cr)) line += _T(", Copyright ") + cr + _T("\n");
   Output(line);
@@ -180,3 +180,28 @@ String       line = res.getAboutNameVer();
   Output(line);
   }
 
+
+String Main::getNameVer(ResourceData& res) {
+String nameVer;
+String version;
+
+  if (!res.getProductName(nameVer)) nameVer = _T("Product");
+
+  nameVer.trim();
+
+  #ifdef WinXP
+    nameVer += _T(" (WinXP)");
+  #elif defined UNICODE
+    nameVer += _T(" (UNI 7)");
+  #else
+    nameVer += _T(" (Win 7)");
+  #endif
+
+  if (!res.getVersion(version)) version = _T("0/0/0");
+
+  res.threeSect(version);
+
+  nameVer += _T(", Version ") + version;
+
+  return nameVer.trim();
+  }

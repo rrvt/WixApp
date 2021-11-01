@@ -188,6 +188,7 @@ typedef tstring::reverse_iterator reverseIterator;
                                           {tstring& s = *this; return (int) s.find(stg, offset);}
 
   // Find last character in the string given a single character or a group of characters
+  // offset -- Index at which the search is to finish
 
   int findLastOf(Tchar          ch,  int offset=npos)
                                   {tstring& s = *this; return (int) s.find_last_of(ch,  offset);}

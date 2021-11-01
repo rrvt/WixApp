@@ -34,7 +34,7 @@ void FontMgrII::setStrikeOut() {FontAttr* attr = next();   attr->strikeout = tru
 
 
 FontAttr* FontMgrII::next() {
-          get(stkX+1);                       // touch next entry
+          get(stkX+1);                              // touch next entry
 FontAttr* cur  = top();                             // Get current top
 FontAttr* next = datum(++stkX);                     // Bump Stack return ptr to top
 

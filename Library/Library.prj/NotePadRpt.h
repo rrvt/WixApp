@@ -26,7 +26,7 @@ public:
 
 protected:
 
-  virtual void create();
+  virtual void create(CScrView& vw);
 
   virtual void saveTab(Note& note);
   virtual void restoreTabs();

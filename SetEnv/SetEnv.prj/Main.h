@@ -3,6 +3,8 @@
 
 #pragma once
 
+class ResourceData;
+
 
 enum Operation {NilOp, SetOP, AppendOp, DeleteOp, PrePendOp, ViewOp, CopyOp, SanitizeOp};
 
@@ -21,18 +23,21 @@ String    value;
 
 public:
 
-  Main(int argc, TCchar* argv[], TCchar* envp[]);
- ~Main() {}
+         Main(int argc, TCchar* argv[], TCchar* envp[]);
+        ~Main() {}
 
-  bool processArgs();
-  bool setEnv();
+  bool   processArgs();
+  bool   setEnv();
 
 private:
 
-  void init();
-  void Usage();
-  void ShowExamples();
-  void ShowCopyright();
+  void   init();
+  void   Usage();
+
+  String getNameVer(ResourceData& res);
+
+  void   ShowExamples();
+  void   ShowCopyright();
 
   Main() {}
   };

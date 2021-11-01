@@ -9,9 +9,9 @@ leftEdge          leftBnd                                    rightBnd           
     |<- - - - - - - - - - - - - - - - - - - position ->|
 
   Left Edge is always zero.
-  Tabs are measured in average character widths (e.g. 2.3 * avgChWidth
+  Tabs are measured in average character widths (e.g. 2.3 * avgLgChWidth
   All attributes are kept as floating point (double) and converted to integer for use on output
-   -- avgChWidth
+   -- avgLgChWidth
    -- leftMargin
    -- rightMargin
    -- position
@@ -72,11 +72,13 @@ double   maxPos;
 
 double   rightEdge;               // Attributes set from outside
 double   leftMgn;
+double   leftBase;
 double   rightMgn;
 
 double   leftBnd;                 // Computed from the attributes
 double   rightBnd;
-double   avgChWidth;
+double   avgLgChWidth;
+double   avgFlChWidth;
 
 TabMgmt  tabMgmt;
 double   savePos;                 // used to save and restore the position (1 layer stack?)
@@ -91,7 +93,7 @@ public:
   void setAttributes(int width, double leftMargin, double rightMargin);
   void setLeftMargin( double v);
   void setRightMargin(double v);
-  void setAvgChWidth(CDC* dc);
+  void setAvgLgChWidth(CDC* dc);
 
   void clrTabs()       {tabMgmt.clear();}
   void setTab(int  v)  {tabMgmt.setTab( *this, v);}
@@ -108,8 +110,10 @@ public:
   void saveCurPos() {savePos = position;}                   // Save and restore current position
   void restorePos() {position = savePos;}                   // Used for wrapping text...
 
-  int  charIndex() {return int((position - leftBnd) / avgChWidth);}    // index of char in line (approx)
-  int  chWidth()   {return int(avgChWidth);}
+  int  charIndex() {return int((position - leftBnd) / avgLgChWidth);}    // index of char in line (approx)
+  int  lgChWidth() {return int(avgLgChWidth + 0.5);}
+  int  flChWidth() {return int(avgFlChWidth + 0.5);
+  }
 
   // Operate on text width to position the text
 
@@ -121,8 +125,8 @@ public:
 
 private:
 
-  void initPos()   {maxPos = position = leftBnd = leftMgn  * avgChWidth;}
-  void setRtEdge() {       rightBnd = rightEdge - rightMgn * avgChWidth;}
+  void initPos()   {maxPos = position = leftBnd = leftMgn  * avgLgChWidth;}
+  void setRtEdge() {       rightBnd = rightEdge - rightMgn * avgLgChWidth;}
 
   friend class TabMgmt;
   };

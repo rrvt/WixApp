@@ -291,6 +291,15 @@ public:
     }
 
 
+  void del(Record* p) {
+  int i;
+
+    if (!p || !tbl) return;
+
+    for (i = 0; i < endN; i++) if (tbl[i].p == p) {del(i); break;}
+    }
+
+
   template<class Key>
   Record* bSearch(Key key) {
   int     beg  = 0;

@@ -13,8 +13,6 @@ Device   dev;
 NtPdIter npIter;
 Note*    note;
 
-int      lastLeftMargin;
-
 bool     endDoc;
 bool     debugging;
 
@@ -22,7 +20,7 @@ public:
 uint     lastPageNo;
 
   DisplayDev(TCchar* src, NotePad& np) : id(src),          dev(src),          npIter(np),
-                                         note(0),          lastLeftMargin(0), endDoc(false),
+                                         note(0),          endDoc(false),
                                          debugging(false), lastPageNo(0) {clear();}
  ~DisplayDev() { }
 
@@ -52,11 +50,12 @@ uint     lastPageNo;
   // Display functions
 
   void prepareDisplay( TCchar* font, double fontSize, CDC* pDC) {dev.prepareDisplay(font, fontSize, pDC);}
-  int  chWidth()   {return dev.chWidth();}
+  int  lgChWidth() {return dev.lgChWidth();}
+  int  flChWidth() {return dev.flChWidth();}
   int  chHeight()  {return dev.chHeight();}
   int  vertPos()   {return dev.vertPos();}
   void getMaxPos(long& maxX, long& maxY) {dev.getMaxPos(maxX, maxY);}
-  void clrLines() {dev.clrLines();}
+  void clrLines()  {dev.clrLines();}
   int  maxLines()  {return dev.maxLines();}
 
   uint getNoPages()    {return dev.noPages;}

@@ -1,6 +1,6 @@
 
 // WixApp.cpp : Defines the class behaviors for the application.
-//
+// copy $(OutDir)en-US\WixAppInstaller.msi $(OutDir)
 
 #include "stdafx.h"
 #include "WixApp.h"
@@ -23,17 +23,6 @@ END_MESSAGE_MAP()
 
 WixApp  theApp;                           // The one and only WixApp object
 IniFile iniFile;                          // Implements Read/Write to Private Profile File
-
-
-// WixApp construction
-
-WixApp::WixApp() {
-ResourceData res;
-String       appID;
-
-  if (res.getAppID(appID)) SetAppID(appID);  EnableHtmlHelp();
-  }
-
 
 
 // WixApp initialization

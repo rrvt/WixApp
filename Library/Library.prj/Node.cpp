@@ -83,3 +83,36 @@ Node* node;
   while (node = removeHead()) node->remove();
   }
 
+
+
+
+
+Node* ListIter::removeHead() {
+Node* node = lst.head;
+
+  if (lst.head)
+    {lst.head = lst.head->link;  if (!lst.head) lst.tail = phantomNode(Node, link, &lst.head);}
+
+  if      (prev  == node)         {prev = 0; rover = 0;}
+  else if (rover == node && prev) rover = prev->link;
+
+  if (node) node->link = 0;
+
+  return node;
+  }
+
+
+
+Node* ListIter::removeCurNode() {
+Node* node = rover;
+
+  if (prev) {
+    if (rover) {prev->link = rover->link; rover = prev->link;}
+    else       {lst.tail = prev; prev->link = 0; prev = 0; rover = 0;}
+    }
+
+  if (node) {node->link = 0; nodeRemoved = true;}
+
+  return node;
+  }
+

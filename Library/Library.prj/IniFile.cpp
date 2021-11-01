@@ -11,12 +11,6 @@
 const int BufSize = 1024;
 
 
-IniFile::~IniFile() {
-
-  if (buf) {NewArray(Tchar); FreeArray(buf); buf = 0;}
-  }
-
-
 String IniFile::getAppDataPath(TCchar* helpPath) {
 Tchar   stg[1024];
 String path;
@@ -133,6 +127,7 @@ CFile cFile(iniFilePath, CFile::modeWrite);
 
 
 
+#if 0
 Tchar* IniFile::startReadSection() {
 int n;
 
@@ -151,7 +146,7 @@ Tchar* IniFile::nextSection() {
   p += _tcslen(p) + 1; return getSection();
   }
 
-
+#endif
 
 
 
@@ -276,5 +271,31 @@ String s;
     }
 
   return s;
+  }
+
+
+
+
+TCchar* IniSectIter::operator() () {
+int n;
+
+  do {
+    if (buf) {bufSize *= 2;  clear();}
+
+    if (!buf) {NewArray(Tchar);   buf = AllocArray(bufSize); p = buf;}
+
+    n = GetPrivateProfileString(0, 0, 0, buf, bufSize, ini.iniFilePath);
+
+    } while (n >= bufSize-2);
+
+  endBuf = p + n;  return p < endBuf ? p : 0;
+  }
+
+
+TCchar* IniSectIter::operator++ (int) {
+
+  if (!p) {return 0;}
+
+  p += _tcslen(p) + 1; return p < endBuf ? p : 0;
   }
 

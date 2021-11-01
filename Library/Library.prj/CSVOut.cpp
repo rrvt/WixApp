@@ -6,11 +6,12 @@
 
 
 static TCchar quote = _T('"');
+       TCchar Comma = _T(',');
 
 
 String& CSVOut::quotes(TCchar* p) {
 static String s;
-bool          addQuotes = false;
+bool   addQuotes = false;
 
   s = p;
 

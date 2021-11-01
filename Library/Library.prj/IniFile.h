@@ -10,15 +10,12 @@ class IniFile {
 String   iniFilePath;
 int      pathLng;
 
-Tchar*   p;
-Tchar*   q;
-Tchar*   buf;
 Random   rand;
 
 public:
 
-  IniFile() : p(0), q(0), buf(0), rand() {}
- ~IniFile();
+  IniFile() : rand() {}
+ ~IniFile() { }
 
   String  getAppDataPath(TCchar* helpPath);   // Sets ini File Name & path to appData/Roming directory
                                               // returns path to directory
@@ -46,8 +43,6 @@ public:
   bool    readString( TCchar* section, TCchar* key, CString& val, TCchar* dflt);
   int     readInt(    TCchar* section, TCchar* key, int      def);
   bool    readPwd(    TCchar* section, TCchar* key, String&  val);
-  Tchar*  startReadSection();
-  Tchar*  nextSection();
 
   void    deleteString(TCchar* section, TCchar* key);
   void    deleteSection(TCchar* section);
@@ -60,8 +55,55 @@ protected:
   String  encodePassword(String& password);
   Tchar   getRandCh();
   String  decodePassword(String& cipher);
-  Tchar*  getSection() {return p < q ? p : 0;}
+
+  friend class IniSectIter;
   };
 
 
 extern IniFile iniFile;
+
+
+/* Iterator for section names, use as follows:
+
+   fn() {
+   IniSectIter iter(iniFile);
+   TCchar*     section;
+
+     for (section = iter(); section; section = iter++) {
+       // section is guaranteed to be non-null (not zero)
+       }
+     }
+*/
+
+class IniSectIter {
+
+IniFile& ini;
+Tchar*   p;
+Tchar*   endBuf;
+Tchar*   buf;
+int      bufSize;
+
+public:
+
+  IniSectIter(IniFile& iniFile) : ini(iniFile), p(buf), endBuf(buf), buf(0), bufSize(16) { }
+ ~IniSectIter() {clear();}
+
+
+  TCchar* operator() ();
+  TCchar* operator++ (int);
+
+private:
+
+  IniSectIter() : ini(*(IniFile*)0) { }
+  void clear() {if (buf) {NewArray(Tchar); FreeArray(buf); buf = 0;}}
+  };
+
+
+
+//  Tchar*  startReadSection();
+//  Tchar*  nextSection();
+//  Tchar*  getSection() {return p < q ? p : 0;}
+//Tchar*   p;
+//Tchar*   q;
+//Tchar*   buf;
+// p(0), q(0), buf(0),

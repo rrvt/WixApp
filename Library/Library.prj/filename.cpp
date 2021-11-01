@@ -17,9 +17,8 @@ static void get_extension(TCchar* name, Tchar* ext, int dSize);
 
 String getPath(TCchar* fullPath) {
 String stg = fullPath;
-int    pos = stg.findLastOf('\\');
-
-  if (pos > 0) stg.resize(pos+1);  return stg;
+int    pos = stg.findLastOf(_T('\\'));   if (pos >= 0) {stg.resize(pos+1);   return stg;}
+       pos = stg.findLastOf(_T('/'));    if (pos >= 0)  stg.resize(pos+1);   return stg;
   }
 
 
@@ -74,7 +73,7 @@ int    dotPos;
 String removePath(TCchar* name) {
 Tchar* p = _tcschr((Tchar*) name, 0);
 
-  while (p > name) if (*--p == pathSepChar || *p == ':') return ++p;
+  while (p > name) if (*--p == pathSepChar || *p == ':' || *p == uniSepChar) return ++p;
 
   return name;
   }

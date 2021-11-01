@@ -37,7 +37,7 @@ CSize scrollSize;
 
   pageSize.cy = t; pageSize.cx = winSize.right;
 
-  scrollSize.cx = dspDev.chWidth();   scrollSize.cy = height;
+  scrollSize.cx = dspDev.lgChWidth();   scrollSize.cy = height;
 
   dspDev.getMaxPos(scrollViewSize.cx, scrollViewSize.cy);
 

@@ -231,7 +231,7 @@ void ToUniCode::convert(Cchar* tp) {
   #ifdef _UNICODE
   int i;
 
-    for (i = 0; i < cnt; i++) p[i] = tp[i];   p[i] = 0;   return;
+    for (i = 0; i < cnt; i++) p[i] = tp[i] & 0xff;   p[i] = 0;   return;
 
   #else
 

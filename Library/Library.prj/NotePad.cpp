@@ -161,9 +161,23 @@ Note& note = n.getNote();
   }
 
 
-NotePad& NotePad::crlf() {
-  getNote().crlf    = true; note->line; note = 0; noLines++; return *this;
+NotePad& NotePad::doSetLMargin(NotePad& n, int v) {
+Note& note = n.getNote();
+
+  if (note.leftMargin != v) n.note = 0;   n.getNote().leftMargin = v; return n;
   }
+
+
+NotePad& NotePad::doCrlf(NotePad& n) {
+Note& note = n.getNote();
+
+  if (note.leftMargin) n.note = 0;
+
+  return n.crlf();
+  }
+
+
+NotePad& NotePad::crlf() {getNote().crlf = true;   note = 0;   noLines++;   return *this;}
 
 
 NotePad& NotePad::endPage() {
@@ -198,13 +212,6 @@ Note& note = n.getNote();
   if (!note.line.empty() || note.right || note.tab) n.note = 0;
 
   n.getNote().beginLine = true; return n;
-  }
-
-
-NotePad& NotePad::doSetLMargin(NotePad& n, int v) {
-  if (n.getNote().leftMargin) n.note = 0;
-
-  n.getNote().leftMargin = v; return n;
   }
 
 

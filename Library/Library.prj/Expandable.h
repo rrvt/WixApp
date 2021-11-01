@@ -109,8 +109,8 @@ public:
   int  end()   {return endN;}         // Returns number of items in array if inserted sequentially
 
 
-  // Insert Datum d into array sorted (being sure to expand it if necessary.  Note, if one use [] to insert
-  // data into array, sorting is up to the user...!
+  // Insert Datum d into array sorted (being sure to expand it if necessary.  Note, if one use [] to
+  // insert data into array, sorting is up to the user...!
 
   Datum* operator= (Datum& d) {
   Datum  xNode;

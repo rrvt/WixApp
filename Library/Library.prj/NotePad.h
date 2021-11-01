@@ -46,8 +46,10 @@ public:
   void archive(Archive& ar);
 
   NotePad& operator <<(const String&   s) {return append(s);}
+  NotePad& operator <<(Cchar*         cs) {return append(cs);}
   NotePad& operator <<(Wrap&           w) {return append(w);}
   NotePad& operator <<(int             v) {return append(v);}
+  NotePad& operator <<(size_t          v) {return append((int) v);}
   NotePad& operator <<(ulong           v) {return append(v);}
   NotePad& operator <<(Tchar           v) {return append(v);}
   NotePad& operator <<(double          v) {return append(v);}
@@ -65,6 +67,7 @@ private:
   void initialize();                          // Must open Notepad before first use.
 
   NotePad& append(const String& line) {getNote().line += line.str();   return *this;}
+  NotePad& append(Cchar*        cs)   {ToUniCode uni(cs); getNote().line += uni();  return *this;}
   NotePad& append(Wrap&         w);   //    {getNote().wrap = w; return *this;}
   NotePad& append(TCchar* line)       {getNote().line += line;         return *this;}
   NotePad& append(Tchar       v)      {getNote().line += v;            return *this;}
@@ -85,7 +88,7 @@ private:
 
   static NotePad& doClrTabs(      NotePad& n);
   static NotePad& doTab(          NotePad& n);
-  static NotePad& doCrlf(         NotePad& n) {return n.crlf();}
+  static NotePad& doCrlf(         NotePad& n);
   static NotePad& doEndPage(      NotePad& n) {return n.endPage();}
   static NotePad& setTableName(   NotePad& n) {n.getNote().isTable   = true; return n;}
   static NotePad& doCenter(       NotePad& n);

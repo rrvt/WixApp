@@ -44,18 +44,19 @@ enum OpenParms {Read=1, Write=2, Create=4};
   bool isOpen() {return cfile.m_hFile != CFile::hFileNull;}
 
   bool getModifiedTime(CTime& time);
+  int  getLength();
 
   bool write(String& s);                            // Writes a string (unicode or ansi)
   bool write(TCchar* s);                            // Writes a string of Tchars (unicod or ansi)
   bool write(Tchar   c);                            // Writes one character (unicode or ansi)
-  bool write(void* blk, int n);                     // writes n bytes (not chars or Tchars) without
+  bool write(void* blk, int noBytes);               // writes n bytes (not chars or Tchars) without
                                                     // interpretation of /n or /r
   bool write(Byte    v);                            // Writes one byte without interpretation of /n or /r
 
   bool read(String& s);                             // Reads a line terminated by _T("\n")
   bool read(String& s, int n);                      // Read n characters into a string
   bool read(Tchar&  c);                             // reads on char or wchar (i.e. a Tchar)
-  bool read(void* blk, int n);                      // Read block of data from buffer without
+  int  read(void* blk, int n);                      // Read block of data from buffer without
                                                     // interpretation of /n or /r
   bool read(Byte&    v);                            // Reads one byte without interpretation of /n or /r
 

@@ -21,7 +21,7 @@
 //
 // Arrays are a bit more trouble in that the number of nodes must be explicitly mentioned
 //
-//   NewAlloc(Node); Node* p = AllocArray(3);         // Three entries in an array of Nodes are created
+//   NewArray(Node); Node* p = AllocArray(3);         // Three entries in an array of Nodes are created
 //                                                    // and the Node's constructor called for each entry
 // Freeing the nodes must be done with the FreeNode or FreeArray macros.  The destructor for each
 // Node is called and then the block of memory is freed.
