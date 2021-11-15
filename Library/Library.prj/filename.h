@@ -15,7 +15,9 @@ String getMainName(TCchar* fullPath);
 
 String getExtension(TCchar* fullPath);
 
-String incVersionNo(TCchar* filePath);          // Removes path and extension, adds and
+String getDirName(TCchar* fullPath);                // i.e. last name between \\ and \\ or eol
+
+String incVersionNo(TCchar* filePath);              // Removes path and extension, adds and
                                                     // increments a version number to main name
 bool   change_extension(String& name, TCchar* ext);
 bool   change_extension(Tchar* name, int dSize, TCchar* ext);

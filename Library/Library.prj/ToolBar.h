@@ -27,7 +27,7 @@ bool      deleted;
 
   CtrlInfo() : ctrlType(NilCtrl), id(-1), width(0), depth(0), style(0), hMenu(0), deleted(false) { }
   CtrlInfo(CtrlInfo& ci) {copy(ci);}
- ~CtrlInfo() { }
+ ~CtrlInfo() {ctrlType = NilCtrl; id = -1; hMenu = 0;}
 
   void init(CtrlType typ, int cmdID, int wdth, int dpth, ulong styl);
   void setCaption(TCchar* cptn) {caption = cptn;}
@@ -37,7 +37,7 @@ bool      deleted;
   CtrlInfo& operator= (CtrlInfo& ci) {copy(ci); return *this;}
 
   bool      operator== (CtrlInfo& ci) {return id == ci.id;}
-  bool      operator>= (CtrlInfo& ci) {return id >= ci.id;}
+  bool      operator>= (CtrlInfo& ci) {return id >=  ci.id;}
 
 private:
 
@@ -45,6 +45,7 @@ private:
   bool installCbx(ToolBar& tb);
   bool installEbx(ToolBar& tb);
   bool installMnu(ToolBar& tb);
+
   void copy(CtrlInfo& ci);
   };
 

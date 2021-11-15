@@ -34,7 +34,8 @@ enum OpenParms {Read=1, Write=2, Create=4};
  ~FileIO() {close();}
 
   void setMode(int parms);                   // Set if parms
-  bool open(String& filePath, int parms);
+  bool open(String& filePath, int parms) {return open(filePath.str(), parms);}
+  bool open(TCchar* filePath, int parms);
   void close();
 
   void seekEnd();
@@ -45,6 +46,7 @@ enum OpenParms {Read=1, Write=2, Create=4};
 
   bool getModifiedTime(CTime& time);
   int  getLength();
+  int  getLength(TCchar* path);
 
   bool write(String& s);                            // Writes a string (unicode or ansi)
   bool write(TCchar* s);                            // Writes a string of Tchars (unicod or ansi)

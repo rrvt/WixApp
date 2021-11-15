@@ -84,87 +84,244 @@ the operations supported are:
 template <class Datum, const int n>
 
 class Expandable {
-int    endN;
-int    tblN;
-Datum* tbl;
+int    endN;                          // Number of items in the array that may be occupied
+int    tblN;                          // total number of elements in the table
+Datum* tbl;                           // Pointer to a heap object which is treated as an array of Datums
 
 public:
 
-  Expandable() : endN(0), tblN(n > 0 ? n : 1) {NewArray(Datum); tbl = AllocArray(tblN);}
+  Expandable();                       // Constructor & destructor
+ ~Expandable();
 
- ~Expandable() {
-    if (tbl) {NewArray(Datum);  FreeArray(tbl);}
-    tbl = 0; endN = tblN = 0;
-    }
+  Expandable& operator= (Expandable& e);  // Copy from one array to another
 
-  Expandable& operator= (Expandable& e) {clear(); copy(e); return *this;}
-
-  Datum& operator[] (int i) {
-    if (i >= tblN) expand(i);
-    if (i >= endN) endN = i+1;
-    return tbl[i];
-    }
+  Datum& operator[] (int i);          // Index into array, returns a reference
 
   void clear() {endN = 0;}            // Clears the number of items in array (without deleting data)
   int  end()   {return endN;}         // Returns number of items in array if inserted sequentially
 
+  // Insert every Datum d into array sorted (being sure to expand it if necessary.  Note, if one
+  // use [] to insert data into array, sorting is up to the user...!
 
-  // Insert Datum d into array sorted (being sure to expand it if necessary.  Note, if one use [] to
-  // insert data into array, sorting is up to the user...!
+  Datum* operator= (Datum* d) {return d ? (*this) = *d : 0;}
+  Datum* operator= (Datum& d);
 
-  Datum* operator= (Datum& d) {
-  Datum  xNode;
-  Datum  nextNode;
-  int    i;
-  Datum* dtm;
+  Datum* operator+= (Datum& d);   // Append Datum to end of array, copies datum into array entry
+  Datum* operator+= (Datum* d);
 
-    for (i = endN-1; i >= 0; i--)
-                           {dtm = &tbl[i];   if (d >= *dtm) {if (*dtm == d) return dtm;   i++;   break;}}
+  Datum& nextData() {return (*this)[endN];} // Return reference to next available node in array (at end)
 
-    if (i < 0) i = 0;   dtm = &tbl[i];
+  bool operator() (int x, Datum& d);        // Insert data at index, moving other entries out of the way
 
-    for (xNode = d, endN++; i < endN; i++)
-                   {if (i >= tblN) expand(i);   nextNode = tbl[i];   tbl[i] = xNode;   xNode = nextNode;}
-    return dtm;
+  bool del(int x);                          // Delete datum at index x, move higher elements up one
+
+  template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array
+
+  template<class Key> Datum* find(Key key);     // Linear search
+
+private:
+
+  void copy(Expandable& e);                     // Copy all elements of array e into a this array
+
+  void expand(int i);                           // Expand array when required
+  };
+
+
+// Constructor
+
+template <class Datum, const int n>
+Expandable<Datum, n>::Expandable() : endN(0), tblN(n > 0 ? n : 1)
+                                                               {NewArray(Datum); tbl = AllocArray(tblN);}
+
+// Destructor
+
+template <class Datum, const int n>
+Expandable<Datum, n>::~Expandable() {
+  if (tbl) {NewArray(Datum);  FreeArray(tbl);}
+  tbl = 0; endN = tblN = 0;
+  }
+
+
+// copy data from one array to another
+
+template <class Datum, const int n>
+Expandable<Datum, n>& Expandable<Datum, n>::operator= (Expandable& e) {clear(); copy(e); return *this;}
+
+
+// Index into array, returns a reference
+
+template <class Datum, const int n>
+Datum& Expandable<Datum, n>::operator[] (int i) {
+  if (i >= tblN) expand(i);
+  if (i >= endN) endN = i+1;
+  return tbl[i];
+  }
+
+
+// Insert every Datum d into array sorted (being sure to expand it if necessary.  Note, if one use [] to
+// insert data into array, sorting is up to the user...!
+
+template <class Datum, const int n>
+Datum* Expandable<Datum, n>::operator= (Datum& d) {
+Datum  xNode;
+Datum  nextNode;
+int    i;
+Datum* dtm;
+
+  for (i = endN-1; i >= 0; i--) {dtm = &tbl[i];   if (d >= *dtm) {i++;   break;}}
+
+  if (i < 0) i = 0;   dtm = &tbl[i];
+
+  for (xNode = d, endN++; i < endN; i++)
+                 {if (i >= tblN) expand(i);   nextNode = tbl[i];   tbl[i] = xNode;   xNode = nextNode;}
+  return dtm;
+  }
+
+
+// Append Datum to end of array, copies datum into array entry
+
+template <class Datum, const int n>
+Datum* Expandable<Datum, n>::operator+= (Datum& d)
+                                              {Datum& datum = (*this)[endN];  datum = d;  return &datum;}
+template <class Datum, const int n>
+Datum* Expandable<Datum, n>::operator+= (Datum* d)
+                    {if (!d) return *this;    Datum& datum = (*this)[endN];  datum = *d;  return &datum;}
+
+
+// Insert data at index, moving other entries out of the way
+
+template <class Datum, const int n>
+bool Expandable<Datum, n>::operator() (int x, Datum& d) {
+int i;
+
+  if (x < 0 || endN < x) return false;
+
+  if (++endN >= tblN) expand(x);
+
+  for (i = endN-2; i >= x; i--) tbl[i+1] = tbl[i];
+
+  tbl[x] = d;   return true;
+  }
+
+
+// Linear search
+
+template <class Datum, const int n>
+template<class Key> Datum* Expandable<Datum, n>::find(Key key) {
+int i;
+
+  for (i = 0; i < endN; i++) if (tbl[i] == key) return &tbl[i];
+
+  return 0;
+  }
+
+
+// Binary search (only works on sorted array
+
+template <class Datum, const int n>
+template<class Key> Datum* Expandable<Datum, n>::bSearch(Key key) {
+int beg  = 0;
+int end  = endN;
+int last = -1;
+int i;
+
+  for (i = (beg+end)/2; i < endN && i != last; last = i, i = (beg+end)/2) {
+
+    Datum& rcd = tbl[i];
+
+    if (rcd <  key) {beg = i; continue;}
+    if (rcd >  key) {end = i; continue;}
+    if (rcd == key) return &rcd;
+    throw ExpandableException;
     }
 
+  return 0;
+  }
 
-  // Append Datum to end of array, copies datum into array entry
 
-  Datum* operator+= (Datum& d) {Datum& datum = (*this)[endN];  datum = d;  return &datum;}
-  Datum* operator+= (Datum* d)
-          {if (!d) return *this;    Datum& datum = (*this)[endN];  datum = *d;  return &datum;}
+// Delete datum at index x, move higher elements up one
 
-  // Return reference to next available node in array (at end)
+template <class Datum, const int n>
+bool Expandable<Datum, n>::del(int x) {
+int i;
 
-  Datum& nextData() {return (*this)[endN];}
+  if (endN <= 0 || x < 0 || endN <= x) return false;
 
-  // Insert data at index, moving other entries out of the way
+  Datum& d = tbl[endN-1];
 
-  void operator() (int x, Datum& d) {
+  for (i = x, --endN; i < endN; i++) tbl[i] = tbl[i+1];
+
+  d.~Datum();   return true;
+  }
+
+
+// Copy all elements of array e into a this array
+
+template <class Datum, const int n>
+void Expandable<Datum, n>::copy(Expandable& e) {
+
+  if (e.endN > tblN) expand(e.endN);
+
+  for (endN = 0; endN < e.endN; endN++) tbl[endN] = e.tbl[endN];
+  }
+
+
+// Expand array when required
+
+template <class Datum, const int n>
+void Expandable<Datum, n>::expand(int i) {
+Datum* p      = tbl;
+Datum* q      = tbl;
+int    nItems = tblN;
+int    j;
+
+  while (tblN <= i && tblN < INT_MAX/2) tblN = tblN ? tblN * 2 : 1;
+
+  NewArray(Datum); tbl = AllocArray(tblN);
+
+  for (j = 0; j < nItems; j++, p++) tbl[j] = *p;
+
+  FreeArray(q);
+  }
+
+
+
+
+#if 0
+   {
+  Datum* p      = tbl;
+  Datum* q      = tbl;
+  int   nItems = tblN;
+  int   j;
+
+    while (tblN <= i && tblN < INT_MAX/2) tblN = tblN ? tblN * 2 : 1;
+
+    NewArray(Datum); tbl = AllocArray(tblN);
+
+    for (j = 0; j < nItems; j++, p++) tbl[j] = *p;
+
+    FreeArray(q);
+    }
+#endif
+#if 0
+   {
+
+    if (e.endN > tblN) expand(e.endN);
+
+    for (endN = 0; endN < e.endN; endN++) tbl[endN] = e.tbl[endN];
+    }
+#endif
+#if 0
+   {
   int i;
 
-    if (++endN >= tblN) expand(endN);
+    for (i = 0; i < endN; i++) if (tbl[i] == key) return &tbl[i];
 
-    for (i = endN-2; i >= x; i--) tbl[i+1] = tbl[i];
-
-    tbl[x] = d;
+    return 0;
     }
-
-  void del(int x) {
-  int i;
-
-    if (endN <= 0 || x < 0 || endN <= x) return;
-
-    Datum& d = tbl[endN-1];
-
-    for (i = x, --endN; i < endN; i++) tbl[i] = tbl[i+1];
-
-    d.~Datum();
-    }
-
-  template<class Key>
-  Datum* bSearch(Key key) {
+#endif
+#if 0
+   {
   int beg  = 0;
   int end  = endN;
   int last = -1;
@@ -182,40 +339,62 @@ public:
 
     return 0;
     }
-
-
-  template<class Key>
-  Datum* find(Key key) {
+#endif
+#if 0
+   {
   int i;
 
-    for (i = 0; i < endN; i++) if (tbl[i] == key) return &tbl[i];
+    if (endN <= 0 || x < 0 || endN <= x) return;
 
-    return 0;
+    Datum& d = tbl[endN-1];
+
+    for (i = x, --endN; i < endN; i++) tbl[i] = tbl[i+1];
+
+    d.~Datum();
     }
+#endif
+#if 0
+   {
+  int i;
 
-private:
+    if (++endN >= tblN) expand(endN);
 
-  void copy(Expandable& e) {
+    for (i = endN-2; i >= x; i--) tbl[i+1] = tbl[i];
 
-    if (e.endN > tblN) expand(e.endN);
-
-    for (endN = 0; endN < e.endN; endN++) tbl[endN] = e.tbl[endN];
+    tbl[x] = d;
     }
+#endif
+// {Datum& datum = (*this)[endN];  datum = d;  return &datum;}
+//          {if (!d) return *this;    Datum& datum = (*this)[endN];  datum = *d;  return &datum;}
+#if 0
+   {
+  Datum  xNode;
+  Datum  nextNode;
+  int    i;
+  Datum* dtm;
 
+    for (i = endN-1; i >= 0; i--)
+                           {dtm = &tbl[i];   if (d >= *dtm) {if (*dtm == d) return dtm;   i++;   break;}}
 
-  void expand(int i) {
-  Datum* p      = tbl;
-  Datum* q      = tbl;
-  int   nItems = tblN;
-  int   j;
+    if (i < 0) i = 0;   dtm = &tbl[i];
 
-    while (tblN <= i && tblN < INT_MAX/2) tblN = tblN ? tblN * 2 : 1;
-
-    NewArray(Datum); tbl = AllocArray(tblN);
-
-    for (j = 0; j < nItems; j++, p++) tbl[j] = *p;
-
-    FreeArray(q);
+    for (xNode = d, endN++; i < endN; i++)
+                   {if (i >= tblN) expand(i);   nextNode = tbl[i];   tbl[i] = xNode;   xNode = nextNode;}
+    return dtm;
     }
-  };
-
+#endif
+#if 0
+   {
+    if (i >= tblN) expand(i);
+    if (i >= endN) endN = i+1;
+    return tbl[i];
+    }
+#endif
+// {clear(); copy(e); return *this;}
+#if 0
+  {
+    if (tbl) {NewArray(Datum);  FreeArray(tbl);}
+    tbl = 0; endN = tblN = 0;
+    }
+#endif
+// : endN(0), tblN(n > 0 ? n : 1) {NewArray(Datum); tbl = AllocArray(tblN);}

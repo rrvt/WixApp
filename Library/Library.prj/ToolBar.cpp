@@ -148,6 +148,9 @@ void CtrlInfo::copy(CtrlInfo& ci) {
   width     = ci.width;
   depth     = ci.depth;
   style     = ci.style;
+  hMenu     = ci.hMenu;
+  rect      = ci.rect;
+  deleted   = ci.deleted;
   }
 
 

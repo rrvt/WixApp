@@ -70,6 +70,18 @@ int    dotPos;
   }
 
 
+// i.e. last name between \\ and \\ or eol
+
+String getDirName(TCchar* fullPath) {
+String path = fullPath;
+int    pos  = path.length() - 1;    if (pos < 0) return _T("");
+
+  if (path[pos] == _T('\\')) path = path.substr(0, pos);
+
+  return removePath(path);
+  }
+
+
 String removePath(TCchar* name) {
 Tchar* p = _tcschr((Tchar*) name, 0);
 

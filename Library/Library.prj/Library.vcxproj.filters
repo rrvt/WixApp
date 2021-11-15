@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AceDao.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Archive.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -84,13 +81,7 @@
     <ClCompile Include="FileIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="filename.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FilePaths.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="filesrch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GetPathDlg.cpp">
@@ -207,9 +198,6 @@
     <ClCompile Include="NotePadRpt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MapBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DAOAccess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -223,6 +211,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DBtablesB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSrch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -299,13 +293,7 @@
     <ClInclude Include="FileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="filename.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FilePaths.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="filesrch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GetPathDlg.h">
@@ -471,6 +459,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DAOtables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSrch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

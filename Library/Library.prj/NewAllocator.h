@@ -31,7 +31,7 @@
 
 
 
-#if _DEBUG
+#ifdef _DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
 #include <crtdbg.h>

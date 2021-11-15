@@ -27,7 +27,7 @@ FileIO::FileIO() : encoding(NilEncode), encdState(0), openParms(0), pos(0), pbuf
                                             rtnSeen(false), tabSize(2), col(0), lastOP(0) {buf[0] = 0;}
 
 
-bool FileIO::open(String& filePath, int parms) {
+bool FileIO::open(TCchar* filePath, int parms) {
 int i;
 
   if (isOpen()) return true;
@@ -95,6 +95,15 @@ CFileStatus status;
   if (!cfile.GetStatus(status)) return false;
 
   time = status.m_mtime; return true;
+  }
+
+
+int FileIO::getLength(TCchar* path) {
+int lng = 0;
+
+  if (open(path, Read)) {lng = getLength();   close();}
+
+  return lng;
   }
 
 

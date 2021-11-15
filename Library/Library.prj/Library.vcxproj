@@ -39,9 +39,9 @@
     <ClCompile Include="EditBox.cpp" />
     <ClCompile Include="EditBoxes.cpp" />
     <ClCompile Include="FileIO.cpp" />
-    <ClCompile Include="filename.cpp" />
+    <ClCompile Include="FileName.cpp" />
     <ClCompile Include="FilePaths.cpp" />
-    <ClCompile Include="filesrch.cpp" />
+    <ClCompile Include="FileSrch.cpp" />
     <ClCompile Include="FontMgrII.cpp" />
     <ClCompile Include="GetPathDlg.cpp" />
     <ClCompile Include="Guid.cpp" />
@@ -111,9 +111,9 @@
     <ClInclude Include="Expandable.h" />
     <ClInclude Include="ExpandableP.h" />
     <ClInclude Include="FileIO.h" />
-    <ClInclude Include="filename.h" />
+    <ClInclude Include="FileName.h" />
     <ClInclude Include="FilePaths.h" />
-    <ClInclude Include="filesrch.h" />
+    <ClInclude Include="FileSrch.h" />
     <ClInclude Include="FontMgrII.h" />
     <ClInclude Include="GetPathDlg.h" />
     <ClInclude Include="Guid.h" />
@@ -212,7 +212,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <SDLCheck>
       </SDLCheck>
       <PreprocessorDefinitions>WIN32;_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -223,6 +223,8 @@
       <SupportJustMyCode>false</SupportJustMyCode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -239,9 +241,9 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -249,6 +251,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
