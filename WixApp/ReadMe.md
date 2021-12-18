@@ -20,7 +20,7 @@ While creating a template for a dialog box only application with a toolbar the L
 changed to hopefully simplify toolbar creation.  This version of the toolbar includes buttons, edit boxes,
 combo boxes and drop down menus as well as the traditional 16x15 icons.
 
-WixApp does is a dialog box but does not have a toolbar yet.
+WixApp is a dialog box but does not have a toolbar yet.
 
 ### Update 11/13/21
 
