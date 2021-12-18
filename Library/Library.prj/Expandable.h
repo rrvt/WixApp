@@ -30,7 +30,7 @@ The template requires two functions be part of Store:
 
 private:
 
-  // returns either a pointer to data (or datum) at index i in array or zero
+  // returns either a pointer to datum at index i in array or zero
 
   Datum* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}
 
@@ -115,9 +115,9 @@ public:
 
   bool del(int x);                          // Delete datum at index x, move higher elements up one
 
-  template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array
-
   template<class Key> Datum* find(Key key);     // Linear search
+
+  template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array
 
 private:
 

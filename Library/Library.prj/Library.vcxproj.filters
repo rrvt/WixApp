@@ -219,6 +219,15 @@
     <ClCompile Include="FileSrch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TBMenuButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBPopupMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBBtnCtx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archive.h">
@@ -465,6 +474,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileSrch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBMenuButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBPopupMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBBtnInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBBtnCtx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

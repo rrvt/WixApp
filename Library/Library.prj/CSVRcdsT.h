@@ -12,7 +12,7 @@ This class provides a template for a container of CSV records or a base class fo
 records.  In addition there is a template to create an iterator for the accessing each record in the
 container.
 
-This container uses the RcdPtrT template which is contained in the ExpandableP.h file.  The record pointer
+This container uses the DatumPtrT template which is contained in the ExpandableP.h file.  The record pointer
 class allows pointers to be housed in the array and manipulated rather than the whole record being in
 the array.  Ultimately this is for efficiency reasons.
 
@@ -22,7 +22,7 @@ Using the CSVRcdsT template is as follows:
     ...
     };
 
-  typedef RcdPtrT< Datum> CSVRcdP;
+  typedef DatumPtrT< Datum> CSVRcdP;
   typedef CSVRcdsT<Datum, CSVRcdP> CSVRcdsB;
   typedef CSVIterT<Datum, CSVRcdP> CSVIter;
 

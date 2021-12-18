@@ -2,24 +2,24 @@
 // Copyright Software Design & Engineering, Robert R. Van Tuyl, 2020.  All rights reserved.
 
 /*
-Record is a class, e.g. class Record {...}, and requires the following methods:
+Datum is a class, e.g. class Datum {...}, and requires the following methods:
   -- Constructor with no argument, e.g. RcdPtr(), which initializes all components of the class
-  -- Copy Constructor, e.g. Record(const Record& d), which copies all components of object d to
+  -- Copy Constructor, e.g. Datum(const Datum& d), which copies all components of object d to
      object *this
-  -- Assignment operator, e.g. Record& operator= (Record& d), which copies all components of object d to
+  -- Assignment operator, e.g. Datum& operator= (Datum& d), which copies all components of object d to
      object *this and returns *this
-  -- Destructor, e.g. ~Record() that releases objects obtained from the heap and zeros all data
+  -- Destructor, e.g. ~Datum() that releases objects obtained from the heap and zeros all data
      components
-Furthermore, if the Record class contains a pointer to an object, then the copy operator must be
-considered to be a move operator.  This means that the Record destructor must do no more than place
+Furthermore, if the Datum class contains a pointer to an object, then the copy operator must be
+considered to be a move operator.  This means that the Datum destructor must do no more than place
 a zero in the pointer.  In the event that there are a mix of pointers and say Strings (which have
 allocated content) then the Strings must be allowed to destruct normally and the pointers must just be
 zeroed.
 
-The RcdPtrT template defines a pointer to the Record.  A RcdPtr is the item that is stored in the array.
+The DatumPtrT template defines a pointer to the Datum.  A RcdPtr is the item that is stored in the array.
 This leads to some efficiency since when moving items in the array, only a pointer is moved.  However, it
 also introduces some complexity.  For the most part, ExpandableP manages allocating and deallocating the
-storage used for the Record but there is room for the user to allocate and deallocate when this is
+storage used for the Datum but there is room for the user to allocate and deallocate when this is
 required.
 
 The easiest way to loop through all the elements in the array is to use an iterator.  It IterT.h file
@@ -63,7 +63,7 @@ Once the iterator class is defined then the following is how it would be used:
 
 The operations supported by an ExpandableP array where the declaration is:
 
-  typedef RcdPtrT<Datum> DatumP;                      // Usually defined just before iterator
+  typedef DatumPtrT<Datum> DatumP;                      // Usually defined just before iterator
 
   class Xyz {
   ExpandableP<Datum, DatumP, 2> data;
@@ -78,7 +78,7 @@ the operations supported are:
   data = datum;                     // datum is inserted into the sorted array at the correct position
   data = &datum;                    // ">=" and "==" operators in datum must be defined
   data += &datum;                   // A pointer to a datum is considered to be an already allocated
-                                    // (see allocate() below) Record and is appended to the array
+                                    // (see allocate() below) Datum and is appended to the array
   data += datum;                    // A record is assumed to be a local variable and not already
                                     // allocated in the heap.  So a record is allocated and datum is
                                     // copied to the new record.  The new record is appended to array
@@ -107,15 +107,15 @@ the operations supported are:
                                     // memory since it only know about the base class.
 
 
-The Record needs the following functions for the Insertion Sort and Binary Sort to work.
+The Datum needs the following functions for the Insertion Sort and Binary Sort to work.
 
-class Record {
+class Datum {
 
   o o o
 
   // Required for Insertion Sort, i.e. data = dtm;
-  bool operator >= (Record& r) {return key >= r.key;}
-  bool operator == (Record& r) {return key == r.key;}
+  bool operator >= (Datum& r) {return key >= r.key;}
+  bool operator == (Datum& r) {return key == r.key;}
 
   // Required for Binary Search
   bool operator== (TCchar* key) {return this->key == key;}
@@ -130,29 +130,29 @@ class Record {
 #define ExpandableException _T("Corrupted Expandable(P) structure")
 
 
-template<class Record>
-struct RcdPtrT {
-Record* p;
+template<class Datum>
+struct DatumPtrT {
+Datum* p;
 
-  RcdPtrT() : p(0) { }
- ~RcdPtrT() {p = 0;}
-  RcdPtrT(RcdPtrT& x) {p = x.p;}
+  DatumPtrT() : p(0) { }
+ ~DatumPtrT() {p = 0;}
+  DatumPtrT(DatumPtrT& x) {p = x.p;}
 
-  RcdPtrT& operator=  (Record& r)  {p = &r;  return *this;}
-  RcdPtrT& operator=  (Record* r)  {p =  r;  return *this;}
-  RcdPtrT& operator=  (RcdPtrT& x) {p = x.p; return *this;}
+  DatumPtrT& operator=  (Datum& r)  {p = &r;  return *this;}
+  DatumPtrT& operator=  (Datum* r)  {p =  r;  return *this;}
+  DatumPtrT& operator=  (DatumPtrT& x) {p = x.p; return *this;}
 
   // Required for Insertion Sort, i.e. data = dtm;
-  bool     operator== (RcdPtrT& x) {return *p == *x.p;}
-  bool     operator>= (RcdPtrT& x) {return *p >= *x.p;}
+  bool     operator== (DatumPtrT& x) {return *p == *x.p;}
+  bool     operator>= (DatumPtrT& x) {return *p >= *x.p;}
 
   // Required for qsort along with operator== above
-  bool     operator>  (RcdPtrT& x) {return *p >  *x.p;}
-  bool     operator<= (RcdPtrT& x) {return *p <= *x.p;}
+  bool     operator>  (DatumPtrT& x) {return *p >  *x.p;}
+  bool     operator<= (DatumPtrT& x) {return *p <= *x.p;}
 
   // The rest of the conditionsals
-  bool     operator!= (RcdPtrT& x) {return *p != *x.p;}
-  bool     operator<  (RcdPtrT& x) {return *p <  *x.p;}
+  bool     operator!= (DatumPtrT& x) {return *p != *x.p;}
+  bool     operator<  (DatumPtrT& x) {return *p <  *x.p;}
 
   // Required for Binary Search
   // Binary Search of TCchar* (LCD for Strings) and other pointers
@@ -173,7 +173,7 @@ Record* p;
 
 
 
-template <class Record, class RcdPtr, const int n>
+template <class Datum, class RcdPtr, const int n>
 class ExpandableP {
 
 int     endN;                         // Number of items in the array that may be occupied
@@ -185,94 +185,94 @@ public:
   ExpandableP();                      // Constructor & Destructor
  ~ExpandableP();
 
-  Record*  allocate()            {NewAlloc(Record); return AllocNode;}    // allocate a record on the heap
-  void     deallocate(Record* p) {NewAlloc(Record); FreeNode(p);}         // Does not clear array entry.
-  RcdPtr*  getRcdPtr(int i) {return 0 <= i && i < endN ? &tbl[i] : 0;}    // Used for difficult cases
+ ExpandableP& operator= (ExpandableP& e);                               // copy the whole array
 
-  ExpandableP& operator= (ExpandableP& e);                                // copy the whole array
+  Datum*  allocate()            {NewAlloc(Datum); return AllocNode;}    // allocate a heap record
+  void    deallocate(Datum* p) {NewAlloc(Datum); FreeNode(p);}          // Does not clear array entry.
+  RcdPtr* getRcdPtr(int i) {return 0 <= i && i < endN ? &tbl[i] : 0;}   // Used for difficult cases
 
-  RcdPtr& operator[] (int i);                                             // return the reference
+  RcdPtr& operator[] (int i);                                           // return the reference
 
-  void clear() {freeAllNodes();}          // Clears the number of items in array (without deleting data)
+  void    clear() {freeAllNodes();}       // Clears the number of items in array (without deleting data)
 
-  int  end()   {return endN;}             // Returns number of items in array if inserted sequentially
+  int     end()   {return endN;}          // Returns number of items in array if inserted sequentially
 
   // Insert RcdPtr d into array sorted (being sure to expand it if necessary.
   // A record reference suggests that a heap node must be allocated
   // A record pointer means that the node has been allocated by the user and can be
   // inserted directly in the array.  Every record is inserted into the array
 
-  Record* operator= (Record& d) {Record* p = allocate();  *p = d; return insertSorted(p);}
+  Datum* operator= (Datum& d) {Datum* p = allocate();  *p = d; return insertSorted(p);}
 
-  Record* operator= (Record* p) {return insertSorted(p);}
+  Datum* operator= (Datum* p) {return insertSorted(p);}
 
   // Append record at end of array, first allocating a record and then copies data from r into node
   // Returns a pointer to the record in the vector
 
-  Record* operator+= (Record& r);
+  Datum* operator+= (Datum& r);
 
   // Append an allocated record on end of array, places pointer at end of array
   // Returns a pointer to the record in the vector
 
-  Record* operator+= (Record* r);
+  Datum* operator+= (Datum* r);
 
-  Record& nextData();     // Allocate a node and put it at end of array and return reference to node
+  Datum& nextData();     // Allocate a node and put it at end of array and return reference to node
 
-  Record& getData(int i); // Get a node at index i or the end of the vector, allocating it if necessary
+  Datum& getData(int i); // Get a node at index i or the end of the vector, allocating it if necessary
 
   // Insert data at index, moving other entries out of the way and allocating a new record at x
 
-  bool operator() (int x, Record& d);
+  bool   operator() (int x, Datum& d);
 
   // Insert an allocated record at index, moving other entries out of the way
 
-  bool operator() (int x, Record* d);
+  bool   operator() (int x, Datum* d);
 
-  bool del(Record* p);  // Find Record with ptr, p, in the array and delete it, see del(int x)
+  bool   del(Datum* p);   // Find Datum with ptr, p, in the array and delete it, see del(int x)
 
-  bool del(int x);      // Delete node at x, free node, adjust array to fill gap, clear last entry
+  bool   del(int x);      // Delete node at x, free node, adjust array to fill gap, clear last entry
 
-  template<class Key> Record* bSearch(Key key);   // Binary search -- only works on sorted array
+  template<class Key> Datum* find(Key key);      // Linear Search
 
-  template<class Key> Record* find(Key key);      // Linear Search
+  template<class Key> Datum* bSearch(Key key);   // Binary search -- only works on sorted array
 
 private:
 
-  Record* insertSorted(Record* p);              // Insert every record into array using an insertion sort
+  Datum* insertSorted(Datum* p);                // Insert every record into array using an insertion sort
 
-  void freeAllNodes();                            // Free all Nodes
+  void   freeAllNodes();                        // Free all Nodes
 
-  void copy(ExpandableP& e);                      // Copy array e to this array
+  void   copy(ExpandableP& e);                  // Copy array e to this array
 
-  void expand(int i);                             // Expand array
+  void   expand(int i);                         // Expand array
   };
 
 
 // Constructor
 
-template <class Record, class RcdPtr, const int n>
-ExpandableP<Record, RcdPtr, n>::ExpandableP() : endN(0), tblN(n > 0 ? n : 1)
+template <class Datum, class RcdPtr, const int n>
+ExpandableP<Datum, RcdPtr, n>::ExpandableP() : endN(0), tblN(n > 0 ? n : 1)
                      {NewArray(RcdPtr); tbl = AllocArray(tblN);  ZeroMemory(tbl, tblN * sizeof(RcdPtr));}
 
 
 // We have placed ptrs to nodes in the array.  But now we need to free the nodes and clear the pointers
 
-template <class Record, class RcdPtr, const int n>
-ExpandableP<Record, RcdPtr, n>::~ExpandableP()
+template <class Datum, class RcdPtr, const int n>
+ExpandableP<Datum, RcdPtr, n>::~ExpandableP()
                          {freeAllNodes();  NewArray(RcdPtr); FreeArray(tbl);   tbl = 0; tblN = 0;}
 
 
 // copy the whole array
 
-template <class Record, class RcdPtr, const int n>
-ExpandableP<Record, RcdPtr, n>& ExpandableP<Record, RcdPtr, n>::operator= (ExpandableP& e)
+template <class Datum, class RcdPtr, const int n>
+ExpandableP<Datum, RcdPtr, n>& ExpandableP<Datum, RcdPtr, n>::operator= (ExpandableP& e)
                                                                         {clear(); copy(e); return *this;}
 
 
 // return the reference
 
-template <class Record, class RcdPtr, const int n>
-RcdPtr& ExpandableP<Record, RcdPtr, n>::operator[] (int i) {
+template <class Datum, class RcdPtr, const int n>
+RcdPtr& ExpandableP<Datum, RcdPtr, n>::operator[] (int i) {
   if (i >= tblN) expand(i);
   if (i >= endN) endN = i+1;
   return tbl[i];
@@ -282,49 +282,49 @@ RcdPtr& ExpandableP<Record, RcdPtr, n>::operator[] (int i) {
 // Append already allocated record on end of array, places pointer at end of array
 // Returns a pointer to the record in the vector
 
-template <class Record, class RcdPtr, const int n>
-Record* ExpandableP<Record, RcdPtr, n>::operator+= (Record* r)
+template <class Datum, class RcdPtr, const int n>
+Datum* ExpandableP<Datum, RcdPtr, n>::operator+= (Datum* r)
                            {if (!r) return 0;   RcdPtr& rcdP = (*this)[endN]; rcdP.p = r; return rcdP.p;}
 
 
 // Append record at end of array, first allocating a record and then copies data from r into node
 // Returns a pointer to the record in the vector
 
-template <class Record, class RcdPtr, const int n>
-Record* ExpandableP<Record, RcdPtr, n>::operator+= (Record& r) {
+template <class Datum, class RcdPtr, const int n>
+Datum* ExpandableP<Datum, RcdPtr, n>::operator+= (Datum& r) {
   RcdPtr& rcdP = (*this)[endN];
-  Record* node = allocate();    *node = r;   rcdP.p = node;   return node;
+  Datum* node = allocate();    *node = r;   rcdP.p = node;   return node;
   }
 
 
 // Allocate a node and put it at end of array and return reference to node
 
-template <class Record, class RcdPtr, const int n>
-Record& ExpandableP<Record, RcdPtr, n>::nextData()
-                  {RcdPtr& rcdP = (*this)[endN]; Record* node = allocate(); rcdP.p = node; return *node;}
+template <class Datum, class RcdPtr, const int n>
+Datum& ExpandableP<Datum, RcdPtr, n>::nextData()
+                  {RcdPtr& rcdP = (*this)[endN]; Datum* node = allocate(); rcdP.p = node; return *node;}
 
 
 // Get a node at index i or the end of the vector, allocating it if necessary
 
-template <class Record, class RcdPtr, const int n>
-Record& ExpandableP<Record, RcdPtr, n>::getData(int i) {
+template <class Datum, class RcdPtr, const int n>
+Datum& ExpandableP<Datum, RcdPtr, n>::getData(int i) {
   if (i < 0 || endN < i) i = endN;
   RcdPtr& rcdP = (*this)[i];   if (rcdP.p)  return *rcdP.p;
-  Record* node = allocate(); rcdP.p = node; return *node;
+  Datum* node = allocate(); rcdP.p = node; return *node;
   }
 
 
 // Insert data at index, moving other entries out of the way and allocating a new record at x
 
-template <class Record, class RcdPtr, const int n>
-bool ExpandableP<Record, RcdPtr, n>::operator() (int x, Record& d)
-                                       {Record* node = allocate();  *node = d; return (*this)(x, node);}
+template <class Datum, class RcdPtr, const int n>
+bool ExpandableP<Datum, RcdPtr, n>::operator() (int x, Datum& d)
+                                       {Datum* node = allocate();  *node = d; return (*this)(x, node);}
 
 
 // Insert an an allocated record at index, moving other entries out of the way
 
-template <class Record, class RcdPtr, const int n>
-bool ExpandableP<Record, RcdPtr, n>::operator() (int x, Record* d) {
+template <class Datum, class RcdPtr, const int n>
+bool ExpandableP<Datum, RcdPtr, n>::operator() (int x, Datum* d) {
 int i;
 
   if (x < 0 || endN < x) return false;
@@ -337,10 +337,10 @@ int i;
   }
 
 
-// Find Record in array given a pointer to the record and delete it, see del(int x)
+// Find Datum in array given a pointer to the record and delete it, see del(int x)
 
-template <class Record, class RcdPtr, const int n>
-bool ExpandableP<Record, RcdPtr, n>::del(Record* p) {
+template <class Datum, class RcdPtr, const int n>
+bool ExpandableP<Datum, RcdPtr, n>::del(Datum* p) {
 int i;
 
   if (!p || !tbl) return false;
@@ -353,24 +353,24 @@ int i;
 
 // Delete node at x, free node, adjust array to fill gap, clear last entry
 
-template <class Record, class RcdPtr, const int n>
-bool ExpandableP<Record, RcdPtr, n>::del(int x) {
+template <class Datum, class RcdPtr, const int n>
+bool ExpandableP<Datum, RcdPtr, n>::del(int x) {
 int i;
 
   if (endN <= 0 || x < 0 || endN <= x) return false;
 
-  Record* p = tbl[x].p;
+  Datum* p = tbl[x].p;
 
   for (i = x, --endN; i < endN; i++) tbl[i] = tbl[i+1];
 
-  NewAlloc(Record);  FreeNode(p);   tbl[endN] = 0;   return true;
+  NewAlloc(Datum);  FreeNode(p);   tbl[endN] = 0;   return true;
   }
 
 
 // Binary search -- only works on sorted array
 
-template <class Record, class RcdPtr, const int n>
-template<class Key> Record* ExpandableP<Record, RcdPtr, n>::bSearch(Key key) {
+template <class Datum, class RcdPtr, const int n>
+template<class Key> Datum* ExpandableP<Datum, RcdPtr, n>::bSearch(Key key) {
 int     beg  = 0;
 int     end  = endN;
 int     last = -1;
@@ -392,8 +392,8 @@ int     i;
 
 // Linear Search
 
-template <class Record, class RcdPtr, const int n>
-template<class Key> Record* ExpandableP<Record, RcdPtr, n>::find(Key key) {
+template <class Datum, class RcdPtr, const int n>
+template<class Key> Datum* ExpandableP<Datum, RcdPtr, n>::find(Key key) {
 int i;
 
   for (i = 0; i < endN; i++) {
@@ -409,16 +409,16 @@ int i;
 
 // Insert every record into array using an insertion sort
 
-template <class Record, class RcdPtr, const int n>
-Record* ExpandableP<Record, RcdPtr, n>::insertSorted(Record* p) {
+template <class Datum, class RcdPtr, const int n>
+Datum* ExpandableP<Datum, RcdPtr, n>::insertSorted(Datum* p) {
 RcdPtr xNode;
 RcdPtr nextNode;
 int    i;
 
   if (!p) return 0;
-  Record& rcd = *p;
+  Datum& rcd = *p;
 
-  for (i = endN-1; i >= 0; i--) {Record& r = *tbl[i].p;   if (&r && rcd >= r) {i++; break;}}
+  for (i = endN-1; i >= 0; i--) {Datum& r = *tbl[i].p;   if (&r && rcd >= r) {i++; break;}}
 
   if (i < 0) i = 0;
 
@@ -430,8 +430,8 @@ int    i;
 
 // Expand array
 
-template <class Record, class RcdPtr, const int n>
-void ExpandableP<Record, RcdPtr, n>::expand(int i) {
+template <class Datum, class RcdPtr, const int n>
+void ExpandableP<Datum, RcdPtr, n>::expand(int i) {
 RcdPtr* p      = tbl;
 RcdPtr* q      = tbl;
 int     nItems = tblN;
@@ -450,8 +450,8 @@ int     j;
 
 // Copy array e to this array
 
-template <class Record, class RcdPtr, const int n>
-void ExpandableP<Record, RcdPtr, n>::copy(ExpandableP& e) {
+template <class Datum, class RcdPtr, const int n>
+void ExpandableP<Datum, RcdPtr, n>::copy(ExpandableP& e) {
 
   if (e.endN > tblN) expand(e.endN);
 
@@ -461,13 +461,13 @@ void ExpandableP<Record, RcdPtr, n>::copy(ExpandableP& e) {
 
 // Free all Nodes
 
-template <class Record, class RcdPtr, const int n>
-void ExpandableP<Record, RcdPtr, n>::freeAllNodes() {
+template <class Datum, class RcdPtr, const int n>
+void ExpandableP<Datum, RcdPtr, n>::freeAllNodes() {
 
   if (!tbl) return;
 
   for (int i = 0; i < endN; i++)
-    {NewAlloc(Record);   FreeNode(tbl[i].p);   tbl[i].p = 0;}
+    {NewAlloc(Datum);   FreeNode(tbl[i].p);   tbl[i].p = 0;}
 
   endN = 0;
   }

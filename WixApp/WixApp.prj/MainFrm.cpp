@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 #include "WixApp.h"
-
 #include "MainFrm.h"
 
 

@@ -14,6 +14,14 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 12/18/21
+
+While creating a template for a dialog box only application with a toolbar the Library was added to and
+changed to hopefully simplify toolbar creation.  This version of the toolbar includes buttons, edit boxes,
+combo boxes and drop down menus as well as the traditional 16x15 icons.
+
+WixApp does is a dialog box but does not have a toolbar yet.
+
 ### Update 11/13/21
 
 But the major changes are in the library:

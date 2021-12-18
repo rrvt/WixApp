@@ -9,7 +9,7 @@
 
 
 
-typedef RcdPtrT<EditBox> EditBoxP;
+typedef DatumPtrT<EditBox> EditBoxP;
 class EditBoxes;
 typedef IterT<EditBoxes, EditBox> BxsIter;
 

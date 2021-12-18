@@ -5,7 +5,7 @@
 //  *p == *q
 //  *p >  *q
 //  *p <= *q
-//  *s = *p
+//  *s =  *p
 // Call as follows:
 // qsort(&array[firstIndex], &array[lastIndex]);   or equivalent
 

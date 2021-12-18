@@ -66,9 +66,12 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Strings.cpp" />
     <ClCompile Include="TabStops.cpp" />
+    <ClCompile Include="TBBtnCtx.cpp" />
     <ClCompile Include="TBButton.cpp" />
     <ClCompile Include="TBComboBox.cpp" />
     <ClCompile Include="TBEditBox.cpp" />
+    <ClCompile Include="TBMenuButton.cpp" />
+    <ClCompile Include="TBPopupMenu.cpp" />
     <ClCompile Include="TextPosition.cpp" />
     <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="ToString.cpp" />
@@ -147,9 +150,12 @@
     <ClInclude Include="Strings.h" />
     <ClInclude Include="TabStops.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TBBtnCtx.h" />
     <ClInclude Include="TBButton.h" />
     <ClInclude Include="TBComboBox.h" />
     <ClInclude Include="TBEditBox.h" />
+    <ClInclude Include="TBMenuButton.h" />
+    <ClInclude Include="TBPopupMenu.h" />
     <ClInclude Include="TextPosition.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="ToolBar.h" />
@@ -270,7 +276,5 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ItemGroup>
-    <None Include="..\acedao.tlh" />
-    <None Include="..\acedao.tli" />
   </ItemGroup>
 </Project>
