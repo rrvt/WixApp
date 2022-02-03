@@ -222,10 +222,13 @@
     <ClCompile Include="TBMenuButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TBPopupMenu.cpp">
+    <ClCompile Include="TBBtnCtx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TBBtnCtx.cpp">
+    <ClCompile Include="History.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -479,18 +482,17 @@
     <ClInclude Include="TBMenuButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TBPopupMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TBBtnInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TBBtnCtx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\acedao.tlh" />
-    <None Include="..\acedao.tli" />
+    <ClInclude Include="History.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CbxItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

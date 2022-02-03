@@ -74,8 +74,11 @@ public:
     }
 
   template<class Init>
-  T* operator() (Init init, int blk, const char* file, int line) {
-    T* p = (T*) _malloc_dbg(sizeof(T), blk, file, line);   if (p) {new(p) T(init);}
+  T* operator() (Init& init, int blk, const char* file, int line) {
+
+    T* p = (T*) _malloc_dbg(sizeof(T), blk, file, line);
+
+    if (p) {new(p) T(init);}
 
     return p;
     }
@@ -87,7 +90,7 @@ public:
   T* operator() () {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T();}   return p;}
 
   template<class Init>
-  T* operator() (Init init) {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(init);}   return p;}
+  T* operator() (Init& init) {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(init);}   return p;}
 
   void freeNode(T* p) {if (!p) return;   p->~T();   free(p);}
 

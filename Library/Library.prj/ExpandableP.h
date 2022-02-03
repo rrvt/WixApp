@@ -232,6 +232,8 @@ public:
 
   bool   del(int x);      // Delete node at x, free node, adjust array to fill gap, clear last entry
 
+  void   decrementEndN() {endN = endN > 0 ? endN-1 : 0;}   // Implement del outside of Expandable
+
   template<class Key> Datum* find(Key key);      // Linear Search
 
   template<class Key> Datum* bSearch(Key key);   // Binary search -- only works on sorted array

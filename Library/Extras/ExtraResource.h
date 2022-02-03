@@ -3,7 +3,8 @@
 
 #pragma once
 
-#define IDD_AboutBox      500
+#define IDD_AboutBox      0x0010
+#define IDS_AboutBox      500
 #define IDC_NameVer       501
 #define IDC_Copyright     502
 #define IDC_CompanyName   503

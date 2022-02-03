@@ -107,8 +107,8 @@ bool IniFile::writeString(TCchar* section, TCchar* key, String& val) {
   return WritePrivateProfileString(section, key, val, iniFilePath) != 0;
   }
 
-bool IniFile::writeInt(TCchar* section, TCchar* key, int def) {
-  return WritePrivateProfileString(section, key, toString(def), iniFilePath) != 0;
+bool IniFile::writeInt(TCchar* section, TCchar* key, int val) {
+  return WritePrivateProfileString(section, key, toString(val), iniFilePath) != 0;
   }
 
 
@@ -124,30 +124,6 @@ CFile cFile(iniFilePath, CFile::modeWrite);
 
   cFile.SeekToEnd();   cFile.Write("[END]\r\n", 7);   cFile.Close();
   }
-
-
-
-#if 0
-Tchar* IniFile::startReadSection() {
-int n;
-
-  if (!buf) {NewArray(Tchar);   buf = AllocArray(BufSize); p = buf;}
-
-  n = GetPrivateProfileString(0, 0, 0, buf, BufSize, iniFilePath);
-
-  q = p + n;  return getSection();
-  }
-
-
-Tchar* IniFile::nextSection() {
-
-  if (!p) {return 0;}
-
-  p += _tcslen(p) + 1; return getSection();
-  }
-
-#endif
-
 
 
 void IniFile::deleteString(TCchar* section, TCchar* key) {

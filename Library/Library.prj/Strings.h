@@ -33,6 +33,14 @@ public:
   int      stoi( uint& i, int base=10);
 
   void     clear() {Empty();}
+  bool     isEmpty() {return IsEmpty();}
+
+  operator TCchar*() const {return GetString();}
+  TCchar*      str() const {return GetString();}
+
+  bool     loadRes(uint id) {return LoadString(id);}
+
+  // Left Hand side of TCchar*, Cstring, bstr & variant_t
 
   Cstring& operator= (      Tchar     ch)  {CString& cs = *this; cs = ch; return *this;}
   Cstring& operator= (      TCchar*    s)  {CString& cs = *this; cs = s; return *this;}

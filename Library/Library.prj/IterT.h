@@ -62,8 +62,8 @@ enum Dir {Fwd, Rev};
 
 private:
 
-  Datum* incr() {return iterX < store.nData() ? store.datum(++iterX) : 0;}
-  Datum* decr() {return iterX > 0             ? store.datum(--iterX) : 0;}
+  Datum* incr()  {return iterX < store.nData() ? store.datum(++iterX) : 0;}
+  Datum* decr()  {return iterX > 0             ? store.datum(--iterX) : 0;}
 
   IterT() : store(*(Store*) 0), iterX(0) { }      // This prevents an uninitizlized iterator
   };

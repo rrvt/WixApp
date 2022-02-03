@@ -8,30 +8,6 @@
 
 const long FAU = dbFixedField | dbAutoIncrField | dbUpdatableField;
 
-#if 0
-    long         CollatingOrder;
-    short        Type;
-    _variant_t   Value;
-    _bstr_t      Name;
-    short        CollectionIndex;
-    long         Size;
-    _variant_t   OriginalValue;
-    _bstr_t      SourceField;
-    _bstr_t      SourceTable;
-    _variant_t   VisibleValue;
-    long         FieldSize;
-    long         Attributes;
-    short        OrdinalPosition;
-    _bstr_t      ValidationText;
-    VARIANT_BOOL ValidateOnSet;
-    _bstr_t      ValidationRule;
-    _variant_t   DefaultValue;
-    VARIANT_BOOL Required;
-    VARIANT_BOOL AllowZeroLength;
-    VARIANT_BOOL DataUpdatable;
-    _bstr_t      ForeignName;
-#endif
-
 
 class DAOfield {
 FieldP field;

@@ -4,7 +4,7 @@
 #pragma once
 
 
- struct TBBtnCtx {
+struct TBBtnCtx {
 
 uint id;                  // Button Command ID
 

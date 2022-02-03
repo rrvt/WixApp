@@ -54,7 +54,7 @@ public:
   bool     write(const void* blk, int n) {return fil.write((void*) blk, n);}
   bool     write(Byte          v)        {return fil.write(v);}
 
-  void     setTabSize(int nSpaces)       {fil.setTabSize(nSpaces);}        // Set tab size for output
+  void     setTabSize(int nSpaces)       {fil.setTabSize(nSpaces);}         // Set tab size for output
   void     tab(       int nTabs)         {fil.tab(nTabs);}
   void     spaces(    int nSpaces)       {fil.spaces(nSpaces);}
   void     crlf()                        {fil.crlf();}
@@ -65,15 +65,15 @@ public:
   Archive& operator<< (int        x)     {write(x);  return *this;}
   Archive& operator<< (ArchManip& m)     {return m.func(*this);}
 
-  bool     read(String&        s)        {return fil.read(s);}             // Interpretation of \n or \r
-  bool     read(String& s, int n)        {return fil.read(s, n);}          // Read n chars into a string
+  bool     read(String&        s)        {return fil.read(s);}              // Interpretation of \n or \r
+  bool     read(String& s, int n)        {return fil.read(s, n);}           // Read n chars into a string
   bool     read(Tchar&        ch)        {return fil.read(ch);}
 
-  bool     read(int&           x)        {return readBlk(&x, sizeof(x));}  // No interpretation of \n or
-  int      readBlk(void* blk, int n)     {return fil.read(blk, n);}     // \r
+  bool     read(int&           x)        {return readBlk(&x, sizeof(x));}   // No interpretation of \n or
+  int      readBlk(void* blk, int n)     {return fil.read(blk, n);}         // \r
   bool     read(Byte&          v)        {return fil.read(v);}
 
-  Tchar*   getLastError()                {return fil.getLastError();}      // Returns last error
+  Tchar*   getLastError()                {return fil.getLastError();}       // Returns last error
 
 private:
 

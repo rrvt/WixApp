@@ -46,6 +46,7 @@
     <ClCompile Include="GetPathDlg.cpp" />
     <ClCompile Include="Guid.cpp" />
     <ClCompile Include="Handle.cpp" />
+    <ClCompile Include="History.cpp" />
     <ClCompile Include="Horiz.cpp" />
     <ClCompile Include="IniFile.cpp" />
     <ClCompile Include="LexTOut.cpp" />
@@ -63,6 +64,7 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="ShowMgr.cpp" />
     <ClCompile Include="SrchFile.cpp" />
+    <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Strings.cpp" />
     <ClCompile Include="TabStops.cpp" />
@@ -71,7 +73,6 @@
     <ClCompile Include="TBComboBox.cpp" />
     <ClCompile Include="TBEditBox.cpp" />
     <ClCompile Include="TBMenuButton.cpp" />
-    <ClCompile Include="TBPopupMenu.cpp" />
     <ClCompile Include="TextPosition.cpp" />
     <ClCompile Include="ToolBar.cpp" />
     <ClCompile Include="ToString.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="Archive.h" />
     <ClInclude Include="CalibDspPrt.h" />
     <ClInclude Include="CApp.h" />
+    <ClInclude Include="CbxItem.h" />
     <ClInclude Include="CDoc.h" />
     <ClInclude Include="CMainFrm.h" />
     <ClInclude Include="ComboBox.h" />
@@ -121,6 +123,7 @@
     <ClInclude Include="GetPathDlg.h" />
     <ClInclude Include="Guid.h" />
     <ClInclude Include="Handle.h" />
+    <ClInclude Include="History.h" />
     <ClInclude Include="Horiz.h" />
     <ClInclude Include="IniFile.h" />
     <ClInclude Include="InsertSorted.h" />
@@ -144,6 +147,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="ShowMgr.h" />
     <ClInclude Include="SrchFile.h" />
+    <ClInclude Include="StatusBar.h" />
     <ClInclude Include="std.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringInput.h" />
@@ -155,7 +159,6 @@
     <ClInclude Include="TBComboBox.h" />
     <ClInclude Include="TBEditBox.h" />
     <ClInclude Include="TBMenuButton.h" />
-    <ClInclude Include="TBPopupMenu.h" />
     <ClInclude Include="TextPosition.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="ToolBar.h" />
@@ -193,10 +196,8 @@
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -219,28 +220,29 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <SDLCheck>
-      </SDLCheck>
-      <PreprocessorDefinitions>WIN32;_LIB;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>
+        WIN32;_LIB;_DEBUG;DsplyHistoryXXX;%(PreprocessorDefinitions)
+      </PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <BasicRuntimeChecks />
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
       <AdditionalDependencies>Setupapi.lib;Version.lib</AdditionalDependencies>
       <AdditionalOptions>/ignore:4006,4221</AdditionalOptions>
+      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -256,8 +258,11 @@
       <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
-      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <BasicRuntimeChecks />
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -266,15 +271,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
       <AdditionalDependencies>Setupapi.lib;Version.lib</AdditionalDependencies>
       <AdditionalOptions>/ignore:4006,4221</AdditionalOptions>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
-  <ItemGroup>
-  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

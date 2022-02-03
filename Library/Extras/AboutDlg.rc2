@@ -25,6 +25,7 @@ END
 
 STRINGTABLE
 BEGIN
+  IDS_AboutBox   "About App"
   ID_App_About   "Display program information, version number and copyright\nDisplay program information, version number and copyright"
 END
 
