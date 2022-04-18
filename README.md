@@ -14,6 +14,12 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 4/15/22
+
+Big adventure in February when I started moving to a new Win11 and Visual Studio 2022.  I now
+feel that this version is working in the new environment.  There were several changes made to the app
+in order to compile properly on VS22.
+
 ### Update 01/31/22
 
 Updates to the library, mostly about the toolbar, but also NewAllocator, and a minor addition to

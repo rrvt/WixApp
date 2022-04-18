@@ -42,9 +42,9 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
   String   getHHMM();
   String   getHHMMSS();
   String   dayOfWeek();
-  String   format(TCchar* f) {Cstring s; s = dt.Format(f);                    return s;}
-  operator String ()         {Cstring s; s = dt.Format(_T("%#m/%#d/%y %H:%M")); return s;}
-  String   toUnix() {Cstring s; s = dt.Format(_T("%Y%m%d%H%M%S")); return s;}
+  String   format(TCchar* f) {Cstring s; s = dt.Format(f);                      return String(s);}
+  operator String ()         {Cstring s; s = dt.Format(_T("%#m/%#d/%y %H:%M")); return String(s);}
+  String   toUnix()          {Cstring s; s = dt.Format(_T("%Y%m%d%H%M%S"));     return String(s);}
 
   bool     isEmpty()    {return dt.GetTime() == 0;}
 

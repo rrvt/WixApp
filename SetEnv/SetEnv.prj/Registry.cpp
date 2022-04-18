@@ -167,15 +167,16 @@ bool Registry::sanitizeValue() {
 String s      = tgtValue;  s.lowerCase();
 int    leftX  = 0;
 int    rightX = 0;
+String t;
 
   for (rightX = s.find(sepChar); rightX >= 0; rightX = s.find(sepChar, leftX)) {
 
-    insertInTable(s.substr(leftX, rightX-leftX));
+    t = s.substr(leftX, rightX-leftX);    insertInTable(t);
 
     leftX = rightX + 1;
     }
 
-  rightX = s.length();  if (rightX > leftX) insertInTable(s.substr(leftX, rightX-leftX));
+  rightX = s.length();  if (rightX > leftX) {t = s.substr(leftX, rightX-leftX);   insertInTable(t);}
 
   qsort(&tbl[0], &tbl[tbl.end()-1]);
 

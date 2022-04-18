@@ -27,7 +27,7 @@ String getExtension(TCchar* fullPath) {
 String stg = fullPath;
 int    pos = stg.findLastOf('.');
 
-  return pos > 0 ? stg.substr(pos+1) : _T("");    // , 99
+  return pos > 0 ? stg.substr(pos+1) : String(_T(""));    // , 99
   }
 
 

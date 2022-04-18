@@ -11,13 +11,13 @@ History history;                // There is only one of these!
 
 
 void History::saveData() {
-PathDlgDsc dsc = {_T("History"), _T("History"), _T("txt"), _T("*.txt")};
+PathDlgDsc dsc;
 String     path;
 FileIO     file;
 HistIter   iter(*this);
 HistData*  h;
 
-  if (!getSaveAsPathDlg(dsc, path)) return;
+  if (!getSaveAsPathDlg(dsc(_T("History"), _T("History"), _T("txt"), _T("*.txt")), path)) return;
 
   if (!file.open(path, FileIO::Write | FileIO::Create)) return;
 

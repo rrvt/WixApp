@@ -103,7 +103,7 @@ bool IniFile::writeString(TCchar* section, TCchar* key, CString& val) {
   }
 
 
-bool IniFile::writeString(TCchar* section, TCchar* key, String& val) {
+bool IniFile::writeString(TCchar* section, TCchar* key, TCchar* val) {
   return WritePrivateProfileString(section, key, val, iniFilePath) != 0;
   }
 

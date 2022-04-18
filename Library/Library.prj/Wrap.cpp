@@ -58,7 +58,7 @@ bool   indented = true;
 String Wrap::findFirst(String& s) {
 int pos = s.find(_T(' '));   if (pos < 0) pos = s.find(_T(','));   if (pos < 0) pos = s.length();
 
-  return pos <= 0 ? _T("WWWWW") : s.substr(0, pos);
+  return pos <= 0 ? String(_T("WWWWW")) : s.substr(0, pos);
   }
 
 

@@ -26,16 +26,10 @@
     <None Include="res\TallShip.bmp">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\TallShip.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\TallShip.jpg">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\UserImages.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\WixApp.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\dialog.bmp">
@@ -236,5 +230,13 @@
     <ResourceCompile Include="WixApp.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\WixApp01.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\Uninstall01.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

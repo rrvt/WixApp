@@ -2,7 +2,7 @@
 <Project
   Version="10.0"
   VendorName="SlickEdit"
-  TemplateName="Microsoft Visual Studio 2017 C++"
+  TemplateName="Microsoft Visual Studio 2022 C++"
   WorkingDir="."
   AssociatedFile="Library.vcxproj"
   AssociatedFileType="microsoft visual studio visual c++">
@@ -11,7 +11,7 @@
     Type="vcproj"
     DebugCallbackName="windbg"
     OutputFile=""
-    CompilerConfigName="Visual Studio 2017">
+    CompilerConfigName="Visual Studio 2010">
     <Includes>
       <Include Dir="%(INCLUDE)"/>
     </Includes>
@@ -106,7 +106,7 @@
     Type="vcproj"
     DebugCallbackName="windbg"
     OutputFile=""
-    CompilerConfigName="Visual Studio 2017">
+    CompilerConfigName="Visual Studio 2010">
     <Includes>
       <Include Dir="%(INCLUDE)"/>
     </Includes>
@@ -196,7 +196,4 @@
       </Target>
     </Menu>
   </Config>
-  <Files></Files>
-  <List Name="RTE">
-  </List>
 </Project>

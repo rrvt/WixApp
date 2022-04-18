@@ -1,7 +1,7 @@
 // Manipulator for << processing
 
 
-#pragma once;
+#pragma once
 
 
 template<class MyClass> struct ManipT {

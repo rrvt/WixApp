@@ -79,14 +79,14 @@ public:
 template<class Data, class CSVRcdP>
 class CSVIterT : public CSVRcdsT<Data, CSVRcdP> {
 
-int       iterX;
-CSVRcdsT& store;
+int                      iterX;
+CSVRcdsT<Data, CSVRcdP>& store;
 
 public:
 
 enum Dir {Fwd, Rev};
 
-  CSVIterT(CSVRcdsT& dataStore) : iterX(0),         store(dataStore)  { }
+  CSVIterT(CSVRcdsT<Data, CSVRcdP>& dataStore) : iterX(0),          store(dataStore)  { }
   CSVIterT(CSVIterT& iter)      : iterX(iter.iterX), store(iter.store) { }
 
   Data* operator() (Dir rev = Fwd) {iterX = rev ? store.nData() : 0; return rev ? decr() : current();}

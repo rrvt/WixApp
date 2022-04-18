@@ -1,0 +1,71 @@
+//My Field Names -- Test Intefface to get Field Names for a table
+
+
+#pragma once
+#include "AccIterT.h"
+#include "AccRcdSet.h"
+
+
+class AccFldDsc;
+typedef AccIterT<AccFldDsc> FldIter;
+
+
+class AccFldDsc : public AccRcdSet {
+DECLARE_DYNAMIC(AccFldDsc)
+public:
+CString tblQualifier;
+CString tblOwner;
+CString tblName;
+CString name;
+int     type;
+CString typeName;
+long    precision;
+long    length;
+int     scale;
+int     radix;
+int     nullable;
+CString remarks;
+
+  AccFldDsc();
+ ~AccFldDsc() {close();}
+
+          bool open(TCchar* path, TCchar* tableName);
+          void close() {AccRcdSet::close();}
+
+private:
+
+  virtual void DoFieldExchange(CFieldExchange*);
+
+  AccFldDsc* moveFirst() {MoveFirst();  return IsEOF() ? 0 : this;}
+  AccFldDsc* moveNext()  {MoveNext();   return IsEOF() ? 0 : this;}
+  AccFldDsc* moveLast()  {MoveLast();   return IsEOF() ? 0 : this;}
+  AccFldDsc* movePrev()  {MovePrev();   return IsBOF() ? 0 : this;}
+  friend typename FldIter;
+  };
+
+
+extern AccFldDsc accFldDsc;
+
+
+#if 0
+class AccFldDscIter {
+
+AccFldDsc& tbl;
+
+public:
+
+  enum Dir {Fwd, Rev};
+
+  AccFldDscIter(AccFldDsc& table) : tbl(table) { }
+
+  AccFldDsc* operator() (Dir dir = Fwd) {return dir == Fwd ? tbl.moveFirst() : tbl.moveLast();}
+  AccFldDsc* operator++ (int)           {return tbl.moveNext();}
+  AccFldDsc* operator-- (int)           {return tbl.movePrev();}
+
+private:
+
+  AccFldDscIter() : tbl(*(AccFldDsc*)0) { }
+  };
+#endif
+
+

@@ -11,12 +11,16 @@ static bool saveDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* 
                                                                                             String& path);
 
 
-PathDlgDsc::PathDlgDsc(TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat)
-            {title = ttl; name = nm ? nm : _T(""); ext = e; pattern = pat;}
+PathDlgDsc::PathDlgDsc(TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat) {
+  title   = ttl;
+  name    = nm ? nm : _T("");
+  ext     = e;
+  pattern = pat;
+  }
 
 
 void PathDlgDsc::copy(PathDlgDsc& dsc)
-                          {title = dsc.title;  name = dsc.name;   ext = dsc.ext;  pattern = dsc.pattern;}
+                           {title = dsc.title;  name = dsc.name;   ext = dsc.ext;  pattern = dsc.pattern;}
 
 
 static bool dlgPath(CFileDialog* dlg, TCchar* title, String& path);

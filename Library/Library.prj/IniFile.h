@@ -31,7 +31,7 @@ public:
   String  initIniPwd(  TCchar* section, TCchar* name, TCchar* deflt, String& valu);
   void    saveIniPwd(  TCchar* section, TCchar* name, String& valu);
 
-  bool    writeString(TCchar* section, TCchar* key, String&  val);
+  bool    writeString(TCchar* section, TCchar* key, TCchar*  val);
   bool    writeString(TCchar* section, TCchar* key, CString& val);
   bool    writeInt(   TCchar* section, TCchar* key, int      val);
   bool    writePwd(   TCchar* section, TCchar* key, String&  val);

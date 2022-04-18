@@ -26,12 +26,7 @@
     <ClCompile Include="CSVOut.cpp" />
     <ClCompile Include="CSVRcdB.cpp" />
     <ClCompile Include="Currency.cpp" />
-    <ClCompile Include="DAOAccess.cpp" />
-    <ClCompile Include="DAOfields.cpp" />
-    <ClCompile Include="DAOrecords.cpp" />
-    <ClCompile Include="DAOtables.cpp" />
     <ClCompile Include="Date.cpp" />
-    <ClCompile Include="DBtablesB.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DisplayDev.cpp" />
@@ -82,6 +77,10 @@
     <ClCompile Include="WindowData.cpp" />
     <ClCompile Include="WindowPos.cpp" />
     <ClCompile Include="Wrap.cpp" />
+    <ClCompile Include="XmlElement.cpp" />
+    <ClCompile Include="XmlAttributes.cpp" />
+    <ClCompile Include="Xmlparser.cpp" />
+    <ClCompile Include="XmlStore.cpp" />
     <ClCompile Include="XTerm.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -101,12 +100,7 @@
     <ClInclude Include="CSVRcdB.h" />
     <ClInclude Include="CSVRcdsT.h" />
     <ClInclude Include="Currency.h" />
-    <ClInclude Include="DAOAccess.h" />
-    <ClInclude Include="DAOfields.h" />
-    <ClInclude Include="DAOrecords.h" />
-    <ClInclude Include="DAOtables.h" />
     <ClInclude Include="Date.h" />
-    <ClInclude Include="DBtablesB.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DisplayDev.h" />
@@ -170,6 +164,10 @@
     <ClInclude Include="WindowData.h" />
     <ClInclude Include="WindowPos.h" />
     <ClInclude Include="Wrap.h" />
+    <ClInclude Include="XmlElement.h" />
+    <ClInclude Include="XmlAttributes.h" />
+    <ClInclude Include="Xmlparser.h" />
+    <ClInclude Include="XmlStore.h" />
     <ClInclude Include="XTerm.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -177,20 +175,20 @@
     <ProjectGuid>{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Project</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -234,6 +232,8 @@
       <BasicRuntimeChecks />
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -250,7 +250,8 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -263,6 +264,8 @@
       <BasicRuntimeChecks />
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -277,4 +280,7 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
+  <ItemGroup>
+    <None Include="..\Documentation\XML.pdf" />
+  </ItemGroup>
 </Project>

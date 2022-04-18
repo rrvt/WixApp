@@ -49,7 +49,7 @@ WorkspacesPtr workspaces;
                                                                   _T("Database Engine Error"), MB_OK);
   if (!engine) return;
 
-  workspaces = engine->GetWorkspaces(); workspace = workspaces->GetItem(&variant_t(0));
+  workspaces = engine->GetWorkspaces(); workspace = workspaces->GetItem(variant_t(0));  // &variant_t(0)
 
   if (!workspace) MessageBox(0, _T("Unable to establish a workspace"),
                                                                   _T("Database Engine Error"), MB_OK);

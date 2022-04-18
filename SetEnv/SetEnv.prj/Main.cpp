@@ -81,7 +81,7 @@ Registry reg(isSystemEnv ? LocalMachine : CurrentUser, _T(';'));
     case ViewOp     : reg.displayTgt(); return true;
     case CopyOp     : return reg.copyTo(value);             // copy open variable to new key
     case SanitizeOp : return reg.sanitizeValue();           // ensure no duplicates
-    default         : return reg.setValue(value);
+    default         : return reg.appendValue(value);
     }
 
   reg.closeBase();
@@ -97,7 +97,7 @@ static TCchar* usage[] = {
   _T(""),
   _T("Options (Default is System variable, add 'u' for the User Environment):"),
   _T(""),
-  _T("\tSetEnv       name value \tSet the system variable to the specified value"),
+  _T("\tSetEnv       name value \tAppend the system variable to the specified value"),
   _T("\tSetEnv -[u]s name value \tSet the [user] variable to the specified value"),
   _T("\tSetEnv -[u]a name value \tAppend the [user] variable to the specified value"),
   _T("\tSetEnv -[u]p name value \tPrepend a value to an [user] variable"),
@@ -138,7 +138,7 @@ String s;
   }
 
 
-static Tchar* examples[] = {
+static TCchar* examples[] = {
           _T("Examples:"),
           _T(""),
           _T("SetEnv -us INSTALLPATH C:\\SetEnv "),

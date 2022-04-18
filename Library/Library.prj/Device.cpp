@@ -8,7 +8,7 @@
 #include "MessageBox.h"
 
 
-static const long maxScroll = 2147483648;
+static const long maxScroll = 2147483647;
 static const int  Margin    = 3;
 
 static DsManipInt& setupManipInt(DsManipInt::Func fn, int     val);

@@ -26,9 +26,10 @@ String pattern;       // _T("*.txt")
   PathDlgDsc(PathDlgDsc& dsc) {copy(dsc);}
  ~PathDlgDsc() { }
 
-  virtual PathDlgDsc& operator= (PathDlgDsc& dsc) {copy(dsc); return *this;}
-
-  virtual void copy(PathDlgDsc& dsc);
+  PathDlgDsc& operator= (PathDlgDsc& dsc) {copy(dsc); return *this;}
+  PathDlgDsc& operator() (TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat)
+                            {title = ttl; name = nm ? nm : _T(""); ext = e; pattern = pat; return *this;}
+  void copy(PathDlgDsc& dsc);
   };
 
 

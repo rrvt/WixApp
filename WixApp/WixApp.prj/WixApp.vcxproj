@@ -14,20 +14,21 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E43069C0-1479-46E1-9E05-9768AFDE2D20}</ProjectGuid>
     <RootNamespace>WixApp</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
@@ -70,6 +71,8 @@
       <BasicRuntimeChecks />
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(OutDir)\</AdditionalLibraryDirectories>
@@ -94,7 +97,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>false</ConformanceMode>
@@ -108,6 +112,8 @@
       <BasicRuntimeChecks />
       <PrecompiledHeaderFile />
       <PrecompiledHeaderOutputFile />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -196,7 +202,9 @@
     <ClInclude Include="WixOut.h" />
     <ClInclude Include="WixUtilities.h" />
   </ItemGroup>
-  <ItemGroup><ResourceCompile Include="WixApp.rc" /></ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WixApp.rc" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Library\Extras\AboutDlg.rc2" />
     <None Include="res\banner.bmp" />
@@ -204,10 +212,8 @@
     <None Include="res\My_en-us.wxl" />
     <None Include="..\ReadMe.md" />
     <None Include="res\TallShip.bmp" />
-    <None Include="res\TallShip.ico" />
     <None Include="res\TallShip.jpg" />
     <None Include="res\UserImages.bmp" />
-    <None Include="res\WixApp.ico" />
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
     <None Include="res\WixApp.rc2" />
   </ItemGroup>
@@ -215,5 +221,9 @@
     <ProjectReference Include="..\..\Library\Library.prj\Library.vcxproj">
       <Project>{cf57f3ec-d3db-4469-8519-3f9d73785d9b}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Uninstall01.ico" />
+    <Image Include="res\WixApp01.ico" />
   </ItemGroup>
 </Project>

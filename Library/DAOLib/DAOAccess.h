@@ -5,8 +5,8 @@
 #pragma once
 #include "Expandable.h"
 #include "IterT.h"
-
-
+//#import <C:\Program Files\Microsoft Office\root\Office16\ACEDAO.DLL> rename(_T("EOF"), _T("DaoEof"))
+//       C:\Program Files (x86)\Microsoft Office\root\Office16
 #import <C:\Program Files (x86)\Microsoft Office\root\Office16\ACEDAO.DLL> rename(_T("EOF"), _T("DaoEof"))
 using namespace DAO;
 

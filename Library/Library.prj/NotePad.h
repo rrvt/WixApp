@@ -50,6 +50,7 @@ public:
   NotePad& operator <<(Wrap&           w) {return append(w);}
   NotePad& operator <<(int             v) {return append(v);}
   NotePad& operator <<(size_t          v) {return append((int) v);}
+  NotePad& operator <<(long            v) {return append(v);}
   NotePad& operator <<(ulong           v) {return append(v);}
   NotePad& operator <<(Tchar           v) {return append(v);}
   NotePad& operator <<(double          v) {return append(v);}
@@ -72,6 +73,7 @@ private:
   NotePad& append(TCchar* line)       {getNote().line += line;         return *this;}
   NotePad& append(Tchar       v)      {getNote().line += v;            return *this;}
   NotePad& append(int         v);
+  NotePad& append(long        v);
   NotePad& append(ulong       v);
   NotePad& append(Date        v) {String s = v; return append(s);}
   NotePad& append(CTimeSpan&  v) {String s;     return append(s);}
