@@ -22,7 +22,7 @@ ExpandableP<EditBox, EditBoxP, 2> boxes;
 public:
 
   EditBoxes() : view(0) {}
- ~EditBoxes() { }
+ ~EditBoxes() {boxes.clear();}
 
   void    setView(CWnd* v) {view = v;}
 

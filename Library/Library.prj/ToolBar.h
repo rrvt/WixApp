@@ -38,7 +38,7 @@ ExpandableP<TBBtnCtx, TBBtnCtxP, 2> data;
 public:
 
   ToolBar() : avgWidth(0), height(0), winWidth(0), winHeight(0) { }
- ~ToolBar() { }
+  ~ToolBar() { data.clear(); }
 
   bool           create(CWnd* wnd, uint id, DWORD style = 0);     // Create toolbar with flyby tooltips.
 

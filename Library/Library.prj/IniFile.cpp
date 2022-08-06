@@ -195,7 +195,7 @@ int    lng    = password.length();
 Tchar  lower  = getRandCh();
 Tchar  upper  = getRandCh();
 Random r((upper << 8) | lower);
-float rng     = (float) Range;
+float  rng    = (float) Range;
 int    i;
 String s;
 Tchar  ch;
@@ -217,7 +217,7 @@ Tchar  ch;
 
 Tchar IniFile::getRandCh() {
 float rng = (float) Range;
-Tchar  ch;
+Tchar ch;
 
   do {
     ch = (Tchar) (rng * rand.next() + BaseCh);
@@ -229,7 +229,7 @@ Tchar  ch;
 
 
 String IniFile::decodePassword(String& cipher) {
-int    lng    = cipher.length();
+int    lng    = cipher.length();   if (!lng) return cipher;
 Tchar  lower  = cipher[0];
 Tchar  upper  = cipher[lng-1];
 Random r((upper << 8) | lower);
