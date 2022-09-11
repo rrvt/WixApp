@@ -17,7 +17,7 @@ CString Expanation2;
   virtual ~SolutionPath();
 
 // Dialog Data
-  enum { IDD = IDD_DIALOG3 };
+  enum { IDD = IDD_SelectSolutionPath };
 
 protected:
 

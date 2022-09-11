@@ -19,7 +19,7 @@ class RequiredOSs : public CDialogEx {
 
 public:
 
-enum { IDD = IDD_DIALOG2 };                         // Dialog Data
+enum { IDD = IDD_SelectOSs };                         // Dialog Data
 
 CListBox reqOSListCtrl;
 int      nBase;

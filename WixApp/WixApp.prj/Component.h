@@ -29,6 +29,7 @@ bool     isStartMenu;
 bool     isDesktop;
 bool     isVersionAvail;
 bool     isOnPath;
+bool     isStartupApp;
 bool     isWin7;
 bool     isWinXP;
 bool     isWin2K;
@@ -66,6 +67,7 @@ bool     isApp;
   void       storeIsDeskTop(     WixDataDlg& dialog);
   void       storeIsVersionAvail(WixDataDlg& dialog);
   void       storeIsOnPath(      WixDataDlg& dialog);
+  void       storeStartup(       WixDataDlg& dialog);
   void       storeIsWin7(        WixDataDlg& dialog);
   void       storeIsWinXP(       WixDataDlg& dialog);
   void       storeIsWin2K(       WixDataDlg& dialog);
@@ -92,8 +94,7 @@ private:
 
   void       setApp(String& path);
 
-  void       outputStartMenu(int tab);
-  void       outputDesktop(  int tab);
+  void       outputLink(int tab, TCchar* suffix, TCchar* dir);
   void       outputRegistry( int tab);
   void       outputCondition(int tab, int firstCond, int lastCond = 0);
   String     getSetEnvPath();
@@ -101,4 +102,11 @@ private:
   void       readOne(TCchar* key, String& v);
   void       copyObj(Component& c);
   };
+
+
+
+
+
+//  void       outputStartMenu(int tab);
+//  void       outputDesktop(  int tab);
 

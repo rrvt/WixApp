@@ -14,6 +14,14 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 9/10/22
+
+Win11 uses the Wix icon identifier as the label in the Apps/Startup list.  Unfortunately I chose a
+generic name for the Icon ID since it was (I thought) hidden inside of Wix machinery.  This update adds
+a shortcut to an app (when the checkbox startup is checked) that is placed in the startup directory for
+all users.  The Icon ID is changed to reflect the nature of the app.  This change was required by BkGd,
+an application that changes the background (wallpaper) on the screen.
+
 ### Updates 8/4/22
 
 Minor Library Updates.

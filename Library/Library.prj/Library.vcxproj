@@ -45,7 +45,7 @@
     <ClCompile Include="Horiz.cpp" />
     <ClCompile Include="IniFile.cpp" />
     <ClCompile Include="LexTOut.cpp" />
-    <ClCompile Include="LoadScratchPad.cpp" />
+    <ClCompile Include="LoadClipBoard.cpp" />
     <ClCompile Include="match.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -123,7 +123,7 @@
     <ClInclude Include="IterT.h" />
     <ClInclude Include="LexT.h" />
     <ClInclude Include="LexTOut.h" />
-    <ClInclude Include="LoadScratchPad.h" />
+    <ClInclude Include="LoadClipBoard.h" />
     <ClInclude Include="ManipT.h" />
     <ClInclude Include="match.h" />
     <ClInclude Include="MessageBox.h" />
@@ -228,9 +228,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <BasicRuntimeChecks/>
-      <PrecompiledHeaderFile/>
-      <PrecompiledHeaderOutputFile/>
+      <BasicRuntimeChecks />
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -260,9 +260,9 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <BasicRuntimeChecks/>
-      <PrecompiledHeaderFile/>
-      <PrecompiledHeaderOutputFile/>
+      <BasicRuntimeChecks />
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>

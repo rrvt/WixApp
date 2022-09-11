@@ -28,7 +28,7 @@ bool     inUse;
   void readWixData( TCchar* section);
   void writeWixData(TCchar* section);
 
-  void setWixID();
+  void setWixID(bool isStartupApp);
 
 //  void parse(String& fullPath);
 
@@ -60,7 +60,7 @@ public:
 
   int       nIcons() {return iconList.data.end();}
 
-  String    browse();
+  String    browse(bool isStartupApp);
 
   bool      getFromList(IconDesc& icon);
   bool      updateList(IconDesc& icon);

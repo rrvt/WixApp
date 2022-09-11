@@ -6,8 +6,8 @@
 
 #define IDR_MAINFRAME                   100
 #define IDR_WXDversion                  101
-#define IDD_DIALOG1                     102
-#define IDD_DIALOG2                     103
+#define IDD_AppDesc                     102
+#define IDD_SelectOSs                     103
 #define IDR_MENU1                       104
 
 #define IDC_WixName                     200
@@ -36,10 +36,10 @@
 #define IDC_BrowseForIcon               223
 #define IDC_VersionAvail                224
 #define IDC_OnPath                      225
-#define IDD_DIALOG3                     226
+#define IDD_SelectSolutionPath                     226
 #define IDC_Component2                  227
 #define IDC_EDIT1                       228
-#define IDD_DIALOG4                     229
+#define IDD_Finish                     229
 #define IDC_EDIT3                       230
 #define IDC_BUTTON1                     231
 #define IDC_EDIT2                       232
@@ -47,11 +47,11 @@
 #define IDC_CHECK2                      234
 #define IDC_CHECK3                      235
 #define IDC_FinalMsg                    236
-#define IDD_DIALOG5                     237
+//#define IDD_Options                     237
 #define IDC_AllowSameVer                238
 #define IDC_License                     239
 #define IDC_AddLicense                  240
-#define IDC_CHECK4                      241
+#define IDC_Startup                     241
 
 #define ID_FileOpen                     400
 #define ID_FileNew                      401

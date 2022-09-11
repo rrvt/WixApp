@@ -15,7 +15,7 @@ CString finalMsg;
   virtual ~Finish();
 
 // Dialog Data
-  enum { IDD = IDD_DIALOG4 };
+  enum { IDD = IDD_Finish };
 
 protected:
 

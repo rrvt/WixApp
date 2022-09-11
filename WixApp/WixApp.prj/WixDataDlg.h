@@ -14,7 +14,7 @@ class WixDataDlg : public CDialogEx {
 
 public:
 
-enum { IDD = IDD_DIALOG1 };           // Dialog Data
+enum { IDD = IDD_AppDesc };           // Dialog Data
 
 CEdit     productNameEB;
 CEdit     companyEB;
@@ -30,10 +30,13 @@ ComboBox  componentCB;
 CEdit     descriptionEB;
 CEdit     pathEB;
 
-CButton   startMenuCH;
-CButton   deskTopCH;
-CButton   versionAvailCH;
+CButton   isStartMenu;
+CButton   isDeskTop;
+CButton   isVersionAvail;
 CButton   isOnPathCH;
+
+CButton   isStartupApp;
+
 CButton   isWin7ch;
 CButton   isWinXPch;
 CButton   isWin2Kch;
@@ -96,6 +99,7 @@ public:
   afx_msg void OnBnClickedOndesktop();
   afx_msg void OnBnClickedVersionavail();
   afx_msg void OnBnClickedOnPath();
+  afx_msg void onStartupClicked();
   afx_msg void OnBnClickedIsWin7();
   afx_msg void OnBnClickedIsWinXP();
   afx_msg void OnBnClickedIsWin2K();

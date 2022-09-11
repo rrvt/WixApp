@@ -12,6 +12,7 @@ TCchar* PmfExt       = _T("pmf");
 
 TCchar* StartMenuDir = _T("StartMenuDir");
 TCchar* DeskTopDir   = _T("DesktopFolder");
+TCchar* StartupDir   = _T("StartupFolder");
 
 
 PMFdirectories pmfDirectories;
@@ -31,17 +32,17 @@ String   path;
 
 void PMFdirectories::output() {
 String   line;
-//DirDesc* d;
 
-  if (stor.getDefault()) {
-    wix.lit(2, _T("<Directory Id=\"ProgramMenuFolder\" Name=\"StartMenu\">\n"));
+  if (startMenuSeen && stor.getDefault()) {
+    wix.lit(2, _T("<Directory Id=\"ProgramMenuFolder\">\n"));      // Name=\"StartMenu\"
 
     stor.outputSubs(String(_T("")), 3);
 
     wix.lit(2, _T("</Directory>\n\n"));
     }
 
-  wix.out(2, _T("<Directory Id=\""), String(DeskTopDir), _T("\" Name=\"Desktop\" />"));
+  if (desktopDirSeen) wix.lit(2, _T("<Directory Id=\"DesktopFolder\" />\n"));
+  if (startupDirSeen) wix.lit(2, _T("<Directory Id=\"StartupFolder\" />\n"));
 
   wix.lit(1, _T("</Directory>\n\n"));
   }

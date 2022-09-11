@@ -307,8 +307,8 @@ Feature*   ftr;
 
 
 void Features::markDirs() {
-Iter iter(store);
-Feature*   ftr;
+Iter     iter(store);
+Feature* ftr;
 
   for (ftr = iter(); ftr; ftr = iter++) ftr->markDirs();
   }

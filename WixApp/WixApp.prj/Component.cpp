@@ -15,33 +15,35 @@
 #include "WixApp.h"
 
 
-static TCchar*    Section        = _T("%s.cmp");
-static TCchar*    IDkey          = _T("ID");
-static TCchar*    PathKey        = _T("Path");
-static TCchar*    GuidKey        = _T("Guid");
-static TCchar*    DescKey        = _T("Description");
-static TCchar*    IconKey        = _T("IconID");
-static TCchar*    IsStartMenuKey = _T("IsStartMenu");
-static TCchar*    IsDeskTopKey   = _T("IsDeskTop");
-static TCchar*    IsVersionKey   = _T("IsVersionAvail");
-static TCchar*    IsOnPathKey    = _T("IsOnPath");
-static TCchar*    IsWin7Key      = _T("IsWin7");
-static TCchar*    IsWinXPKey     = _T("IsWinXP");
-static TCchar*    IsWin2KKey     = _T("IsWin2K");
-static TCchar*    ProgKey        = _T("Program");
-static TCchar*    StartKey       = _T("Start");
+static TCchar*    Section         = _T("%s.cmp");
+static TCchar*    IDkey           = _T("ID");
+static TCchar*    PathKey         = _T("Path");
+static TCchar*    GuidKey         = _T("Guid");
+static TCchar*    DescKey         = _T("Description");
+static TCchar*    IconKey         = _T("IconID");
+static TCchar*    IsStartMenuKey  = _T("IsStartMenu");
+static TCchar*    IsDeskTopKey    = _T("IsDeskTop");
+static TCchar*    IsVersionKey    = _T("IsVersionAvail");
+static TCchar*    IsOnPathKey     = _T("IsOnPath");
+static TCchar*    IsStartupAppKey = _T("IsStartupApp");
+static TCchar*    IsWin7Key       = _T("IsWin7");
+static TCchar*    IsWinXPKey      = _T("IsWinXP");
+static TCchar*    IsWin2KKey      = _T("IsWin2K");
+static TCchar*    ProgKey         = _T("Program");
+static TCchar*    StartKey        = _T("Start");
 
-static TCchar*    ComponentExt   = _T("cmp");
+static TCchar*    ComponentExt    = _T("cmp");
 
-static TCchar*    SetEnvSect     = _T("SetEnv");
-static TCchar*    SetEnvPath     = _T("Path");
+static TCchar*    SetEnvSect      = _T("SetEnv");
+static TCchar*    SetEnvPath      = _T("Path");
 
-static TCchar*    CmpPathKey     = _T("Component");
+static TCchar*    CmpPathKey      = _T("Component");
 
-static BrowseDsc  browseDsc      = {_T("Cmp"), _T("Component File"), _T(""), _T("*"), _T("")};
+static BrowseDsc  browseDsc       = {_T("Cmp"), _T("Component File"), _T(""), _T("*"), _T("")};
 
 
 Component::Component() : isStartMenu(false), isDesktop(false),   isVersionAvail(false),
+                         isStartupApp(false),
                          isOnPath(false),    isUninstall(false), isUninstallDir(false),
                          isApp(false),       isWin7(false),      isWinXP(false),
                          isWin2K(false),     iconUsed(false) { }
@@ -60,13 +62,14 @@ void Component::readWixData(String& ftrID) {
   readOne(DescKey, description);
   readOne(IconKey, iconID);
 
-  isStartMenu    = wxd.readInt(section, IsStartMenuKey, 0) != 0;
-  isDesktop      = wxd.readInt(section, IsDeskTopKey,   0) != 0;
-  isVersionAvail = wxd.readInt(section, IsVersionKey,   0) != 0;
-  isOnPath       = wxd.readInt(section, IsOnPathKey,    0) != 0;
-  isWin7         = wxd.readInt(section, IsWin7Key,      0) != 0;
-  isWinXP        = wxd.readInt(section, IsWinXPKey,     0) != 0;
-  isWin2K        = wxd.readInt(section, IsWin2KKey,     0) != 0;
+  isStartMenu    = wxd.readInt(section, IsStartMenuKey,  0) != 0;
+  isDesktop      = wxd.readInt(section, IsDeskTopKey,    0) != 0;
+  isVersionAvail = wxd.readInt(section, IsVersionKey,    0) != 0;
+  isOnPath       = wxd.readInt(section, IsOnPathKey,     0) != 0;
+  isStartupApp   = wxd.readInt(section, IsStartupAppKey, 0) != 0;
+  isWin7         = wxd.readInt(section, IsWin7Key,       0) != 0;
+  isWinXP        = wxd.readInt(section, IsWinXPKey,      0) != 0;
+  isWin2K        = wxd.readInt(section, IsWin2KKey,      0) != 0;
 
   if (isVersionAvail && isApp) product.updateVersion(pathDsc.path());
   }
@@ -88,13 +91,14 @@ void Component::readWixData2(String& ftrID, String& cmpSection) {
   description.clear(); wxd.readString(cmpSection, DescKey, description);
   iconID.clear();      wxd.readString(cmpSection, IconKey, iconID);
 
-  isStartMenu    = wxd.readInt(cmpSection, IsStartMenuKey, 0) != 0;
-  isDesktop      = wxd.readInt(cmpSection, IsDeskTopKey,   0) != 0;
-  isVersionAvail = wxd.readInt(cmpSection, IsVersionKey,   0) != 0;
-  isOnPath       = wxd.readInt(cmpSection, IsOnPathKey,    0) != 0;
-  isWin7         = wxd.readInt(cmpSection, IsWin7Key,      0) != 0;
-  isWinXP        = wxd.readInt(cmpSection, IsWinXPKey,     0) != 0;
-  isWin2K        = wxd.readInt(cmpSection, IsWin2KKey,     0) != 0;
+  isStartMenu    = wxd.readInt(cmpSection, IsStartMenuKey,  0) != 0;
+  isDesktop      = wxd.readInt(cmpSection, IsDeskTopKey,    0) != 0;
+  isVersionAvail = wxd.readInt(cmpSection, IsVersionKey,    0) != 0;
+  isOnPath       = wxd.readInt(cmpSection, IsOnPathKey,     0) != 0;
+  isStartupApp   = wxd.readInt(cmpSection, IsStartupAppKey, 0) != 0;
+  isWin7         = wxd.readInt(cmpSection, IsWin7Key,       0) != 0;
+  isWinXP        = wxd.readInt(cmpSection, IsWinXPKey,      0) != 0;
+  isWin2K        = wxd.readInt(cmpSection, IsWin2KKey,      0) != 0;
 
   setApp(pathDsc.path());
   if (isVersionAvail && isApp) product.updateVersion(pathDsc.path());
@@ -105,16 +109,17 @@ void Component::writeWixData2(String& cmpSection) {
 
   wxd.writeString(cmpSection, IDkey,          id);
   pathDsc.writeWixData(cmpSection, PathKey);
-  if (!guid.isEmpty())        wxd.writeString(cmpSection, GuidKey,        guid);
-  if (!description.isEmpty()) wxd.writeString(cmpSection, DescKey,        description);
-  if (!iconID.isEmpty())      wxd.writeString(cmpSection, IconKey,        iconID);
-  if (isStartMenu)            wxd.writeInt(   cmpSection, IsStartMenuKey, isStartMenu);
-  if (isDesktop)              wxd.writeInt(   cmpSection, IsDeskTopKey,   isDesktop);
-  if (isVersionAvail)         wxd.writeInt(   cmpSection, IsVersionKey,   isVersionAvail);
-  if (isOnPath)               wxd.writeInt(   cmpSection, IsOnPathKey,    isOnPath);
-  if (isWin7)                 wxd.writeInt(   cmpSection, IsWin7Key,      isWin7);
-  if (isWinXP)                wxd.writeInt(   cmpSection, IsWinXPKey,     isWinXP);
-  if (isWin2K)                wxd.writeInt(   cmpSection, IsWin2KKey,     isWin2K);
+  if (!guid.isEmpty())        wxd.writeString(cmpSection, GuidKey,         guid);
+  if (!description.isEmpty()) wxd.writeString(cmpSection, DescKey,         description);
+  if (!iconID.isEmpty())      wxd.writeString(cmpSection, IconKey,         iconID);
+  if (isStartMenu)            wxd.writeInt(   cmpSection, IsStartMenuKey,  isStartMenu);
+  if (isDesktop)              wxd.writeInt(   cmpSection, IsDeskTopKey,    isDesktop);
+  if (isVersionAvail)         wxd.writeInt(   cmpSection, IsVersionKey,    isVersionAvail);
+  if (isOnPath)               wxd.writeInt(   cmpSection, IsOnPathKey,     isOnPath);
+  if (isStartupApp)           wxd.writeInt(   cmpSection, IsStartupAppKey, isStartupApp);
+  if (isWin7)                 wxd.writeInt(   cmpSection, IsWin7Key,       isWin7);
+  if (isWinXP)                wxd.writeInt(   cmpSection, IsWinXPKey,      isWinXP);
+  if (isWin2K)                wxd.writeInt(   cmpSection, IsWin2KKey,      isWin2K);
   }
 
 
@@ -125,16 +130,17 @@ void Component::writeWixData() {
 
   wxd.writeString(section, IDkey,          id);
   pathDsc.writeWixData(section, PathKey);
-  wxd.writeString(section, GuidKey,        guid);
-  wxd.writeString(section, DescKey,        description);
-  wxd.writeString(section, IconKey,        iconID);
-  wxd.writeInt(   section, IsStartMenuKey, isStartMenu);
-  wxd.writeInt(   section, IsDeskTopKey,   isDesktop);
-  wxd.writeInt(   section, IsVersionKey,   isVersionAvail);
-  wxd.writeInt(   section, IsOnPathKey,    isOnPath);
-  wxd.writeInt(   section, IsWin7Key,      isWin7);
-  wxd.writeInt(   section, IsWinXPKey,     isWinXP);
-  wxd.writeInt(   section, IsWin2KKey,     isWin2K);
+  wxd.writeString(section, GuidKey,          guid);
+  wxd.writeString(section, DescKey,          description);
+  wxd.writeString(section, IconKey,          iconID);
+  wxd.writeInt(   section, IsStartMenuKey,   isStartMenu);
+  wxd.writeInt(   section, IsDeskTopKey,     isDesktop);
+  wxd.writeInt(   section, IsVersionKey,     isVersionAvail);
+  wxd.writeInt(   section, IsOnPathKey,      isOnPath);
+  wxd.writeInt(   section, IsStartupAppKey,  isStartupApp);
+  wxd.writeInt(   section, IsWin7Key,        isWin7);
+  wxd.writeInt(   section, IsWinXPKey,       isWinXP);
+  wxd.writeInt(   section, IsWin2KKey,       isWin2K);
   }
 
 
@@ -151,10 +157,11 @@ ComboBox& cb = dialog.iconCB;
          dialog.pathEB.SetWindowText(pathDsc);
          dialog.pathEB.SetReadOnly(true);
   dialog.descriptionEB.SetWindowText(description);
-    dialog.startMenuCH.SetCheck(isStartMenu);
-      dialog.deskTopCH.SetCheck(isDesktop);
- dialog.versionAvailCH.SetCheck(isVersionAvail);
+    dialog.isStartMenu.SetCheck(isStartMenu);
+      dialog.isDeskTop.SetCheck(isDesktop);
+ dialog.isVersionAvail.SetCheck(isVersionAvail);
      dialog.isOnPathCH.SetCheck(isOnPath);
+     dialog.isStartupApp.SetCheck(isStartupApp);
        dialog.isWin7ch.SetCheck(isWin7);
       dialog.isWinXPch.SetCheck(isWinXP);
       dialog.isWin2Kch.SetCheck(isWin2K);
@@ -173,10 +180,11 @@ String  s;
      dialog.componentCB.getWindowText(id);   wixID = getWixID(id, ComponentExt);
    dialog.descriptionEB.GetWindowText(cs);   description = cs;
 
-  isStartMenu    = dialog.startMenuCH.GetCheck()    != 0;
-  isDesktop      = dialog.deskTopCH.GetCheck()      != 0;
-  isVersionAvail = dialog.versionAvailCH.GetCheck() != 0;
+  isStartMenu    = dialog.isStartMenu.GetCheck()    != 0;
+  isDesktop      = dialog.isDeskTop.GetCheck()      != 0;
+  isVersionAvail = dialog.isVersionAvail.GetCheck() != 0;
   isOnPath       = dialog.isOnPathCH.GetCheck()     != 0;
+  isStartupApp   = dialog.isStartupApp.GetCheck()   != 0;
   isWin7         = dialog.isWin7ch.GetCheck()       != 0;
   isWinXP        = dialog.isWinXPch.GetCheck()      != 0;
   isWin2K        = dialog.isWin2Kch.GetCheck()      != 0;
@@ -215,7 +223,7 @@ String       ver;
 
 void Component::storeIsVersionAvail(WixDataDlg& dialog) {
 
-  isVersionAvail = dialog.versionAvailCH.GetCheck() != 0;
+  isVersionAvail = dialog.isVersionAvail.GetCheck() != 0;
 
   if (isVersionAvail && isApp) {product.updateVersion(pathDsc.path());   product.loadVerEB(dialog);}
   }
@@ -225,12 +233,15 @@ void Component::storeDescription(WixDataDlg& dialog) {description = getText(dial
 
 
 void Component::storeIsStartMenu(WixDataDlg& dialog)
-                                                 {isStartMenu  = dialog.startMenuCH.GetCheck()    != 0;}
-void Component::storeIsDeskTop(WixDataDlg& dialog) {isDesktop  = dialog.deskTopCH.GetCheck()      != 0;}
-void Component::storeIsOnPath(WixDataDlg& dialog)  {isOnPath   = dialog.isOnPathCH.GetCheck()     != 0;}
-void Component::storeIsWin7(WixDataDlg& dialog)    {isWin7     = dialog.isWin7ch.GetCheck()       != 0;}
-void Component::storeIsWinXP(WixDataDlg& dialog)   {isWinXP    = dialog.isWinXPch.GetCheck()      != 0;}
-void Component::storeIsWin2K(WixDataDlg& dialog)   {isWin2K    = dialog.isWin2Kch.GetCheck()      != 0;}
+                                                 {isStartMenu    = dialog.isStartMenu.GetCheck()!= 0;}
+void Component::storeIsDeskTop(WixDataDlg& dialog) {isDesktop    = dialog.isDeskTop.GetCheck()  != 0;}
+void Component::storeIsOnPath( WixDataDlg& dialog)  {isOnPath    = dialog.isOnPathCH.GetCheck() != 0;}
+
+void Component::storeStartup(  WixDataDlg& dialog) {isStartupApp = dialog.isStartupApp.GetCheck() != 0;}
+
+void Component::storeIsWin7(WixDataDlg& dialog)    {isWin7     = dialog.isWin7ch.GetCheck()     != 0;}
+void Component::storeIsWinXP(WixDataDlg& dialog)   {isWinXP    = dialog.isWinXPch.GetCheck()    != 0;}
+void Component::storeIsWin2K(WixDataDlg& dialog)   {isWin2K    = dialog.isWin2Kch.GetCheck()    != 0;}
 
 
 void Component::delData() {
@@ -250,6 +261,7 @@ void Component::delData() {
   isDesktop      = false;
   isVersionAvail = false;
   isOnPath       = false;
+  isStartupApp   = false;
   isWin7         = false;
   isWinXP        = false;
   isWin2K        = false;
@@ -263,7 +275,7 @@ void Component::delData() {
 void Component::browseIcon(WixDataDlg& dialog) {
 ComboBox& cb = dialog.iconCB;
 
-  iconID = icons.browse();   icons.loadCB(cb);   icons.setCur(iconID, cb);
+  iconID = icons.browse(isStartupApp);   icons.loadCB(cb);   icons.setCur(iconID, cb);
   }
 
 
@@ -274,6 +286,10 @@ void Component::updateIcon(WixDataDlg& dialog) {dialog.iconCB.getWindowText(icon
 void Component::markDirs(Feature& ftr) {
   progFileID  = ftr.progFileID;    markDirectories(progFileID,  pffDirectories.stor);
   startMenuID = ftr.startMenuID;   markDirectories(startMenuID, pmfDirectories.stor);
+
+  pmfDirectories.setStartMenuSeen(isStartMenu);
+  pmfDirectories.setDeskTopSeen(isDesktop);
+  pmfDirectories.setStartupSeen(isStartupApp);
   }
 
 
@@ -382,6 +398,8 @@ DirDesc* progDesc = getProgFile();
 DirDesc* menuDesc = getStartMenu();
 String   dirID    = isUninstall && isApp && menuDesc ? menuDesc->wixID :
                                                                       progDesc ? progDesc->wixID :_T("");
+String   dir;
+
   if (dirID.isEmpty()) return;
 
   if (guid.isEmpty()) getGuid(guid);
@@ -396,9 +414,13 @@ String   dirID    = isUninstall && isApp && menuDesc ? menuDesc->wixID :
   line = _T("<File Id=\"") + wixID + _T("\" Source=\"");
   wix.out(tab+1, line, relPath, _T("\" KeyPath=\"yes\"/>"));
 
-  if (isStartMenu) outputStartMenu(tab+1);
+  if (menuDesc) dir = menuDesc->wixID;
 
-  if (isDesktop)   outputDesktop(tab+1);
+  if (isStartMenu) outputLink(tab+1, _T(".shc"), dir);
+
+  if (isDesktop)   outputLink(tab+1, _T(".dsk"), DeskTopDir);
+
+  if (isStartupApp) outputLink(tab+1, _T(".stu"), StartupDir);
 
   if (isUninstall) pmfDirectories.outputRemoves(tab+1);           //|| isUninstallDir
 
@@ -416,61 +438,32 @@ String   dirID    = isUninstall && isApp && menuDesc ? menuDesc->wixID :
   }
 
 
-void Component::outputStartMenu(int tab) {
-int       tb = tab + 5;
-String    line;
+void Component::outputLink(int tab, TCchar* suffix, TCchar* dir) {
+int       tb       = tab + 5;
+String    sfx      = suffix; sfx += _T("\"");
 DirDesc*  progDesc = getProgFile();
-DirDesc*  menuDesc = getStartMenu();
-IconDesc* icon = icons.find(iconID);
+IconDesc* icon     = icons.find(iconID);
 
   wix.crlf();
 
-  wix.out(tab, _T("<Shortcut Id               = \""), removeBlnks(id), _T(".shc\""));
+  wix.out(tab, _T("<Shortcut Id               = \""), removeBlnks(id), sfx);
 
   wix.out(tb,  _T("Name             = \""), id,                       _T("\""));
   wix.out(tb,  _T("Description      = \""), description,              _T("\""));
 
-  if (target.isEmpty())
-    wix.out(tb, _T("Advertise        = \""), String("yes"),           _T("\""));
+  if (!isUninstall)      wix.out(tb, _T("Advertise        = \""), String("yes"),            _T("\""));
 
-  if (!isUninstall && menuDesc)
-    wix.out(tb, _T("Directory        = \""), menuDesc->wixID,         _T("\""));
+  if (!isUninstall && *dir)
+                         wix.out(tb, _T("Directory        = \""), String(dir),              _T("\""));
 
-  wix.out(tb,   _T("Target           = \""), target,                  _T("\""));
-  wix.out(tb,   _T("Arguments        = \""), arguments,               _T("\""));
-  if (!isUninstall && progDesc)
-    wix.out(tb, _T("WorkingDirectory = \""), progDesc->wixID,          _T("\""));
-  if (icon)
-    wix.out(tb, _T("Icon             = \""), removeBlnks(icon->wixID), _T("\""));
+  if (isUninstall) {     wix.out(tb, _T("Target           = \""), target,                   _T("\""));
+                         wix.out(tb, _T("Arguments        = \""), arguments,                _T("\""));
+                         }
+  else if (progDesc)     wix.out(tb, _T("WorkingDirectory = \""), progDesc->wixID,          _T("\""));
+  if (icon)              wix.out(tb, _T("Icon             = \""), removeBlnks(icon->wixID), _T("\""));
 
   wix.lit(tb, _T("/>\n"));
   }
-
-
-
-void Component::outputDesktop(int tab) {
-int       tb = tab + 5;
-String    line;
-DirDesc*  progDesc = getProgFile();
-IconDesc* icon = icons.find(iconID);
-
-  wix.crlf();
-
-  wix.out(tab, _T("<Shortcut Id               = \""), removeBlnks(id), _T(".dsk\""));
-
-  wix.out(tb,   _T("Name             = \""), id,                      _T("\""));
-  wix.out(tb,   _T("Description      = \""), description,             _T("\""));
-  wix.out(tb,   _T("Advertise        = \""), String("yes"),           _T("\""));
-  wix.out(tb,   _T("Directory        = \""), String(DeskTopDir),      _T("\""));
-  if (progDesc)
-    wix.out(tb, _T("WorkingDirectory = \""), progDesc->wixID,         _T("\""));
-  if (icon)
-    wix.out(tb, _T("Icon             = \""), removeBlnks(icon->wixID), _T("\""));
-
-  wix.lit(tb, _T("/>\n"));
-  }
-
-
 
 
 void Component::outputRegistry( int tab) {
@@ -533,6 +526,7 @@ void Component::copyObj(Component& c) {
   isDesktop      = c.isDesktop;
   isVersionAvail = c.isVersionAvail;
   isOnPath       = c.isOnPath;
+  isStartupApp   = c.isStartupApp;
   isWin7         = c.isWin7;
   isWinXP        = c.isWinXP;
   isWin2K        = c.isWin2K;
@@ -559,5 +553,76 @@ void Component::storeMenuName(WixDataDlg& dialog) {
       // Working
 void Component::readDir(TCchar* key, DirDesc& dir, DirStor& stor)
             {DirDesc* dsc = stor.add( dir.readWixData(section, key));   if (dsc) dir.wixID = dsc->wixID;}
+#endif
+
+
+
+#if 0
+void Component::outputStartMenu(int tab) {
+int       tb = tab + 5;
+String    line;
+DirDesc*  progDesc = getProgFile();
+DirDesc*  menuDesc = getStartMenu();
+IconDesc* icon = icons.find(iconID);
+
+  wix.crlf();
+
+  wix.out(tab, _T("<Shortcut Id               = \""), removeBlnks(id), _T(".shc\""));
+
+  wix.out(tb,  _T("Name             = \""), id,                       _T("\""));
+  wix.out(tb,  _T("Description      = \""), description,              _T("\""));
+
+  if (target.isEmpty())
+    wix.out(tb, _T("Advertise        = \""), String("yes"),           _T("\""));
+
+  if (!isUninstall && menuDesc)
+    wix.out(tb, _T("Directory        = \""), menuDesc->wixID,         _T("\""));
+
+  wix.out(tb,   _T("Target           = \""), target,                  _T("\""));
+  wix.out(tb,   _T("Arguments        = \""), arguments,               _T("\""));
+  if (!isUninstall && progDesc)
+    wix.out(tb, _T("WorkingDirectory = \""), progDesc->wixID,          _T("\""));
+  if (icon)
+    wix.out(tb, _T("Icon             = \""), removeBlnks(icon->wixID), _T("\""));
+
+  wix.lit(tb, _T("/>\n"));
+  }
+
+
+
+void Component::outputDesktop(int tab) {
+int       tb = tab + 5;
+String    line;
+DirDesc*  progDesc = getProgFile();
+IconDesc* icon = icons.find(iconID);
+
+  wix.crlf();
+
+  wix.out(tab, _T("<Shortcut Id               = \""), removeBlnks(id), _T(".dsk\""));
+
+  wix.out(tb,   _T("Name             = \""), id,                      _T("\""));
+  wix.out(tb,   _T("Description      = \""), description,             _T("\""));
+  wix.out(tb,   _T("Advertise        = \""), String("yes"),           _T("\""));
+
+  if (isStartupApp)
+       {wix.out(tb,   _T("Directory        = \""), String(StartupDir),      _T("\""));}
+  else {wix.out(tb,   _T("Directory        = \""), String(DeskTopDir),      _T("\""));}
+
+  if (progDesc)
+    wix.out(tb, _T("WorkingDirectory = \""), progDesc->wixID,         _T("\""));
+  if (icon)
+    wix.out(tb, _T("Icon             = \""), removeBlnks(icon->wixID), _T("\""));
+
+  wix.lit(tb, _T("/>\n"));
+  }
+//  if (isStartMenu) outputStartMenu(tab+1);
+//  if (isDesktop)   outputDesktop(tab+1);
+#endif
+#if 0
+  if (isMenu && !isUninstall && menuDesc)
+                         wix.out(tb, _T("Directory        = \""), menuDesc->wixID,          _T("\""));
+  else if (isDesktop)    wix.out(tb, _T("Directory        = \""), String(DeskTopDir),       _T("\""));
+  else if (isStartupApp) wix.out(tb, _T("Directory        = \""), String(StartupDir),       _T("\""));
+#else
 #endif
 

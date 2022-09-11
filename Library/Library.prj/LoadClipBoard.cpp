@@ -2,10 +2,10 @@
 
 
 #include "stdafx.h"
-#include "LoadScratchPad.h"
+#include "LoadClipBoard.h"
 
 
-bool loadScratchPad(String& s) {
+bool loadClipBoard(String& s) {
 int     n = s.length();
 int     i;
 char*   p;

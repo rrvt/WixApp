@@ -70,7 +70,7 @@ void Product::loadVerEB(WixDataDlg& dialog) {
 void Product::browseIcon(WixDataDlg& dialog) {
 ComboBox& cb = dialog.iconCB;
 
-  iconID = icons.browse();
+  iconID = icons.browse(false);
 
   dialog.progFtrIconEB.SetWindowText(iconID);
   }

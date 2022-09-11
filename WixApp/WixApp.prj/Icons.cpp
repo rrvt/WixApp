@@ -15,8 +15,8 @@ static TCchar*    IconIDKey    = _T("IconID");
 static TCchar*    WixIDKey     = _T("WixID");
 
 static TCchar*    IconPath     = _T("IconPath");
-static TCchar*    IconExt      = _T("ico");
-static TCchar*    Icon         = _T("Icon");
+//static TCchar*    IconExt      = _T("exe");
+//static TCchar*    Icon         = _T("Icon");
 static TCchar*    IconPathKey  = _T("Icon");
 
 static BrowseDsc  browseDsc    = {IconPathKey, _T("Icon File"), _T(""), _T("ico"), _T("*.ico")};
@@ -37,6 +37,7 @@ String    id;
 IconDesc* dsc;
 
   for (i = 0; i < n; i++) {
+
     section.format(IconSection, i);
 
     if (!wxd.readString(section, IconIDKey, id)) continue;
@@ -49,7 +50,9 @@ IconDesc* dsc;
 void IconDesc::readWixData(TCchar* section) {
 String path;
 
-  setWixID();   pathDsc.readWixData(browseDsc, section, IconPath);   inUse = false;
+  wxd.readString(section, WixIDKey, wixID);
+
+  pathDsc.readWixData(browseDsc, section, IconPath);   inUse = false;
   }
 
 
@@ -60,9 +63,8 @@ String    section;
 IconDesc* dsc;
 int       i;
 
+  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++) if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
 
-  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++)
-                                                        if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
   wxd.writeInt(IconsSection, NoKeys, nToWrite);
 
   for (i = 0, dsc = iter(); dsc; dsc = iter++)
@@ -78,13 +80,11 @@ void IconDesc::writeWixData(TCchar* section) {
   }
 
 
-String Icons::browse() {
+String Icons::browse(bool isStartupApp) {
 PathDesc  pathDsc;
 String    path;
 String    id;
 IconDesc* dsc;
-
-  //defaultPath.setKey(IconPathKey);
 
   path = pathDsc.browse(browseDsc);
 
@@ -94,7 +94,13 @@ IconDesc* dsc;
 
     if (!id.isEmpty()) {
 
-      dsc = find(id);   if (!dsc) {dsc = iconList.addNil(_T("Icon"));   dsc->id = id;   dsc->setWixID();}
+      dsc = find(id);
+
+      if (!dsc) dsc = iconList.addNil(_T("Icon"));
+
+      dsc->id = id;
+
+      dsc->setWixID(isStartupApp);
 
       *dsc = pathDsc;
       }
@@ -104,7 +110,13 @@ IconDesc* dsc;
   }
 
 
-void IconDesc::setWixID() {String s = id + Icon;  wixID = getWixID(s, IconExt);}
+void IconDesc::setWixID(bool isStartupApp) {
+String s   = id;
+
+  s += isStartupApp ? _T("_Startup_App") : _T("_Icon");
+
+  wixID = getWixID(s, _T("exe"));
+  }
 
 
 void Icons::markDfltDir() {defaultPath.mark(IconPathKey);}

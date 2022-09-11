@@ -33,7 +33,9 @@ public:
 
   bool    writeString(TCchar* section, TCchar* key, TCchar*  val);
   bool    writeString(TCchar* section, TCchar* key, CString& val);
+  bool    write(      TCchar* section, TCchar* key, int      val) {return writeInt(section, key, val);}
   bool    writeInt(   TCchar* section, TCchar* key, int      val);
+  bool    write(      TCchar* section, TCchar* key, double   val);
   bool    writePwd(   TCchar* section, TCchar* key, String&  val);
   void    writeEnd();
 

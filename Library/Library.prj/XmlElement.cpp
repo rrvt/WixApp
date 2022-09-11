@@ -116,22 +116,3 @@ int i;
 void XmlBase::copy(XmlBase& bs) {tag = bs.tag; tagType = bs.tagType; line = bs.line;}
 
 
-
-#if 0
-void XmlElement::output(Archive& ar) {
-int n = data.end();
-int i;
-
-  for (i = 0; i < n; i++) {
-    XmlBase* p = data[i].p;    if (!p) return;
-    XmlElement* el;
-    XmlContent*  at;
-
-    switch (p->dtmType) {
-      case ContentDtm: at = (XmlContent*)  p; at->output(ar); break;
-      case ElementDtm  : el = (XmlElement*) p; el->output(ar); break;
-      }
-    }
-  }
-#endif
-

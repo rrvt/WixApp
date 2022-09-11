@@ -17,11 +17,19 @@ class PMFdirectories {
 public:
 
 DirStor stor;                            // StartMenu folders (directories) into which links are placed
+bool    startMenuSeen;
+bool    desktopDirSeen;
+bool    startupDirSeen;
 
 //DirDesc appDir;
 
-  PMFdirectories() : stor(PmfExt) {}
+  PMFdirectories() : stor(PmfExt), startMenuSeen(false), desktopDirSeen(false), startupDirSeen(false) {}
  ~PMFdirectories() { }
+
+  void     initFixedDirs() { startMenuSeen = desktopDirSeen = startupDirSeen = false;}
+  void     setStartMenuSeen(bool seen) {startMenuSeen  |= seen;}
+  void     setDeskTopSeen(bool seen)   {desktopDirSeen |= seen;}
+  void     setStartupSeen(bool seen)   {startupDirSeen |= seen;}
 
 //  void markDir(String& id) {stor.markDir(id);}
   DirDesc* find(String& id) {return stor.find(id);}
@@ -43,6 +51,7 @@ DirStor stor;                            // StartMenu folders (directories) into
   };
 
 extern TCchar* DeskTopDir;
+extern TCchar* StartupDir;
 
 extern PMFdirectories pmfDirectories;
 

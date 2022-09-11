@@ -18,7 +18,7 @@ class Options : public CDialogEx {
   DECLARE_DYNAMIC(Options)
 
 public:
-enum { IDD = IDD_DIALOG5 };                    // Dialog Data
+enum { IDD = IDD_Options };                    // Dialog Data
 
 BOOL     allowSameVer;
 CButton  addLicenseCH;

@@ -11,6 +11,7 @@
 #include "GetPathDlg.h"
 #include "MessageBox.h"
 #include "Options.h"
+#include "PmfDirectories.h"
 #include "Product.h"
 #include "Solution.h"
 #include "RequiredOSs.h"
@@ -75,10 +76,11 @@ BEGIN_MESSAGE_MAP(WixDataDlg, CDialogEx)
 
   ON_BN_CLICKED(    IDOK,                    &createProduct)
   ON_BN_CLICKED(    IDCANCEL,                &OnBnClickedCancel)
+    ON_BN_CLICKED(IDC_Startup, &WixDataDlg::onStartupClicked)
 END_MESSAGE_MAP()
 
 
-WixDataDlg::WixDataDlg(CWnd* pParent) : CDialogEx(WixDataDlg::IDD, pParent) {}
+WixDataDlg::WixDataDlg(CWnd* pParent) : CDialogEx(WixDataDlg::IDD, pParent) { }
 
 
 WixDataDlg::~WixDataDlg() { }
@@ -123,15 +125,16 @@ void WixDataDlg::DoDataExchange(CDataExchange* pDX) {
   DDX_Control(pDX, IDC_StartMenuName, startMenuEB);
   DDX_Control(pDX, IDC_Component,     componentCB);
   DDX_Control(pDX, IDC_ComponentPath, pathEB);
-  DDX_Control(pDX, IDC_OnStartMenu,   startMenuCH);
-  DDX_Control(pDX, IDC_OnDeskTop,     deskTopCH);
-  DDX_Control(pDX, IDC_VersionAvail,  versionAvailCH);
+  DDX_Control(pDX, IDC_OnStartMenu,   isStartMenu);
+  DDX_Control(pDX, IDC_OnDeskTop,     isDeskTop);
+  DDX_Control(pDX, IDC_VersionAvail,  isVersionAvail);
   DDX_Control(pDX, IDC_OnPath,        isOnPathCH);
   DDX_Control(pDX, IDC_ComponentIcon, iconCB);
   DDX_Control(pDX, IDC_Description,   descriptionEB);
   DDX_Control(pDX, IDC_CHECK1,        isWin7ch);
   DDX_Control(pDX, IDC_CHECK2,        isWinXPch);
   DDX_Control(pDX, IDC_CHECK3,        isWin2Kch);
+  DDX_Control(pDX, IDC_Startup,       isStartupApp);
   }
 
 
@@ -188,6 +191,7 @@ void WixDataDlg::OnBnClickedVersionavail() {features.getCurComponent()->storeIsV
 void WixDataDlg::OnBnClickedOnPath()       {features.getCurComponent()->storeIsOnPath(*this);}
 void WixDataDlg::OnBrowseForIcon()         {features.getCurComponent()->browseIcon(*this); UpdateWindow();}
 void WixDataDlg::OnUpdateIcon()            {features.getCurComponent()->updateIcon(*this);}
+void WixDataDlg::onStartupClicked()        {features.getCurComponent()->storeStartup(*this);}
 void WixDataDlg::OnBnClickedIsWin7()       {features.getCurComponent()->storeIsWin7( *this);}
 void WixDataDlg::OnBnClickedIsWinXP()      {features.getCurComponent()->storeIsWinXP(*this);}
 void WixDataDlg::OnBnClickedIsWin2K()      {features.getCurComponent()->storeIsWin2K(*this);}
@@ -212,6 +216,8 @@ void WixDataDlg::createProduct() {
 Finish finish;
 String path;
 String wixDataPath;
+
+  pmfDirectories.initFixedDirs();
 
   if (!wixData.validate()) return;
 

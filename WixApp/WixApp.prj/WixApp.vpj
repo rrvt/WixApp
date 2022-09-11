@@ -196,4 +196,7 @@
       </Target>
     </Menu>
   </Config>
+  <Files></Files>
+  <List Name="RTE">
+  </List>
 </Project>

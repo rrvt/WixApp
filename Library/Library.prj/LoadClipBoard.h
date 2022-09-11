@@ -4,4 +4,4 @@
 #pragma once
 
 
-bool loadScratchPad(String& s);
+bool loadClipBoard(String& s);

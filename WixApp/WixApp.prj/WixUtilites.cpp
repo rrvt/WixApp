@@ -59,16 +59,16 @@ String t;
     if (i == 0) {
       if (_T('A') <= ch && ch <= _T('Z')) {t = ch; continue;}
       if (_T('a') <= ch && ch <= _T('z')) {t = ch; continue;}
-      if (ch == _T('_'))              {t = ch; continue;}
+      if (ch == _T('_'))                  {t = ch; continue;}
       continue;
       }
     if (_T('A') <= ch  && ch <= _T('Z')) {t += ch;  continue;}
     if (_T('a') <= ch  && ch <= _T('z')) {t += ch;  continue;}
     if (_T('0') <= ch  && ch <= _T('9')) {t += ch;  continue;}
-    if (ch == _T('_'))               {t += ch;  continue;}
-    if (ch == _T('.'))               {t += ch;  continue;}
+    if (ch == _T('_'))                   {t += ch;  continue;}
+    if (ch == _T('.'))                   {t += ch;  continue;}
     if (ch == _T('\\') || ch == _T('/')) {t += _T('_'); continue;}
-    if (ch == _T('-'))               {t += _T('_'); continue;}
+    if (ch == _T('-'))                   {t += _T('_'); continue;}
     }
   return t;
   }

@@ -102,7 +102,7 @@
     <ClCompile Include="LexTOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LoadScratchPad.cpp">
+    <ClCompile Include="LoadClipBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="match.cpp">
@@ -248,9 +248,6 @@
     <ClInclude Include="ComboBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="comdef.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CopyFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -332,7 +329,7 @@
     <ClInclude Include="LexTOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LoadScratchPad.h">
+    <ClInclude Include="LoadClipBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManipT.h">
