@@ -175,6 +175,26 @@ finDate:
 
 
 
+Date& Date::operator= (COleDateTime& ole) {
+SYSTEMTIME sysTm;
+
+  ole.GetAsSystemTime(sysTm);
+
+  CTime cTime(sysTm.wYear, sysTm.wMonth, sysTm.wDay, sysTm.wHour, sysTm.wMinute, sysTm.wSecond);
+
+  dt = cTime;   return *this;
+  }
+
+
+Date::operator COleDateTime() {
+SYSTEMTIME sysTm;
+
+  dt.GetAsSystemTime(sysTm);   return sysTm;
+  }
+
+
+
+
 
 bool Date::amPM(int& h, String& txt) {
   if ((txt == _T("a") || txt == _T("A")) && h <= 12) return true;
@@ -211,6 +231,47 @@ String Date::getDate() {CString s = dt.Format(_T("%x"));  return s;}
 
 String Date::dayOfWeek() {CString s = dt.Format("%a"); return s;}
 
+
+Date& Date::operator<< (String& s) {
+uint year  = 0;
+uint month = 0;
+uint day   = 0;
+uint hour  = 0;
+uint min   = 0;
+uint sec   = 0;
+uint pos   = 0;
+
+  year  = s.substr( 0, 4).stoi(pos);
+  month = s.substr( 4, 2).stoi(pos);
+  day   = s.substr( 6, 2).stoi(pos);
+  hour  = s.substr( 8, 2).stoi(pos);
+  min   = s.substr(10, 2).stoi(pos);
+  sec   = s.substr(12, 2).stoi(pos);
+  CTime cTime(year, month, day, hour, min, sec);   dt = cTime;   return *this;
+  }
+
+#if 0
+Date& Date::fromUnix(String& s) {
+uint year  = 0;
+uint month = 0;
+uint day   = 0;
+uint hour  = 0;
+uint min   = 0;
+uint sec   = 0;
+uint pos   = 0;
+
+  year  = s.substr( 0, 4).stoi(pos);
+  month = s.substr( 4, 2).stoi(pos);
+  day   = s.substr( 6, 2).stoi(pos);
+  hour  = s.substr( 8, 2).stoi(pos);
+  min   = s.substr(10, 2).stoi(pos);
+  sec   = s.substr(12, 2).stoi(pos);
+  CTime cTime(year, month, day, hour, min, sec);
+  dt = cTime;
+
+  return *this;
+  }
+#endif
 
 
 static bool updateDate = false;

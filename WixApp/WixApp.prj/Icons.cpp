@@ -15,8 +15,6 @@ static TCchar*    IconIDKey    = _T("IconID");
 static TCchar*    WixIDKey     = _T("WixID");
 
 static TCchar*    IconPath     = _T("IconPath");
-//static TCchar*    IconExt      = _T("exe");
-//static TCchar*    Icon         = _T("Icon");
 static TCchar*    IconPathKey  = _T("Icon");
 
 static BrowseDsc  browseDsc    = {IconPathKey, _T("Icon File"), _T(""), _T("ico"), _T("*.ico")};

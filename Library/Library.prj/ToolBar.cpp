@@ -16,7 +16,7 @@ void ToolBar::initialize(CRect& winRect) {
   winHeight = winRect.bottom - winRect.top;   winWidth = winRect.right - winRect.left;
   }
 
-static const DWORD TBStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY;
+static const DWORD TBStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY | AFX_DEFAULT_TOOLBAR_STYLE;
 
 
 bool ToolBar::create(CWnd* wnd, uint id, DWORD style) {

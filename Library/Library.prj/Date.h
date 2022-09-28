@@ -18,16 +18,22 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
   Date(int hr, int min, int sec) : dt(1901, 1, 1, hr, min, sec) {}
   Date(int yr, int mon, int day, int hr, int min, int sec) : dt(yr, mon, day, hr, min, sec) {}
   Date(time_t sec) : dt(sec) { }
-  Date(String& s) {*this = s;}
-  Date(CString& cs) {String s = cs; *this = s;}
+  Date(String& s)         {*this = s;}
+  Date(CString& cs)       {String s = cs; *this = s;}
+  Date(COleDateTime& ole) {*this = ole;}
+  Date(Date& date)        {copy(date);}
  ~Date() {}
 
   Date       operator= (String& s);                    // Translates m/d/yy h/m/s all digits to CTime
   Date       operator= (CString& cs) {String s = cs; return s;}
   Date&      operator= (CTime& tm)   {dt = tm; return *this;}
+  Date&      operator= (COleDateTime& ole);
 
   Date&      operator= (variant_t& v)
           {double t;   if (v.vt == VT_DATE) {t = v; t *= SecondsPerDay; dt = time_t(t);}   return *this;}
+  Date&      operator= (Date& date) {copy(date); return *this;}
+
+  operator COleDateTime();
 
          void getToday() {dt = CTime::GetCurrentTime();}
 
@@ -43,10 +49,15 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
   String   getHHMMSS();
   String   dayOfWeek();
   String   format(TCchar* f) {Cstring s; s = dt.Format(f);                      return String(s);}
-  operator String ()         {Cstring s; s = dt.Format(_T("%#m/%#d/%y %H:%M")); return String(s);}
-  String   toUnix()          {Cstring s; s = dt.Format(_T("%Y%m%d%H%M%S"));     return String(s);}
 
-  bool     isEmpty()    {return dt.GetTime() == 0;}
+  // Transform from Date to String with yyyymmddhhmmss format and from String to Date
+
+  Date&    operator>> (String& s) {Cstring cs; s = cs = dt.Format(_T("%Y%m%d%H%M%S")); return *this;}
+  Date&    operator<< (String& s);
+
+  bool     isEmpty()  {return dt.GetTime() == 0;}
+
+  operator  String () {Cstring s; s = dt.Format(_T("%#m/%#d/%y %H:%M")); return String(s);}
 
   CTimeSpan operator -  (Date& t) {return dt - t.dt;};
   Date&     operator += (CTimeSpan n) {dt += n; return *this;}
@@ -66,6 +77,8 @@ private:
 static const double SecondsPerDay;
 
   bool amPM(int& h, String& txt);
+
+  void copy(Date& date) {dt = date.dt;}
   };
 
 

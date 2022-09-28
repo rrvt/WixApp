@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+<Product Id="*" UpgradeCode="8D8880AE-E847-4148-B89A-0A9DC3339F65" Language="1033"
+         Manufacturer="Bob -- K6RWY" Name="BkGd"
+         Version="!(bind.fileVersion.BkGd.cmp)"
+         >
+
+  <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
+           Manufacturer="Bob -- K6RWY" Description="Installs BkGd"
+           Comments="Copyright (c) Bob -- K6RWY"
+           />
+
+  <MajorUpgrade Schedule="afterInstallInitialize"
+                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
+                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+  <MediaTemplate EmbedCab="yes" />
+
+  <UI Id="My_InstallDir.ui">
+    <UIRef Id="WixUI_InstallDir" />
+    <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">
+      NOT Installed
+    </Publish>
+    <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">
+      1
+    </Publish>
+  </UI>
+
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
+
+  <Icon     Id="BkGdIcon.ico" SourceFile="$(var.SolutionDir)..\BkGd.prj\res\BkGd.ico"/>
+  <Property Id="ARPPRODUCTICON"  Value="BkGdIcon.ico" />
+
+  <Feature Id="ProductFeatures" Title="Main Product" Level="1" >
+    <ComponentGroupRef Id="BkGd.ftr"/>
+    <ComponentGroupRef Id="BkGdEx.ftr"/>
+    <ComponentGroupRef Id="UninstallBkGd.ftr"/>
+  </Feature>
+</Product>
+
+<Fragment>
+<ComponentGroup Id="BkGd.ftr">
+  <ComponentRef Id="BkGd.cmp"/>
+  <ComponentRef Id="Help.cmp"/>
+</ComponentGroup>
+<ComponentGroup Id="BkGdEx.ftr">
+  <ComponentRef Id="BkGdEx.cmp"/>
+</ComponentGroup>
+<ComponentGroup Id="UninstallBkGd.ftr">
+  <ComponentRef Id="UninstallBkGd.cmp"/>
+</ComponentGroup>
+</Fragment>
+
+<!--Directory structure-->
+<Fragment>
+  <Directory Id="TARGETDIR" Name="SourceDir">
+    <Directory Id="ProgramFilesFolder">
+      <Directory Id="BkGd.pff" Name="BkGd" />
+    </Directory>
+
+    <Directory Id="ProgramMenuFolder" Name="StartMenu">
+      <Directory Id="BkGd.pmf" Name="BkGd" />
+    </Directory>
+
+    <Directory Id="DesktopFolder" Name="Desktop" />
+    <Directory Id="StartupFolder" />
+  </Directory>
+
+  <Property Id="ApplicationFolderName" Value="BkGd" />
+  <Property Id="WIXUI_INSTALLDIR"      Value="BkGd.pff"/>
+  <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
+</Fragment>
+
+<Fragment>
+
+  <Component Id="BkGd.cmp"  Guid="D562BBAC-0860-4B03-AF04-ECF4D7EEEE91" Directory="BkGd.pff">
+    <File Id="BkGd.cmp" Source="$(var.SolutionDir)..\Release\BkGd.exe" KeyPath="yes"/>
+
+    <Shortcut Id               = "BkGd.shc"
+              Name             = "BkGd"
+              Advertise        = "yes"
+              Directory        = "BkGd.pmf"
+              WorkingDirectory = "BkGd.pff"
+              Icon             = "BkGdIcon.ico"
+              />
+
+    <Shortcut Id               = "BkGd.dsk"
+              Name             = "BkGd"
+              Advertise        = "yes"
+              Directory        = "DesktopFolder"
+              WorkingDirectory = "BkGd.pff"
+              Icon             = "BkGdIcon.ico"
+              />
+  </Component>
+
+  <Component Id="Help.cmp"  Guid="2D9CE8E3-8D85-4616-A83E-21A84CEDDBE7" Directory="BkGd.pff">
+    <File Id="Help.cmp" Source="$(var.SolutionDir)..\Release\BkGd.chm" KeyPath="yes"/>
+  </Component>
+
+</Fragment>
+
+<Fragment>
+
+  <Component Id="BkGdEx.cmp"  Guid="06DEBD18-DE15-4FAC-8748-E250FE918E71" Directory="BkGd.pff">
+    <File Id="BkGdEx.cmp" Source="$(var.SolutionDir)..\Release\BkGdEx.exe" KeyPath="yes"/>
+
+    <Shortcut Id               = "BkGdEx.dsk"
+              Name             = "BkGdEx"
+              Advertise        = "yes"
+              Directory        = "StartupFolder"
+              WorkingDirectory = "BkGd.pff"
+              />
+  </Component>
+
+</Fragment>
+
+<Fragment>
+
+  <Component Id="UninstallBkGd.cmp"  Guid="90B47546-8E2C-4237-B9B3-98060B70CEBD" Directory="BkGd.pmf">
+
+    <Shortcut Id               = "UninstallBkGd.shc"
+              Name             = "Uninstall BkGd"
+              Description      = "Uninstalls BkGd"
+              Target           = "[System64Folder]msiexec.exe"
+              Arguments        = "/x [ProductCode]"
+              Icon             = "BkGdIcon.ico"
+              />
+    <RemoveFolder Id="BkGd.uni" Directory="BkGd.pmf" On="uninstall"/>
+    <RegistryValue Root="HKCU" Key="Software\UninstallBkGd.cmp" Name="installed"
+                   Type="integer" Value="1" KeyPath="yes"/>
+  </Component>
+
+</Fragment>
+
+</Wix>

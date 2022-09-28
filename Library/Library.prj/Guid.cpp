@@ -2,6 +2,7 @@
 
 
 #include "stdafx.h"
+#include "Guid.h"
 #include "Rpcdce.h"
 #include "Rpc.h"
 

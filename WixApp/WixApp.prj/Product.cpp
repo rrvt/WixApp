@@ -17,6 +17,7 @@ static TCchar*   WixVersionKey  = _T("WixVersion");
 static TCchar*   CompanyKey     = _T("Company");
 static TCchar*   ProductNameKey = _T("ProductName");
 static TCchar*   UpgradeGUIDKey = _T("UpgradeGUID");
+static TCchar*   UpgradeCodeKey = _T("UpgradeCode");
 static TCchar*   DefaultCondKey = _T("DefaultCond");
 static TCchar*   SameVerAllowed = _T("SaveVerAllowed");
 static TCchar*   LicenseReqKey  = _T("LicenseRequired");
@@ -34,7 +35,8 @@ void Product::readWixData() {
   wxd.readString(ProductSection, WixVersionKey,  wixVersion);
   wxd.readString(ProductSection, CompanyKey,     company);
   wxd.readString(ProductSection, ProductNameKey, productName);
-  wxd.readString(ProductSection, UpgradeGUIDKey, upgradeGUID);
+  if (!wxd.read(ProductSection, UpgradeCodeKey, upgradeCode))
+                                            wxd.readString(ProductSection, UpgradeGUIDKey, upgradeCode);
   isSameVerAllowed = wxd.readInt(ProductSection, SameVerAllowed, 0) != 0;
   isLicenseReq     = wxd.readInt(ProductSection, LicenseReqKey,  0) != 0;
   licenseDsc.readWixData(browseDsc, ProductSection, LicensePathKey);
@@ -82,7 +84,8 @@ void Product::writeWixData() {
   wxd.writeString(ProductSection, CompanyKey,     company);
   wxd.writeString(ProductSection, WixNameKey,     wixName);
   wxd.writeString(ProductSection, WixVersionKey,  wixVersion);
-  wxd.writeString(ProductSection, UpgradeGUIDKey, upgradeGUID);
+  wxd.writeString(ProductSection, UpgradeGUIDKey, upgradeCode);
+  wxd.write(ProductSection, UpgradeCodeKey, upgradeCode);
   wxd.writeInt(   ProductSection, SameVerAllowed, isSameVerAllowed);
   wxd.writeInt(   ProductSection, LicenseReqKey,  isLicenseReq);
   licenseDsc.writeWixData(ProductSection, LicensePathKey);
@@ -98,9 +101,9 @@ String ver;
 
   wix.crlf();
 
-  if (upgradeGUID.isEmpty()) getGuid(upgradeGUID);
+  if (upgradeCode.isEmpty()) getGuid(upgradeCode);
 
-  line = _T("<Product Id=\"*\" UpgradeCode=\"") + upgradeGUID + _T("\" Language=\"1033\"\n");
+  line = _T("<Product Id=\"*\" UpgradeCode=\"") + upgradeCode + _T("\" Language=\"1033\"\n");
   wix.stg(0, line);
   line = _T("Manufacturer=\"") + company + _T("\" Name=\"") + productName + _T("\"\n");
   wix.spaces(9); wix.stg(0, line);

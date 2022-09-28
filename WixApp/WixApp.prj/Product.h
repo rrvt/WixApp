@@ -16,7 +16,7 @@ String   company;
 String   wixName;
 String   wixVersion;
 String   wixPath;
-String   upgradeGUID;
+String   upgradeCode;
 String   iconID;
 String   installerIconPath;
 bool     isSameVerAllowed;

@@ -102,9 +102,6 @@
     <ClCompile Include="LexTOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LoadClipBoard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="match.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -228,6 +225,9 @@
     <ClCompile Include="XmlAttributes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClipLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archive.h">
@@ -327,9 +327,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LexTOut.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadClipBoard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManipT.h">
@@ -483,6 +480,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="XmlAttributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClipLine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

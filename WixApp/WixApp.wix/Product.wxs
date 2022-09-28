@@ -27,8 +27,8 @@
     </Publish>
   </UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixApp\Release\dialog.bmp"/>
-  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixApp\Release\banner.bmp"/>
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
 
   <Icon     Id="WixApp01Icon.exe" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\WixApp01.ico"/>
   <Icon     Id="Uninstall01Icon.exe" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\Uninstall01.ico"/>
@@ -116,7 +116,7 @@
 
 <Fragment>
 
-  <Component Id="UninstallWixApp.cmp"  Guid="97C90A97-E826-41C5-B423-0D965775677D"
+  <Component Id="UninstallWixApp.cmp"  Guid="26D49970-6402-4782-87C8-61608BB4B95E"
                                                                               Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"

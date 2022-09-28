@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 9/28/22
+
+A little name change in the WXD file.
+
 ### Update 9/10/22
 
 Win11 uses the Wix icon identifier as the label in the Apps/Startup list.  Unfortunately I chose a

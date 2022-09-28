@@ -52,6 +52,12 @@ int        tokenNo;                         // Number of token from left margin
 
 
 class CSVLex {
+public:
+
+CSVtok   token;                  // token returned    static const
+CSVtok   token1;                 // Next token in input stream
+
+private:
 
 enum States {nil, begin_tok, collect_symbol, got_quote, collect_string, got_backslash, got_eol,
                                                                               end_of_file,  illegal_tok};
@@ -75,9 +81,6 @@ int      line_number;            // current line number
 int      tokenNo;                // Number of token from left margin
 
 public:
-
-CSVtok   token;                  // token returned    static const
-CSVtok   token1;                 // Next token in input stream
 
   CSVLex(Archive& arch);
  ~CSVLex() { }

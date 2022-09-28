@@ -30,8 +30,6 @@ bool     inUse;
 
   void setWixID(bool isStartupApp);
 
-//  void parse(String& fullPath);
-
   IconDesc& operator= (IconDesc& d) {copyObj(d); return *this;}
 
   bool validate(bool rptErrors = true);

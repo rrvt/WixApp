@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "Device.h"
+#include "ClipLine.h"
 #include "EditBoxes.h"
 #include "MessageBox.h"
 
@@ -108,7 +109,11 @@ int curY   = d.vert.pos();
   }
 
 
-void Device::crlf() {if (vert.lf(printing, footer)) hz.cr();}
+void Device::tab() {clipLine.setHzPos(hz.currentPos()); clipLine.close(dc);}
+
+
+void Device::crlf()
+        {if (vert.lf(printing, footer)) hz.cr(); clipLine.setHzPos(hz.currentPos()); clipLine.close(dc);}
 
 
 bool Device::doEndPageChk() {
@@ -271,7 +276,7 @@ int     i;
 
 
 bool Device::textOut() {
-int       wth = width(sum);
+int       wth = txtWidth(sum);
 Wrap      wrap(wrapEnabled);
 WrapIter  iter(wrap);
 WrapData* wd;
@@ -320,22 +325,42 @@ int       nLines;
 
 
 void Device::fragmentOut(String& frag) {
-CString cs;  cs = frag;
+int w = txtWidth(frag);
 
   if (!suppress) {
 
-    try {if (!dc->TextOut(hz.currentPos(), vert.pos(), cs)) {outError(cs); return;}}
-    catch (...)                                             {outError(cs); return;}
+    if (clipLine.isOpen()) clipTabInvert();
+
+    clipLine.clipRegion(frag, hz.currentPos(), w, vert, dc);
+
+    dcOut(hz.currentPos(), frag);
     }
 
-  hz.move(width(frag));
+  hz.move(w);   clipLine.setHzPos(hz.currentPos());
   }
 
+
+void Device::clipTabInvert() {
+int    hzPos = clipLine.tabWidth(hz.currentPos(), hz.lgChWidth());
+int    w     = hz.currentPos() - hzPos;    if (w <= 0) return;
+String s;
+
+  do {s += _T(' ');} while (txtWidth(s) < w);
+
+  dcOut(hzPos, s);
+  }
+
+
+void Device::dcOut(int hzPos, String& s) {
+Cstring cs = s;
+  try {if (!dc->TextOut(hzPos, vert.pos(), cs)) {outError(cs); return;}}
+  catch (...)                                             {outError(cs); return;}
+  }
 
 
 // returns CString and width in current units
 
-int Device::width(String& s) {
+int Device::txtWidth(String& s) {
 CString cs;
 CSize   sz;
 bool    italic = isFontItalic();
@@ -352,4 +377,13 @@ String err = _T("Unable to output: '"); err += stg; err += _T("'");
 
   messageBox(err);
   }
+
+
+
+#if 1
+#else
+    CString cs;  cs = frag;
+    try {if (!dc->TextOut(hz.currentPos(), vert.pos(), cs)) {outError(cs); return;}}
+    catch (...)                                             {outError(cs); return;}
+#endif
 

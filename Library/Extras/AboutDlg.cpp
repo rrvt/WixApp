@@ -56,3 +56,5 @@ bool         rslt;
   return TRUE;
   }
 
+BEGIN_MESSAGE_MAP(AboutDlg, CDialogEx)
+END_MESSAGE_MAP()

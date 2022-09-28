@@ -32,7 +32,9 @@ public:
   void    saveIniPwd(  TCchar* section, TCchar* name, String& valu);
 
   bool    writeString(TCchar* section, TCchar* key, TCchar*  val);
+  bool    write(      TCchar* section, TCchar* key, TCchar*  val);
   bool    writeString(TCchar* section, TCchar* key, CString& val);
+  bool    write(      TCchar* section, TCchar* key, CString& val);
   bool    write(      TCchar* section, TCchar* key, int      val) {return writeInt(section, key, val);}
   bool    writeInt(   TCchar* section, TCchar* key, int      val);
   bool    write(      TCchar* section, TCchar* key, double   val);
@@ -40,9 +42,16 @@ public:
   void    writeEnd();
 
   bool    readString( TCchar* section, TCchar* key, String&  val);
-  bool    readString( TCchar* section, TCchar* key, CString& val);
+  bool    read(       TCchar* section, TCchar* key, String&  val) {return readString(section, key, val);}
+  bool    readString( TCchar* section, TCchar* key, Cstring& val);
+  bool    read(       TCchar* section, TCchar* key, Cstring& val) {return readString(section, key, val);}
+  bool    read(       TCchar* section, TCchar* key, int&     val);                // Defaults to zero
+
   bool    readString( TCchar* section, TCchar* key, String&  val, TCchar* dflt);
-  bool    readString( TCchar* section, TCchar* key, CString& val, TCchar* dflt);
+  bool    readString( TCchar* section, TCchar* key, Cstring& val, TCchar* dflt);
+  bool    read(       TCchar* section, TCchar* key, String&  val, TCchar* dflt);
+  bool    read(       TCchar* section, TCchar* key, Cstring& val, TCchar* dflt);
+  bool    read(       TCchar* section, TCchar* key, int&     val, int     dflt);
   int     readInt(    TCchar* section, TCchar* key, int      def);
   bool    readPwd(    TCchar* section, TCchar* key, String&  val);
 

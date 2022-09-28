@@ -145,6 +145,7 @@ fin_op:                 start_token(tok); move_char(); terminate(tok, source); r
         switch (ch_class) {
           case cr   : accept_char();
           case eol  :
+          case eofch:
           case comma: tok.code = StringToken; terminate(tok, source); state = begin_tok; return;
 
           default   : break;
@@ -183,7 +184,8 @@ fin_tok:                state = begin_tok; terminate(tok, source); return;
       case got_backslash:
         switch (ch_class) {
           case cr:
-          case eol:     state = collect_string; continue;
+          case eol:
+          case eofch:   state = collect_string; continue;
           default:      state = collect_string;
           }
         move_char(); continue;

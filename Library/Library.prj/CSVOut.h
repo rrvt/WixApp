@@ -33,11 +33,11 @@ public:
 
   CSVOut(Archive& a) : ar(a) {initialize();}
 
-  CSVOut& operator<< (String&    s)     {ar.write(quotes(s));                  return *this;}
-  CSVOut& operator<< (TCchar*    p)     {ar.write(quotes(p));                  return *this;}
-  CSVOut& operator<< (Tchar     ch)     {ar.write(ch);                         return *this;}
-  CSVOut& operator<< (int        x)     {String s = x;            ar.write(s); return *this;}
-  CSVOut& operator<< (Date&     dt)     {String s = dt.toUnix();  ar.write(s); return *this;}
+  CSVOut& operator<< (String&    s)     {ar.write(quotes(s));              return *this;}
+  CSVOut& operator<< (TCchar*    p)     {ar.write(quotes(p));              return *this;}
+  CSVOut& operator<< (Tchar     ch)     {ar.write(ch);                     return *this;}
+  CSVOut& operator<< (int        x)     {String s = x;        ar.write(s); return *this;}
+  CSVOut& operator<< (Date&     dt)     {String s; dt >> s;   ar.write(s); return *this;}
 
   CSVOut& operator<< (CSVManip& m)      {return m.func(*this);}
 
