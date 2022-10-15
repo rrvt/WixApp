@@ -49,7 +49,7 @@ public:
   void clear();
   bool getWindowText(String& s);
   bool getCurSel(String& s);
-  bool setCurSel(String& s);
+  bool setCurSel(TCchar* s);
   void setFocus() {SetFocus();}
   void del(String& s);
   void add(String& s);

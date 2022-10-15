@@ -7,7 +7,8 @@
 #include "filename.h"
 #include "Guid.h"
 #include "Icons.h"
-#include "Options.h"
+#include "Solution.h"
+#include "WixOptsDlg.h"
 #include "Resources.h"
 
 
@@ -30,13 +31,16 @@ Product product;
 
 
 void Product::readWixData() {
+double ver = solution.getVer();
 
   wxd.readString(ProductSection, WixNameKey,     wixName);
   wxd.readString(ProductSection, WixVersionKey,  wixVersion);
   wxd.readString(ProductSection, CompanyKey,     company);
   wxd.readString(ProductSection, ProductNameKey, productName);
-  if (!wxd.read(ProductSection, UpgradeCodeKey, upgradeCode))
-                                            wxd.readString(ProductSection, UpgradeGUIDKey, upgradeCode);
+
+  if (ver > 2.0) wxd.read(ProductSection, UpgradeCodeKey, upgradeCode);
+  else           wxd.read(ProductSection, UpgradeGUIDKey, upgradeCode);
+
   isSameVerAllowed = wxd.readInt(ProductSection, SameVerAllowed, 0) != 0;
   isLicenseReq     = wxd.readInt(ProductSection, LicenseReqKey,  0) != 0;
   licenseDsc.readWixData(browseDsc, ProductSection, LicensePathKey);
@@ -48,54 +52,64 @@ void Product::updateVersion(String& path)
                                 {ResourceData res(path); wixVersion.clear(); res.getVersion(wixVersion);}
 
 
-void Product::storeProduct(WixDataDlg& dialog) {
+void Product::storeProduct(WixAppDlg& dialog) {
   productName  = getText(dialog.productNameEB);
   }
 
 
 
-void Product::loadCB(WixDataDlg& dialog) {
+void Product::loadCB(WixAppDlg& dialog) {
+ComboBox& cb = dialog.prodIconCB;
+
   dialog.productNameEB.SetWindowText(productName);
       dialog.companyEB.SetWindowText(company);
       dialog.wixNameEB.SetWindowText(wixName);
       loadVerEB(dialog);
-  dialog.progFtrIconEB.SetWindowText(iconID);
+
+      icons.loadCB(cb);
+      icons.setCur(iconID, cb);
+
+  dialog.prodIconCB.SetWindowText(iconID);
   }
 
 
-void Product::loadVerEB(WixDataDlg& dialog) {
+void Product::loadVerEB(WixAppDlg& dialog) {
   dialog.wixVersionEB.SetWindowText(wixVersion);
   }
 
 
 
-void Product::browseIcon(WixDataDlg& dialog) {
-ComboBox& cb = dialog.iconCB;
+void Product::browseIcon(WixAppDlg& dialog) {
+ComboBox& cb = dialog.prodIconCB;
 
-  iconID = icons.browse(false);
-
-  dialog.progFtrIconEB.SetWindowText(iconID);
+  iconID = icons.browse(false);   updateIconCB(cb);  //icons.loadCB(cb);    icons.setCur(iconID, cb);
+//  dialog.prodIconCB.SetWindowText(iconID);
   }
+
+
+void Product::updateIconCB(ComboBox& cb) {icons.loadCB(cb);    icons.setCur(iconID, cb);}
+
+
+void Product::updateIcon(WixAppDlg& dialog) {dialog.prodIconCB.getWindowText(iconID);}
 
 
 void Product::writeWixData() {
 
-  wxd.writeString(ProductSection, ProductNameKey, productName);
-  wxd.writeString(ProductSection, CompanyKey,     company);
-  wxd.writeString(ProductSection, WixNameKey,     wixName);
-  wxd.writeString(ProductSection, WixVersionKey,  wixVersion);
-  wxd.writeString(ProductSection, UpgradeGUIDKey, upgradeCode);
+  wxd.write(ProductSection, ProductNameKey, productName);
+  wxd.write(ProductSection, CompanyKey,     company);
+  wxd.write(ProductSection, WixNameKey,     wixName);
+  wxd.write(ProductSection, WixVersionKey,  wixVersion);
   wxd.write(ProductSection, UpgradeCodeKey, upgradeCode);
-  wxd.writeInt(   ProductSection, SameVerAllowed, isSameVerAllowed);
-  wxd.writeInt(   ProductSection, LicenseReqKey,  isLicenseReq);
+  wxd.write(ProductSection, SameVerAllowed, isSameVerAllowed);
+  wxd.write(ProductSection, LicenseReqKey,  isLicenseReq);
   licenseDsc.writeWixData(ProductSection, LicensePathKey);
-  wxd.writeString(ProductSection, IconIDKey,      iconID);
+  wxd.write(ProductSection, IconIDKey,      iconID);
   }
 
 
 
 
-void Product::output(Component* app, Prolog& prolog, Features& features) {
+void Product::output(Component* app, Features& features) {      // Prolog& prolog,
 String line;
 String ver;
 
@@ -103,15 +117,15 @@ String ver;
 
   if (upgradeCode.isEmpty()) getGuid(upgradeCode);
 
-  line = _T("<Product Id=\"*\" UpgradeCode=\"") + upgradeCode + _T("\" Language=\"1033\"\n");
-  wix.stg(0, line);
-  line = _T("Manufacturer=\"") + company + _T("\" Name=\"") + productName + _T("\"\n");
-  wix.spaces(9); wix.stg(0, line);
+  line = _T("<Product Id=\"*\" UpgradeCode=\"") + upgradeCode + _T("\" Language=\"1033\"");
+  wix(0);   wix(line);   wix.crlf();
+  line = _T("Manufacturer=\"") + company + _T("\" Name=\"") + productName + _T("\"");
+  wix(9); wix(line);   wix.crlf();
 
   ver = app && app->isVersionAvail ? _T("!(bind.fileVersion.") + app->wixID + _T(")") : wixVersion;
-  line = _T("Version=\"") + ver + _T("\"\n");
-  wix.spaces(9); wix.stg(0, line);
-  wix.spaces(9); wix.lit(0, _T(">\n"));
+  line = _T("Version=\"") + ver + _T("\"");
+  wix(9); wix(line);   wix.crlf();
+  wix(9); wix(_T(">"));   wix.crlf();
 
   package();
 
@@ -126,7 +140,7 @@ String ver;
 
   features.outputFeatures(1);
 
-  wix.lit(0, _T("</Product>\n"));
+  wix(0);   wix(_T("</Product>"));   wix.crlf();
   }
 
 
@@ -134,12 +148,13 @@ void Product::package() {
 String line;
 
   wix.crlf();
-  wix.lit(1, _T("<Package InstallerVersion=\"200\" Compressed=\"yes\" InstallScope=\"perMachine\"\n"));
-  line = _T("Manufacturer=\"") + company + _T("\" Description=\"Installs ") + productName + _T("\"\n");
-  wix.spaces(11); wix.stg(0, line);
-  line = _T("Comments=\"Copyright (c) ") + company +  _T("\"\n");
-  wix.spaces(11); wix.stg(0, line);
-  wix.spaces(11); wix.lit(0, _T("/>\n"));
+  wix(1);   wix(_T("<Package InstallerVersion=\"200\" Compressed=\"yes\" InstallScope=\"perMachine\""));
+  wix.crlf();
+  line = _T("Manufacturer=\"") + company + _T("\" Description=\"Installs ") + productName + _T("\"");
+  wix(11); wix(line);   wix.crlf();
+  line = _T("Comments=\"Copyright (c) ") + company +  _T("\"");
+  wix(11); wix(line);   wix.crlf();
+  wix(11); wix(_T("/>"));   wix.crlf();
   }
 
 
@@ -149,16 +164,17 @@ String line;
 
 void Product::majorUpgrade() {
   wix.crlf();
-  wix.lit(1, _T("<MajorUpgrade Schedule=\"afterInstallInitialize\"\n"));
-  wix.spaces(16);
-  wix.lit(0, _T("AllowDowngrades=\"no\"   IgnoreRemoveFailure=\"no\"   AllowSameVersionUpgrades="));
-  if (isSameVerAllowed) wix.lit(0, _T("\"yes\"\n"));
-  else                  wix.lit(0, _T("\"no\"\n"));
-  wix.spaces(16);
-  wix.lit(0, _T("DowngradeErrorMessage=\"A newer version of [ProductName] is already installed.\" />\n"));
+  wix(1);   wix(_T("<MajorUpgrade Schedule=\"afterInstallInitialize\""));   wix.crlf();
+  wix(16);
+  wix(_T("AllowDowngrades=\"no\"   IgnoreRemoveFailure=\"no\"   AllowSameVersionUpgrades="));
+  if (isSameVerAllowed) wix(_T("\"yes\""));
+  else                  wix(_T("\"no\""));
+  wix.crlf();
+  wix(16);
+  wix(_T("DowngradeErrorMessage=\"A newer version of [ProductName] is already installed.\" />"));
+  wix.crlf(2);
 
-
-  wix.crlf(); wix.lit(1, _T("<MediaTemplate EmbedCab=\"yes\" />\n"));
+  wix(1);   wix(_T("<MediaTemplate EmbedCab=\"yes\" />"));   wix.crlf();
   }
 
 
@@ -184,11 +200,11 @@ String relPath = licenseDsc.relative();
 
 //  solution.getRelSolution(licenseDsc.full(), relPath);
 
-  wix.crlf();
+  wix.crlf();   wix(1);
 
-  wix.lit(1, _T("<WixVariable Id=\"WixUILicenseRtf\" Value=\"") + relPath + _T("\" />\n"));
+  wix(_T("<WixVariable Id=\"WixUILicenseRtf\" Value=\"") + relPath + _T("\" />"));   wix.crlf();
 
-  wix.lit(1, _T("<UI Id=\"My_InstallDir.ui\"><UIRef Id=\"WixUI_InstallDir\" /></UI>\n"));
+  wix(_T("<UI Id=\"My_InstallDir.ui\"><UIRef Id=\"WixUI_InstallDir\" /></UI>"));   wix.crlf();
   }
 
 
@@ -196,37 +212,39 @@ void Product::userInterface() {
 String line;
 
   wix.crlf();
-  wix.lit(1, _T("<UI Id=\"My_InstallDir.ui\">\n"));
-  wix.lit(2, _T("<UIRef Id=\"WixUI_InstallDir\" />\n"));
-  line = _T("<Publish Dialog=\"WelcomeDlg\" Control=\"Next\" Event=\"NewDialog\" Value=\"InstallDirDlg\">\n");
-  wix.lit(2, line);
-  wix.lit(3, _T("NOT Installed\n"));
-  wix.lit(2, _T("</Publish>\n"));
+  wix(1);   wix(_T("<UI Id=\"My_InstallDir.ui\">"));   wix.crlf();
+  wix(2);   wix(_T("<UIRef Id=\"WixUI_InstallDir\" />"));   wix.crlf();
+  line =
+      _T("<Publish Dialog=\"WelcomeDlg\" Control=\"Next\" Event=\"NewDialog\" Value=\"InstallDirDlg\">");
+
+  wix(line);   wix.crlf();
+  wix(3);   wix(_T("NOT Installed"));   wix.crlf();
+  wix(2);   wix(_T("</Publish>"));   wix.crlf();
 
   line = _T("<Publish Dialog=\"InstallDirDlg\" Control=\"Back\" ")
-         _T("Event=\"NewDialog\" Value=\"WelcomeDlg\" Order=\"2\">\n");
-  wix.lit(2, line);
-  wix.lit(3, _T("1\n"));
-  wix.lit(2, _T("</Publish>\n"));
+         _T("Event=\"NewDialog\" Value=\"WelcomeDlg\" Order=\"2\">");
+  wix(line);   wix.crlf();
+  wix(3);   wix(_T("1"));   wix.crlf();
+  wix(2);   wix(_T("</Publish>"));   wix.crlf();
 
-  wix.lit(1, _T("</UI>\n"));
+  wix(1);   wix(_T("</UI>"));   wix.crlf();
   }
 
 
 void Product::skipLicense() {
 
   wix.crlf();
-  wix.lit(1, _T("<UI Id=\"SkipLicenseAgreement\">\n"));
-  wix.lit(2, _T("<UIRef Id=\"WixUI_InstallDir\" />\n"));
-  wix.lit(2, _T("<Publish Dialog=\"WelcomeDlg\"    Control=\"Next\" "));
-  wix.lit(0, _T("Event=\"NewDialog\" Value=\"InstallDirDlg\" Order=\"2\">\n"));
-  wix.lit(3, _T("1\n"));
-  wix.lit(2, _T("</Publish>\n"));
-  wix.lit(2, _T("<Publish Dialog=\"InstallDirDlg\" Control=\"Back\" "));
-  wix.lit(0, _T("Event=\"NewDialog\" Value=\"WelcomeDlg\"    Order=\"2\">\n"));
-  wix.lit(3, _T("1\n"));
-  wix.lit(2, _T("</Publish>\n"));
-  wix.lit(1, _T("</UI>\n"));
+  wix(1);   wix(_T("<UI Id=\"SkipLicenseAgreement\">"));   wix.crlf();
+  wix(2);   wix(_T("<UIRef Id=\"WixUI_InstallDir\" />"));   wix.crlf();
+            wix(_T("<Publish Dialog=\"WelcomeDlg\"    Control=\"Next\" "));
+  wix(0);   wix(_T("Event=\"NewDialog\" Value=\"InstallDirDlg\" Order=\"2\">"));   wix.crlf();
+  wix(3);   wix(_T("1"));   wix.crlf();
+  wix(2);   wix(_T("</Publish>"));   wix.crlf();
+            wix(_T("<Publish Dialog=\"InstallDirDlg\" Control=\"Back\" "));
+  wix(0);   wix(_T("Event=\"NewDialog\" Value=\"WelcomeDlg\"    Order=\"2\">"));   wix.crlf();
+  wix(3);   wix(_T("1"));   wix.crlf();
+  wix(2);   wix(_T("</Publish>"));   wix.crlf();
+  wix(1);   wix(_T("</UI>"));   wix.crlf();
   }
 
 
@@ -245,9 +263,9 @@ void Product::oneInstallerIcon(TCchar* id, TCchar* bmp) {
 String line;
 
   line  = _T("<WixVariable Id=\""); line += id; line += _T("\" ");
-  line += _T("Value=\"") + installerIconPath + bmp; line += _T("\"/>\n");
+  line += _T("Value=\"") + installerIconPath + bmp; line += _T("\"/>");
 
-  wix.stg(1, line);
+  wix(1);   wix(line);   wix.crlf();
   }
 
 
@@ -269,8 +287,9 @@ IconDesc* dsc = icons.find(iconID);
 
   wix.crlf();
 
-  icons.output(1);
+  wix(1);
+  icons.output();
 
-  if (dsc) wix.out(1, _T("<Property Id=\"ARPPRODUCTICON\"  Value=\""), dsc->wixID, _T("\" />"));
+  if (dsc) wix(_T("<Property Id=\"ARPPRODUCTICON\"  Value=\""), dsc->wixID, _T("\" />"));
   }
 

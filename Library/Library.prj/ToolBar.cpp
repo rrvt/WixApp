@@ -11,22 +11,43 @@
 #include "History.h"                      // Debug Only
 #endif
 
+#include "MessageBox.h"
+
+
+static const DWORD TBStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY |
+AFX_DEFAULT_TOOLBAR_STYLE;
+
 
 void ToolBar::initialize(CRect& winRect) {
   winHeight = winRect.bottom - winRect.top;   winWidth = winRect.right - winRect.left;
   }
 
-static const DWORD TBStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY | AFX_DEFAULT_TOOLBAR_STYLE;
-
 
 bool ToolBar::create(CWnd* wnd, uint id, DWORD style) {
+CRect rect;
 
   if (!CreateEx(wnd, TBSTYLE_FLAT, TBStyle | style)) return false;
 
   if (!LoadToolBar(id, 0, 0, TRUE)) return false;
 
-  wnd->RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, AFX_IDW_TOOLBAR);   return true;
+  wnd->RepositionBars(AFX_IDW_CONTROLBAR_FIRST, AFX_IDW_CONTROLBAR_LAST, AFX_IDW_TOOLBAR);
+
+  window = wnd; return true;
   }
+
+
+void ToolBar::move(CRect& winRect) {
+CRect rect;
+
+  GetWindowRect(&rect);
+  rect.bottom = rect.top     + 25;
+  rect.left   = winRect.left + 16;
+  rect.right  = winRect.right;   ScreenToClient(rect);   MoveWindow(&rect);
+  }
+
+
+void ToolBar::OnFillBackground(CDC* pDC)
+                      {CRect rect;   GetClientRect(&rect);   pDC->FillSolidRect(&rect, RGB(255,255,255));}
 
 
 bool ToolBar::installBtn(uint id, TCchar* caption) {
@@ -269,4 +290,13 @@ CRect  rect;                                          // button rectangle relati
 
   return false;
   }
+
+
+
+#if 0
+  linRect       = rect;
+  linRect.top   = linRect.bottom = linRect.top + 24;
+  linRect.left  = winRect.left  + 24;
+  linRect.right = winRect.right - 24;
+#endif
 

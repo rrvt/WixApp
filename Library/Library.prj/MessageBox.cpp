@@ -18,10 +18,15 @@ Tchar  buf[256];
   }
 
 
+void messageBox(TCchar* prefix, TCchar* tc)
+                                      {String s;  s = prefix;  s += _T(": ");  s += tc;  messageBox(s);}
+
+
 void messageBox(String s) {AfxMessageBox(s);}
 
 
 void messageBox(TCchar* s) {AfxMessageBox(s);}
+
 
 void messageBox(CString& s) {messageBox(String(s));}
 

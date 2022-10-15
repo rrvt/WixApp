@@ -1,4 +1,4 @@
-<!doctype html PUBLIC "-//IETF//DTD HTML//EN">
+<!doctype html>
 <html><!-- InstanceBegin template="/Templates/OneColumnPage.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta charset="utf-8">
@@ -7,7 +7,7 @@
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
-<link href="WixApp.css" rel="stylesheet" type="text/css">
+<link href="App.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -15,85 +15,22 @@
 <div class="container">
 <div class="content">
 <!-- InstanceBeginEditable name="Title" -->
+<h1>Dialog App</h1>
+<!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="Body" -->
 <h2>Introduction</h2>
 <p>
-    This project started as a way to remember how to construct a decent installer using Wix.  The syntax of Wix is just
-  bizarre enough that every 6 months or so when I need to create one I had to learn it all over again.  So WixApp was constructed to
-  provide a simple method for construction a Wix input file.  That is then compiled using Visual Studio in the normal way
-  and an installer is created.
+WixApp is an example of a Windows Dialog application.  It includes a trimmed down MFC starting application
+InitInstance.  The main dialog has a menu, a toolbar with various features and a status bar on the bottom of the
+client part of the window.  The main dialog has a fixed size and may be populated with all the usual controls
+that are available in Visual Studio 17's Resource editor.
 </p>
 <p>
-    Wix is a very complex product, WixApp is very simple.  There are only a few things that it can do:
-</p>
-<ul>
-    <li>Accept files that need to be installed in Progarm Files (x86)</li>
-    <li>Create Shortcuts (when requested) on the start menu and the desktop</li>
-    <li>Create one or more directories as needed into which files are placed in Program Files</li>
-    <li>It can create multiple levels of directories in Program Files and the Start Menu</li>
-    <li>If requested it will append a path to the system path</li>
-    <li>When WixApp is installed, SetEnv will also be installed</li>
-    <li>The version number may be retrieved from an executable for the installer to use during installation</li>
-    <li>It will create an uninstaller that will remove all of the files and directories that it creates</li>
-</ul>
-
-
-<h2>How Does WixApp Work</h2>
-<p>
-	WixApp on starup presents an empty dialog box with a few menu items (one of which is Help that displays this text).
-  The Files Menu allows one to create a new WixApp data file (i.e. "xxx.wxd") and Wix input file &quot;Product.wxs&quot;.  It also allows one 
-  to open an existing data file.  The dialog box is populated from a data file or is left blank for the user to supply new data.  When one
-  is satisfied with the input the Create button saves both the data file and a new Product.wxs file.
-  When the new Product.wxs is created, the old one is saved with a date/time appendage.
-  The the Wix compilation can take place, errors noted and changes made to the WixApp dialog box.
-</p>
-
-<h2>Wix File Structure</h2>
-<p>
-	Wix has roughly four main sections:
-  <ul>
-		<li>Product Section</li>
-		<li>Features Section</li>
-		<li>Directory Section</li>
-		<li>Components Section</li>
-  </ul>
-  The Product Section contains information about the product, the icons, some data about the installer, 
-  and the list of "Features."  A Feature is just a list of components and the Product section can 
-  contain one or more "Features." The Directory Section contains a description of all the directories 
-  used by the installer.  Please note that some of the Directory IDs are magic words so take care 
-  changing them outside of WixApp.  A Component is a description of exactly one file and what is 
-  to be done with the file during installation.  Wix is not particularly sensitive about the order 
-  of these sections so WixApp creates the Product file in a way that works.
-</p>
-<p>
-	WixApp takes a different approach.  There is one main dialog box (and a 
-  couple of minor ones).  It has four edit boxes and one button to enter
-  the necessary data for the Product Section.  It has a drop down combo box, two eidt boxes
-  and two buttons for managing a Feature (a Feature is a list of Components).
-  There is a drop down combo box and two buttons that allow the user to 
-  manage a component.  The 
-  attributes for a component may be entered/modifed in one edit boxe, seven  check boxes, a drop down combo box and a couple of browse buttons.
-</p>
-<p>A Product may have any number of Features. A Feature may have any number of Components. </p>
-<p>
-	The user supplies the information about all the Features and Components 
-  for each feature and WixApp rearranges the information for Wix.
-</p>
-<h2>Directory Paths</h2>
-<p>
-	A path in Windows is the text description of the location of a directory in a tree of directories.  
-  It is typically composed of a hard drive letter followed by colon and back slash followed by one or 
-  more names separated from each other by back slashes.  WixApp may construct the Product.wxs using a 
-  fully qualified path or to use the location of the 
-  Visual Studio solution file as the starting point for a path (i.e. $SolutionDir)..\Release\xxx.exe).</p>
-<p>  
-  When New is selected in the File Menu a dialog box describes 
-  this step and next takes one to an open file dialog box to select the xxx.sln file for the project.
-  If something happens (like a reorganization of the directories) the solution path may be adjusted by
-  the selecting the Solution Menu item.  The solution need only be input once usually so it does not appear 
-  in the Main Dialog Box.
-	The Solution Dialog Box allows the user to use either addresses relative to the Solution directory or absolute
-  addresses.
-</p>
+There is a lot of functionality buried in the MainFrame of the normal MFC application.  For example the tool bar
+depends heavily of the MainFrame.  This example has a tool bar but and status bar but the functionality is 
+a subset of that available in a normal MFC application.  The operations available are discussed on the 
+  <a href="Operations.htm">operations page</a>. </p>
 <!-- InstanceEndEditable -->
 </div><!-- end .content -->
 </div><!-- end .container -->

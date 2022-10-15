@@ -51,9 +51,9 @@ bool     isApp;
   void       writeWixData2(String& cmpSection);
   void       delWixData() {}
 
-  void       loadNew(WixDataDlg& dialog);
-  void       load(   WixDataDlg& dialog);
-  void       store(  WixDataDlg& dialog);
+  void       loadNew(WixAppDlg& dialog);
+  void       load(   WixAppDlg& dialog);
+  void       store(  WixAppDlg& dialog);
 
   String&    getProgFileID() {return progFileID;}
   DirDesc*   getProgFile();
@@ -61,21 +61,22 @@ bool     isApp;
   String&    getStartMenuID() {return startMenuID;}
   DirDesc*   getStartMenu();
 
-  void       browsePath(String& ftrID, WixDataDlg& dialog);
-  void       storeDescription(   WixDataDlg& dialog);
-  void       storeIsStartMenu(   WixDataDlg& dialog);
-  void       storeIsDeskTop(     WixDataDlg& dialog);
-  void       storeIsVersionAvail(WixDataDlg& dialog);
-  void       storeIsOnPath(      WixDataDlg& dialog);
-  void       storeStartup(       WixDataDlg& dialog);
-  void       storeIsWin7(        WixDataDlg& dialog);
-  void       storeIsWinXP(       WixDataDlg& dialog);
-  void       storeIsWin2K(       WixDataDlg& dialog);
+  void       browsePath(String& ftrID, WixAppDlg& dialog);
+  void       storeDescription(   WixAppDlg& dialog);
+  void       storeIsStartMenu(   WixAppDlg& dialog);
+  void       storeIsDeskTop(     WixAppDlg& dialog);
+  void       storeIsVersionAvail(WixAppDlg& dialog);
+  void       storeIsOnPath(      WixAppDlg& dialog);
+  void       storeStartup(       WixAppDlg& dialog);
+  void       storeIsWin7(        WixAppDlg& dialog);
+  void       storeIsWinXP(       WixAppDlg& dialog);
+  void       storeIsWin2K(       WixAppDlg& dialog);
   void       delData();
 
 
-  void       browseIcon(WixDataDlg& dialog);
-  void       updateIcon(WixDataDlg& dialog);
+  void       browseIcon(WixAppDlg& dialog);
+  void       updateIcon(WixAppDlg& dialog);
+  void       updateIconCB(ComboBox& cb);
 
   void       setIcon(String& id) {iconID = id;}
   void       identifyIconUsed()  {icons.markIcon(iconID);}
@@ -83,7 +84,7 @@ bool     isApp;
   void       markDirs(Feature& ftr);
   void       markDirectories(String& id, DirStor& stor);
 
-  void       prepareUninstalls(String& newID, String& wixid, String& progFileId);
+  void       prepareUninstalls(String& newID, TCchar* wixid, String& progFileId);      //String&
 
   void       outputSetPath(int tab, bool& crlfOut);
 

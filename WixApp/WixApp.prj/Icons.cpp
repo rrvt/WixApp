@@ -161,12 +161,12 @@ bool      rslt = true;
 
 
 
-void Icons::output(int tab) {
+void Icons::output() {
 ListIter  iter(iconList);
 IconDesc* dsc;
 
   for (dsc = iter(); dsc; dsc = iter++) {
-    dsc->outputOne(tab);
+    dsc->outputOne();
     }
   }
 
@@ -182,11 +182,11 @@ struct _stat buffer;
   }
 
 
-void IconDesc::outputOne(int tab) {
+void IconDesc::outputOne() {
 String line;
 String relPath = pathDsc.relative();
 
-  line  = _T("<Icon     Id=\"") + wixID + _T("\" SourceFile=\"") + relPath + _T("\"/>\n");
-  wix.stg(tab, line);
+  line  = _T("<Icon     Id=\"") + wixID + _T("\" SourceFile=\"") + relPath + _T("\"/>");
+  wix(line);   wix.crlf();
   }
 

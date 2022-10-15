@@ -8,18 +8,18 @@
 
 
 
-typedef unsigned short   ushort;
-typedef unsigned long    ulong;
-typedef unsigned int     uint;
-//typedef unsigned char    uchar;
-typedef unsigned char    Byte;
-typedef const    char    Cchar;
-typedef          TCHAR   Tchar;
-typedef const    TCHAR   TCchar;
-typedef const   _TUCHAR  TUCchar;
+typedef unsigned short      ushort;
+typedef unsigned long       ulong;
+typedef unsigned int        uint;
+typedef unsigned char       Byte;
+typedef const    char       Cchar;
+typedef          TCHAR      Tchar;
+typedef const    TCHAR      TCchar;
+typedef const   _TUCHAR     TUCchar;
 
-typedef          __int64 int64;
-typedef unsigned __int64 Uint64;
+typedef          __int64    int64;
+typedef unsigned __int64    Uint64;
+typedef          __time64_t Time64;
 
 #define loop for (;;)
 

@@ -4,7 +4,7 @@
 #pragma once
 #include "Features.h"
 #include "WixOut.h"
-#include "Prolog.h"
+//#include "Prolog.h"
 #include "WixUtilities.h"
 
 
@@ -30,21 +30,24 @@ PathDesc licenseDsc;
   void writeWixData();
   void updateVersion(String& path);
 
-  void loadCB(WixDataDlg& dialog);
-  void loadVerEB(WixDataDlg& dialog);
+  void loadCB(WixAppDlg& dialog);
+  void loadVerEB(WixAppDlg& dialog);
 
-  void storeProduct(  WixDataDlg& dialog);
-  void storeCompany(  WixDataDlg& dialog) {company      = getText(dialog.companyEB);}
-  void storeWixName(  WixDataDlg& dialog) {wixName      = getText(dialog.wixNameEB);}
-  void storeWixVer(   WixDataDlg& dialog) {wixVersion   = getText(dialog.wixVersionEB);}
+  void storeProduct(  WixAppDlg& dialog);
+  void storeCompany(  WixAppDlg& dialog) {company      = getText(dialog.companyEB);}
+  void storeWixName(  WixAppDlg& dialog) {wixName      = getText(dialog.wixNameEB);}
+  void storeWixVer(   WixAppDlg& dialog) {wixVersion   = getText(dialog.wixVersionEB);}
 
-  void browseIcon(WixDataDlg& dialog);
+  void browseIcon(WixAppDlg& dialog);
+  void updateIconCB(ComboBox& cb);
+//  void updateCB(ComboBox& cb);
+  void updateIcon(WixAppDlg& dialog);
 
   void setInstallerIconPath(String& path) {installerIconPath = path;}
 
   void mark();
 
-  void output(Component* app, Prolog& prolog, Features& features);
+  void output(Component* app, Features& features);        //Prolog& prolog,
 
 private:
 

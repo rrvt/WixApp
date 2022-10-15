@@ -59,7 +59,7 @@ void Feature::readOne(TCchar* key, String& v) {
   }
 
 
-void Feature::storeProgFileName(WixDataDlg& dialog) {
+void Feature::storeProgFileName(WixAppDlg& dialog) {
 String   s   = getText(dialog.progFileEB);
 DirDesc* dsc = pffDirectories.add(s);
 
@@ -69,7 +69,7 @@ DirDesc* dsc = pffDirectories.add(s);
   }
 
 
-void Feature::storeMenuName(WixDataDlg& dialog) {
+void Feature::storeMenuName(WixAppDlg& dialog) {
 String   s   = getText(dialog.startMenuEB);
 DirDesc* dsc = pmfDirectories.add(s);
 
@@ -166,10 +166,10 @@ Component* cmp;
   }
 
 
-void Feature::loadNew(WixDataDlg& dialog) {load(dialog);  dialog.featureCB.setFocus();}
+void Feature::loadNew(WixAppDlg& dialog) {load(dialog);  dialog.featureCB.setFocus();}
 
 
-void Feature::load(WixDataDlg& dialog) {
+void Feature::load(WixAppDlg& dialog) {
 
   dialog.progFileEB.SetWindowText(pffDirectories.fullPath(progFileID));
   dialog.startMenuEB.SetWindowText(pmfDirectories.fullPath(startMenuID));
@@ -178,7 +178,7 @@ void Feature::load(WixDataDlg& dialog) {
   }
 
 
-void Feature::loadComponent(WixDataDlg& dialog) {
+void Feature::loadComponent(WixAppDlg& dialog) {
 Component* curCmp = components.curData();
 
 //  defaultPath.setKey(wixID);
@@ -190,7 +190,7 @@ Component* curCmp = components.curData();
   }
 
 
-void Feature::storeComponent(WixDataDlg& dialog) {
+void Feature::storeComponent(WixAppDlg& dialog) {
 Component* curCmp = components.curData();
 
   components.storeCB(dialog.componentCB);
@@ -203,7 +203,7 @@ DirDesc* Feature::getProgFile()  {return pffDirectories.find(progFileID);}
 DirDesc* Feature::getStartMenu() {return pmfDirectories.find(startMenuID);}
 
 
-void Feature::store(WixDataDlg& dialog) {
+void Feature::store(WixAppDlg& dialog) {
 
   wixID = getWixID(id, FeatureExt);
 
@@ -222,7 +222,7 @@ String section;
   }
 
 
-void Feature::storeComponentData(WixDataDlg& dialog) {
+void Feature::storeComponentData(WixAppDlg& dialog) {
 Component* cmp = components.curData();
 String     id;
 
@@ -243,22 +243,22 @@ String     id;
   }
 
 
-void Feature::changeComponent(WixDataDlg& dialog) {
+void Feature::changeComponent(WixAppDlg& dialog) {
 String     s;
 Component* cmp;
 
-  dialog.componentCB.getCurSel(s);   cmp = components.find(s);   if (cmp) cmp->load(dialog);
+  dialog.componentCB.getCurSel(s);   cmp = components.findItem(s);   if (cmp) cmp->load(dialog);
   }
 
 
-void Feature::newComponent(WixDataDlg& dialog) {newItem()->loadNew(dialog);}
+void Feature::newComponent(WixAppDlg& dialog) {newItem()->loadNew(dialog);}
 
 
 Component* Feature::newItem()           {return components.addNil(NilCmp);}
 Component* Feature::newItem(TCchar* id) {return components.add(id);}
 
 
-void Feature::delAllComponents(WixDataDlg& dialog) {
+void Feature::delAllComponents(WixAppDlg& dialog) {
 ComponentsIter iter(components);
 Component*     cmp;
 
@@ -267,7 +267,7 @@ Component*     cmp;
 
 
 
-void Feature::delComponent(WixDataDlg& dialog) {components.delItem(dialog.componentCB);}
+void Feature::delComponent(WixAppDlg& dialog) {components.delItem(dialog.componentCB);}
 
 
 Component* Feature::findAnApp() {
@@ -324,8 +324,9 @@ void Feature::outputRefs(int tab) {
 ComponentsIter iter(components);
 Component*     cmp;
 
-  for (cmp = iter(); cmp; cmp = iter++)
-                                      {wix.out(tab, _T("<ComponentRef Id=\""), cmp->wixID, _T("\"/>"));}
+  wix(tab);
+
+  for (cmp = iter(); cmp; cmp = iter++) wix(_T("<ComponentRef Id=\""), cmp->wixID, _T("\"/>"));
   }
 
 
@@ -335,12 +336,14 @@ String line;
 
   wix.crlf();
 
-  wix.lit(0, _T("<Fragment>\n"));
+  wix(0);   wix(_T("<Fragment>"));   wix.crlf();
 
   for (i = 0; i < nComponents(); i++) {
     components.data[i].output(1);
     }
 
-  wix.crlf();  wix.lit(0, _T("</Fragment>\n"));
+  wix.crlf();
+
+  wix(0);   wix(_T("</Fragment>"));   wix.crlf();
   }
 

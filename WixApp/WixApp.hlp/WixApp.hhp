@@ -1,32 +1,24 @@
 [OPTIONS]
+Auto TOC=1
+Binary Index=No
 Compatibility=1.1 or later
 Compiled file=WixApp.chm
 Contents file=WixApp.hhc
+Default Font=Arial,12,0
 Default Window=Introduction
 Default topic=Introduction.htm
 Display compile progress=No
-Full-text search=Yes
+Error log file=WixApp.log
 Language=0x409 English (United States)
+Title=Test App Help
 
 [WINDOWS]
-Introduction="Introduction","WixApp.hhc",,"Introduction.htm","Introduction.htm","Introduction.htm","Back","MainDialogBox.htm","Next",0x2021,,0xc304c,,,0x18,,,,,0
-MainDialog="Main Dialog","WixApp.hhc",,"MainDialogBox.htm","Introduction.htm","Introduction.htm","Back","MainDialogBox.htm","Next",0x60521,,0xc304c,[271,372,593,566],,0x8,,1,,,0
+Introduction="Introduction","WixApp.hhc",,"Introduction.htm",,,,,,0x42120,,0x3006,,,,,,,,0
 
 
 [FILES]
 Introduction.htm
-MainDialogBox.htm
-
-[ALIAS]
-HID_ABOUT=MainDialogBox.htm ; Test About
-HIDC_CompanyName=MainDialogBox.htm ; Company Name
-HIDC_WixName=MainDialogBox.htm
-HIDD_DIALOG1=Introduction.htm
-HIDD_DIALOG3=MainDialogBox.htm
-
-[MAP]
-#include HTMLDefines.h
-#include WixApp.css
+Operations.htm
 
 [INFOTYPES]
 

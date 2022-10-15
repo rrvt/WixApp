@@ -28,36 +28,34 @@ public:
   void       readWixData2();
 
   void       writeWixData();
-  void       writeWixData1();
-  void       writeWixData2();
 
-  void loadCB(WixDataDlg& dialog) {
+  void loadCB(WixAppDlg& dialog) {
     Feature* curFtr = store.curData();
     store.loadCB(dialog.featureCB);   if (curFtr) curFtr->load(dialog);
     }
 
-  void       storeCB(WixDataDlg& dialog);
+  void       storeCB(WixAppDlg& dialog);
 
   Component* getCurComponent() {Feature* ftr = getCurFeature();   return ftr->getCur();}
 
 
-  void browseCurComponent(WixDataDlg& dlg)
+  void browseCurComponent(WixAppDlg& dlg)
                           {Feature* ftr = getCurFeature();   ftr->getCur()->browsePath(ftr->wixID, dlg);}
 
   int        nFeatures() {return store.data.end();}
 
   Feature*   getCurFeature() {if (!nFeatures()) oneFeatureAvail(); return store.curData();}
-  Feature*   find(String& id) {return store.find(id);}
+  Feature*   find(String& id) {return store.findItem(id);}
 
   Feature*   newItem();
   Feature*   newItem(TCchar* id);
 
-  void       setDefaults(WixDataDlg& dialog);
+  void       setDefaults(WixAppDlg& dialog);
 
-  void       storeFeatureData(WixDataDlg& dialog);
-  void       changeFeature(WixDataDlg& dialog);
-  void       newFeature(   WixDataDlg& dialog);
-  void       delFeature(   WixDataDlg& dialog);
+  void       storeFeatureData(WixAppDlg& dialog);
+  void       changeFeature(WixAppDlg& dialog);
+  void       newFeature(   WixAppDlg& dialog);
+  void       delFeature(   WixAppDlg& dialog);
 
   Component* findAnApp();
 

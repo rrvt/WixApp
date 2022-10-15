@@ -5,7 +5,7 @@
 #include "EntityStore.h"
 #include "PathDesc.h"
 #include "WixOut.h"
-#include "WixDataDlg.h"
+#include "WixAppDlg.h"
 
 
 
@@ -33,7 +33,7 @@ bool     inUse;
   IconDesc& operator= (IconDesc& d) {copyObj(d); return *this;}
 
   bool validate(bool rptErrors = true);
-  void outputOne(int tab);
+  void outputOne();
 
 private:
 
@@ -70,10 +70,10 @@ public:
   void      markIcon(String& id) {IconDesc* ic = find(id);    if (ic) ic->inUse = true;}
   void      markDfltDir();
 
-  IconDesc* find(String& s) {return iconList.find(s);}
+  IconDesc* find(String& s) {return iconList.findItem(s);}
 
   bool      validate(bool rptErrors = true);
-  void      output(int tab);
+  void      output();
 
 private:
 

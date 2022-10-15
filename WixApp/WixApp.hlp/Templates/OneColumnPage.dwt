@@ -7,7 +7,7 @@
 <!-- TemplateEndEditable -->
 <!-- TemplateBeginEditable name="head" -->
 <!-- TemplateEndEditable -->
-<link href="../WixApp.css" rel="stylesheet" type="text/css">
+<link href="../App.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>

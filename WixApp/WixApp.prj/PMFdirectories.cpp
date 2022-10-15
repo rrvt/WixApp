@@ -34,18 +34,24 @@ void PMFdirectories::output() {
 String   line;
 
   if (startMenuSeen && stor.getDefault()) {
-    wix.lit(2, _T("<Directory Id=\"ProgramMenuFolder\">\n"));      // Name=\"StartMenu\"
+    wix(2);   wix(_T("<Directory Id=\"ProgramMenuFolder\">"));   wix.crlf();      // Name=\"StartMenu\"
 
     stor.outputSubs(String(_T("")), 3);
 
-    wix.lit(2, _T("</Directory>\n\n"));
+    wix(2);   wix(_T("</Directory>"));      wix.crlf(2);
     }
 
-  if (desktopDirSeen) wix.lit(2, _T("<Directory Id=\"DesktopFolder\" />\n"));
-  if (startupDirSeen) wix.lit(2, _T("<Directory Id=\"StartupFolder\" />\n"));
+  wix(2);
+  if (desktopDirSeen) wix(_T("<Directory Id=\"DesktopFolder\" />"));   wix.crlf();
+  if (startupDirSeen) wix(_T("<Directory Id=\"StartupFolder\" />"));   wix.crlf();
 
-  wix.lit(1, _T("</Directory>\n\n"));
+  wix(1);   wix(_T("</Directory>"));   wix.crlf(2);
   }
+
+
+
+
+
 
 #if 0
 //  d = pff.getDefault();

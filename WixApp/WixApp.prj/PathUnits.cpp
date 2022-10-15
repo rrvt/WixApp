@@ -18,7 +18,7 @@ int    end;
 
   units.clear();
 
-  while ((end = t.find(_T('\\'))) > 0) {units += t.substr(0, end);   t = t.substr(end+1);}
+  while ((end = t.find(_T('\\'))) > 0) {String s = t.substr(0, end);   units += s;   t = t.substr(end+1);}
   }
 
 

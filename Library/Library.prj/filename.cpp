@@ -66,7 +66,7 @@ int    dotPos;
 
   dotPos = fn.findLastOf('.');
 
-  if (dotPos > 0) {fn.resize(dotPos);}  return fn;
+  if (dotPos >= 0) {fn.resize(dotPos);}  return fn;
   }
 
 

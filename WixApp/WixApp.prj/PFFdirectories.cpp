@@ -35,28 +35,27 @@ String   line;
 
   wix.crlf();
 
-  wix.lit(0, _T("<!--Directory structure-->\n"));
-  wix.lit(0, _T("<Fragment>\n"));
+  wix(0);   wix(_T("<!--Directory structure-->"));   wix.crlf();
+            wix(_T("<Fragment>"));   wix.crlf();
 
-  wix.lit(1, _T("<Directory Id=\"TARGETDIR\" Name=\"SourceDir\">\n"));
-  wix.lit(2, _T("<Directory Id=\"ProgramFilesFolder\">\n"));
+  wix(1);   wix(_T("<Directory Id=\"TARGETDIR\" Name=\"SourceDir\">"));   wix.crlf();
+  wix(2);   wix(_T("<Directory Id=\"ProgramFilesFolder\">"));   wix.crlf();
 
-  stor.outputSubs(String(_T("")), 3);
+  stor.outputSubs(_T(""), 3);
 
-  wix.lit(2, _T("</Directory>\n\n"));
+  wix(2);   wix(_T("</Directory>"));   wix.crlf(2);
   }
 
 
 void PFFdirectories::finOutput() {
 DirDesc* d;
 
-  d = stor.getDefault();
-  if (d) wix.out(1, _T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
+  d = stor.getDefault();   wix(1);
+  if (d) wix(_T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
 
-  wix.out(1, _T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir.wixID, _T("\"/>"));
-  wix.out(1, _T("<Property Id=\"WixAppFolder\"          Value=\""),
-                                                        String(_T("WixPerMachineFolder")), _T("\" />"));
-  wix.lit(0, _T("</Fragment>\n"));
+  wix(_T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir.wixID, _T("\"/>"));
+  wix(_T("<Property Id=\"WixAppFolder\"          Value=\""), _T("WixPerMachineFolder"), _T("\" />"));
+  wix(0);   wix(_T("</Fragment>"));   wix.crlf();
   }
 
 #if 0

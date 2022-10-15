@@ -2,13 +2,18 @@
 
 
 #pragma once
-#include "WixDataDlg.h"
+#include "WixAppDlg.h"
 #include "PathUnits.h"
 
 
+extern TCchar* IniSection;
+extern TCchar* RootPathKey;
+
+
 class Solution {
+String    rootPath;
 PathUnits pathUnits;
-String    version;
+double    ver;
 
 public:
 PUIter    iter;
@@ -17,22 +22,30 @@ String    name;
   Solution() : iter(pathUnits) { }
  ~Solution() { }
 
-  String&  getVersion() {return version;}
+  double   getVer()     {return ver;}
 
   operator String() {return (String) pathUnits;}
 
-  void     newFile();
+  bool     newProject();
   void     clear() {name.clear(); pathUnits.clear();}
   bool     isEmpty() {return pathUnits.isEmpty();}
 
   void     readWixData();
   void     writeWixData();
 
+  bool     getRootPath(String& path);
+  bool     getSolutionPath(String& path);
+
+  String&  getRootPath() {return rootPath;}
+
   int      noUnits()    {return pathUnits.nData();}
 
   String*  operator[](int i) {return pathUnits[i];}
 
 private:
+
+  bool     readRootPath(String& path);
+  void     saveRootPath(TCchar* path);
 
   void     getSolutionPath(TCchar* fullPath = 0);
   };

@@ -14,6 +14,16 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 10/14/22
+
+Removed Dialog style OK/Cancel Buttons from the main window (which is a dialog).  Replaced them with a
+window style toolbar buttons...
+
+### Update 10/13/22
+
+Tracked down and fixed bugs.  Added some features along the way.  Replaced the underlying Dialog App
+features that provides a toolbar with text button.
+
 ### Update 9/28/22
 
 A little name change in the WXD file.

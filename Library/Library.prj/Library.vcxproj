@@ -34,6 +34,7 @@
     <ClCompile Include="DsplyMgr.cpp" />
     <ClCompile Include="EditBox.cpp" />
     <ClCompile Include="EditBoxes.cpp" />
+    <ClCompile Include="Executable.cpp" />
     <ClCompile Include="FileIO.cpp" />
     <ClCompile Include="FileName.cpp" />
     <ClCompile Include="FilePaths.cpp" />
@@ -59,6 +60,7 @@
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="ShowMgr.cpp" />
     <ClCompile Include="SrchFile.cpp" />
+    <ClCompile Include="Static.cpp" />
     <ClCompile Include="StatusBar.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Strings.cpp" />
@@ -107,6 +109,7 @@
     <ClInclude Include="DsplyMgr.h" />
     <ClInclude Include="EditBox.h" />
     <ClInclude Include="EditBoxes.h" />
+    <ClInclude Include="Executable.h" />
     <ClInclude Include="Expandable.h" />
     <ClInclude Include="ExpandableP.h" />
     <ClInclude Include="FileIO.h" />
@@ -140,6 +143,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="ShowMgr.h" />
     <ClInclude Include="SrchFile.h" />
+    <ClInclude Include="Static.h" />
     <ClInclude Include="StatusBar.h" />
     <ClInclude Include="std.h" />
     <ClInclude Include="stdafx.h" />

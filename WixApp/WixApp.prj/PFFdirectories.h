@@ -26,7 +26,7 @@ DirDesc appDir;
  void     readWixData()  {stor.readWixData();}
  void     writeWixData() {stor.writeWixData();}
 
-  DirDesc* find(String& id) {return stor.find(id);}
+  DirDesc* find(String& id) {return stor.findItem(id);}
 
   DirDesc* add(String& fullPath) {return stor.add(fullPath);}
   DirDesc* getDefault()          {return stor.getDefault();}

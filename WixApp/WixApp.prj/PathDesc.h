@@ -41,12 +41,13 @@ public:
 
   PathDesc& operator= (PathDesc& p) {relSol = p.relSol; return *this;}
   PathDesc& operator= (String& fullPath) {relativeSolution(fullPath); return *this;}
+  PathDesc& operator= (TCchar* fullPath) {String s = fullPath; relativeSolution(s); return *this;}
 
   bool      isEmpty()  {return relSol.isEmpty();}
   operator  TCchar*()  {return relSol;}
   String&   browse(BrowseDsc& dsc);
   String    path();
-  String    relative() {return relSol.isEmpty() ? _T("") : _T("$(var.SolutionDir)") + relSol;}
+  String    relative() {return relSol.isEmpty() ? String(_T("")) : _T("$(var.SolutionDir)") + relSol;}
 
 private:
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-<Product Id="*" UpgradeCode="8D8880AE-E847-4148-B89A-0A9DC3339F65" Language="1033"
-         Manufacturer="Bob -- K6RWY" Name="BkGd"
-         Version="!(bind.fileVersion.BkGd.cmp)"
-         >
+<Product Id="*" UpgradeCode="3C3F8C11-62C2-46DF-9506-FB759907D7B0" Language="1033"
+                  Manufacturer="Bob -- K6RWY" Name="PreOutpost"
+                  Version="!(bind.fileVersion.PreOutpost.cmp)"
+                  >
 
   <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
-           Manufacturer="Bob -- K6RWY" Description="Installs BkGd"
-           Comments="Copyright (c) Bob -- K6RWY"
-           />
+                      Manufacturer="Bob -- K6RWY" Description="Installs PreOutpost"
+                      Comments="Copyright (c) Bob -- K6RWY"
+                      />
 
   <MajorUpgrade Schedule="afterInstallInitialize"
-                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
-                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+                                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
+                                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 
   <MediaTemplate EmbedCab="yes" />
 
@@ -30,27 +30,53 @@
   <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixApp\Debug\dialog.bmp"/>
   <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixApp\Debug\banner.bmp"/>
 
-  <Icon     Id="BkGdIcon.ico" SourceFile="$(var.SolutionDir)..\BkGd.prj\res\BkGd.ico"/>
-  <Icon     Id="BkGdExIcon.ico" SourceFile="$(var.SolutionDir)..\BkGdEx.prj\BkGdEx.ico"/>
-  <Property Id="ARPPRODUCTICON"  Value="BkGdIcon.ico" />
+  <Icon     Id="UIPreOutpost01Icon.ico"
+                            SourceFile="$(var.SolutionDir)..\PreOutpost.prj\res\UIPreOutpost01.ico"/>
+  <Icon     Id="PreOutpost01Icon.ico"
+                              SourceFile="$(var.SolutionDir)..\PreOutpost.prj\res\PreOutpost01.ico"/>
+  <Icon     Id="Routing01_Icon.exe"
+                                  SourceFile="$(var.SolutionDir)..\PreOutpost.prj\res\Routing01.ico"/>
+  <Property Id="ARPPRODUCTICON"  Value="UIPreOutpost01Icon.ico" />
+
+  <!-- Custom Action to set the system (Machine) Path Variable -->
+
+  <Binary Id="SetEnvExe" SourceFile="C:\Program Files (x86)\SetEnv\SetEnv.exe" />
+
+  <CustomAction Id="PreOutpost.pth" BinaryKey="SetEnvExe" Impersonate="no"
+                      Execute="deferred" ExeCommand='-a Path " [PreOutpost.pff] "'   Return="check"/>
+  <CustomAction Id="PreOutpost.rmp" BinaryKey="SetEnvExe" Impersonate="no"
+                      Execute="deferred" ExeCommand='-d Path " [PreOutpost.pff] "'   Return="check"/>
+
+  <InstallExecuteSequence>
+    <Custom Action="PreOutpost.pth" Before="InstallFinalize">
+      (UPGRADINGPRODUCTCODE) OR NOT (REMOVE="ALL")
+    </Custom>
+    <Custom Action="PreOutpost.rmp" Before="PreOutpost.pth">
+      (NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")
+    </Custom>
+  </InstallExecuteSequence>
 
   <Feature Id="ProductFeatures" Title="Main Product" Level="1" >
-    <ComponentGroupRef Id="BkGd.ftr"/>
-    <ComponentGroupRef Id="BkGdEx.ftr"/>
-    <ComponentGroupRef Id="UninstallBkGd.ftr"/>
+    <ComponentGroupRef Id="PreOutpost.ftr"/>
+    <ComponentGroupRef Id="PDF.ftr"/>
+    <ComponentGroupRef Id="Uninstall_PreOutpost.ftr"/>
   </Feature>
 </Product>
 
 <Fragment>
-<ComponentGroup Id="BkGd.ftr">
-  <ComponentRef Id="BkGd.cmp"/>
+<ComponentGroup Id="PreOutpost.ftr">
+  <ComponentRef Id="PreOutpost.cmp"/>
   <ComponentRef Id="Help.cmp"/>
+  <ComponentRef Id="AddrBook.cmp"/>
 </ComponentGroup>
-<ComponentGroup Id="BkGdEx.ftr">
-  <ComponentRef Id="BkGdEx.cmp"/>
+<ComponentGroup Id="PDF.ftr">
+  <ComponentRef Id="Slip.cmp"/>
+  <ComponentRef Id="Info.cmp"/>
+  <ComponentRef Id="BBSAssnmts.cmp"/>
+  <ComponentRef Id="CheckInOut.cmp"/>
 </ComponentGroup>
-<ComponentGroup Id="UninstallBkGd.ftr">
-  <ComponentRef Id="UninstallBkGd.cmp"/>
+<ComponentGroup Id="Uninstall_PreOutpost.ftr">
+  <ComponentRef Id="Uninstall_PreOutpost.cmp"/>
 </ComponentGroup>
 </Fragment>
 
@@ -58,77 +84,140 @@
 <Fragment>
   <Directory Id="TARGETDIR" Name="SourceDir">
     <Directory Id="ProgramFilesFolder">
-      <Directory Id="BkGd.pff" Name="BkGd" />
+      <Directory Id="PreOutpost.pff" Name="PreOutpost" />
     </Directory>
 
-    <Directory Id="ProgramMenuFolder" Name="StartMenu">
-      <Directory Id="BkGd.pmf" Name="BkGd" />
+    <Directory Id="ProgramMenuFolder">
+      <Directory Id="PreOutpost.pmf" Name="PreOutpost" />
     </Directory>
 
     <Directory Id="DesktopFolder" />
-    <Directory Id="StartupFolder" />
+
   </Directory>
 
-  <Property Id="ApplicationFolderName" Value="BkGd" />
-  <Property Id="WIXUI_INSTALLDIR"      Value="BkGd.pff"/>
+  <Property Id="ApplicationFolderName" Value="PreOutpost" />
+  <Property Id="WIXUI_INSTALLDIR"      Value="PreOutpost.pff"/>
   <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
 </Fragment>
 
 <Fragment>
 
-  <Component Id="BkGd.cmp"  Guid="D562BBAC-0860-4B03-AF04-ECF4D7EEEE91" Directory="BkGd.pff">
-    <File Id="BkGd.cmp" Source="$(var.SolutionDir)..\Release\BkGd.exe" KeyPath="yes"/>
+  <Component Id="PreOutpost.cmp"  Guid="69B8338E-34C5-4839-88A3-C8ECB37CC855"
+                                                                          Directory="PreOutpost.pff">
+    <File Id="PreOutpost.cmp" Source="$(var.SolutionDir)..\Release\PreOutpost.exe" KeyPath="yes"/>
 
-    <Shortcut Id               = "BkGd.shc"
-              Name             = "BkGd"
+    <Shortcut Id               = "PreOutpost.shc"
+              Name             = "PreOutpost"
+              Description      = "Provides profiles, subject lines and address book"
               Advertise        = "yes"
-              Directory        = "BkGd.pmf"
-              WorkingDirectory = "BkGd.pff"
-              Icon             = "BkGdIcon.ico"
+              Directory        = "PreOutpost.pmf"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "PreOutpost01Icon.ico"
               />
 
-    <Shortcut Id               = "BkGd.dsk"
-              Name             = "BkGd"
+    <Shortcut Id               = "PreOutpost.dsk"
+              Name             = "PreOutpost"
+              Description      = "Provides profiles, subject lines and address book"
               Advertise        = "yes"
               Directory        = "DesktopFolder"
-              WorkingDirectory = "BkGd.pff"
-              Icon             = "BkGdIcon.ico"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "PreOutpost01Icon.ico"
               />
   </Component>
 
-  <Component Id="Help.cmp"  Guid="2D9CE8E3-8D85-4616-A83E-21A84CEDDBE7" Directory="BkGd.pff">
-    <File Id="Help.cmp" Source="$(var.SolutionDir)..\Release\BkGd.chm" KeyPath="yes"/>
+  <Component Id="Help.cmp"  Guid="2F1BEFF9-2FBB-4FDF-B981-CC4955C94600" Directory="PreOutpost.pff">
+    <File Id="Help.cmp" Source="$(var.SolutionDir)..\Release\PreOutpost.chm" KeyPath="yes"/>
+  </Component>
+
+  <Component Id="AddrBook.cmp"  Guid="B8E4EE39-4052-41D6-BDE4-0A2D5E280455" Directory="PreOutpost.pff">
+    <File Id="AddrBook.cmp" Source="$(var.SolutionDir)..\Release\OpAddr.exe" KeyPath="yes"/>
   </Component>
 
 </Fragment>
 
 <Fragment>
 
-  <Component Id="BkGdEx.cmp"  Guid="06DEBD18-DE15-4FAC-8748-E250FE918E71" Directory="BkGd.pff">
-    <File Id="BkGdEx.cmp" Source="$(var.SolutionDir)..\Release\BkGdEx.exe" KeyPath="yes"/>
+  <Component Id="Slip.cmp"  Guid="0D94F8F8-A5F4-46A7-8E85-C3178BDB1F67" Directory="PreOutpost.pff">
+    <File Id="Slip.cmp" Source="$(var.SolutionDir)..\Docs\RoutingSlip.190527.pdf" KeyPath="yes"/>
 
-    <Shortcut Id               = "BkGdEx.shc"
-              Name             = "BkGdEx"
+    <Shortcut Id               = "Slip.shc"
+              Name             = "Slip"
               Advertise        = "yes"
-              Directory        = "BkGd.pmf"
-              WorkingDirectory = "BkGd.pff"
-              Icon             = "BkGdExIcon.ico"
+              Directory        = "PreOutpost.pmf"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
               />
 
-    <Shortcut Id               = "BkGdEx.dsk"
-              Name             = "BkGdEx"
+    <Shortcut Id               = "Slip.dsk"
+              Name             = "Slip"
               Advertise        = "yes"
               Directory        = "DesktopFolder"
-              WorkingDirectory = "BkGd.pff"
-              Icon             = "BkGdExIcon.ico"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
+              />
+  </Component>
+
+  <Component Id="Info.cmp"  Guid="99AEC4ED-3520-4452-9E7A-A0F64E2AAD86" Directory="PreOutpost.pff">
+    <File Id="Info.cmp" Source="$(var.SolutionDir)..\Docs\RoutingInfo.220618.pdf" KeyPath="yes"/>
+
+    <Shortcut Id               = "Info.shc"
+              Name             = "Info"
+              Advertise        = "yes"
+              Directory        = "PreOutpost.pmf"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
               />
 
-    <Shortcut Id               = "BkGdEx.stu"
-              Name             = "BkGdEx"
+    <Shortcut Id               = "Info.dsk"
+              Name             = "Info"
               Advertise        = "yes"
-              Directory        = "StartupFolder"
-              WorkingDirectory = "BkGd.pff"
-              Icon             = "BkGdExIcon.ico"
+              Directory        = "DesktopFolder"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
+              />
+  </Component>
+
+  <Component Id="BBSAssnmts.cmp"  Guid="3C1D909B-AB95-4A6D-8156-BEE9F9286F47"
+                                                                          Directory="PreOutpost.pff">
+    <File Id="BBSAssnmts.cmp"
+                        Source="$(var.SolutionDir)..\Docs\BBS_Assignments.221215.pdf" KeyPath="yes"/>
+
+    <Shortcut Id               = "BBSAssnmts.shc"
+              Name             = "BBSAssnmts"
+              Advertise        = "yes"
+              Directory        = "PreOutpost.pmf"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
+              />
+
+    <Shortcut Id               = "BBSAssnmts.dsk"
+              Name             = "BBSAssnmts"
+              Advertise        = "yes"
+              Directory        = "DesktopFolder"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
+              />
+  </Component>
+
+  <Component Id="CheckInOut.cmp"  Guid="DC485E98-93E8-4DC7-A68F-1DBE3D401A9D"
+                                                                          Directory="PreOutpost.pff">
+    <File Id="CheckInOut.cmp"
+                        Source="$(var.SolutionDir)..\Docs\CheckInOutFormat.220323.pdf" KeyPath="yes"/>
+
+    <Shortcut Id               = "CheckInOut.shc"
+              Name             = "CheckInOut"
+              Advertise        = "yes"
+              Directory        = "PreOutpost.pmf"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
+              />
+
+    <Shortcut Id               = "CheckInOut.dsk"
+              Name             = "CheckInOut"
+              Advertise        = "yes"
+              Directory        = "DesktopFolder"
+              WorkingDirectory = "PreOutpost.pff"
+              Icon             = "Routing01_Icon.exe"
               />
   </Component>
 
@@ -136,17 +225,18 @@
 
 <Fragment>
 
-  <Component Id="UninstallBkGd.cmp"  Guid="19C139C9-E12D-460F-BFFE-E184FACD7ED2" Directory="BkGd.pmf">
+  <Component Id="Uninstall_PreOutpost.cmp" 
+                              Guid="254D4EA5-4B07-4DCD-BC86-4C9B7293E5BE" Directory="PreOutpost.pmf">
 
-    <Shortcut Id               = "UninstallBkGd.shc"
-              Name             = "Uninstall BkGd"
-              Description      = "Uninstalls BkGd"
+    <Shortcut Id               = "UninstallPreOutpost.shc"
+              Name             = "Uninstall PreOutpost"
+              Description      = "Uninstalls PreOutpost"
               Target           = "[System64Folder]msiexec.exe"
               Arguments        = "/x [ProductCode]"
-              Icon             = "BkGdIcon.ico"
+              Icon             = "UIPreOutpost01Icon.ico"
               />
-    <RemoveFolder Id="BkGd.uni" Directory="BkGd.pmf" On="uninstall"/>
-    <RegistryValue Root="HKCU" Key="Software\UninstallBkGd.cmp" Name="installed"
+    <RemoveFolder Id="PreOutpost.uni" Directory="PreOutpost.pmf" On="uninstall"/>
+    <RegistryValue Root="HKCU" Key="Software\Uninstall_PreOutpost.cmp" Name="installed"
                    Type="integer" Value="1" KeyPath="yes"/>
   </Component>
 

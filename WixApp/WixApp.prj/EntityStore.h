@@ -7,9 +7,7 @@
 #include "MessageBox.h"
 
 
-template <class Data, const int n>
-
-class EntityStore {
+template <class Data, const int n> class EntityStore {
 public:
 
 String               curID;
@@ -23,7 +21,7 @@ Expandable <Data, n> data;
 
   void  clear() {data.clear(); curID.clear();}
 
-  Data* curData() {return curID.isEmpty() ? 0 : find(curID);}
+  Data* curData() {return curID.isEmpty() ? 0 : findItem(curID);}
 
   void  defaultCurID(TCchar* anID);
   Data* addNil( TCchar* name);
@@ -31,7 +29,8 @@ Expandable <Data, n> data;
   Data* add(    TCchar* id);
   void  delItem(TCchar* id);
 
-  Data* find(TCchar* id);
+  Data* findItem(TCchar* id);
+  Data* findItem(String& id) {TCchar* p = id; return findItem(p);}
 
   void  editUpdate(ComboBox& cb);
   void  loadCB(    ComboBox& cb);
@@ -76,11 +75,11 @@ private:
 template <class Data, const int n>
 void EntityStore<Data, n>::copyObj(EntityStore& es) {
 int i;
-int n = es.data.end();
+int end = es.data.end();
 
   data.clear();   curID = es.curID;
 
-  for (i = 0; i < n; i++) data[i] = es.data[i];
+  for (i = 0; i < end; i++) data[i] = es.data[i];
   }
 
 
@@ -98,7 +97,7 @@ String EntityStore<Data, n>::nilName(TCchar* name)
 
 template <class Data, const int n>
 Data* EntityStore<Data, n>::add(TCchar* id) {
-Data* p = find(id);   if (p) return p;
+Data* p = findItem(id);   if (p) return p;
 
   p = newItem(id);    return p;
   }
@@ -120,15 +119,15 @@ void EntityStore<Data, n>::delNil(TCchar* name) {delItem(nilName(name));}
 
 template <class Data, const int n>
 void EntityStore<Data, n>::delItem(TCchar* id) {
-int   n = data.end();
+int   end = data.end();
 int   i;
 
-  for (i = 0; i < n; i++) if (data[i].id == id) {data.del(i); return;}
+  for (i = 0; i < end; i++) if (data[i].id == id) {data.del(i); return;}
   }
 
 
 template <class Data, const int n>
-Data* EntityStore<Data, n>::find(TCchar* id) {
+Data* EntityStore<Data, n>::findItem(TCchar* id) {
 int i;
 
   if (!id || !*id) return 0;
@@ -142,10 +141,10 @@ int i;
 template <class Data, const int n>
 void EntityStore<Data, n>::defaultCurID(TCchar* anID) {
 int i;
-int n = data.end();
+int end = data.end();
 
   if (!curID.isEmpty() && curID[0] != _T('<') && anID && *anID) {
-    for (i = 0; i < n; i++) {
+    for (i = 0; i < end; i++) {
       Data&   d  = data[i];
       String& id = d.id;
 
@@ -153,7 +152,7 @@ int n = data.end();
       }
     }
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < end; i++) {
     Data&   d  = data[i];
     String& id = d.id;
 
@@ -172,7 +171,7 @@ String s = tc;  setCurData(s);   cb.setCurSel(curID.isEmpty() ? -1 : curID);
 
 
 template <class Data, const int n>
-void EntityStore<Data, n>::setCurData(String& id) {if (!find(id)) curID.clear();}
+void EntityStore<Data, n>::setCurData(String& id) {if (!findItem(id)) curID.clear();}
 
 
 // Leaving combo box, check for a new name in edit box
@@ -211,7 +210,7 @@ int i;
   for (i = 0; i < data.end(); i++)
                             {Data& d = data[i];    if (d.id == curID) {d.delData(); data.del(i); break;}}
 
-  curID = data.end() ? data[0].id : _T("");
+  curID = data.end() ? data[0].id : String(_T(""));
   }
 
 

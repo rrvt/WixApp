@@ -11,6 +11,8 @@ void messageBox(String s);
 
 void messageBox(TCchar* s);
 
+void messageBox(TCchar* prefix, TCchar* s);
+
 void messageBox(CString& s);
 
 void debug(TCchar* s);

@@ -1,6 +1,6 @@
 
 
-WixApp.chm : *.htm WixApp.hhp WixApp.hhc WixApp.css
+WixApp.chm : *.htm WixApp.hhp WixApp.hhc App.css
   -1 "C:\Program Files (x86)\HTML Help Workshop\hhc" WixApp
 
 

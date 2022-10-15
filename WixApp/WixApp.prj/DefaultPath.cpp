@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "DefaultPath.h"
 #include "filename.h"
+#include "Solution.h"
 #include "WixOut.h"
 
 
@@ -61,23 +62,12 @@ String      entity;
   }
 
 
-#if 0
-void DefaultPath::setKey(TCchar* key) {
-  curPath = find(key);
-
-  if (!curPath) {curPath = &paths.nextData(); curPath->key = key;}
-  }
-#endif
-
-
 String DefaultPath::getPath(TCchar* key) {
 String s;
 
-  if (!nData()) return _T("");
-
   curPath = find(key);
 
-  if (!curPath) curPath = &paths[0];
+  if (!curPath) return solution.getRootPath();  // curPath = &paths[0];
 
   return curPath->pathDsc.path();
   }
@@ -92,14 +82,6 @@ void DefaultPath::save(TCchar* key, String& path) {
   }
 
 
-void DefaultPath::del(TCchar* key) {
-DPIter      iter(*this);
-DefPathDsc* dsc;
-
-  for (dsc = iter(); dsc; dsc = iter++) if (dsc->key == key) {iter.remove(); return;}
-  }
-
-
 DefPathDsc* DefaultPath::find(TCchar* key) {
 DPIter      iter(*this);
 DefPathDsc* dsc;
@@ -107,6 +89,14 @@ DefPathDsc* dsc;
   for (dsc = iter(); dsc; dsc = iter++) if (dsc->key == key) return dsc;
 
   return 0;
+  }
+
+
+void DefaultPath::del(TCchar* key) {
+DPIter      iter(*this);
+DefPathDsc* dsc;
+
+  for (dsc = iter(); dsc; dsc = iter++) if (dsc->key == key) {iter.remove(); return;}
   }
 
 
@@ -122,4 +112,13 @@ DefPathDsc* dsc;
   dsc = &paths[nPaths()];   dsc->key = key;   dsc->path = path;  return dsc->path.str();
   }
 #endif
+#if 0
+void DefaultPath::setKey(TCchar* key) {
+  curPath = find(key);
+
+  if (!curPath) {curPath = &paths.nextData(); curPath->key = key;}
+  }
+#endif
+
+
 

@@ -132,6 +132,10 @@ static const int npos = -1;
   operator TCchar*() const {return str();}    // Left Hand side of TCchar*, Cstring, bstr & variant_t
   TCchar*      str() const {return c_str();}
 
+#ifdef _UNICODE
+  operator LPWSTR() const {return (LPWSTR) str();}
+#endif
+
 // Concatenation operators
 //  s += t;  where s is a String and t is a String, tstring, Cstring, bstr_t, variant_t,
 //  const Tchar* (TCchar*), TCchar, int, long, ulong, double.

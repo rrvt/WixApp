@@ -32,7 +32,7 @@ bool    startupDirSeen;
   void     setStartupSeen(bool seen)   {startupDirSeen |= seen;}
 
 //  void markDir(String& id) {stor.markDir(id);}
-  DirDesc* find(String& id) {return stor.find(id);}
+  DirDesc* find(String& id) {return stor.findItem(id);}
 
   DirDesc* add(String& fullPath) {return stor.add(fullPath);}
   DirDesc* getDefault() {         return stor.getDefault();}

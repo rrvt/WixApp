@@ -7,114 +7,36 @@
 #include "DefaultPath.h"
 #include "filename.h"
 #include "GetPathDlg.h"
-#include "Options.h"
+#include "WixOptsDlg.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"
 #include "Product.h"
-#include "Prolog.h"
 #include "Solution.h"
 #include "WixApp.h"
 #include "WixOut.h"
 #include "WixUtilities.h"
 
 
-static TCchar* IniSection     = _T("Current");
 static TCchar* IniPathKey     = _T("WixFullPath");
 static TCchar* WxdFilePathKey = _T("WxdFullPath");
+
+static TCchar* WxdDataFile    = _T("Wix Data File");
+static TCchar* WxdDefExt      = _T("wxd");
+static TCchar* WxdExtPat      = _T("*.wxd");
 
 
 WixData wixData;
 
 
-bool WixData::readWixData() {
-String path;
+bool WixData::newProject(WixAppDlg* dialog) {
 
-  getWxdPath(path);
+  if (!solution.newProject()) return false;
 
-  if (!getPathDlg(_T("Wix Data File"), path, _T("wxd"), _T("*.wxd"), path)) return false;
-
-  saveWxdPath(path);    wxd.setPath(path);
-
-        solution.readWixData();
-     defaultPath.readWixData();
-           icons.readWixData();
-
-         product.readWixData();
-
-  pffDirectories.readWixData();
-  pmfDirectories.readWixData();
-
-        features.readWixData();
-  return true;
+  delWxdPath();  isNewProject = true;   return true;
   }
 
 
-void WixData::writeWixData(TCchar* filePath) {
-String wixDataPath = filePath;
-
-  iniFile.writeString(IniSection, _T("WixName"),  product.wixName);
-
-  wxd.setPath(wixDataPath);     backupFile(wixDataPath, 10);
-
-  clearAllSections();
-
-        solution.writeWixData();
-     defaultPath.writeWixData();
-           icons.writeWixData();
-
-         product.writeWixData();
-
-  pffDirectories.writeWixData();
-  pmfDirectories.writeWixData();
-
-        features.writeWixData();
-  }
-
-
-
-
-void WixData::getWxdPath(String& path) {iniFile.readString(IniSection, WxdFilePathKey, path, _T(""));}
-
-
-void WixData::saveWxdPath(TCchar* path)
-                            {String pth = path;   iniFile.writeString(IniSection, WxdFilePathKey, pth);}
-
-
-void WixData::clearAllSections() {
-IniSectIter iter(wxd);
-TCchar*     section;
-
-  for (section = iter(); section; section = iter++) wxd.deleteSection(section);
-  }
-
-
-void WixData::newFile(WixDataDlg* dialog) {
-String path;
-
-  solution.newFile();
-
-  path = solution;   removeOneDir(path);
-
-  saveWxdPath(path);   newFileNow = true;
-  }
-
-
-void WixData::setDefaults(WixDataDlg* dialog) {
-String productName;
-
-  if (!loadingFileNow) {product.storeProduct(*dialog);   productName = product.productName;}
-
-  if (newFileNow && !productName.isEmpty()) {
-    product.wixName = productName;   dialog->wixNameEB.SetWindowText(productName);
-
-    features.setDefaults(*dialog);
-
-    newFileNow = false;
-    }
-  }
-
-
-void WixData::openFile(WixDataDlg* dialog) {
+void WixData::openProject(WixAppDlg* dialog) {
 
   loadingFileNow = true;
 
@@ -125,7 +47,6 @@ void WixData::openFile(WixDataDlg* dialog) {
 
   loadingFileNow = false;
   }
-
 
 
 bool WixData::validate(bool rptErrors) {
@@ -161,47 +82,131 @@ int         wixVerLng = product.wixVersion.length();
   }
 
 
-void WixData::output() {
-String      wxsPath;
-String      pathOnly;
-String      msg = _T("Output a new Wix Product File: ");
-Component*  app;
-String      currentGroup;
-String      defPath;
+void WixData::outputProduct() {
+String     wxsPath;
+String     pathOnly;
+String     msg = _T("Output a new Wix Product File: ");
+Component* app;
+String     currentGroup;
+String     defPath;
 
-  getWxdPath(defPath);   defPath = getPath(defPath);   defPath += _T("Product");
+  defPath = readWxdPath(defPath) ? getPath(defPath) : solution.getRootPath();
 
-  if (getSaveAsPathDlg(_T("Product"), defPath, _T("wxs"), _T("*.wxs"), wxsPath)) {
+  defPath += _T("Product");
 
-    app = features.findAnApp();   if (app) pffDirectories.appDir = app->getProgFile();
+  if (!getSaveAsPathDlg(_T("Product"), defPath, _T("wxs"), _T("*.wxs"), wxsPath)) return;
 
-    backupFile(wxsPath, 10);
+  app = features.findAnApp();   if (app) pffDirectories.appDir = app->getProgFile();
 
-    wix.open(wxsPath);
+  backupFile(wxsPath, 10);
 
-    currentGroup = features.getCurFeature()->id;
+  wix.open(wxsPath);
 
-    prepareUninstalls();
+  currentGroup = features.getCurFeature()->id;
 
-    features.find(currentGroup);
+  prepareUninstalls();
 
-    prolog.output();
+  features.find(currentGroup);
 
-    product.output(features.findAnApp(), prolog, features);
+  wix(0);   wix(_T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));                 wix.crlf();
+            wix(_T("<Wix xmlns=\"http://schemas.microsoft.com/wix/2006/wi\">"));   wix.crlf();
 
-    features.outputFeatureTables(0);
+  product.output(features.findAnApp(), features);
 
-    pffDirectories.begOutput();
-    pmfDirectories.output();
-    pffDirectories.finOutput();
+  features.outputFeatureTables(0);
 
-    features.outputComponents();
+  pffDirectories.begOutput();
+  pmfDirectories.output();
+  pffDirectories.finOutput();
 
-    wix.crlf(); wix.lit(0, _T("</Wix>\n"));
+  features.outputComponents();
 
-    wix.close();
+  wix.crlf();
 
-    copyHelperFile(getPath(wxsPath), _T("My_en-us.wxl"));
+  wix(0);   wix(_T("</Wix>"));   wix.crlf();   wix.close();
+
+  copyHelperFile(getPath(wxsPath), _T("My_en-us.wxl"));
+  }
+
+
+void WixData::outputWxd() {
+String path;
+
+  if (!readWxdPath(path)) path = solution.getRootPath() + solution.name;
+
+  if (!getSaveAsPathDlg(WxdDataFile, path, WxdDefExt, WxdExtPat, path)) return;
+
+  saveWxdPath(path);   validate(false);
+
+  wxd.setPath(path);     backupFile(path, 10);
+
+  clearAllSections();
+
+        solution.writeWixData();
+     defaultPath.writeWixData();
+           icons.writeWixData();
+
+         product.writeWixData();
+
+  pffDirectories.writeWixData();
+  pmfDirectories.writeWixData();
+
+        features.writeWixData();
+  }
+
+
+bool WixData::readWixData() {
+String path;
+
+  if (!readWxdPath(path)) path = solution.getRootPath();
+
+  if (!getPathDlg(WxdDataFile, path, WxdDefExt, WxdExtPat, path)) return false;
+
+  saveWxdPath(path);    wxd.setPath(path);
+
+        solution.readWixData();
+     defaultPath.readWixData();
+           icons.readWixData();
+
+         product.readWixData();
+
+  pffDirectories.readWixData();
+  pmfDirectories.readWixData();
+
+        features.readWixData();
+  return true;
+  }
+
+
+
+bool WixData::readWxdPath(String& path) {return iniFile.read(IniSection, WxdFilePathKey, path, _T(""));}
+
+
+void WixData::saveWxdPath(TCchar* path) {iniFile.write(IniSection, WxdFilePathKey, path);}
+
+
+void WixData::delWxdPath() {iniFile.deleteString(IniSection, WxdFilePathKey);}
+
+
+void WixData::clearAllSections() {
+IniSectIter iter(wxd);
+TCchar*     section;
+
+  for (section = iter(); section; section = iter++) wxd.deleteSection(section);
+  }
+
+
+void WixData::setDefaults(WixAppDlg* dialog) {
+String productName;
+
+  if (!loadingFileNow) {product.storeProduct(*dialog);   productName = product.productName;}
+
+  if (isNewProject && !productName.isEmpty()) {
+    product.wixName = productName;   dialog->wixNameEB.SetWindowText(productName);
+
+    features.setDefaults(*dialog);
+
+    isNewProject = false;
     }
   }
 
@@ -235,13 +240,46 @@ Component* cmp = 0;
   }
 
 
-void WixData::copyHelperFile(String& wxsPath, TCchar* fileName) {
+void WixData::copyHelperFile(TCchar* wxsPath, TCchar* fileName) {
 String fromFile = theApp.myPath + fileName;
-String toFile   = wxsPath       + fileName;
+String toFile   = wxsPath;      toFile += fileName;
 
   if (isFilePresent(toFile)) return;
 
   copyFile(fromFile, toFile);
   }
 
+
+
+
+#if 0
+void WixData::writeWixData(TCchar* filePath) {
+String wixDataPath = filePath;
+
+  iniFile.writeString(IniSection, _T("WixName"),  product.wixName);
+
+  wxd.setPath(wixDataPath);     backupFile(wixDataPath, 10);
+
+  clearAllSections();
+
+        solution.writeWixData();
+     defaultPath.writeWixData();
+           icons.writeWixData();
+
+         product.writeWixData();
+
+  pffDirectories.writeWixData();
+  pmfDirectories.writeWixData();
+
+        features.writeWixData();
+  }
+#endif
+#if 0
+  writeWixData(path);
+  {
+  String wixDataPath = filePath;
+#else
+#endif
+
+//  iniFile.writeString(IniSection, _T("WixName"),  product.wixName);
 

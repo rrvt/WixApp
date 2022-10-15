@@ -28,10 +28,10 @@ Features features;
 
 
 void Features::readWixData() {
-String& version = solution.getVersion();
+double ver = solution.getVer();
 
-  if (version == _T("2.0")) readWixData2();
-  else                      readWixData1();
+  if (ver >= 2.0) readWixData2();
+  else            readWixData1();
   }
 
 
@@ -97,13 +97,6 @@ void Features::readOne(TCchar* key, String& v) {
 
 
 void Features::writeWixData() {
-String& version = solution.getVersion();
-
-  writeWixData2();
-  }
-
-
-void Features::writeWixData2() {
 Iter iter(store);
 int        i;
 String     prefix;
@@ -126,27 +119,6 @@ int        nToWrite;
 
 
 
-void Features::writeWixData1() {
-Iter iter(store);
-int        i;
-String     key;
-Feature*   ftr;
-int        nToWrite;
-
-  writeCurSel();
-
-  for (nToWrite = 0, ftr = iter(); ftr; ftr = iter++)
-                            if (ftr->save && !ftr->isUninstall && !ftr->id.isEmpty()) nToWrite++;
-
-  wxd.writeInt(Section, NoKey, nToWrite);
-
-  for (i = 0, ftr = iter(); ftr; ftr = iter++) {
-
-    if (!ftr->save || ftr->isUninstall || ftr->id.isEmpty()) continue;
-
-    key.format(FeatureKey, i++);   wxd.writeString(Section, key, ftr->id);   ftr->writeWixData();
-    }
-  }
 
 
 void Features::writeCurSel() {
@@ -166,7 +138,7 @@ void Features::writeCurID(String& id) {wxd.writeString(Section, CurSelKey, id);}
 
 
 
-void Features::storeCB(WixDataDlg& dialog) {
+void Features::storeCB(WixAppDlg& dialog) {
 Feature* ftr    = store.storeCB(dialog.featureCB);   if (!ftr) return;
 Feature* curFtr = store.curData();
 
@@ -176,7 +148,7 @@ Feature* curFtr = store.curData();
   }
 
 
-void Features::setDefaults(WixDataDlg& dialog) {
+void Features::setDefaults(WixAppDlg& dialog) {
 String   productName = product.productName;
 
   dialog.featureCB.SetWindowText(productName);
@@ -185,7 +157,7 @@ String   productName = product.productName;
   }
 
 
-void Features::storeFeatureData(WixDataDlg& dialog) {
+void Features::storeFeatureData(WixAppDlg& dialog) {
 Feature* ftr = store.curData();
 String   id;
 
@@ -201,17 +173,17 @@ String   id;
   }
 
 
-void Features::changeFeature(WixDataDlg& dialog) {
+void Features::changeFeature(WixAppDlg& dialog) {
 String   s;
 Feature* ftr;
 
-  dialog.featureCB.getCurSel(s);   ftr = store.find(s);
+  dialog.featureCB.getCurSel(s);   ftr = store.findItem(s);
 
   if (ftr) ftr->load(dialog);                   //defaultPath.setKey(ftr->wixID);}
   }
 
 
-void Features::newFeature(WixDataDlg& dialog) {
+void Features::newFeature(WixAppDlg& dialog) {
 Feature* ftr = newItem();
 
   dialog.featureCB.setCurSel(ftr->id);
@@ -225,7 +197,7 @@ Feature* Features::newItem(TCchar* id) {Feature* ftr = store.add(id);        ftr
 
 
 
-void Features::delFeature(WixDataDlg& dialog) {
+void Features::delFeature(WixAppDlg& dialog) {
 Feature* ftr = store.curData();
 
   if (!ftr) return;
@@ -266,12 +238,12 @@ String     line;
 
   wix.crlf();
 
-  wix.lit(tab, _T("<Feature Id=\"ProductFeatures\" Title=\"Main Product\" Level=\"1\" >\n"));
+  wix(tab); wix(_T("<Feature Id=\"ProductFeatures\" Title=\"Main Product\" Level=\"1\" >")); wix.crlf();
 
   for (ftr = iter(); ftr; ftr = iter++)
-                            wix.out(tab+1, _T("<ComponentGroupRef Id=\""), ftr->wixID, _T("\"/>"));
+                                {wix(tab+1); wix(_T("<ComponentGroupRef Id=\""), ftr->wixID, _T("\"/>"));}
 
-  wix.lit(tab, _T("</Feature>\n"));
+  wix(tab);   wix(_T("</Feature>"));   wix.crlf();
   }
 
 
@@ -281,18 +253,18 @@ Feature*  ftr;
 String       line;
 
   wix.crlf();
-  wix.lit(0, _T("<Fragment>\n"));
+  wix(0);   wix(_T("<Fragment>"));   wix.crlf();
 
   for (ftr = iter(); ftr; ftr = iter++) {
 
-    wix.out(tab, _T("<ComponentGroup Id=\""), ftr->wixID, _T("\">"));
+    wix(tab); wix(_T("<ComponentGroup Id=\""), ftr->wixID, _T("\">"));
 
     ftr->outputRefs(tab+1);
 
-    wix.lit(tab, _T("</ComponentGroup>\n"));
+    wix(tab); wix(_T("</ComponentGroup>"));   wix.crlf();
     }
 
-  wix.lit(0, _T("</Fragment>\n"));
+  wix(0);   wix(_T("</Fragment>"));   wix.crlf();
   }
 
 
@@ -332,4 +304,30 @@ Feature*  ftr;
   for (ftr = iter(); ftr; ftr = iter++) ftr->output();
   }
 
+
+
+
+#if 0
+void Features::writeWixData1() {
+Iter iter(store);
+int        i;
+String     key;
+Feature*   ftr;
+int        nToWrite;
+
+  writeCurSel();
+
+  for (nToWrite = 0, ftr = iter(); ftr; ftr = iter++)
+                            if (ftr->save && !ftr->isUninstall && !ftr->id.isEmpty()) nToWrite++;
+
+  wxd.writeInt(Section, NoKey, nToWrite);
+
+  for (i = 0, ftr = iter(); ftr; ftr = iter++) {
+
+    if (!ftr->save || ftr->isUninstall || ftr->id.isEmpty()) continue;
+
+    key.format(FeatureKey, i++);   wxd.writeString(Section, key, ftr->id);   ftr->writeWixData();
+    }
+  }
+#endif
 

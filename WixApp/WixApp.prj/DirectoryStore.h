@@ -2,6 +2,7 @@
 
 
 #pragma once
+#include "EntityStore.h"
 #include "Feature.h"
 #include "WixUtilities.h"
 
@@ -21,7 +22,7 @@ String ext;
 
   Data* getDefault() {EStoreIter<Data, n> iter(*this); return iter();} //
 
-  void  outputSubs(String& parent, int tab);
+  void  outputSubs(TCchar* parent, int tab);
   int   noSubs(String& parent);
   void  outputRemoves(int tab);
 
@@ -67,7 +68,7 @@ Data* dsc;
 
   for (dsc = DirStore<Data, n>::addOne(fullPath); dsc; dsc = DirStore<Data, n>::addOne(dsc->parent))
                                                                                                 continue;
-  return find(fullPath);
+  return EntityStore<Data, n>::findItem(fullPath);
   }
 
 
@@ -86,7 +87,7 @@ Data* dsc;
 
 
 template <class Data, const int n>
-void DirStore<Data, n>::outputSubs(String& parent, int tab) {
+void DirStore<Data, n>::outputSubs(TCchar* parent, int tab) {
 DirStorIter iter(*this);
 DirDesc*    dsc;
 
@@ -102,7 +103,7 @@ DirDesc*    dsc;
 
         outputSubs(s, tab+1);
 
-        wix.lit(tab, _T("</Directory>\n"));
+        wix(tab);   wix(_T("</Directory>"));    wix.crlf();
         }
       }
     }
@@ -113,15 +114,14 @@ template <class Data, const int n>
 void DirStore<Data, n>::outputOne(DirDesc* dsc, int tab) {
 String line;
 
-  dsc->getOutput(line); line += _T(" />\n");   wix.stg(tab, line);
-  }
+  dsc->getOutput(line); line += _T(" />");   wix(tab);   wix(line);   wix.crlf();  }
 
 
 template <class Data, const int n>
 void DirStore<Data, n>::outputParent(DirDesc* dsc, int tab) {
 String line;
 
-  dsc->getOutput(line);  line += _T(">\n"); wix.stg(tab, line);
+  dsc->getOutput(line);  line += _T(">");  wix(tab);   wix(line);   wix.crlf();
   }
 
 
@@ -151,8 +151,10 @@ String      line;
     if (!dsc->inUse) continue;
 
     uniID = getWixID(dsc->id, _T("uni"));
+
     line = _T("<RemoveFolder Id=\"") + uniID + _T("\" Directory=\"");
-    wix.out(tab, line, dsc->wixID, _T("\" On=\"uninstall\"/>"));
+
+    wix(tab); wix(line, dsc->wixID, _T("\" On=\"uninstall\"/>"));
     }
   }
 
@@ -186,16 +188,16 @@ static TCchar* DfltSection   = _T("%sDirectories");
 
 template <class Data, const int n>
 void DirStore<Data, n>::readWixData() {
-int      n;
+int      end;
 String   section;
 String   e = ext;
 int      i;
 
   e.upperCase();   section.format(DfltSection, e.str());
 
-  n = wxd.readInt(section, NoKeys, 99);
+  end = wxd.readInt(section, NoKeys, 99);
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < end; i++) {
 
     section.format(DirDescSect, e.str(), i);
 

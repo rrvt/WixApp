@@ -5,37 +5,38 @@
 #include "Features.h"
 
 
-class WixDataDlg;
+class WixAppDlg;
 
 
 class WixData {
 
-bool newFileNow;
-bool loadingFileNow;
+bool   isNewProject;
+bool   loadingFileNow;
 
 public:
 
-  WixData() : newFileNow(false) {}
- ~WixData() {}
+       WixData() : isNewProject(false), loadingFileNow(false) {}
+      ~WixData() {}
 
-  bool        readWixData();              //String& wixPath
-  void        writeWixData(TCchar* filePath);
-  void        clearAllSections();
+  bool newProject(WixAppDlg* dialog);
+  void openProject(WixAppDlg* dialog);
 
-  void        newFile(WixDataDlg* dialog);
-  void        openFile(WixDataDlg* dialog);
-  void        setDefaults(WixDataDlg* dialog);
+  void setDefaults(WixAppDlg* dialog);
 
-  void        getWxdPath( String& path);
-  void        saveWxdPath(TCchar* path);
-
-  bool        validate(bool rptErrors = true);
-  void        output();
+  bool validate(bool rptErrors = true);
+  void outputProduct();
+  void outputWxd();
 
 private:
 
+  bool readWixData();
+  bool readWxdPath(String& path);
+  void saveWxdPath(TCchar* path);
+  void delWxdPath();
+
+  void clearAllSections();
   void prepareUninstalls();
-  void copyHelperFile(String& wxsPath, TCchar* fileName);
+  void copyHelperFile(TCchar* wxsPath, TCchar* fileName);
   };
 
 

@@ -33,33 +33,33 @@ bool    isUninstall;
   void       readWixData2( String& section);
   void       writeWixData2(String& section);
 
-  void       loadNew(WixDataDlg& dialog);
-  void       load(   WixDataDlg& dialog);
+  void       loadNew(WixAppDlg& dialog);
+  void       load(   WixAppDlg& dialog);
 
-  void       storeProgFileName(  WixDataDlg& dialog);
-  void       storeMenuName(      WixDataDlg& dialog);
+  void       storeProgFileName(  WixAppDlg& dialog);
+  void       storeMenuName(      WixAppDlg& dialog);
 
-  void       loadComponent(WixDataDlg& dialog);
-  void       storeComponent(WixDataDlg& dialog);
+  void       loadComponent(WixAppDlg& dialog);
+  void       storeComponent(WixAppDlg& dialog);
 
   void       setDirectories(String& progID, String& menuID) {progFileID = progID; startMenuID = menuID;}
 
   DirDesc*   getProgFile();
   DirDesc*   getStartMenu();
 
-  void       store(WixDataDlg& dialog);
+  void       store(WixAppDlg& dialog);
 
   int        nComponents() {return components.data.end();}
 
-  void       storeComponentData(WixDataDlg& dialog);
-  void       changeComponent(   WixDataDlg& dialog);
-  void       newComponent(      WixDataDlg& dialog);
+  void       storeComponentData(WixAppDlg& dialog);
+  void       changeComponent(   WixAppDlg& dialog);
+  void       newComponent(      WixAppDlg& dialog);
 
   Component* newItem();
   Component* newItem(TCchar* id);
 
-  void       delAllComponents(WixDataDlg& dialog);
-  void       delComponent(    WixDataDlg& dialog);
+  void       delAllComponents(WixAppDlg& dialog);
+  void       delComponent(    WixAppDlg& dialog);
 
   void       delWixData(  );
 
@@ -71,7 +71,7 @@ bool    isUninstall;
 
   void       markDirs();
 
-  Component* findCmp(TCchar* id) {return components.find(id);}
+  Component* findCmp(TCchar* id) {return components.findItem(id);}
 
   void       outputSetPath(int tab, bool& crlfOut);
 

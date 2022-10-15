@@ -36,20 +36,20 @@ Expandable <DefPathDsc, 1> paths;
 
 public:
 
-  DefaultPath() : curPath(0) { }
- ~DefaultPath() { }
+         DefaultPath() : curPath(0) { }
+        ~DefaultPath() { }
 
-  void        readWixData();
-  void        writeWixData();
+  void   readWixData();
+  void   writeWixData();
 
-  String      getPath(TCchar* key);
-  void        save(   TCchar* key, String& path);
+  String getPath(TCchar* key);
+  void   save(   TCchar* key, String& path);
 
-  void        del(TCchar* key);
+  void   del(TCchar* key);
 
-  void        mark(TCchar* key) {DefPathDsc* dsc = find(key);  if (dsc) dsc->inUse = true;}
+  void   mark(TCchar* key) {DefPathDsc* dsc = find(key);  if (dsc) dsc->inUse = true;}
 
-  int         nData() {return paths.end();}         // returns number of data items in array
+  int    nData() {return paths.end();}         // returns number of data items in array
 
 private:
 

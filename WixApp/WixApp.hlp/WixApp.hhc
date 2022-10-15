@@ -5,16 +5,16 @@
 <!-- Sitemap 1.0 -->
 </HEAD><BODY>
 <OBJECT type="text/site properties">
-	<param name="ImageType" value="Folder">
+	<param name="Auto Generated" value="Yes">
 </OBJECT>
 <UL>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Introduction">
+		<param name="Name" value="Dialog App">
 		<param name="Local" value="Introduction.htm">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="Main Dialog Box">
-		<param name="Local" value="MainDialogBox.htm">
+		<param name="Name" value="WixApp Operations">
+		<param name="Local" value="Operations.htm">
 		</OBJECT>
 </UL>
 </BODY></HTML>

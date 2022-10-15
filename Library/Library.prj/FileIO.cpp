@@ -81,9 +81,11 @@ void FileIO::seekEnd() {
 
 void FileIO::close() {
 
+  if (!isOpen()) return;
+
   if (openParms & WriteMode) flush();
 
-  if (isOpen()) {pos = cfile.GetPosition(); cfile.Close();}
+  pos = cfile.GetPosition(); cfile.Close();
   }
 
 
