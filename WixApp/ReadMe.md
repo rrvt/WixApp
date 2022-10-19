@@ -14,6 +14,13 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 10/19/22
+
+The Solution dialog box needed some initialization from the current open wxd file.
+
+Also added code to ensure that app starts in the same place on the screen despite Windows Updates
+destroying that feature in the future sometime...
+
 ### Update 10/14/22
 
 Removed Dialog style OK/Cancel Buttons from the main window (which is a dialog).  Replaced them with a

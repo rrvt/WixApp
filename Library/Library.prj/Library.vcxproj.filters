@@ -174,12 +174,6 @@
     <ClCompile Include="VertMgmt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WindowData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowPos.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Wrap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -232,6 +226,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Executable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinPos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -431,12 +428,6 @@
     <ClInclude Include="VertMgmt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WindowPos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Wrap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -495,6 +486,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Executable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WinPos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -53,6 +53,7 @@ public:
   bool    read(       TCchar* section, TCchar* key, Cstring& val, TCchar* dflt);
   bool    read(       TCchar* section, TCchar* key, int&     val, int     dflt);
   int     readInt(    TCchar* section, TCchar* key, int      def);
+  int     read(       TCchar* section, TCchar* key, int      def);
   bool    readPwd(    TCchar* section, TCchar* key, String&  val);
 
   void    deleteString(TCchar* section, TCchar* key);

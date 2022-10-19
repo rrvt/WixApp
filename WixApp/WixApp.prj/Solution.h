@@ -26,7 +26,7 @@ String    name;
 
   operator String() {return (String) pathUnits;}
 
-  bool     newProject();
+  bool     newProject(bool isNew);
   void     clear() {name.clear(); pathUnits.clear();}
   bool     isEmpty() {return pathUnits.isEmpty();}
 

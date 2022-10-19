@@ -29,8 +29,8 @@ public:
   PathUnits& operator= (String& path);
              operator String();
 
-  String&    getPath();
-  String&    getAbsolutePath();
+//  String&    getPath();
+//  String&    getAbsolutePath();
 
   String*    operator[] (int i) {return datum(i);}
 

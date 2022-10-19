@@ -76,8 +76,7 @@
     <ClCompile Include="trim.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="VertMgmt.cpp" />
-    <ClCompile Include="WindowData.cpp" />
-    <ClCompile Include="WindowPos.cpp" />
+    <ClCompile Include="WinPos.cpp" />
     <ClCompile Include="Wrap.cpp" />
     <ClCompile Include="XmlElement.cpp" />
     <ClCompile Include="XmlAttributes.cpp" />
@@ -164,8 +163,7 @@
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Variant.h" />
     <ClInclude Include="VertMgmt.h" />
-    <ClInclude Include="WindowData.h" />
-    <ClInclude Include="WindowPos.h" />
+    <ClInclude Include="WinPos.h" />
     <ClInclude Include="Wrap.h" />
     <ClInclude Include="XmlElement.h" />
     <ClInclude Include="XmlAttributes.h" />

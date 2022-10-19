@@ -30,7 +30,7 @@ WixData wixData;
 
 bool WixData::newProject(WixAppDlg* dialog) {
 
-  if (!solution.newProject()) return false;
+  if (!solution.newProject(true)) return false;
 
   delWxdPath();  isNewProject = true;   return true;
   }

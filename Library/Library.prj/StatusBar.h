@@ -18,5 +18,11 @@ public:
   bool isReady() {return ready;}
 
   bool setText(int index, TCchar* txt);
+
+  void move(CRect& rect);
+
+private:
+
+  bool setParts();
   };
 

@@ -25,6 +25,9 @@ IMPLEMENT_DYNAMIC(WixAppDlg, CDialogEx)
 BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
 
   ON_WM_CREATE()
+  ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, &OnResetToolBar)
+  ON_NOTIFY_EX(    TTN_NEEDTEXT, 0,       &OnTtnNeedText)         // Do ToolTips
+  ON_WM_MOVE()
 
   ON_COMMAND(      ID_NewProject,         &onNewProject)
   ON_COMMAND(      ID_OpenProject,        &onOpenProject)
@@ -80,10 +83,6 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_CBN_KILLFOCUS(IDC_ComponentIcon,     &onUpdateIcon)
   ON_BN_CLICKED(   IDC_BrowseForIcon,     &onBrowseForIcon)
 
-  ON_NOTIFY_EX(    TTN_NEEDTEXT, 0,       &OnTtnNeedText)         // Do ToolTips
-
-  ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, &OnResetToolBar)
-
 END_MESSAGE_MAP()
 
 
@@ -109,12 +108,34 @@ BOOL WixAppDlg::OnInitDialog() {
 
   if (!statusBar.create(this, IDC_StatusBar)) return false;
 
-  statusBar.setReady();   return true;
+  winPos.initialPos(this, winRect);   isInitialized = true;   statusBar.setReady();   return true;
   }
 
 
+// MainFrame message handlers
+
+LRESULT WixAppDlg::OnResetToolBar(WPARAM wParam, LPARAM lParam) {setupToolBar();  return 0;}
+
+
+void WixAppDlg::setupToolBar() {
+  toolBar.installBtn(ID_NewProject,   _T(" New Project "));
+  toolBar.installBtn(ID_OpenProject,  _T(" Open Project "));
+  toolBar.installBtn(ID_SaveAllFiles, _T(" Save All Files "));
+  toolBar.installBtn(ID_SaveWxdFile,  _T(" Save Wxd File "));
+  }
+
+
+// Do ToolTips
+
+BOOL WixAppDlg::OnTtnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
+                                                                  {return toolBar.OnTtnNeedText(pNMHDR);}
+
+void WixAppDlg::OnMove(int x, int y)
+            {CRect winRect;   GetWindowRect(&winRect);   winPos.set(winRect);   CDialogEx::OnMove(x, y);}
+
+
 void WixAppDlg::onNewProject()  {if (!wixData.newProject(this)) onExit();}
-void WixAppDlg::onGetSolution() {solution.newProject();}
+void WixAppDlg::onGetSolution() {solution.newProject(false);}
 
 void WixAppDlg::onOpenProject() {wixData.openProject(this);}
 
@@ -234,24 +255,6 @@ void WixAppDlg::updateIconCB()            {features.getCurComponent()->updateIco
 void WixAppDlg::onBrowseForIcon()
                 {features.getCurComponent()->browseIcon(*this); updateCtrlPanelIconCB(); UpdateWindow();}
 
-
-// MainFrame message handlers
-
-LRESULT WixAppDlg::OnResetToolBar(WPARAM wParam, LPARAM lParam) {setupToolBar();  return 0;}
-
-
-void WixAppDlg::setupToolBar() {
-  toolBar.installBtn(ID_NewProject,   _T(" New Project "));
-  toolBar.installBtn(ID_OpenProject,  _T(" Open Project "));
-  toolBar.installBtn(ID_SaveAllFiles, _T(" Save All Files "));
-  toolBar.installBtn(ID_SaveWxdFile,  _T(" Save Wxd File "));
-  }
-
-
-// Do ToolTips
-
-BOOL WixAppDlg::OnTtnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult)
-                                                                  {return toolBar.OnTtnNeedText(pNMHDR);}
 
 void WixAppDlg::onHelp() {
 String topic = helpPath; topic += _T(">Introduction");

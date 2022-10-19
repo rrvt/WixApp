@@ -8,6 +8,7 @@
 #include "StatusBar.h"
 #include "TBBtnCtx.h"
 #include "ToolBar.h"
+#include "WinPos.h"
 
 class StatusBar;
 
@@ -23,6 +24,9 @@ String    helpPath;
 CRect     winRect;
 ToolBar   toolBar;
 StatusBar statusBar;
+
+bool      isInitialized;
+WinPos    winPos;                                // Position of dialog box
 
 public:
 
@@ -81,6 +85,7 @@ public:
   afx_msg int     OnCreate(LPCREATESTRUCT lpCreateStruct);
   afx_msg LRESULT OnResetToolBar(WPARAM wParam, LPARAM lParam);
   afx_msg BOOL    OnTtnNeedText(UINT id, NMHDR* pNMHDR, LRESULT* pResult);
+  afx_msg void    OnMove(int x, int y);
 
   // Commands
   afx_msg void    onNewProject();

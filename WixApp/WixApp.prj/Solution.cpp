@@ -25,16 +25,20 @@ static TCchar* VarSolution     = _T("$(var.SolutionDir)");
 Solution solution;
 
 
-bool Solution::newProject() {
+bool Solution::newProject(bool isNew) {
 String          s;
 String          r;
 String          t;
 SolutionPathDlg dlg;
 int             last;
 
-  readRootPath(s);   last = s.length() - 1;
+  if (!isNew && rootPath.isEmpty()) readRootPath(s);   else s = rootPath;
 
-  dlg.rootPath = last >- 0 && s[last] == _T('\\') ? s.substr(0, last) : s;
+  last = s.length() - 1;
+
+  dlg.rootPath = last >= 0 && s[last] == _T('\\') ? s.substr(0, last) : s;
+
+  if (!isNew) dlg.solutionPath = t = pathUnits;
 
   loop {
     switch (dlg.DoModal()) {
@@ -80,7 +84,7 @@ uint   pos;
 
   wxd.read(SolutionSection, SolVersion, version);    ver = version.stod(pos);
 
-  if (pathUnits.isEmpty() || name.isEmpty()) newProject();
+  if (pathUnits.isEmpty() || name.isEmpty()) newProject(false);
   }
 
 
