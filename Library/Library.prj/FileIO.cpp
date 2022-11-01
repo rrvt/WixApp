@@ -24,7 +24,7 @@ static char FE = (char) 0xfe;
 
 
 FileIO::FileIO() : encoding(NilEncode), encdState(0), openParms(0), pos(0), pbuf(buf), ebuf(buf),
-                                            rtnSeen(false), tabSize(2), col(0), lastOP(0) {buf[0] = 0;}
+                                   rtnSeen(false), eof(false), tabSize(2), col(0), lastOP(0) {buf[0] = 0;}
 
 
 bool FileIO::open(TCchar* filePath, int parms) {
@@ -154,17 +154,7 @@ int i;
 
 bool FileIO::write(Tchar c) {
 
-  if (encoding == NilEncode) {
-    switch (encdState) {
-      case 0: if (c == 0xef)   {encdState = 1;      break;}
-              if (c == 0xfeff) {encoding = Utf16le; break;}
-              if (c == 0xfffe) {encoding = Utf16;   break;}
-                                encoding = Utf8;    break;
-
-      case 1: if (c == 0xbb)    encdState = 2;      break;
-      case 2: if (c == 0xbf)    encoding = Utf8;    break;
-      }
-    }
+  enCode(c);
 
   if (c == _T('\n') && !rtnSeen) write(_T('\r'));
 
@@ -182,16 +172,34 @@ bool FileIO::write(Tchar c) {
   }
 
 
+bool FileIO::write(void* blk, int noBytes) {
+Byte* p = (Byte*) blk;
+int     i;
+
+  for (i = 0; i < noBytes; i++) if (!write((Byte) *p++)) return false;
+
+  return true;
+  }
+
+
+void FileIO::enCode(Tchar tch) {
+  if (encoding == NilEncode) {
+    switch (encdState) {
+      case 0: if (tch == 0xef)   {encdState = 1;      break;}
+              if (tch == 0xfeff) {encoding = Utf16le; break;}
+              if (tch == 0xfffe) {encoding = Utf16;   break;}
+                                encoding = Utf8;    break;
+
+      case 1: if (tch == 0xbb)    encdState = 2;      break;
+      case 2: if (tch == 0xbf)    encoding = Utf8;    break;
+      }
+    }
+  }
+
+
 // Writes one byte without interpretation of /n or /r
 
-bool FileIO::write(Byte v) {
-
-//  if (pbuf >= ebuf) flush();   *pbuf++ =
-
-  sendChar(v);
-
-  return err.m_cause == CFileException::none;
-  }
+bool FileIO::write(Byte v) {sendChar(v);   return err.m_cause == CFileException::none;}
 
 
 
@@ -201,18 +209,11 @@ void FileIO::sendChar(char ch) {if (pbuf >= ebuf) flush();   *pbuf++ = ch;  last
 void FileIO::flush() {
 uint noBytes = (uint) (pbuf - buf);
 
-  write(buf, noBytes);
+  if (noBytes) try {cfile.Write(buf, noBytes);} catch (CFileException* e) {saveExcp(e);}
 
   pbuf = buf;   ebuf = buf + noElements(buf);
   }
 
-
-bool FileIO::write(void* blk, int noBytes) {
-
-  if (noBytes) try {cfile.Write(blk, noBytes);} catch (CFileException* e) {saveExcp(e); return false;}
-
-  return true;
-  }
 
 
 bool FileIO::read(String& s) {
@@ -220,10 +221,7 @@ Tchar ch;
 
   s.clear();
 
-  while (read(ch)) {
-
-    s += ch;   if (ch == _T('\n')) return true;
-    }
+  while (read(ch)) {s += ch;   if (ch == _T('\n')) return true;}
 
   return s.length() > 0;
   }
@@ -257,6 +255,19 @@ char ch;
   }
 
 
+bool FileIO::read(void* blk, uint n) {
+Byte* p = (Byte*) blk;
+uint  i;
+Byte  v;
+
+  if (eof) return false;
+
+  for (i = 0; i < n; i++) *p++ = read(v) ? v : 0;
+
+  return true;
+  }
+
+
 // Reads one byte without interpretation of /n or /r
 
 bool FileIO::read(Byte& v) {
@@ -280,9 +291,11 @@ bool FileIO::getChar(char& ch) {
 // returns number of bytes read or -1
 
 bool  FileIO::fillBuf() {
-int noBytes = read(buf, noElements(buf));
+int noBytes;
 
-  if (noBytes == 0) return false;
+  try {noBytes = cfile.Read(buf, noElements(buf));} catch (CFileException* e) {saveExcp(e); noBytes = 0;}
+
+  if (noBytes == 0) {eof = true; return false;}
 
   ebuf = (pbuf = buf) + noBytes;
 
@@ -298,20 +311,6 @@ int noBytes = read(buf, noElements(buf));
   }
 
 
-
-
-// Read block of data from buffer
-
-int FileIO::read(void* blk, int n) {
-uint noBytes;
-
-  try {noBytes = cfile.Read(blk, n);}
-  catch (CFileException* e) {saveExcp(e); return 0;}
-
-  return noBytes;
-  }
-
-
 void FileIO::saveExcp(CFileException* e) {
   err.m_cause       = e->m_cause;
   err.m_lOsError    = e->m_lOsError;
@@ -320,10 +319,53 @@ void FileIO::saveExcp(CFileException* e) {
   }
 
 
-
 // Returns last error
 
 Tchar* FileIO::getLastError()
         {static Tchar stg[128];   stg[0] = 0;   err.GetErrorMessage(stg, noElements(stg));   return stg;}
 
+
+
+
+
+#if 1
+#else
+int noBytes = readRaw(buf, noElements(buf));
+#endif
+
+#if 1
+#else
+  if (encoding == NilEncode) {
+    switch (encdState) {
+      case 0: if (c == 0xef)   {encdState = 1;      break;}
+              if (c == 0xfeff) {encoding = Utf16le; break;}
+              if (c == 0xfffe) {encoding = Utf16;   break;}
+                                encoding = Utf8;    break;
+
+      case 1: if (c == 0xbb)    encdState = 2;      break;
+      case 2: if (c == 0xbf)    encoding = Utf8;    break;
+      }
+    }
+#endif
+#if 1
+#else
+  writeRaw(buf, noBytes);
+#endif
+#if 0
+void FileIO::writeRaw(void* blk, int noBytes) {
+
+  if (noBytes) try {cfile.Write(blk, noBytes);} catch (CFileException* e) {saveExcp(e);}
+  }
+#endif
+#if 0
+// Read block of data from buffer
+
+int FileIO::readRaw(void* blk, uint n) {
+uint noBytes;
+
+  try {noBytes = cfile.Read(blk, n);} catch (CFileException* e) {saveExcp(e); return 0;}
+
+  return noBytes;
+  }
+#endif
 

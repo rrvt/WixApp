@@ -196,9 +196,10 @@ Tchar stg[1024];
   }
 
 
+#if 0
 int IniFile::read(TCchar* section, TCchar* key, int def)
                                             {return GetPrivateProfileInt(section, key, def, iniFilePath);}
-
+#endif
 
 int IniFile::readInt(TCchar* section, TCchar* key, int def)
                                             {return GetPrivateProfileInt(section, key, def, iniFilePath);}

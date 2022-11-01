@@ -12,7 +12,8 @@ static TCchar* Explanation =  _T("WixApp will produce a wix file \"Product.wxs\"
                               _T("date/time appendage.  The new Product.wxs may then be compiled.\n\r")
                               _T("\n\r\n\r")
                               _T("The first step is to supply the path to the root of the project and ")
-                              _T("to supply the path to the solution (\".sol\") file for the project.");
+                              _T("to supply the path to the solution (\"project.sln\") file for the ")
+                              _T("project.");
 
 
 // SolutionPathDlg dialog

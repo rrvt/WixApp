@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Operations</title>
+<title>Main Dialog Operations</title>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
@@ -15,144 +15,117 @@
 <div class="container">
 <div class="content">
 <!-- InstanceBeginEditable name="Title" -->
-<h1>WixApp Operations</h1>
+<h1>Main Dialog Operations</h1>
 <!-- InstanceEndEditable -->
 
 <!-- InstanceBeginEditable name="Body" -->
-<h2>ToolBar Examples</h2>
+<h2>Toolbar Operations</h2>
 <p>
-  The toolbar in a dialog box is not directly supported by MFC.  The library has a little expansion of
-  the MFC toolbar.  The creation of a toolbar and the following example controls is a two step process.
-  The first step is in the OnInitDialog of the dialog box:
+The typical sequence of commands is from left to right on the toolbar.
 </p>
-<blockquote>
-  if (!toolBar.create(this, IDR_TOOLBAR)) return false;
-</blockquote>
+<h3>New Project</h3>
 <p>
-  When the toolbar is created there is a Registered Message sent to set up the controls on the toolbar:
+A Project must exist somewhere.  So the first step is identify two directories for the project.  This is
+done with a dialog box that pops up when the New Project command is invoked.
+The root directory is used as a starting point for selecting the first object of a type in the project.
+The Solution Path is the path to the project.sln.  This allows all other paths to be relative to the
+path to project.sln .
 </p>
-<blockquote>
-ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, &OnResetToolBar)
-</blockquote>
+<h3>Open Project</h3>
 <p>
-Here is the setup for all the controls on the toolbar:
-</p>
-<blockquote>
-LRESULT DialogDlg::OnResetToolBar(WPARAM wParam, LPARAM lParam) {setupToolBar();  return 0;}<br>
-<br>
-<br>
-void DialogDlg::setupToolBar() {<br>
-CRect winRect;   GetWindowRect(&winRect);   toolBar.initialize(winRect);<br>
-<br>
-&nbsp;&nbsp;toolBar.installBtn(ID_Button, _T(" My Button "));<br>
-<br>
-&nbsp;&nbsp;if (toolBar.installComboBox(ID_CBox)) setComboBox();<br>
-<br>
-&nbsp;toolBar.installEditBox(ID_EditBox, 20);<br>
-<br>
-&nbsp;&nbsp;(toolBar.installPopupMenu(ID_PopupMenu)) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;toolBar.addPopupMenu(   ID_PopupMenu, IDR_PopupMenu);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;toolBar.setPopupCaption(ID_PopupMenu, MenuCaption);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-<br>
-&nbsp;&nbsp;if (toolBar.installPopupMenu(ID_PopupMenu1)) {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;toolBar.addPopupItems(  ID_PopupMenu1, PopupItems, noElements(PopupItems));<br>
-&nbsp;&nbsp;&nbsp;&nbsp;toolBar.setPopupCaption(ID_PopupMenu1, ItemsCaption);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-&nbsp;&nbsp;}<br>
-</blockquote>
-
-<h3><img src="Images/MyButton.jpg" width="37" height="15"> A Button</h3>
-<p>
-This is a long button (dd,15) with a caption.  A flying tooltip is possible for a button
-</p>
-
-<h3><img src="Images/Greeks.jpg"> Combo Box</h3>
-<p>
-  A Combo Box in this implementation contains a string and an integer on each line.  The combo box
-  is loaded by the program, either all at once or one item at a time.  It turns out that a MENU entity in
-  the resource file also contains a string and an integer.  So a combo box may be loaded from a MENU
-  in the resource file by knowing the MENU identifier.
+The Open Project command brings up a open file dialog box set up to look for an "wxd" file and the initial
+path is to the last place it found or stored a "wxd" file.  Selecting the wxd file will cause the WixApp
+file to be loaded.
 </p>
 <p>
-  The struct (i.e. a public class) CbxItem is used to define a a single item that may be loaded into
-  the Combo Box.  The usual technique is to create an constant (perhaps static) vector of CbxItems and
-  there is a function to load that directly into the Combo Box.
+Sometimes paths will be requested using a "specify file/path dialog box".  Be sure to look at the title 
+bar of the dialog box and/or the type of file being sought.
+</p>
+<h3>Save All Files</h3>
+<p>
+There are two files created by WixApp.  The product.wxs file is used by Visual Studio Wix option to create
+the project.msi file.  The second file created by WixApp is the WixApp data file, project.wxd.  WixApp
+saves the old files by renaming with a 12 character numerical extension to the current files.  The 
+numerical extension is the current date and time to the nearest second organized so they sort for oldest to
+newest.
+</p>
+<h3>Save Wxd file</h3>
+<p>
+Sometimes the data for the installation file is not ready to create a product file.  Save just the
+WixApp data file (i.e. "wxd" file).
+</p>
+<h3><img src="Images/Options.jpg" width="16" height="15"> Options</h3>
+<p>
+Brings up a dialog box that has two features:
+</p>
+<ul>
+<li>A check box to allow the same version number to be used during installation</li>
+<li>A check box and a view  window to require a license dialog to be added during installation.</li>
+</ul>
+<p>
+Allowing use of the same version number seems to allow the current version to remain.  I would use
+this option with care.  
 </p>
 <p>
-  When the user selects an item in the combo box the ON_CBN_SELCHANGE message is sent to the application.
-  The following entry in the BEGIN_MESSAGE_MAP will cause the onComboBoxChng function to be executed:
+Checking the license dialog will cause a file dialog to appear.  The file dialog will request
+that an "rtf" file be selected.  
+MakeApp adds the file LicenseFile.rtf to the <app>.wix project directory or one can create a license 
+file in Word and in any event it should describe the license that is being required for installing 
+the product.  
+During installation a dialog box displays this text and is used to require checking a check box to claim
+that the license is being observed.
 </p>
-<blockquote>
-ON_CBN_SELCHANGE(ID_CBox, &onComboBoxChng) // Process secelection from the combo box list
-</blockquote>
-<p>
-The following function will retrieve the string and data:
-</p>
-<blockquote>
-String s;<br>
-int&nbsp;&nbsp;&nbsp;&nbsp;    x;<br>
-<br>
-  &nbsp;&nbsp;if (!toolBar.getCbxSel(ID_CBox, s, x)) return; </blockquote>
-
-<h3><img src="Images/EditBoox.jpg"> Edit Box</h3>
-<p>
-  The edit box allows the user to type some text.  When the user leaves the edit box the kill focus
-  command message will allow the text to be processed:
-</p>
-<blockquote>
-ON_EN_KILLFOCUS(ID_EditBox, &onTBEditBox) // Process content of edit box
-</blockquote>
-<p>
-At the function the following function call will retrieve the text:
-</p>
-<blockquote>
-String s;<br>
-  &nbsp;&nbsp;toolBar.getEbxText(ID_EditBox, s);
-</blockquote>
-
-<h3><img src="Images/PopupMenu.jpg" width="51" height="15"> Drop Down Resource Menu </h3>
-<p>
-A drop down menu uses a combo box control.  This version loads the menu from the application's resources.
-Then instead of reacting to the select change message by retrieving the item from the combo box a
-command message is sent with the item's integer data, i.e. the command ID.  Both the select change and
-the command message entries must appear in the Message Map:
-</p>
-<blockquote>
-ON_CBN_SELCHANGE(ID_PopupMenu,   &onDispatch)           // Send Command Message with ID_...<br>
-ON_COMMAND(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID_Option01,&nbsp;&nbsp;&nbsp;&nbsp; &onOption01)<br>
-ON_COMMAND(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID_Option02,&nbsp;&nbsp;&nbsp;&nbsp; &onOption02)<br>
-</blockquote>
-<p>
-Here is the code for onDispatch:
-</p>
-<blockquote>
-void DialogDlg::onDispatch()  {toolBar.dispatch(ID_PopupMenu,  MenuCaption);}
-</blockquote>
-<p>
-  A Menu does not need the item selected to appear in the edit box associated with the combo box but it
-  is useful for the caption of the menu to appear there.  So, right after the dispatch of the command
-  the caption is restored to the drop down menu.
-</p>
-
-<h3><img src="Images/ItemsMenu.jpg" width="51" height="15"> Programmable Drop Down Menu</h3>
-<p>
-The initialization of the menu is the only difference between this drop down menu and the previous drop down menu.
-</p>
-
 <h3><img src="Images/About.jpg" width="16" height="15"> About</h3>
 <p>
-Displays the About Box.  The about box uses text from the resource file (TestApp.rc) for
-the output information.  There is a standard about box dialog in the Library.
+Displays the About Box.  The about box uses text from the resource file (WixApp.rc) for
+the output information.
 </p>
 <h3><img src="Images/Exit.jpg" width="16" height="15"> Exit</h3>
 <p>
 Exit the application with no reservations.
 </p>
-<h2>File Menu</h2>
-<h3>Change Ready</h3>
+<h2>Menu Commands</h2>
+<h3>File Menu</h3>
+<h4>New</h4>
 <p>
-Executes a command which outputs changes the "Ready" State and displays the result in the Status Bar.
+See New Project above.
+</p>
+<h4>Open</h4>
+<p>
+See Open Project above.
+</p>
+<h4>Save WXD File</h4>
+<p>
+See Save Wxd File above
+</p>
+<h4>Exit</h4>
+<p>
+Exit the application with no reservations. 
+</p>
+<h3>Solution Menu</h3>
+<p>
+Brings up the New Project Solution Directory dialog box.  See New project above.
+</p>
+<h3>Options Menu</h3>
+<p>
+See Options above.
+</p>
+<h3>Test Menu</h3>
+<p>
+Two commands that should be used in top to bottom order.  May be only useful for developers.
+</p>
+<h4>Validate</h4>
+<p>Runs through a validation sequence that marks the directories that will be used</p>
+<h4>Display Directories</h4>
+<p>Actually writes a text file with the directories and their attributes.</p>
+<h3>Help Menu</h3>
+<h4>Introduction</h4>
+<p>
+Starts this help description.
+</p>
+<h4>About</h4>
+<p>
+See About above.
 </p>
 <!-- InstanceEndEditable -->
 </div><!-- end .content -->

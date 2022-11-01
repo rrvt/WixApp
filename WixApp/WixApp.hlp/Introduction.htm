@@ -1,9 +1,9 @@
-<!doctype html>
+<!doctype html PUBLIC "-//IETF//DTD HTML//EN">
 <html><!-- InstanceBegin template="/Templates/OneColumnPage.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
 <meta charset="utf-8">
 <!-- InstanceBeginEditable name="doctitle" -->
-<title>Introduction</title>
+<title>WixApp</title>
 <!-- InstanceEndEditable -->
 <!-- InstanceBeginEditable name="head" -->
 <!-- InstanceEndEditable -->
@@ -21,16 +21,107 @@
 <!-- InstanceBeginEditable name="Body" -->
 <h2>Introduction</h2>
 <p>
-WixApp is an example of a Windows Dialog application.  It includes a trimmed down MFC starting application
-InitInstance.  The main dialog has a menu, a toolbar with various features and a status bar on the bottom of the
-client part of the window.  The main dialog has a fixed size and may be populated with all the usual controls
-that are available in Visual Studio 17's Resource editor.
+This project started as a way to remember how to construct a decent installer using Wix.  The syntax of Wix is just
+bizarre enough that every 6 months or so when I need to create one I had to learn it all over again.  So WixApp was constructed to
+provide a simple method for construction a Wix input file.  That is then compiled using Visual Studio in the normal way
+and an installer is created.
 </p>
 <p>
-There is a lot of functionality buried in the MainFrame of the normal MFC application.  For example the tool bar
-depends heavily of the MainFrame.  This example has a tool bar but and status bar but the functionality is 
-a subset of that available in a normal MFC application.  The operations available are discussed on the 
-  <a href="Operations.htm">operations page</a>. </p>
+Wix is a very complex product, WixApp is very simple.  There are only a few things that it can do:
+</p>
+<ul>
+  <li>Accept files that need to be installed in Progarm Files (x86)</li>
+  <li>Create Shortcuts (when requested) on the start menu and the desktop</li>
+  <li>Create one or more directories as needed into which files are placed in Program Files</li>
+  <li>It can create multiple levels of directories in Program Files and the Start Menu</li>
+  <li>If requested it will append a path to the system path for use in Command Prompt or PowerShell</li>
+  <li>When WixApp is installed, SetEnv will also be installed</li>
+  <li>The version number may be retrieved from an executable for the installer to use during installation</li>
+  <li>It will create an uninstaller that will remove all of the files and directories that it creates</li>
+</ul>
+
+<h2>How Does WixApp Work</h2>
+<p>
+WixApp allows the user to start a new project installation or open an existing installation.  WixApp
+places all of the information it gathers in a file with an "wxd" extension with the main name being the
+product name.
+</p>
+<p>
+When all the information for the installation file has been gathered one can save both the wxd file and the
+Product.wxs file or if need be just the wxd file.  Later when the user wishes to continue creating the
+installation one can "Open" the wxd project file.
+</p>
+<p>
+The Product.wxs file is compiled by Visual Studio with the Wix Installer add on.  When errors are
+discovered during the compilation one should return to WixApp to correct the error.
+</p>
+
+<h3>WixApp Input</h3>
+<p>
+The WixApp Dialog Box has three main sections:
+</p>
+<ul>
+  <li>The Product Section</li>
+  <li>The Feature Section</li>
+  <li>The Component Section</li>
+</ul>
+<p>
+There is only one Product Section.  It will create information in the Product.wxs file Product Section
+(See Product.wxs Structure below).
+</p>
+<p>
+The Feature Section of the dialog box is used to describe as many features as needed.  Each Feature
+may have a unique directory under Program Files and a unique Start Menu directory name.  Features
+may be created, edited and deleted.  Features have a name and Feature names must only use alphanumeric
+characters, underscores, dots and spaces.
+</p>
+<p>
+Each Feature section may contain any number of Components.  A Component is a file.  When a Feature is
+visible in the dialog box, the components described are added to the feature.  Each feature has a
+Component name.  Each component is required to have a path to the file.  The remaining attributes of the
+component are optional.  Component names may contain alphanumeric characters, underscores, dots and spaces.
+The component name is used to name shortcuts in the start menu and on the desktop.
+</p>
+
+<h2>Product.wxs Structure</h2>
+<p>
+Product.wxs has roughly four main sections:
+</p>
+<ul>
+  <li>Product Section</li>
+  <li>Features Section</li>
+  <li>Directory Section</li>
+  <li>Components Section</li>
+</ul>
+<p>
+  The Product Section contains information about the product, the icons, some data about the installer,
+  and the list of "Features."  A Feature is just a list of components and the Product section can
+  contain one or more "Features." The Directory Section contains a description of all the directories
+  used by the installer.  Please note that some of the Directory IDs are magic words so take care
+  changing them outside of WixApp.  A Component is a description of exactly one file and what is
+  to be done with the file during installation.  Wix is not particularly sensitive about the order
+  of these sections so WixApp creates the Product file in a way that works.
+</p>
+
+<h2>Directory Paths</h2>
+<p>
+A path in Windows is the text description of the location of a directory in a tree of directories.
+It is typically composed of a hard drive letter followed by colon and back slash followed by one or
+more names separated from each other by back slashes.  WixApp may construct the Product.wxs using a
+fully qualified path or to use the location of the
+Visual Studio solution file as the starting point for a path (i.e. $(SolutionDir)..\Release\xxx.exe).
+</p>
+<p>
+When New is selected in the File Menu a dialog box describes
+this step and next takes one to an open file dialog box to select the xxx.sln file for the project.
+It also has an input line for a project root path.  The project root path is useful when there is no
+previous path to an object.
+If something happens (like a reorganization of the directories) the solution path may be adjusted by
+the selecting the Solution Menu item.  The solution need only be input once usually so it does not appear
+in the Main Dialog Box.
+The Solution Dialog Box allows the user to use either addresses relative to the Solution directory or absolute
+addresses.
+</p>
 <!-- InstanceEndEditable -->
 </div><!-- end .content -->
 </div><!-- end .container -->

@@ -1,0 +1,18 @@
+PFF Directories
+
+ID:           WixApp
+WixID:        WixApp.pff
+Parent:       
+Name:         WixApp
+Has Children: 0
+In Use:       1
+
+PMF Directories
+
+ID:           WixApp
+WixID:        WixApp.pmf
+Parent:       
+Name:         WixApp
+Has Children: 0
+In Use:       1
+

@@ -530,7 +530,7 @@ private:
 
 
 /*
-basic_string Class Visual Studio 2017Visual Studio 2017
+basic_string Class Visual Studio 2017Visual Studio 2022
 
 Send Feedback on this topic to Microsoft. OnlineView this topic online in your default browser.
 
@@ -793,7 +793,7 @@ See Also
 Reference
 <tstring>
 Thread Safety in the C++ Standard Library
-© 2017 Microsoft Corporation. All rights reserved.
+© 2022 Microsoft Corporation. All rights reserved.
 
 Send Feedback on this topic to Microsoft.
 */

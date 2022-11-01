@@ -39,10 +39,10 @@ void WinPosData::save() {
 
 
 void WinPosData::load(RECT& defaultRect) {
-  left   = iniFile.read(WindowPosData, Left,  defaultRect.left);
-  top    = iniFile.read(WindowPosData, Top,   defaultRect.top);
-  width  = iniFile.read(WindowPosData, Width, defaultRect.right  - defaultRect.left);
-  depth  = iniFile.read(WindowPosData, Depth, defaultRect.bottom - defaultRect.top);
+  left   = iniFile.readInt(WindowPosData, Left,  defaultRect.left);
+  top    = iniFile.readInt(WindowPosData, Top,   defaultRect.top);
+  width  = iniFile.readInt(WindowPosData, Width, defaultRect.right  - defaultRect.left);
+  depth  = iniFile.readInt(WindowPosData, Depth, defaultRect.bottom - defaultRect.top);
   if (left   <  0) left   =   0;
   if (top    <  0) top    =   0;
   if (width  < 100) width = 100;

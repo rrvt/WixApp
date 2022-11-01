@@ -34,7 +34,7 @@ String      s;
 
   for (dsc = iter(); dsc; dsc = iter++) {
 
-    if (!dsc->inUse || dsc->id.isEmpty()) continue;
+    if (dsc->id.isEmpty()) continue;
 
     fo.write(_T("ID:           ")); fo.write(dsc->id); fo.crlf();
     fo.write(_T("WixID:        ")); fo.write(dsc->wixID); fo.crlf();

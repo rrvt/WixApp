@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 11/01/22
+
+Update the help file, added a toolbar, toolbar background and other minor updates.
+
 ### Update 10/19/22
 
 The Solution dialog box needed some initialization from the current open wxd file.
