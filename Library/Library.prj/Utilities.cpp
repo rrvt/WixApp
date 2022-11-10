@@ -1,7 +1,7 @@
 // Utilities
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Utilities.h"
 #include "Date.h"
 #include "NotePad.h"

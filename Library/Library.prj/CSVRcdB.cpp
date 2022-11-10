@@ -1,7 +1,7 @@
 // My CSV Records
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CSVLex.h"
 #include "CSVOut.h"
 #include "CSVRcdB.h"

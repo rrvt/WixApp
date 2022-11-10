@@ -1,7 +1,7 @@
 // Dewscriptor of one Directory Element
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "DirDesc.h"
 //#include "Directory.h"
 #include "WixUtilities.h"

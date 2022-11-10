@@ -1,7 +1,7 @@
 // Wix file Output
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "WixOut.h"
 
 #include "MessageBox.h"

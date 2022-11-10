@@ -12,19 +12,19 @@ Icon.Path=D:\Sources\WixApp\WixApp.prj\res\
 [Icons]
 NoIcons=1
 [Icon00]
-IconID=WixApp02
-WixID=WixApp02_Icon.exe
-IconPath=D:\Sources\WixApp\WixApp.prj\res\WixApp02.ico
+IconID=WixApp
+WixID=WixApp_Icon.exe
+IconPath=D:\Sources\WixApp\WixApp.prj\res\WixApp.ico
 [Product]
 ProductName=WixApp
 Company=Bob -- K6RWY
 WixName=WixApp
-WixVersion=1.6.19.0
+WixVersion=1.6.29.0
 UpgradeCode=7CC7F21A-3742-4781-BDD8-0A0B7F27241C
 SaveVerAllowed=0
 LicenseRequired=0
-LicensePath=D:\Sources\WixApp\WixApp.prj\res\WixApp02.ico
-IconID=WixApp02
+LicensePath=D:\Sources\WixApp\WixApp.prj\res\WixApp.ico
+IconID=WixApp
 [PFFDirectories]
 NoDirectories=1
 [PFFDirDesc00]
@@ -49,13 +49,13 @@ FeatureID=App
 ProgramID=WixApp
 StartMenuID=WixApp
 CurSel=WixApp
-NoComponents=2
+NoComponents=4
 [Ftr00Cmp00]
 ID=WixApp
 Path=D:\Sources\WixApp\Release\WixApp.exe
 Guid=6318AFC0-BE15-4D99-90B2-221BB223D9B6
 Description=A Dialog Application
-IconID=WixApp02
+IconID=WixApp
 IsStartMenu=1
 IsDeskTop=1
 IsVersionAvail=1
@@ -63,3 +63,11 @@ IsVersionAvail=1
 ID=Help
 Path=D:\Sources\WixApp\Release\WixApp.chm
 Guid=24853113-D1E8-4D56-90E0-4F9D35258D80
+[Ftr00Cmp02]
+ID=Banner
+Path=D:\Sources\WixApp\Release\banner.bmp
+Guid=C6ABEA36-D8D1-4E0A-837B-A3232B2F7B19
+[Ftr00Cmp03]
+ID=Dialog
+Path=D:\Sources\WixApp\Release\dialog.bmp
+Guid=A2C3DCB8-3986-4069-8169-738ED63D2924

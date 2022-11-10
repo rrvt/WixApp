@@ -1,7 +1,7 @@
 // Icon storage -- only one in the app
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Icons.h"
 #include "DefaultPath.h"
 #include "filename.h"

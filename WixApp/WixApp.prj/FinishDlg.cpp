@@ -1,7 +1,7 @@
 // FinishDlg.cpp : implementation file
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "FinishDlg.h"
 
 

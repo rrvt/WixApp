@@ -135,19 +135,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Registry.cpp" />
     <ClCompile Include="RestartAsAdmin.cpp" />
     <ClCompile Include="SetEnv.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="framework.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Registry.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RestartAsAdmin.h" />
     <ClInclude Include="SetEnv.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Utilities.h" />
   </ItemGroup>

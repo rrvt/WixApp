@@ -1,7 +1,7 @@
 // Global Options
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Options.h"
 #include "IniFile.h"
 #include "OptionsDlg.h"

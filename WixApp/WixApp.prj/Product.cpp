@@ -1,7 +1,7 @@
 // Product Section
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Product.h"
 #include "DefaultPath.h"
 #include "filename.h"

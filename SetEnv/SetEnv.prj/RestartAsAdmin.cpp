@@ -2,7 +2,7 @@
 // A program cannot just raise their capability to admin level, so just restart with the same arguments
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "RestartAsAdmin.h"
 #include "Utilities.h"
 

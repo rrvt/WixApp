@@ -1,7 +1,7 @@
 // Utility Functions
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "WixUtilities.h"
 #include "filename.h"
 #include "FilePaths.h"

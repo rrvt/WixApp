@@ -4,7 +4,7 @@
 // rrvt 6/26/95
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "trim.h"
 #include <string.h>
 

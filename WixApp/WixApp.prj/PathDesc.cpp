@@ -1,7 +1,7 @@
 // Path Descriptor -- full path and short version for display
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "PathDesc.h"
 #include "DefaultPath.h"
 #include "filename.h"
@@ -33,19 +33,18 @@ String path;
   }
 
 
-
-
 void PathDesc::writeWixData(TCchar* section, TCchar* key) {
   wxd.writeString(section, key, path());
   }
 
 
 String& PathDesc::browse(BrowseDsc& dsc) {
-String defPath = defaultPath.getPath(dsc.dfltKey);
-String name    = dsc.name.isEmpty() ? defPath : dsc.name;
-String path;
+String     defPath = defaultPath.getPath(dsc.dfltKey);
+String     name    = dsc.name.isEmpty() ? defPath : dsc.name;
+PathDlgDsc pathDsc(dsc.title, name, dsc.ext, dsc.pattern);
+String     path;
 
-  if (!getPathDlg(dsc.title, name, dsc.ext, dsc.pattern, path)) path = dsc.name;
+  if (!getSaveAsPathDlg(pathDsc, path)) path = dsc.name;
 
   relativeSolution(path);
 

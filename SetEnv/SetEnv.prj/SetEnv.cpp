@@ -1,7 +1,7 @@
 // SetEnv.cpp : Defines the entry point for the console application.
 //
 
-#include "stdafx.h"
+#include "pch.h"
 #include "SetEnv.h"
 #include "Main.h"
 #include "RestartAsAdmin.h"

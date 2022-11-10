@@ -1,7 +1,7 @@
 // WixOptsDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "pch.h"
 #include "WixOptsDlg.h"
 #include "DefaultPath.h"
 #include "WixApp.h"

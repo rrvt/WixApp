@@ -1,7 +1,7 @@
 // Wix Data Class
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "WixData.h"
 #include "CopyFile.h"
 #include "DefaultPath.h"
@@ -89,12 +89,13 @@ String     msg = _T("Output a new Wix Product File: ");
 Component* app;
 String     currentGroup;
 String     defPath;
+PathDlgDsc dsc;
 
   defPath = readWxdPath(defPath) ? getPath(defPath) : solution.getRootPath();
 
   defPath += _T("Product");
 
-  if (!getSaveAsPathDlg(_T("Product"), defPath, _T("wxs"), _T("*.wxs"), wxsPath)) return;
+  dsc(_T("Product"), defPath, _T("wxs"), _T("*.wxs"));   if (!getSaveAsPathDlg(dsc, wxsPath)) return;
 
   app = features.findAnApp();   if (app) pffDirectories.appDir = app->getProgFile();
 
@@ -130,11 +131,12 @@ String     defPath;
 
 
 void WixData::outputWxd() {
-String path;
+PathDlgDsc dsc;
+String     path;
 
   if (!readWxdPath(path)) path = solution.getRootPath() + solution.name;
 
-  if (!getSaveAsPathDlg(WxdDataFile, path, WxdDefExt, WxdExtPat, path)) return;
+  dsc(WxdDataFile, path, WxdDefExt, WxdExtPat);    if (!getSaveAsPathDlg(dsc, path)) return;
 
   saveWxdPath(path);   validate(false);
 
@@ -156,11 +158,12 @@ String path;
 
 
 bool WixData::readWixData() {
-String path;
+PathDlgDsc dsc;
+String     path;
 
   if (!readWxdPath(path)) path = solution.getRootPath();
 
-  if (!getPathDlg(WxdDataFile, path, WxdDefExt, WxdExtPat, path)) return false;
+  dsc(WxdDataFile, path, WxdDefExt, WxdExtPat);    if (!getOpenDlg(dsc, path)) return false;
 
   saveWxdPath(path);    wxd.setPath(path);
 

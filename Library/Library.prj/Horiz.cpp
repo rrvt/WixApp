@@ -1,7 +1,7 @@
 // Horizonal line management for display/printer output
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Horiz.h"
 
 

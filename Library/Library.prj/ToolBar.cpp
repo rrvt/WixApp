@@ -1,7 +1,7 @@
 // Tool Bar to be used with Button and ComboBox
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "ToolBar.h"
 #include "TBButton.h"
 #include "TBComboBox.h"

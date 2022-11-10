@@ -54,6 +54,7 @@
     <ClCompile Include="NotePad.cpp" />
     <ClCompile Include="NotePadRpt.cpp" />
     <ClCompile Include="Options.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="PrintMgr.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="ReportBase.cpp" />
@@ -62,7 +63,6 @@
     <ClCompile Include="SrchFile.cpp" />
     <ClCompile Include="Static.cpp" />
     <ClCompile Include="StatusBar.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="Strings.cpp" />
     <ClCompile Include="TabStops.cpp" />
     <ClCompile Include="TBBtnCtx.cpp" />
@@ -116,6 +116,7 @@
     <ClInclude Include="FilePaths.h" />
     <ClInclude Include="FileSrch.h" />
     <ClInclude Include="FontMgrII.h" />
+    <ClInclude Include="framework.h" />
     <ClInclude Include="GetPathDlg.h" />
     <ClInclude Include="Guid.h" />
     <ClInclude Include="Handle.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="NotePad.h" />
     <ClInclude Include="NotePadRpt.h" />
     <ClInclude Include="Options.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="PrintMgr.h" />
     <ClInclude Include="qsort.h" />
     <ClInclude Include="Random.h" />
@@ -145,7 +147,6 @@
     <ClInclude Include="Static.h" />
     <ClInclude Include="StatusBar.h" />
     <ClInclude Include="std.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="StringInput.h" />
     <ClInclude Include="Strings.h" />
     <ClInclude Include="TabStops.h" />
@@ -230,9 +231,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <BasicRuntimeChecks />
-      <PrecompiledHeaderFile />
-      <PrecompiledHeaderOutputFile />
+      <BasicRuntimeChecks/>
+      <PrecompiledHeaderFile/>
+      <PrecompiledHeaderOutputFile/>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -262,9 +263,9 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <BasicRuntimeChecks />
-      <PrecompiledHeaderFile />
-      <PrecompiledHeaderOutputFile />
+      <BasicRuntimeChecks/>
+      <PrecompiledHeaderFile/>
+      <PrecompiledHeaderOutputFile/>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>

@@ -1,7 +1,7 @@
 // SolutionPathDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "pch.h"
 #include "SolutionPathDlg.h"
 #include "GetPathDlg.h"
 #include "Solution.h"

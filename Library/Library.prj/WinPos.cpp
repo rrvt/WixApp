@@ -1,7 +1,7 @@
 // Manage Window Position and Size
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "WinPos.h"
 #include "IniFile.h"
 

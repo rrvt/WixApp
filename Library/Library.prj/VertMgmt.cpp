@@ -1,7 +1,7 @@
 // Vertical Display Management
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "VertMgmt.h"
 #include "MessageBox.h"
 

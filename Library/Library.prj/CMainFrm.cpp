@@ -1,7 +1,7 @@
 // Subclass of CFrameWndEx
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CMainFrm.h"
 
 

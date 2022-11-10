@@ -193,6 +193,9 @@
     <None Include="..\Data\PreOutpost.wxd" />
     <None Include="..\Data\Product.wxs" />
     <None Include="..\ReadMe.md" />
+    <None Include="res\WixApp.ico">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\ShortToolbar.bmp">

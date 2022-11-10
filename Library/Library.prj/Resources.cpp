@@ -1,6 +1,6 @@
 // Get Version of exe file
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Resources.h"
 #include <atltime.h>
 

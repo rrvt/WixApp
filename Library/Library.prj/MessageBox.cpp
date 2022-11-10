@@ -2,7 +2,7 @@
 // Translate a system error valude into a text string
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "MessageBox.h"
 
 

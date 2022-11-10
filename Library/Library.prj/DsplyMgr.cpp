@@ -1,7 +1,7 @@
 // Display Manager -- needed to isolate variables from Print Management
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "DsplyMgr.h"
 #include "CScrView.h"
 

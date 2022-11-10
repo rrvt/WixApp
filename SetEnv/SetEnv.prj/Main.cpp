@@ -1,7 +1,7 @@
 // Main -- Get started with arguments and do everything by calling others
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "main.h"
 #include "Registry.h"
 #include "Resources.h"

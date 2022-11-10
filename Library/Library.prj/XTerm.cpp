@@ -1,7 +1,7 @@
 // Pipe Control of another process (application)
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "XTerm.h"
 #include "match.h"
 

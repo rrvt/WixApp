@@ -1,7 +1,7 @@
 // XML Parser -- Data goes into the Store (see Store.h)
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "XmlParser.h"
 #include "XmlElement.h"
 

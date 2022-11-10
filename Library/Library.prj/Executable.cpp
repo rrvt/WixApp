@@ -1,7 +1,7 @@
 // Manipulate and exe process
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Executable.h"
 #include "MessageBox.h"
 #include <processenv.h>

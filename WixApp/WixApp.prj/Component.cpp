@@ -1,7 +1,7 @@
 // A Single Component's data
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Component.h"
 #include "Feature.h"
 #include "filename.h"

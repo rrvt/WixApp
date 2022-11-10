@@ -1,7 +1,7 @@
 // Date & Time using CTime
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Date.h"
 #include "MessageBox.h"
 #include "StringInput.h"

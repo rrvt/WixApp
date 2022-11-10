@@ -1,6 +1,6 @@
 // Crypt.cpp:
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Crypt.h"
 
 

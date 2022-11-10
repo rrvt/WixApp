@@ -15,9 +15,11 @@
 
 
 
-struct PathDlgDsc {
+class PathDlgDsc {
+String path;
+public:
 String title;         // Save As Parameters, examples:
-String name;          // _T("mumble.txt")
+String name;          // _T("mumble.txt") or including initial path _T("D:\Sources\Data\mumble.txt")
 String ext;           // _T("txt")
 String pattern;       // _T("*.txt")
 
@@ -29,28 +31,28 @@ String pattern;       // _T("*.txt")
   PathDlgDsc& operator= (PathDlgDsc& dsc) {copy(dsc); return *this;}
   PathDlgDsc& operator() (TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat)
                             {title = ttl; name = nm ? nm : _T(""); ext = e; pattern = pat; return *this;}
+  TCchar* getPath();
+
+protected:
+
   void copy(PathDlgDsc& dsc);
   };
 
 
-bool getPathDlg(PathDlgDsc& dsc, String& path);
-
-bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
-
-
-// Overwrites existing file
-
-bool getSaveAsPathDlg(PathDlgDsc& dsc, String& path);
-
-bool getSaveAsPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
+bool getOpenDlg(   PathDlgDsc& dsc, String& path);
+bool getIncOpenDlg(PathDlgDsc& dsc, String& path);
 
 
-// Allows adding to existing file
-
-bool getIncSavePathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
+bool getSaveAsPathDlg( PathDlgDsc& dsc, String& path);      // Overwrites existing file
+bool getIncSavePathDlg(PathDlgDsc& dsc, String& path);      // Allows adding to existing file
 
 bool getDirPathDlg(TCchar* title, String& path);
 
 
 
+
+
+//bool getPathDlg(PathDlgDsc& dsc, String& path);
+
+//bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
 

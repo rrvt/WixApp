@@ -3,7 +3,7 @@
 // Modified for Visual C/C++
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "filesrch.h"
 #include "trim.h"
 

@@ -10,7 +10,7 @@ class AccTblDsc;
 typedef AccIterT<AccTblDsc> TblIter;
 
 
-class AccTblDsc : public AccRcdSet {
+class AccTblDsc                                                                                                            : public AccRcdSet {
 DECLARE_DYNAMIC(AccTblDsc)
 public:
 

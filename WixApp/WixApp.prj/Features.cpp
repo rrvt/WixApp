@@ -1,7 +1,7 @@
 // Manage Component Groups
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Features.h"
 #include "DefaultPath.h"
 #include "Product.h"

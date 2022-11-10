@@ -1,7 +1,7 @@
 // Manage Default (i.e. last used) Paths
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "DefaultPath.h"
 #include "filename.h"
 #include "Solution.h"

@@ -1,7 +1,7 @@
 // LexT virtual Output class
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "LexTOut.h"
 #include "NotePad.h"
 

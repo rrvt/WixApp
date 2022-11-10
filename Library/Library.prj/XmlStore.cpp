@@ -1,7 +1,7 @@
 // Sample Data XmlStore
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "XmlStore.h"
 #include "Xmlparser.h"
 

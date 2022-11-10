@@ -2,18 +2,18 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
 <Product Id="*" UpgradeCode="242E8886-014A-42B0-AAEC-CB819CE99BD8" Language="1033"
-         Manufacturer="Bob -- K6RWY" Name="SetEnv"
-         Version="!(bind.fileVersion.SetEnv.cmp)"
-         >
+                  Manufacturer="Bob -- K6RWY" Name="SetEnv"
+                  Version="!(bind.fileVersion.SetEnv.cmp)"
+                  >
 
   <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
-           Manufacturer="Bob -- K6RWY" Description="Installs SetEnv"
-           Comments="Copyright (c) Bob -- K6RWY"
-           />
+                      Manufacturer="Bob -- K6RWY" Description="Installs SetEnv"
+                      Comments="Copyright (c) Bob -- K6RWY"
+                      />
 
   <MajorUpgrade Schedule="afterInstallInitialize"
-                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
-                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+                                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
+                                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 
   <MediaTemplate EmbedCab="yes" />
 
@@ -69,7 +69,8 @@
       <Directory Id="SetEnv.pff" Name="SetEnv" />
     </Directory>
 
-    <Directory Id="DesktopFolder" Name="Desktop" />
+
+
   </Directory>
 
   <Property Id="ApplicationFolderName" Value="SetEnv" />

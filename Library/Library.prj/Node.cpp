@@ -9,7 +9,7 @@
 // Computes a pointer to a phantom node of class/struct "type" that contains a link at
 // linkaddress
 
-#include "stdafx.h"
+#include "pch.h"
 #include "node.h"
 
 

@@ -1,7 +1,7 @@
 // find File somewhere in a file tree
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "FilePaths.h"
 #include "Expandable.h"
 #include "filesrch.h"

@@ -1,7 +1,7 @@
 // Feature -- One entity of install
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Feature.h"
 #include "DefaultPath.h"
 #include "PFFdirectories.h"

@@ -1,7 +1,7 @@
 // NotePad Report -- the data is stored in the global notePad
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "NotePadRpt.h"
 #include "CScrView.h"
 

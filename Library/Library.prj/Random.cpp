@@ -2,7 +2,7 @@
 // rrvt 3/31/17
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Random.h"
 
 // Knuth First Edition Random number constants

@@ -1,7 +1,7 @@
 // Directory Fragment
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "PFFdirectories.h"
 #include "Feature.h"
 #include "WixUtilities.h"

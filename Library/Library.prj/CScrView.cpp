@@ -14,7 +14,7 @@ void OnEndPrinting(  CDC* pDC, CPrintInfo* pInfo);  -- last
 */
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CScrView.h"
 #include "IniFile.h"
 

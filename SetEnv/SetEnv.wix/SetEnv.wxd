@@ -1,7 +1,8 @@
 [SolutionInfo]
+RootPath=D:\Sources\SetEnv
 Path=D:\Sources\SetEnv\SetEnv\SetEnv.sln
 Name=SetEnv
-Version=2.0
+Version=2.100000
 [DefaultPath]
 NPaths=2
 DefKey0=SetEnv.ftr
@@ -18,8 +19,8 @@ IconPath=D:\Sources\SetEnv\SetEnv.prj\Airstream.ico
 ProductName=SetEnv
 Company=Bob -- K6RWY
 WixName=SetEnv
-WixVersion=1.2.10.0
-UpgradeGUID=242E8886-014A-42B0-AAEC-CB819CE99BD8
+WixVersion=1.2.15.0
+UpgradeCode=242E8886-014A-42B0-AAEC-CB819CE99BD8
 SaveVerAllowed=0
 LicenseRequired=0
 LicensePath=D:\Sources\SetEnv\SetEnv\

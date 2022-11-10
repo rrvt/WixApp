@@ -1,7 +1,7 @@
 // Search File
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "SrchFile.h"
 #include "match.h"
 

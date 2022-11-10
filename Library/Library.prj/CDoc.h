@@ -16,7 +16,8 @@ String path;                                     // Path to file being processed
 
 public:
 
-  virtual bool setPath(PathDlgDsc& dsc) {return getPathDlg(dsc, path);}
+  virtual bool setOpenPath(PathDlgDsc& dsc)    {return getOpenDlg(   dsc, path);}
+  virtual bool setIncOpenPath(PathDlgDsc& dsc) {return getIncOpenDlg(dsc, path);}
 
   virtual BOOL OnOpenDocument(LPCTSTR lpszPathName) override;
 
@@ -26,8 +27,9 @@ public:
 
   virtual void OnOpenArb(void* arbObj);
 
-  virtual bool setSaveAsPath(PathDlgDsc& dsc);
-  virtual bool setIncSavePath(PathDlgDsc& dsc);
+  virtual bool setSaveAsPath(PathDlgDsc& dsc);          // Request approval to over write existing file
+  virtual bool setIncSavePath(PathDlgDsc& dsc);         // Over write file always, use backup to save file
+  virtual void backupFile(int noBackups);               // move current file to one with 12 digit ext
 
   virtual BOOL OnSaveDocument(LPCTSTR lpszPathName) override;
           bool onSaveDocument(LPCTSTR lpszPathName, bool savePath = false);

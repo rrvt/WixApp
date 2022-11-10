@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 11/10/22
+
+Replace stdafx.h with pch.h/framework.h for Microsoft reasons...
+
 ### Update 11/01/22
 
 Update the help file, added a toolbar, toolbar background and other minor updates.

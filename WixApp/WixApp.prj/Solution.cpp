@@ -1,7 +1,7 @@
 // The one object that describes the current Solution Path
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Solution.h"
 #include "DefaultPath.h"
 #include "GetPathDlg.h"
@@ -100,7 +100,7 @@ String t;
 
 
 bool Solution::getSolutionPath(String& path)
-                        {return getPathDlg(_T("Solution File"), path, _T("sln"), _T("*.sln"), path);}
+     {PathDlgDsc dsc(_T("Solution File"), path, _T("sln"), _T("*.sln"));   return getOpenDlg(dsc, path);}
 
 
 //IDR_WxdVersion

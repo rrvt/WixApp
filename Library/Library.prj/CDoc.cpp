@@ -1,11 +1,9 @@
 // CDoc -- Used to override Serialize so that Unicode may be used internally
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CDoc.h"
-
-
-//bool CDoc::setPath(PathDlgDsc& dsc) {return getPathDlg(dsc, path);}
+#include "CopyFile.h"
 
 
 BOOL CDoc::OnOpenDocument(LPCTSTR lpszPathName) {
@@ -47,11 +45,11 @@ bool CDoc::reOpenDocument() {
 void CDoc::OnOpenArb(void* arbObj) {Archive ar(arbObj, FileIO::Read);   serialize(ar);}
 
 
-bool CDoc::setSaveAsPath(PathDlgDsc& dsc)
-                            {return getSaveAsPathDlg(dsc.title, dsc.name, dsc.ext, dsc.pattern, path);}
+bool CDoc::setSaveAsPath(PathDlgDsc& dsc)  {return getSaveAsPathDlg(dsc, path);}
 
-bool CDoc::setIncSavePath(PathDlgDsc& dsc)
-                            {return getIncSavePathDlg(dsc.title, dsc.name, dsc.ext, dsc.pattern, path);}
+bool CDoc::setIncSavePath(PathDlgDsc& dsc) {return getIncSavePathDlg(dsc, path);}
+
+void CDoc::backupFile(int noBackups) {::backupFile(path, noBackups);}
 
 
 
@@ -65,6 +63,7 @@ Archive ar(path, FileIO::Write);   if (!ar.isOpen()) return false;
 
 bool CDoc::onSaveDocument(LPCTSTR lpszPathName, bool savePath) {
 String  pth = lpszPathName;   if (savePath) path = pth;
+
 Archive ar(pth, FileIO::Write);   if (!ar.isOpen()) return false;
 
   serialize(ar); return true;
@@ -82,4 +81,10 @@ BOOL CDoc::DoFileSave() {
 
 
 const CString& CDoc::GetPathName() {static CString cs; cs = path; return cs;}
+
+
+
+
+//bool CDoc::setPath(PathDlgDsc& dsc) {return getPathDlg(dsc, path);}
+
 

@@ -1,7 +1,7 @@
 // Subclass of CWinAppEx
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CApp.h"
 #include "MessageBox.h"
 #include "Resources.h"
@@ -60,7 +60,7 @@ PRINTDLG pd;
 Find memory leaks with the CRT Library - Visual Studio | Microsoft
   https://docs.microsoft.com/en-us/visualstudio/debugger/finding-memory-leaks-using-the-crt-library?view=vs-2019
 
-Memory leaks are incidious.  Here is some help for finding them.  Look at stdafx.h for turning on the
+Memory leaks are incidious.  Here is some help for finding them.  Look at framework.h for turning on the
 facilities needed for the following to work.  Must be turned on in all projects.
 
   #ifdef DebugMemoryLeaks

@@ -1,6 +1,6 @@
 // Crypt.cpp:
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Crypt.h"
 
 bool Crypt::dec(ByteBlock& encryption, String& key, ByteBlock& password) {

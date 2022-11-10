@@ -1,7 +1,7 @@
 // Report Base
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "ReportBase.h"
 #include "CScrView.h"
 

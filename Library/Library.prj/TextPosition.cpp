@@ -2,7 +2,7 @@
 // The unit of horizontal position is one character width (width).
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "TextPosition.h"
 #include "InsertSorted.h"
 

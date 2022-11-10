@@ -1,7 +1,7 @@
 // A little history class for real time data collection
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "History.h"
 #include "FileIO.h"
 #include "GetPathDlg.h"

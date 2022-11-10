@@ -1,7 +1,7 @@
 // Get String containing a GUID
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Guid.h"
 #include "Rpcdce.h"
 #include "Rpc.h"

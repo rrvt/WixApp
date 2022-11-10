@@ -1,7 +1,7 @@
 // Registry Class for dealing with the Registry
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "Registry.h"
 #include "qsort.h"
 #include "RestartAsAdmin.h"

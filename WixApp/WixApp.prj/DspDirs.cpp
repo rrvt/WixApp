@@ -1,7 +1,7 @@
 // Display Directories
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "DspDirs.h"
 #include "GetPathDlg.h"
 #include "PFFdirectories.h"
@@ -12,8 +12,11 @@ static TCchar* Title  = _T("Output Directories");
 static TCchar* DefExt = _T("txt");
 static TCchar* ExtPat = _T("*.txt");
 
-DspDirs::DspDirs() {if (getSaveAsPathDlg(Title, 0, DefExt, ExtPat, path))
-  fo.open(path, (FileIO::OpenParms) (FileIO::Write|FileIO::Create));}
+DspDirs::DspDirs() {
+PathDlgDsc dsc(Title, 0, DefExt, ExtPat);
+
+  if (getSaveAsPathDlg(dsc, path)) fo.open(path, (FileIO::OpenParms) (FileIO::Write|FileIO::Create));
+  }
 
 
 void DspDirs::output() {
