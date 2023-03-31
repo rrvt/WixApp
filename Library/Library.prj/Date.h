@@ -24,6 +24,8 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
   Date(Date& date)        {copy(date);}
  ~Date() {}
 
+  void       clear() {dt = 0;}
+
   Date       operator= (String& s);                    // Translates m/d/yy h/m/s all digits to CTime
   Date       operator= (CString& cs) {String s = cs; return s;}
   Date&      operator= (CTime& tm)   {dt = tm; return *this;}

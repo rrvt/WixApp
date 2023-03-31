@@ -187,7 +187,7 @@ public:
 
  ExpandableP& operator= (ExpandableP& e);                               // copy the whole array
 
-  Datum*  allocate()            {NewAlloc(Datum); return AllocNode;}    // allocate a heap record
+  Datum*  allocate()           {NewAlloc(Datum); return AllocNode;}     // allocate a heap record
   void    deallocate(Datum* p) {NewAlloc(Datum); FreeNode(p);}          // Does not clear array entry.
   RcdPtr* getRcdPtr(int i) {return 0 <= i && i < endN ? &tbl[i] : 0;}   // Used for difficult cases
 

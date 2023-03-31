@@ -3,8 +3,9 @@
 
 #pragma once
 
-
+class DevCtx;
 class VertMgmt;
+
 
 
 bool loadClipBoard(TCchar* s);
@@ -28,16 +29,16 @@ String clipped;
  ~ClipLine() { }
 
   void clear();
-  void open( CDC* dc);
+  void open(DevCtx& dvx);
   bool isOpen() {return opened;}
 
   void set(CPoint& pt) {point = pt;}
   void setHzPos(int pos) {hzPos = pos;}
   int  tabWidth(int newPos, int maxChWidth);
 
-  void clipRegion(TCchar* txt, int xPos, int width, VertMgmt& vert, CDC* dc);
+  void clipRegion(TCchar* txt, int xPos, int width, VertMgmt& vert, DevCtx& dvx);
 
-  void close(CDC* dc);
+  void close(DevCtx& dvx);
 
   bool load();                                    // Load into Windows Clip Board
 

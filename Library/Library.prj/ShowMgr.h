@@ -2,47 +2,41 @@
 
 
 #pragma once
-#include "DisplayDev.h"
+#include "ToDevBase.h"
 
 class CScrView;
+class NotePad;
 
 
 class ShowMgr {
 
 protected:
 
-String      id;
+CScrView&  vw;
+NotePad&   npd;
+ToDevBase& dpDev;
 
-CScrView&   vw;
-
-NotePad&    npd;
-DisplayDev  dspDev;
-
-String      font;
-double      fontSize;                 // in points, e.g. 12.3
-
-double      leftMargin;
-double      topMargin;
-double      rightMargin;
-double      botMargin;
+String     font;
+double     fontSize;                    // in points, e.g. 12.3
 
 public:
 
-  ShowMgr(TCchar* src, CScrView& view, NotePad& notePad);
- ~ShowMgr() { }
+bool wrapEnabled;
 
-  void     setFont(TCchar* f, double points = 12.0) {font = f; fontSize = points;}
+          ShowMgr(CScrView& view, NotePad& notePad, ToDevBase& dspPrtDv) : vw(view), npd(notePad),
+                                dpDev(dspPrtDv), font(_T("Arial")), fontSize(12.0), wrapEnabled(false) { }
+         ~ShowMgr() { }
 
-  void     setMgns(double left, double top, double right, double bot);
+          void     setFont(TCchar* f, double points = 12.0) {font = f; fontSize = points;}
 
-  double   getFontScale() {return dspDev.getFontScale();}
-  void     setFontScale(double scl) {dspDev.setFontScale(scl);}
+          double   getFontScale()    {return dpDev.getFontScale();}
+          void     setFontScale(double scl) {dpDev.setFontScale(scl);}
 
-  NotePad& getNotePad() {return npd;}
-  Device&  getDev()     {return dspDev.getDisplay();}
+          NotePad& getNotePad() {return npd;}
+
+          DevBase& getDevDC(CDC*& dc) {return dpDev.getDevDC(dc);}
 
 private:
 
-  ShowMgr() : npd(*(NotePad*)0), dspDev(_T(""), *(NotePad*)0), vw(*(CScrView*)0) { }
+  ShowMgr() : vw(*(CScrView*)0), npd(*(NotePad*)0), dpDev(*(ToDevBase*)0) { }
   };
-

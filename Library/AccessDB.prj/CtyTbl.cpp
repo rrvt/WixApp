@@ -1,7 +1,7 @@
 // CityState Table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CtyTbl.h"
 #include "NotePad.h"
 #include "Utilities.h"

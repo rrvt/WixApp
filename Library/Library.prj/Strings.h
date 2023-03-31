@@ -26,13 +26,13 @@ class String;
 class Cstring : public CString {
 public:
 
-  Cstring() : CString() {}
-  Cstring(TCchar*  s) : CString(s) {}
+  Cstring()          : CString() {}
+  Cstring(TCchar* s) : CString(s) {}
   Cstring(String& s);
 
   int      stoi( uint& i, int base=10);
 
-  void     clear() {Empty();}
+  void     clear()   {Empty();}
   bool     isEmpty() {return IsEmpty();}
 
   operator TCchar*() const {return GetString();}
@@ -56,10 +56,22 @@ public:
   Cstring& operator= (long       v);
   Cstring& operator= (ulong      v);
   Cstring& operator= (double     v);
+
+  bool     operator== (Cstring& t) {return (CString) *this == (CString) t;}
+  bool     operator!= (Cstring& t) {return (CString) *this != (CString) t;}
+  bool     operator>  (Cstring& t) {return (CString) *this >  (CString) t;}
+  bool     operator>= (Cstring& t) {return (CString) *this >= (CString) t;}
+  bool     operator<  (Cstring& t) {return (CString) *this <  (CString) t;}
+  bool     operator<= (Cstring& t) {return (CString) *this <= (CString) t;}
   };
 
 
-inline BOOL operator== (CString& s, TCchar* t) {return s.Compare(t);}
+inline bool operator== (Cstring& s, TCchar* t) {return s.Compare(t) == 0;}
+inline bool operator!= (Cstring& s, TCchar* t) {return s.Compare(t) != 0;}
+inline bool operator>  (Cstring& s, TCchar* t) {return s.Compare(t) >  0;}
+inline bool operator>= (Cstring& s, TCchar* t) {return s.Compare(t) >= 0;}
+inline bool operator<  (Cstring& s, TCchar* t) {return s.Compare(t) <  0;}
+inline bool operator<= (Cstring& s, TCchar* t) {return s.Compare(t) <= 0;}
 
 
 class String : public tstring {

@@ -1,0 +1,35 @@
+// RptOrient_1.RC2 - resources Microsoft Visual C++ does not edit directly
+
+
+#include "ResourceExtra.h"
+
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_Orientation DIALOGEX 0, 0, 133, 106
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Report Orientation"
+FONT 12, "Arial", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Report Orientation",IDC_STATIC,1,1,129,88,0,WS_EX_CLIENTEDGE
+    LTEXT           "NotePad:",IDC_RptLabel0,5,20,47,9,SS_CENTERIMAGE,WS_EX_RIGHT
+    COMBOBOX        IDC_NtpdOrietn,54,20,75,50,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP,WS_EX_CLIENTEDGE
+    LTEXT           "Rpt1",IDC_RptLabel1,5,37,47,9,SS_CENTERIMAGE,WS_EX_RIGHT
+    COMBOBOX        IDC_RptOrietn1,54,37,75,50,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Rpt2",IDC_RptLabel2,5,54,47,9,SS_CENTERIMAGE,WS_EX_RIGHT
+    COMBOBOX        IDC_RptOrietn2,54,54,75,50,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Rpt3",IDC_RptLabel3,5,71,47,9,SS_CENTERIMAGE,WS_EX_RIGHT
+    COMBOBOX        IDC_RptOrietn3,54,71,75,50,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,0,92,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,82,92,50,13
+END
+
+

@@ -171,7 +171,7 @@ ElIter* XmlStoreIter::push(XmlElement* element) {
 NewAlloc(ElIter);
 
   if (++stkX < noElements(data))
-    data[stkX] = AllocNodeI(*element);
+    data[stkX] = AllocNodeI1(*element);
 
   return data[stkX];
   }
@@ -183,48 +183,4 @@ ElIter* XmlStoreIter::pop() {
 
   NewAlloc(ElIter);   FreeNode(data[stkX]);  stkX--;  return stkX >= 0 ? data[stkX] : 0;
   }
-
-
-
-
-#if 0
-void XmlStore::setName(String& s) {name = s;}   //dt.getToday();
-
-
-int XmlStore::missionNo() {
-  if (!mssnNo) {Date d; d.getToday();   CTimeSpan t = d - dt;  mssnNo = t.GetSeconds() % 60;}
-
-  return mssnNo;
-  }
-#endif
-#if 0
-void XmlStore::store(Archive& ar) {
-#if 1
-#else
-DSIter iter(*this);
-Datum* datum;
-
-  for (datum = iter(); datum; datum = iter++) {
-    ar << datum->get() << aCrlf;
-    }
-#endif
-  }
-#endif
-#if 0
-// Parse the data into the record
-
-void Datum::add(String& stg) {
-int pos = stg.find('\n');
-
-  s = pos >= 0 ? stg.substr(0, pos) : stg;
-  }
-#endif
-
-#if 0
-XmlBase* b = &base;
-
-if ((int)b < 1000) {
-messageBox(_T("Hello"));
-}
-#endif
 

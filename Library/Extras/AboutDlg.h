@@ -2,7 +2,7 @@
 
 
 #pragma once
-#include "ExtraResource.h"
+#include "ResourceExtra.h"
 #include "Resource.h"
 
 

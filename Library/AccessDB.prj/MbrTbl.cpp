@@ -1,7 +1,7 @@
 // Member Table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "MbrTbl.h"
 #include "NotePad.h"
 #include "Utilities.h"

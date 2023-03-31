@@ -11,8 +11,6 @@
 #include "History.h"                      // Debug Only
 #endif
 
-#include "MessageBox.h"
-
 
 static const DWORD TBStyle = WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY |
 AFX_DEFAULT_TOOLBAR_STYLE;
@@ -135,7 +133,7 @@ TBMenuButton btn(id);
 
 
 void ToolBar::addCbxItems(uint id, CbxItem* items, int nItems, bool sorted) {
-TBBtnCtx& ctx = *findCtx(id);   if (!&ctx) return;
+TBBtnCtx& ctx = *findCtx(id);   if (!&ctx || !nItems) return;
 
   if (TBComboBox::addItems(id, items, nItems, ctx, sorted)) adjust(ctx);
   }
@@ -290,13 +288,4 @@ CRect  rect;                                          // button rectangle relati
 
   return false;
   }
-
-
-
-#if 0
-  linRect       = rect;
-  linRect.top   = linRect.bottom = linRect.top + 24;
-  linRect.left  = winRect.left  + 24;
-  linRect.right = winRect.right - 24;
-#endif
 

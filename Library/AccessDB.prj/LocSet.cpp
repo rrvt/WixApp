@@ -1,7 +1,7 @@
 // LocSet Record
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "LocSet.h"
 #include "AccessDB.h"
 

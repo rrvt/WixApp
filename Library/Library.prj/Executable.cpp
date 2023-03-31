@@ -6,8 +6,6 @@
 #include "MessageBox.h"
 #include <processenv.h>
 
-//#include "FileIO.h"
-
 
 static BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM targetId);
 
@@ -165,38 +163,5 @@ Tchar next = p[1];
 
   s += _T('\\');
   }
-
-
-
-
-//  if (szArglist ) for (i = 0; i < nArgs && i < noElements(cmdLine); i++)
-//                           {cmdLine[i] = szArglist[i];   cmdLine[i].trim();   addBackSlash(cmdLine[i]);}
-//  LocalFree(szArglist);
-
-
-
-#if 1
-#else
-//WCHAR wc[256];
-LPWSTR cl      = (LPWSTR) s.str();
-String cDir    = curDir;   addQuotes(cDir);
-#endif
-
-//  copy(s, wc, noElements(wc));
-#if 0
-bool Executable::start(TCchar* cmd, TCchar* arguments) {
-String      s;
-WCHAR       warg[1024];
-STARTUPINFO info={sizeof(info)};
-
-  s = cmd;     addQuotes(s);
-
-  if (arguments) {s += _T(' ');   s += arguments;}
-
-  if (CreateProcess(0, copy(s, warg, noElements(warg)), 0, 0, true, 0, 0, 0, &info, &procInfo))
-                                                                                              return true;
-  String err;   getError(GetLastError(), err);    messageBox(err);  return false;
-  }
-#endif
 
 

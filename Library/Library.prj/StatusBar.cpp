@@ -44,11 +44,4 @@ int   parts[2];
 
 
 
-#if 1
-#else
-  int   parts[2];
-  GetClientRect(&rect);   parts[0] = rect.right/2;  parts[1] =  -1;
-
-  return SetParts(noElements(parts), parts);
-#endif
 

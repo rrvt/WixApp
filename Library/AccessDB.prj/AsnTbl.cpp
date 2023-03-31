@@ -1,7 +1,7 @@
 // AssgnPref Table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "AsnTbl.h"
 #include "NotePad.h"
 #include "Utilities.h"

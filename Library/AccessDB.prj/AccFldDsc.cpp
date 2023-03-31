@@ -1,7 +1,7 @@
 //My Field Names -- Test Intefface to get Field Names for a table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "AccFldDsc.h"
 #include "AccessDB.h"
 

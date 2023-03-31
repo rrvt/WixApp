@@ -62,5 +62,4 @@ int pos = home ? 0 : -1;
     }
   }
 
-//  void setHome()  {if (created) {SetFocus(); SetSel(0,  0); SetSel(-1);}}
 

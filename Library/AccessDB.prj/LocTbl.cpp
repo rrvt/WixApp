@@ -1,7 +1,7 @@
 // LocationPref Table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "LocTbl.h"
 #include "NotePad.h"
 #include "Utilities.h"

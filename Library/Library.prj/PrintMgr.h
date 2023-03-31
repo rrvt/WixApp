@@ -2,74 +2,81 @@
 
 
 #pragma once
+#include "Printer.h"
+#include "NtPdToPrtr.h"
 #include "ShowMgr.h"
 
 class CScrView;
 
 
-enum PrtrOrient {Portrait, Landscape};
-
-
 class PrintMgr : public ShowMgr {
 
 NotePad     npd;
+NtPdToPrtr  pageOut;
 
-CDC*        cdc;
-CPrintInfo* pinfo;
+CDC*        dc;                       // Capture during initialization for convenience
+CPrintInfo* info;
 
-PrtrOrient  orient;
-
-bool        wrapEnabled;
-
-bool        printing;
-bool        startDocDone;
-bool        outputDone;
-bool        endPrinting;
+bool        endPrinting;              // Flag to end printing
 
 String      leftFooter;               // Data to print at right side of footer
 Date        date;                     // Date to print at left edge of footer
+
+int         pageNo;
 
 public:
 
   PrintMgr(CScrView& view);
  ~PrintMgr() { }
 
-  void       clear();
+  void clear();
 
-  void       setOrientation(PrtrOrient orientation) {orient = orientation;}
-  bool       setOrient(HANDLE h, CDC* dc);
-  PrtrOrient getOrient(HANDLE h);
+/* Doc/View Framework Calls to implement printing
+     CMyView::OnPreparePrinting    o Set length of doc if known
+             |                     o Call DoPreparePrining to display Print dialog box which creates DC
+             V
+     CMyView::OnBeginPrinting      o Set length of document based on DC
+             |                     o Allocate DGI resources
+             V
+         CDC::StartDoc
+             |
+             V
+  |->CMyView::OnPrepareDC          o Change DC attributes
+  |          |                     o Check for end of document
+  |          V
+  |      CDC::StartPage
+  |          |
+  |          V
+  |  CMyView::OnPrint              o Print specified page, including Headers and Footers
+  |          |
+  |          V
+  -------CDC::EndPage
+             |
+             V
+         CDC::EndDoc
+             |
+             V
+     CMyView::OnEndPrinting        o Deallocate GDI resources
+*/
+  void       onBeginPrinting(CDC* cdc, CPrintInfo* pInfo);
+  void       onPrepareDC(    CDC* cdc, CPrintInfo* pInfo);
+  void       onPrint(        CDC* cdC, CPrintInfo* pInfo);
 
-  void       disableWrap()    {wrapEnabled = false;}
-  void       enableWrap()     {wrapEnabled = true;}
+  // Utilities
+  void       startDev() {if (!endPrinting) pageOut.startDev();}
 
-  void       OnPrepareDC(CDC* dc, CPrintInfo* info);
-
-  void       startDev() {if (!endPrinting) dspDev.startDev();}
-
-  void       suppressOutput() {dspDev.suppressOutput();}
-  void       negateSuppress() {dspDev.negateSuppress();}
-
-  BOOL       OnPreparePrinting(CPrintInfo* info);
-  bool       finPreparePrinting(bool rslt);
-
-  int        noLinesPrPg();
-
-//  void     onBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
-
-  void       trialRun(int& maxLines, int& noPages);
-  void       OnPrint(CDC* dC, CPrintInfo* info);
-  void       printFooter(Device& dev, int pageNo);
-
-  void       endPrint() {printing = false; clear();}
+  int        getNoPages();
 
 private:
 
-  void       preparePrinter(  CDC* dc, CPrintInfo* info);
-  void       preview(         CDC* dc, CPrintInfo* info);
-  void       startFooter(Device& dev, CPrintInfo* pInfo);
+  void       prepareDC();
+  void       setMargins() {pageOut.setVertMgns(printer.topMargin, printer.botMargin);   setHorzMgns();}
+  void       setHorzMgns();
+  void       findNextPreviewPage(CDC* dc, CPrintInfo* info);
+  void       onePageOut();
   bool       isFinishedPrinting(CPrintInfo* info);
 
-             PrintMgr() : ShowMgr(_T(""), *(CScrView*)0, *(NotePad*)0) { }     //   , *(NotePad*)0
+  PrintMgr() : ShowMgr(*(CScrView*)0, *(NotePad*)0, *(NtPdToPrtr*)0), pageOut(*(NotePad*)0) { }
   };
+
 

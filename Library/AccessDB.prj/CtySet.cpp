@@ -1,7 +1,7 @@
 // CtySet Record
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "CtySet.h"
 #include "AccessDB.h"
 

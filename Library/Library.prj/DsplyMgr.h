@@ -2,33 +2,37 @@
 
 
 #pragma once
+#include "NtPdToDsply.h"
 #include "ShowMgr.h"
-
-
-class CScrView;
 
 
 class DsplyMgr : public ShowMgr {
 
-NotePad npd;
+NotePad     npd;
+NtPdToDsply displayOut;
+
+double      leftMargin;
+double      topMargin;
+double      rightMargin;
+double      botMargin;
 
 public:
 
-  DsplyMgr(CScrView& view) : ShowMgr(_T("Dsply"), view, npd) { }
+  DsplyMgr(CScrView& view) : ShowMgr(view, npd, displayOut), npd(), displayOut(npd),
+                             leftMargin(0.33), rightMargin(0.33), topMargin(0.33), botMargin(0.33) { }
  ~DsplyMgr() { }
 
-  void OnPrepareDC(CDC* dc);
-  void startDev() {dspDev.startDev();}
-  void OnDraw(CDC* pDC);
-  void setScrollSize();
+  void     setMgns(double left, double top, double right, double bot)
+                             {leftMargin = left; topMargin = top;  rightMargin = right;  botMargin = bot;}
 
-  void suppressOutput() {dspDev.suppressOutput();}
-  void negateSuppress() {dspDev.negateSuppress();}
-
-  void disableWrap()    {dspDev.disableWrap();}
-  void enableWrap()     {dspDev.enableWrap();}
+  void     onPrepareDC(CDC* dc);
+  void     startDev() {displayOut.startDev();}
+  void     onDraw(CDC* pDC);
+  void     setScrollSize();
 
 private:
-  DsplyMgr() : ShowMgr(_T(""), *(CScrView*)0, *(NotePad*)0) { }
+
+  DsplyMgr() : ShowMgr(*(CScrView*)0, *(NotePad*)0, *(NtPdToDsply*)0), displayOut(*(NotePad*)0) { }
   };
+
 

@@ -1,7 +1,7 @@
 // My Record Set -- Test Interface to get table names
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "AccRcdSet.h"
 
 IMPLEMENT_DYNAMIC(AccRcdSet, CRecordset)

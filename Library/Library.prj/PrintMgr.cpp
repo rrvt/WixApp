@@ -3,219 +3,155 @@
 
 #include "pch.h"
 #include "PrintMgr.h"
+#include "CApp.h"
 #include "CScrView.h"
+#include "Printer.h"
 
+#include "MessageBox.h"
 
-// CScrView printing
+/* Doc/View Framework Calls to implement printing
+     CMyView::OnPreparePrinting    o Set length of doc if known
+             |                     o Call DoPreparePrining to display Print dialog box which creates DC
+             V
+     CMyView::OnBeginPrinting      o Set length of document based on DC
+             |                     o Allocate DGI resources
+             V
+         CDC::StartDoc
+             |
+             V
+  |->CMyView::OnPrepareDC          o Change DC attributes
+  |          |                     o Check for end of document
+  |          V
+  |      CDC::StartPage
+  |          |
+  |          V
+  |  CMyView::OnPrint              o Print specified page, including Headers and Footers
+  |          |
+  |          V
+  -------CDC::EndPage
+             |
+             V
+         CDC::EndDoc
+             |
+             V
+     CMyView::OnEndPrinting        o Deallocate GDI resources
+*/
+
 /* The following functions are called for printing a page in the order given with one exception:
-BOOL OnPreparePrinting(        CPrintInfo* pInfo);  -- 1st
+BOOL OnPreparePrinting(        CPrintInfo* pInfo);  -- 1st                    // handled by CScrView
 void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);  -- 2nd
-     CDC::StartDoc()                                -- 3rd      // Handled by CView
-void OnPrepareDC(    CDC* pDC, CPrintInfo* pInfo);  -- 4th                         <-
-     CDC::StartPage()                               -- 5th                          ^ // Handled by CView
-void OnPrint(        CDC* pDC, CPrintInfo* pInfo);  -- 6th                          ^
-     CDC::EndPage()                                 -- 7th then loops for each page ^ // Handled by CView
-     CDC::EndDoc()                                  -- after last page                // Handled by CView
+     CDC::StartDoc()                                -- 3rd
+void OnPrepareDC(    CDC* pDC, CPrintInfo* pInfo);  -- 4th
+     CDC::StartPage()                               -- 5th
+void OnPrint(        CDC* pDC, CPrintInfo* pInfo);  -- 6th
+     CDC::EndPage()                                 -- 7th then loops for each page
+     CDC::EndDoc()                                  -- after last page
 void OnEndPrinting(  CDC* pDC, CPrintInfo* pInfo);  -- last
 */
 
 
-PrintMgr::PrintMgr(CScrView& view) : ShowMgr(_T("Print"), view, npd), orient(Portrait),
-                                                                                  wrapEnabled(false)  { }
-
-
-void PrintMgr::clear() {npd.clear();  dspDev.clear();}
-
-
-bool PrintMgr::setOrient(HANDLE h, CDC* dc) {
-DEVMODE* devMode;
-
-  if (!h) return false;
-
-  devMode = (DEVMODE*)::GlobalLock(h);    if (!devMode) return false;
-
-  switch (orient) {
-    case Portrait : devMode->dmOrientation = DMORIENT_PORTRAIT;               // portrait mode
-                    devMode->dmFields     |= DM_ORIENTATION; break;
-
-    case Landscape: devMode->dmOrientation = DMORIENT_LANDSCAPE;              // landscape mode
-                    devMode->dmFields     |= DM_ORIENTATION; break;
-    }
-
-  if (dc) dc->ResetDC(devMode);
-
-  ::GlobalUnlock(h); return true;
-  }
+PrintMgr::PrintMgr(CScrView& view) : ShowMgr(view, npd, pageOut), pageOut(npd), dc(0), info(0),
+                                     endPrinting(false), pageNo(0) { }
 
 
 
+void PrintMgr::onBeginPrinting(CDC* cdc, CPrintInfo* pInfo) {
 
-PrtrOrient PrintMgr::getOrient(HANDLE h) {
-DEVMODE*   devMode;
-short      dmOrient;
-PrtrOrient orient = Portrait;
+  clear();   dc = cdc;   info = pInfo;   info->m_bContinuePrinting = true;
 
-  if (!h) return orient;
-
-  devMode = (DEVMODE*)::GlobalLock(h);    if (!devMode) return orient;
-
-  if ((devMode->dmFields & DM_ORIENTATION) != 0) {
-
-    dmOrient = devMode->dmOrientation;
-
-    if (     dmOrient == DMORIENT_PORTRAIT)  orient = Portrait;
-    else if (dmOrient == DMORIENT_LANDSCAPE) orient = Landscape;
-    }
-
-  ::GlobalUnlock(h); return orient;
-  }
-
-
-void PrintMgr::OnPrepareDC(CDC* dc, CPrintInfo* info) {                       // Override
-
-  cdc = dc;  pinfo = info;
-
-  preparePrinter(dc, info);
-
-  if (info->m_bPreview) preview(dc, info);
-  }
-
-
-
-// Get printer dialog box
-
-BOOL PrintMgr::OnPreparePrinting(CPrintInfo* info) {
-
-  printing = true; outputDone = false; startDocDone = false;
-
-  if (vw.DoPreparePrinting(info)) return true;
-
-  printing = false; return false;
-  }
-
-
-bool PrintMgr::finPreparePrinting(bool rslt)
-                                  {outputDone = startDocDone = false; printing = rslt;  return printing;}
-
-
-// Initialize dc for printer and other initialization, called for each page
-//BOOL ResetDC(const DEVMODE* lpDevMode);
-
-void PrintMgr::preparePrinter(CDC* dc, CPrintInfo* info) {
-int     pageNo = info->m_nCurPage;
-DEVMODE devMode;
-
-  memset(&devMode, 0, sizeof(devMode));
-
-  dc->ResetDC(&devMode);
-
-  info->m_bContinuePrinting = true;     endPrinting = false;
-
-  info->m_nNumPreviewPages = 0;
+  info->m_nNumPreviewPages = 1;
 
   info->SetMinPage(1);   info->SetMaxPage(9999);
 
-  dspDev.clear();
+  pageOut.prepare(dc, info);
 
-  dspDev.setHorzMgns(leftMargin, rightMargin);   dspDev.setVertMgns(topMargin, botMargin);
-
-  dspDev.preparePrinting(font, fontSize, dc, info);
-
-  if (!outputDone) {outputDone = true; vw.onPrepareOutput(true);} // Only need to prepare data once
+  vw.onBeginPrinting();   pageOut.startDev();
   }
 
 
-int PrintMgr::noLinesPrPg() {
-int maxLines = 9999;
-int i;
-int mxPgs;
+// To determine number of pages
 
-  suppressOutput();
+int  PrintMgr::getNoPages() {
+uint     i;
 
-  npd.clear();
+  prepareDC();   setMargins();   pageOut.startDev();   pageOut.suppressOutput();
 
-  for (i = 0; i < 75; i++) {String s; s.format(_T("Line %i"), i);     npd << s << nCrlf;}
+  for (i = 0; !pageOut.isEndDoc(); i++) onePageOut();
 
-  trialRun(maxLines, mxPgs);   return maxLines;
+  pageOut.negateSuppress(); return i;
   }
 
 
-// To determine number of lines in page and number of pages this is run twice for each printed output
+void PrintMgr::clear() {
+  npd.clear();   pageOut.clear();   endPrinting = false;
+  leftFooter.clear();   date.clear();   pageNo = 0;
+  }
 
-void  PrintMgr::trialRun(int& maxLines, int& noPages) {
+
+void PrintMgr::onPrepareDC(CDC* pDC, CPrintInfo* pInfo) {                       // Override
+
+  prepareDC();   setMargins();
+
+  if (info->m_bPreview) findNextPreviewPage(dc, info);
+  }
+
+
+void PrintMgr::prepareDC() {
+DEVMODE devMode;
+
+  memset(&devMode, 0, sizeof(devMode));   dc->ResetDC(&devMode); // sets the Addtribut devmode parameter
+
+  pageOut.initFont(font, fontSize);
+  }
+
+
+void PrintMgr::setHorzMgns() {
+double leftMgn;
+double rightMgn;
+
+  pageNo   = info->m_nCurPage;
+
+  leftMgn  = pageNo & 1 ? printer.leftOdd  : printer.leftEven;
+  rightMgn = pageNo & 1 ? printer.rightOdd : printer.rightEven;
+
+  pageOut.setHorzMgns(leftMgn, rightMgn);
+  }
+
+
+// Find the next preview page by suppressing the output of preceding pages.
+// The OnPrint function is used to output to the preview window.
+
+void PrintMgr::findNextPreviewPage(CDC* dc, CPrintInfo* info) {
 uint i;
 
-  dspDev.startDev();   dspDev.clrLines();
+  endPrinting = false;   pageOut.clearOps();   pageOut.suppressOutput();   pageOut.startDev();
 
-  for (i = 0; !dspDev.isEndDoc(); i++) {
+  for (i = 1; i < info->m_nCurPage; i++) onePageOut();
 
-    dspDev.preparePrinting(font, fontSize, cdc, pinfo);
-
-    dspDev.suppressOutput();
-
-    if (wrapEnabled) dspDev.enableWrap(); else dspDev.disableWrap();
-
-    dspDev();   dspDev.clrFont();
-    }
-
-  maxLines = dspDev.maxLines();    noPages = i;
-
-  if (noPages == 1) maxLines++;  pinfo->m_nCurPage = 1;   preparePrinter(cdc, pinfo);
+  pageOut.negateSuppress();
   }
 
 
-// The OnPrint function is used to output to the preview window.  This function is required to find
-// the next page to display.  Useful to contol the paging in my program rather than in CView...
+// Draw on Printer (i.e. Output to Printer) -- Called by Windows after OnPrepareDC (thru CScrView)
 
-void PrintMgr::preview(CDC* dc, CPrintInfo* info) {
-uint i;
+void PrintMgr::onPrint(CDC* cdc, CPrintInfo* pInfo) {
 
-  dspDev.startDev();
+  onePageOut();
 
-  for (i = 1; i < info->m_nCurPage; i++) {
-
-    dspDev.suppressOutput();
-
-    if (wrapEnabled) dspDev.enableWrap(); else dspDev.disableWrap();
-
-    dspDev();   dspDev.clrFont();
-
-    if (!isFinishedPrinting(info)) dspDev.preparePrinting(font, fontSize, dc, info);
-    }
+  endPrinting = isFinishedPrinting(info);
   }
 
 
+void PrintMgr::onePageOut() {
+DevBase& dev = pageOut.getDev();
 
-// Draw on Printer (i.e. Output to Printer)
+  dev.setBeginPage();
 
-void PrintMgr::OnPrint(CDC* dC, CPrintInfo* info) {
+  dev.startContext();   dev.disableWrap();   vw.printHeader(dev, pageNo);   dev.endContext();
 
-  if (wrapEnabled) dspDev.enableWrap(); else dspDev.disableWrap();
+    if (wrapEnabled) dev.enableWrap(); else dev.disableWrap();   pageOut();
 
-  dspDev();   startFooter(dspDev.getDisplay(), info);   dspDev.clrFont();
-
-  if (isFinishedPrinting(info)) {printing = false;  endPrinting = true;}
-  }
-
-
-// The output location details are initialized and then the virtual function printFooter is called.
-// The user may provide a footer function patterned after PrintMgr's version below.
-
-void PrintMgr::startFooter(Device& dev, CPrintInfo* pInfo)
-                        {dev.setFooter();   vw.printFooter(dev, pInfo->m_nCurPage);   dev.clrFooter();}
-
-
-// Default footer for dev output.
-
-void PrintMgr::printFooter(Device& dev, int pageNo) {          // Overload if different footer desired.
-
-  if (!leftFooter.empty()) dev << leftFooter;
-
-  dev << dCenter << toString(pageNo);
-
-  if (!date.isEmpty()) {dev << dRight; dev << date.getDate() << _T("   ") << date.getTime();}
-
-  dev << dFlushFtr;
+  dev.setFooter();   dev.disableWrap();   vw.printFooter(dev, pageNo);   dev.clrFooter();
   }
 
 
@@ -224,7 +160,7 @@ void PrintMgr::printFooter(Device& dev, int pageNo) {          // Overload if di
 // passage through the NotePad list of entities.
 
 bool PrintMgr::isFinishedPrinting(CPrintInfo* info) {
-bool fin = dspDev.isEndDoc();
+bool fin = pageOut.isEndDoc();
 
   if (info) {info->m_bContinuePrinting = !fin;   if (fin) info->SetMaxPage(info->m_nCurPage);}
 

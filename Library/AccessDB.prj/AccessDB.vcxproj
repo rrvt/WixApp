@@ -16,9 +16,10 @@
     <ClInclude Include="AccIterT.h" />
     <ClInclude Include="AccRcdSet.h" />
     <ClInclude Include="AccTblDsc.h" />
-    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
-  <ClInclude Include="AdrSet.h" />
+    <ClInclude Include="AdrSet.h" />
     <ClInclude Include="AdrTbl.h" />
     <ClInclude Include="AsnSet.h" />
     <ClInclude Include="AsnTbl.h" />
@@ -38,8 +39,8 @@
     <ClCompile Include="AccFldDsc.cpp" />
     <ClCompile Include="AccRcdSet.cpp" />
     <ClCompile Include="AccTblDsc.cpp" />
-    <ClCompile Include="stdafx.cpp" />
-  <ClCompile Include="AdrSet.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="AdrSet.cpp" />
     <ClCompile Include="AdrTbl.cpp" />
     <ClCompile Include="AsnSet.cpp" />
     <ClCompile Include="AsnTbl.cpp" />

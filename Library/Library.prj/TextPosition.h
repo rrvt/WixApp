@@ -32,7 +32,7 @@ private:
 int leftEdge;                     // X offset from left edge to first output pixel and right
                                   // edge to last output pixel (for printer at least)
 int rightEdge;                    // right edge of output window
-int leftMargin;
+int leftOdd;
 
 
 Expandable<Tab, 0> tabs;          // Tab positions/Left/Right
@@ -42,12 +42,12 @@ public:
   TextPosition() {initialize();}
 
   void initialize() {
-    width = 1; leftEdge = rightEdge = leftMargin = cursorPos = maxCursorPos = lastWidth = 0;
+    width = 1; leftEdge = rightEdge = leftOdd = cursorPos = maxCursorPos = lastWidth = 0;
     tabs.clear();
     }
 
   void setLeftMargin( int lm)
-                      {leftMargin = lm >= 0 ? lm : 0;  maxCursorPos = cursorPos = getInitialCursorPos();}
+                      {leftOdd = lm >= 0 ? lm : 0;  maxCursorPos = cursorPos = getInitialCursorPos();}
   void iPos(int left, int right)
                   {leftEdge = left; rightEdge = right; maxCursorPos = cursorPos = getInitialCursorPos();}
 
@@ -57,13 +57,11 @@ public:
   int  widthCh()   {return width;}
   void move(int x) {cursorPos += x;}         // Move Cursor by the number of characters specified
   int  get()       {return cursorPos;}       // Returns the current cursor position in pixels
-  int  getCharPos(){return width ? (cursorPos - leftEdge)/width - leftMargin: 0;}
+  int  getCharPos(){return width ? (cursorPos - leftEdge)/width - leftOdd: 0;}
                                              // Returns the current cursor position in characters
 
-  void clrTabs()   {tabs.clear();}             // Clear Tabs
-  void setTab( int charPos);                 // Insert an character position for the next
-                                             // tab position
-  void setRTab(int charPos);                 // Insert an character position for the next right
+  void clrTabs()   {tabs.clear();}           // Clear Tabs
+  void setTab( int charPos, bool right);     // Insert an character position for the next
                                              // tab position
   Tab tab();                                 // return position of next tab and sets cursorPos
   Tab findNextTab();
@@ -81,6 +79,6 @@ public:
 private:
 
   int charsPerLine() {return (rightEdge - leftEdge) / width;}
-  int getInitialCursorPos() {return leftEdge + leftMargin * width;}
+  int getInitialCursorPos() {return leftEdge + leftOdd * width;}
   };
 

@@ -1,7 +1,7 @@
 // Entity Table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "EntTbl.h"
 #include "NotePad.h"
 #include "Utilities.h"

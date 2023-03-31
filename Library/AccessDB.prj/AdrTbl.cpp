@@ -1,7 +1,7 @@
 // Address Table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "AdrTbl.h"
 #include "NotePad.h"
 #include "Utilities.h"

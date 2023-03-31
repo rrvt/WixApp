@@ -4,38 +4,45 @@
 #pragma once
 
 #include "Node.h"
-#include "Wrap.h"
+#include "NoteNmbr.h"
+
+
+enum NoteAttr {NilNAttr,    PFontNAttr, LMgnNAttr,  ClrTbsNAttr, StTbsNAttr,
+               TbNAttr,     CtrNAttr,   RghtNAttr,  BgLnNAttr,   LineNAttr,
+               NmbrNAttr,   EndLnNAttr, CrlfNAttr,  EndPgNAttr, DbgNAttr};
 
 
 class Note : public Node {
 public:
 
-bool   isTable;
-int    editBoxX;                  // Index of edit box in EditBoxes class
-bool   clrTabs;                   // clear all tabs
-int    leftMargin;                // Left Margin character position
-int    tabValue;                  // set a tab position
-int    rTabValue;                 // set a right tab position
-bool   tab;                       // move cursor to next tab position
-int    width;                     // Width of field (0 undetermined, negative for right adj, otherwise
-                                  // left adjust next value
-int    precision;                 // precision for floating point display
-String fFace;                     // font Face
-double fSize;                     // Set new font size
-bool   prevFont;                  // Restore previous font
-bool   bold;                      // Set font to Bold
-bool   italic;                    // Set font to italic
-bool   underline;                 // Underline font
-bool   strikeOut;                 // Strike out font
-bool   center;                    // center all text to crlf in window
-bool   right;                     // right adjust text to crlf in window
-bool   beginLine;                 // begin underline at current position
-Wrap   wrap;                      // Multiple lines to be treated as a group
-String line;                      // add text to output after all of the above is performed
-bool   endLine;                   // end underline at current position
-bool   endPage;                   // end page when printing
-bool   crlf;                      // output crlf after text
-bool   debug;
+String   fFace;                     // font Face
+double   fSize;                     // Set new font size
+bool     bold;                      // Set font to Bold
+bool     italic;                    // Set font to italic
+bool     underline;                 // Underline font
+bool     strikeOut;                 // Strike out font
+bool     prevFont;                  // Restore previous font
+
+int      leftMargin;                // Left Margin character position
+
+bool     clrTabs;                   // clear all tabs
+int      tabValue;                  // set a tab position
+bool     rightTab;                  // true for a right tab position
+
+bool     tab;                       // move cursor to next tab position
+bool     center;                    // center all text to crlf in window
+bool     right;                     // right adjust text to crlf in window
+
+bool     beginLine;                 // begin underline at current position
+
+String   line;                      // add text to output after all of the above is performed
+
+NoteNmbr nmbr;
+
+bool     endLine;                   // end underline at current position
+bool     crlf;                      // output crlf after text
+bool     endPage;                   // end page when printing
+bool     debug;
 
   Note();
   Note(Note& n) {copy(n);}
@@ -45,6 +52,8 @@ bool   debug;
 
   Note* clone();
   Note* alloc() {NewAlloc(Note);   Note* p = AllocNode;   return p;}
+
+  bool  isAfter(NoteAttr attr);
 
   void  remove() {NewAlloc(Note); FreeNode(this);}
 
@@ -104,3 +113,6 @@ class NoteListLoop : public ListLoop {
 
   virtual Note* removeCurNode() {return (Note*) ListLoop::removeCurNode();}
   };
+
+
+

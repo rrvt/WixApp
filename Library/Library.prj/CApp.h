@@ -10,15 +10,22 @@ class CApp : public CWinAppEx {
 CDocument* doc;
 CView*     view;
 
+DEVMODE    devMode;
+
 public:
 
 String appID;
 String version;
 
   CApp(CApp* app);
- ~CApp() { }
+ ~CApp() {
+    #ifdef DebugMemoryLeaks
+      _CrtDumpMemoryLeaks();
+    #endif
+    }
 
-  virtual int ExitInstance();
+  virtual BOOL InitInstance() {return CWinAppEx::InitInstance();}
+  virtual int  ExitInstance();
 
   // Title becomes:  <app name> -- <title> or just <title> (when setTitle alone is called)
 
@@ -27,12 +34,18 @@ String version;
 
   CDocument* getDoc();
   CView*     getView();
-  HANDLE     getDevMode() {return m_hDevMode ? m_hDevMode : defDevMode();}
+  void       initPrinterAttr();
+  void       savePrinterAttr();
+  String     getPrinterName();
+
+  HANDLE     swapDevMode(HANDLE newDevMode);
   void       invalidate() {if (getView()) view->Invalidate();}
+
+  void       setupPrinterDlg() {CWinApp::OnFilePrintSetup();}
 
 private:
 
-  HANDLE    defDevMode();
+  HANDLE     getDevMode();
 
   CMainFrm* getMainFrame() {return (CMainFrm*) m_pMainWnd;}
 

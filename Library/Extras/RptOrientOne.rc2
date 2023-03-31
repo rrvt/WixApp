@@ -1,0 +1,29 @@
+// RptOrient_1.RC2 - resources Microsoft Visual C++ does not edit directly
+
+
+#include "ResourceExtra.h"
+
+
+#ifdef APSTUDIO_INVOKED
+#error this file is not editable by Microsoft Visual C++
+#endif //APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_Orientation DIALOGEX 0, 0, 133, 55
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Report Orientation"
+FONT 12, "Arial", 400, 0, 0x0
+BEGIN
+    GROUPBOX        "Report Orientation",IDC_STATIC,1,1,129,37,0,WS_EX_CLIENTEDGE
+    LTEXT           "NotePad:",IDC_RptLabel0,5,20,47,9,SS_CENTERIMAGE,WS_EX_RIGHT
+    COMBOBOX        IDC_NtpdOrietn,54,20,75,50,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP,WS_EX_CLIENTEDGE
+    DEFPUSHBUTTON   "OK",IDOK,0,38,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,82,38,50,13
+END
+
+

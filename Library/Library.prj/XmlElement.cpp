@@ -4,8 +4,6 @@
 #include "pch.h"
 #include "XmlElement.h"
 
-#include "MessageBox.h"   // Debugging
-
 
 void XmlElement::addContent(String& frag, String& tg, TagType tagTyp) {
 NewAlloc(XmlContent);  XmlContent* p = AllocNode;

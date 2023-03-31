@@ -19,25 +19,12 @@ int TextPosition::remaining() {
 
 // Insert an approximate character position for the next tab position
 
-void TextPosition::setTab(int charPos) {
+void TextPosition::setTab(int charPos, bool right) {
 Tab xTab;
 
   xTab.pos = (charPos > 0 ? charPos : (charsPerLine() + charPos)) * width + leftEdge;
 
-  xTab.right = false;
-
-  tabs = xTab;
-  }
-
-
-// Insert an approximate character position for the next tab position
-
-void TextPosition::setRTab(int charPos) {
-Tab xTab;
-
-  xTab.pos = (charPos > 0 ? charPos : (charsPerLine() + charPos)) * width + leftEdge;
-
-  xTab.right = true; tabs = xTab;
+  xTab.right = right;   tabs = xTab;
   }
 
 
@@ -65,4 +52,5 @@ Tab curPos;
 
   curPos.pos = newCurPos; curPos.right = false; return curPos;
   }
+
 

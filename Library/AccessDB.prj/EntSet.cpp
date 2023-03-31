@@ -1,7 +1,7 @@
 // EntSet Record
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "EntSet.h"
 #include "AccessDB.h"
 

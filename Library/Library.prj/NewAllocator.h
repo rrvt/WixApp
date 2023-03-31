@@ -36,18 +36,24 @@
 #include <cstdlib>
 #include <crtdbg.h>
 
-#define NewAlloc(T)      NewAllocatorT<T> MyAllocator
-#define AllocNode        MyAllocator(      _NORMAL_BLOCK, __FILE__, __LINE__)
-#define AllocNodeI(init) MyAllocator(init, _NORMAL_BLOCK, __FILE__, __LINE__)
+#define NewAlloc(T)                 NewAllocatorT<T> MyAllocator
+#define AllocNode                   MyAllocator(                _NORMAL_BLOCK, __FILE__, __LINE__)
+#define AllocNodeI1(i1)             MyAllocator(i1,             _NORMAL_BLOCK, __FILE__, __LINE__)
+#define AllocNodeI2(i1, i2)         MyAllocator(i1, i2,         _NORMAL_BLOCK, __FILE__, __LINE__)
+#define AllocNodeI3(i1, i2, i3)     MyAllocator(i1, i2, i3,     _NORMAL_BLOCK, __FILE__, __LINE__)
+#define AllocNodeI4(i1, i2, i3, i4) MyAllocator(i1, i2, i3, i4, _NORMAL_BLOCK, __FILE__, __LINE__)
 
 #define NewArray(T)      NewArrayAllocatorT<T> MyArrayAlloc
 #define AllocArray(n)    MyArrayAlloc(n,   _NORMAL_BLOCK, __FILE__, __LINE__)
 
 #else
 
-#define NewAlloc(T)      NewAllocatorT<T> MyAllocator
-#define AllocNode        MyAllocator()
-#define AllocNodeI(init) MyAllocator(init)
+#define NewAlloc(T)                 NewAllocatorT<T> MyAllocator
+#define AllocNode                   MyAllocator()
+#define AllocNodeI1(i1)             MyAllocator(i1)
+#define AllocNodeI2(i1, i2)         MyAllocator(i1, i2)
+#define AllocNodeI3(i1, i2, i3)     MyAllocator(i1, i2, i3)
+#define AllocNodeI4(i1, i2, i3, i4) MyAllocator(i1, i2, i3, i4)
 
 #define NewArray(T)      NewArrayAllocatorT<T> MyArrayAlloc
 #define AllocArray(n)    MyArrayAlloc(n)
@@ -73,12 +79,42 @@ public:
     return p;
     }
 
-  template<class Init>
-  T* operator() (Init& init, int blk, const char* file, int line) {
+  template<class I1>
+  T* operator() (I1& i1, int blk, const char* file, int line) {
 
     T* p = (T*) _malloc_dbg(sizeof(T), blk, file, line);
 
-    if (p) {new(p) T(init);}
+    if (p) {new(p) T(i1);}
+
+    return p;
+    }
+
+  template<class I1, class I2>
+  T* operator() (I1& i1, I2& i2, int blk, const char* file, int line) {
+
+    T* p = (T*) _malloc_dbg(sizeof(T), blk, file, line);
+
+    if (p) {new(p) T(i1, i2);}
+
+    return p;
+    }
+
+  template<class I1, class I2, class I3>
+  T* operator() (I1& i1, I2& i2, I3& i3, int blk, const char* file, int line) {
+
+    T* p = (T*) _malloc_dbg(sizeof(T), blk, file, line);
+
+    if (p) {new(p) T(i1, i2, i3);}
+
+    return p;
+    }
+
+  template<class I1, class I2, class I3, class I4>
+  T* operator() (I1& i1, I2& i2, I3& i3, I4& i4, int blk, const char* file, int line) {
+
+    T* p = (T*) _malloc_dbg(sizeof(T), blk, file, line);
+
+    if (p) {new(p) T(i1, i2, i3, i4);}
 
     return p;
     }
@@ -89,8 +125,21 @@ public:
 
   T* operator() () {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T();}   return p;}
 
-  template<class Init>
-  T* operator() (Init& init) {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(init);}   return p;}
+  template<class I1>
+  T* operator() (I1& i1)
+                        {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(i1);}   return p;}
+
+  template<class I1, class I2>
+  T* operator() (I1& i1, I2& i2)
+                        {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(i1, i2);}   return p;}
+
+  template<class I1, class I2, class I3>
+  T* operator() (I1& i1, I2& i2, I3& i3)
+                        {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(i1, i2, i3);}   return p;}
+
+  template<class I1, class I2, class I3, class I4>
+  T* operator() (I1& i1, I2& i2, I3& i3, I4& i4)
+                        {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(i1, i2, i3, i4);}   return p;}
 
   void freeNode(T* p) {if (!p) return;   p->~T();   free(p);}
 
@@ -111,9 +160,9 @@ public:
         *p++ = n;
     T*   q   = (T*) p;
     T*   r;
-    int  i;
+    int  iii;
 
-    for (i = 0, r = q; i < n; i++, r++) new(r) T();
+    for (iii = 0, r = q; iii < n; iii++, r++) new(r) T();
 
     return q;
     }
@@ -124,9 +173,9 @@ public:
     int* pn = (int*) p;
     int  n  = *--pn;
     T*   q;
-    int  i;
+    int  iii;
 
-    for (i = 0, q = p; i < n; i++, q++) q->~T();
+    for (iii = 0, q = p; iii < n; iii++, q++) q->~T();
 
     _free_dbg(pn, _NORMAL_BLOCK);
     }

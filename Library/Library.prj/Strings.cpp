@@ -165,24 +165,23 @@ size_t j = i;
       v = ::stod(*this, &j);    i = j;
     #endif
     }
-  catch(...) {v = 0; i = -1;} return v;
+  catch(...) {v = 0; i = -1;}
+
+  return v;
   }
 
 
 
 String dblToString(double v, int width, int precision) {
-#ifdef _UNICODE
-  wostringstream os;
-#else
-  ostringstream os;
-#endif
+String s;
 
-  os << setw(width) << setprecision(precision) << v; return os.str();
+  if (precision) {s.format(_T("%*.*f"), width, precision, v);   return s;}
+                  s.format(_T("%*f"),   width,            v);   return s;
   }
 
 
-String intToString( long v, int width) {String s;   s.format(_T("%*li"),  width, v); return s;}
-String uintToString(long v, int width) {String s;   s.format(_T("%*uli"), width, v); return s;}
+String intToString(  long v, int width) {String s;   s.format(_T("%*li"),  width, v); return s;}
+String uintToString(ulong v, int width) {String s;   s.format(_T("%*uli"), width, v); return s;}
 
 
 
@@ -196,8 +195,6 @@ int ePos;
   stg  = substr(pos, ePos == string::npos ? ePos : ePos-pos);   pos  = ePos;
   return true;
   }
-
-
 
 
 void ToAnsi::convert(TCchar* tp) {
@@ -242,4 +239,5 @@ void ToUniCode::convert(Cchar* tp) {
 
 
 ToUniCode::~ToUniCode() {if (p) {delete [] p;}}
+
 

@@ -3,9 +3,10 @@
 
 #include "pch.h"
 #include "ClipLine.h"
+#include "DevCtx.h"
+#include "MessageBox.h"
 #include "VertMgmt.h"
 
-#include "MessageBox.h"
 
 ClipLine clipLine;
 
@@ -23,13 +24,13 @@ int width = newPos - hzPos;
   }
 
 
-void ClipLine::clipRegion(TCchar* txt, int xPos, int w, VertMgmt& vert, CDC* dc) {
+void ClipLine::clipRegion(TCchar* txt, int xPos, int w, VertMgmt& vert, DevCtx& dvx) {
 int y0 = vert.pos();
 int y1 = y0 + vert.heightCh();
 
-  if (point.y < y0 || y1 <= point.y) {close(dc); return;}
+  if (point.y < y0 || y1 <= point.y) {close(dvx); return;}
 
-  if (opened || (xPos <= point.x && point.x < xPos + w)) {open(dc);   add(txt);}
+  if (opened || (xPos <= point.x && point.x < xPos + w)) {open(dvx);   add(txt);}
   }
 
 
@@ -44,17 +45,17 @@ void ClipLine::add(TCchar* txt) {
 
 
 
-void ClipLine::open(CDC* dc) {
+void ClipLine::open(DevCtx& dvx) {
 
   if (opened) return;
 
-  opened = true;   save(dc);   clipped.clear();
+  opened = true;   save(dvx.dc);   clipped.clear();
 
-  bkgdColor = dc->GetBkColor();
-  textColor = dc->GetTextColor();               // InvertRgn(CRgn* rgn);
+  bkgdColor = dvx.getBkColor();
+  textColor = dvx.getTxtColor();               // InvertRgn(CRgn* rgn);
 
-  dc->SetBkColor(invert(bkgdColor));
-  dc->SetTextColor(invert(textColor));
+  dvx.setBkColor( invert(bkgdColor));
+  dvx.setTxtColor(invert(textColor));
   }
 
 
@@ -68,8 +69,8 @@ int blu = GetBValue(c);   blu ^= 0xff;
 
 
 
-void ClipLine::close(CDC* dc) {
-  if (opened) {restore(dc);   opened = false;}
+void ClipLine::close(DevCtx& dvx) {
+  if (opened) {restore(dvx.dc);   opened = false;}
   }
 
 
@@ -102,13 +103,12 @@ HGLOBAL hData;
 
   GlobalUnlock(hData);   FreeArray(p);
 
-  if (!OpenClipboard(0)) {AfxMessageBox(_T("Cannot open the Clipboard")); return false;}
+  if (!OpenClipboard(0)) {messageBox(_T("Cannot open the Clipboard")); return false;}
 
-  if (!EmptyClipboard())
-                       {AfxMessageBox(_T("Cannot empty the Clipboard")); CloseClipboard(); return false;}
+  if (!EmptyClipboard()) {messageBox(_T("Cannot empty the Clipboard")); CloseClipboard(); return false;}
 
   if (::SetClipboardData(CF_TEXT, hData) == NULL)
-                    {AfxMessageBox(_T("Unable to set Clipboard data"));  CloseClipboard(); return false;}
+                       {messageBox(_T("Unable to set Clipboard data"));  CloseClipboard(); return false;}
 
   CloseClipboard();   return true;
   }

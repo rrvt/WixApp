@@ -1,7 +1,7 @@
 // My Table Names -- Test Interface to get table names
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "AccTblDsc.h"
 #include "AccessDB.h"
 

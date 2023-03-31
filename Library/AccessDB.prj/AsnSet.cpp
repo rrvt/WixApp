@@ -1,7 +1,7 @@
 // AsnSet Record
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "AsnSet.h"
 #include "AccessDB.h"
 

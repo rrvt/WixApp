@@ -1,7 +1,7 @@
 // StsSet Record
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "StsSet.h"
 #include "AccessDB.h"
 

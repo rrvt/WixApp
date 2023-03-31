@@ -53,11 +53,11 @@ void WinPosData::load(RECT& defaultRect) {
 
 void WinPosData::normalize(int screenWidth, int screenHeight) {
 
-  if (width        < 100 || screenWidth < width) width = 100;
+  if (width        < 100 || screenWidth < width)  width = 100;
   if (depth        < 100 || screenHeight < depth) depth = 100;
-  if (left         < 0)                       left  = 0;
-  if (left + width > screenWidth)                left  = screenWidth  - width;
-  if (top          < 0)                       top   = 0;
+  if (left         < 0)                           left  = 0;
+  if (left + width > screenWidth)                 left  = screenWidth  - width;
+  if (top          < 0)                           top   = 0;
   if (top  + depth > screenHeight)                top   = screenHeight - depth;
   }
 

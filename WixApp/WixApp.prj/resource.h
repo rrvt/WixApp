@@ -74,8 +74,9 @@
 #define ID_Solution                     405
 #define ID_Validate                     406
 #define ID_DisplayDir                   407
-#define ID_Help                         408
-#define ID_App_Exit                     409
+#define ID_App_About                    408
+#define ID_Help                         409
+#define ID_App_Exit                     410
 
 
 // Next default values for new objects
@@ -83,34 +84,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        102
-#define _APS_NEXT_COMMAND_VALUE         430
+#define _APS_NEXT_COMMAND_VALUE         420
 #define _APS_NEXT_CONTROL_VALUE         330
 #define _APS_NEXT_SYMED_VALUE           201
 #endif
-#endif
-
-
-#include "ExtraResource.h"
-
-#if 0
-#define ID_ChangeReady
-#define ID_CBox
-#define ID_EditBox
-#endif
-
-#if 0
-#define ID_Popup                        404
-#define ID_Option11                     405
-#define ID_Option12                     406
-#define ID_PopupMenu                    405
-#define ID_Option01                     406
-#define ID_Option02                     407
-#define ID_PopupMenu1                   409
-#define ID_Option11                     410
-#define ID_Option12                     411
-#define ID_SaveHist                     412
-
-#else
-
 #endif
 

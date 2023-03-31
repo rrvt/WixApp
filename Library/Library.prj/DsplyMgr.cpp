@@ -4,28 +4,39 @@
 #include "pch.h"
 #include "DsplyMgr.h"
 #include "CScrView.h"
+#include "DevTabs.h"
 
 
-void DsplyMgr::OnPrepareDC(CDC* dc) {
+void DsplyMgr::onPrepareDC(CDC* dc) {
 
-  dspDev.clear();
+  displayOut.clear();   displayOut.prepare(dc);
 
-  dspDev.setHorzMgns(leftMargin, rightMargin);   dspDev.setVertMgns(topMargin, botMargin);
+  displayOut.initFont(font, fontSize);
 
-  dspDev.prepareDisplay(font, fontSize, dc);
+  displayOut.setHorzMgns(leftMargin, rightMargin);   displayOut.setVertMgns(topMargin, botMargin);
 
-  vw.onPrepareOutput(false);
+  vw.onDisplayOutput();   displayOut.startDev();
   }
 
 
 // CScrView drawing,  Override
 
-void DsplyMgr::OnDraw(CDC* pDC) {dspDev();   dspDev.clrFont();   setScrollSize();}
+void DsplyMgr::onDraw(CDC* pDC) {
+DevBase& dev = displayOut.getDev();
+
+  dev.startContext();   dev.disableWrap();   vw.displayHeader(dev);   dev.endContext();
+
+    if (wrapEnabled) dev.enableWrap(); else dev.disableWrap();   displayOut();
+
+  dev.setFooter();   dev.disableWrap();   vw.displayFooter(dev);  dev.clrFooter();
+
+  setScrollSize();
+  }
 
 
 void DsplyMgr::setScrollSize() {
 RECT  winSize;
-int   height = dspDev.chHeight();
+int   height = displayOut.chHeight();
 int   t      = 1;
 CSize scrollViewSize;
 CSize pageSize;
@@ -37,9 +48,10 @@ CSize scrollSize;
 
   pageSize.cy = t; pageSize.cx = winSize.right;
 
-  scrollSize.cx = dspDev.lgChWidth();   scrollSize.cy = height;
+  scrollSize.cx = displayOut.lgChWidth();   scrollSize.cy = height;
 
-  dspDev.getMaxPos(scrollViewSize.cx, scrollViewSize.cy);
+  displayOut.getMaxPos(scrollViewSize.cx, scrollViewSize.cy);
 
   vw.SetScrollSizes(MM_TEXT, scrollViewSize, pageSize, scrollSize);
   }
+

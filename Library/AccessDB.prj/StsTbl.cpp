@@ -1,7 +1,7 @@
 // Status Table
 
 
-#include "stdafx.h"
+#include "pch.h"
 #include "StsTbl.h"
 #include "NotePad.h"
 #include "Utilities.h"

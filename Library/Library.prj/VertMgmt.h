@@ -2,61 +2,76 @@
 
 
 #pragma once
+#include "DevCtx.h"
 
 
 class VertMgmt {
 
-int    y;
-int    yMax;
-int    chHeight;                          // Text height
-int    maxHeight;                         // Max text height to deal with font changes
-int    uLineDelta;                        // Y delta from y for the line option
+DevCtx&   dvx;
+int       maxHeight;                            // Max character height to deal with font changes
 
-int    botEdge;                           // Input Parameters
-double topMgn;                            // Top and Bottom Margins
-double botMgn;
+int       y;
+int       yMax;
+int       topBnd;                               // The upper and lower text output region, computed
+int       botBnd;
 
-int    topBnd;                            // The upper and lower text output region, computed
-int    botBnd;
-
-bool   beginPage;
-bool   endPage;
-int    noLines;
-int    maxLines;
+bool      beginPage;
+bool      endPage;
 
 public:
 
-  VertMgmt();
+  VertMgmt(DevCtx& devCtx);
+  VertMgmt() : dvx(*(DevCtx*)0) { }
  ~VertMgmt() { }
 
   void clear();
 
-  void setAttributes(int height, double topMargin, double botMargin);
-  void setTopMargin(double v);
-  void setBotMargin(double v);
-  void setHeight(CDC* dc);
+  void initBounds();
 
-  bool exceedsBnd(int n);       // {return y + n * maxHeight > botBnd;}
-  void setBeginPage()    {beginPage = true; endPage = false;}
+  void getMaxHeight() {if (dvx.chHeight > maxHeight) maxHeight = dvx.chHeight;}
+
+
+  void setBeginPage()    {y = yMax = topBnd; beginPage = true; endPage = false;}
   bool isBeginPage()     {if (beginPage) {beginPage = false; return true;}  return false;}
-  void atEndPageCond()   {if (endPage) {endPage = false; beginPage = true; noLines = 0;}}
+  void atEndPageCond()   {if (endPage) {endPage = false; beginPage = true;}}
   bool isEndPage()       {return endPage && y > topBnd;}
   bool lf(bool printing, bool footer);
-  void clrLines()        {maxLines = 0; noLines = 0;}
-  int  getMaxLines()     {return maxLines;}
 
   void setMaxY(int v) {if (v > yMax) yMax = v;}
-  void setEndPage();          //{y = botBnd; endPage = true;}
-  void setBottom() {if (y < botBnd) y = botBnd;}
+
+  bool exceedsBnd();
+  void setEndPage() {endPage = true;}
+  void setBottom()  {y = y + maxHeight < botBnd ? botBnd : y + maxHeight/8;}
 
   int  pos()          {return y;}
-  int  getUlinePos()  {return y + uLineDelta;}
-  int  heightCh()     {return chHeight;}
+  int  getUlinePos()  {return y + dvx.uLineDelta;}
+  int  heightCh()     {return dvx.chHeight;}
   int  maxY()         {return yMax;}
   bool withinBounds() {return topBnd < y && y < botBnd;}
 
 private:
 
   void initY();
+  friend class DevBase;
   };
+
+
+
+
+// bool printing
+
+//int    noLines;
+//int    maxLines;
+//  void clrLines()        {noLines = 0;}
+//  int  getMaxLines()     {return maxLines;}
+
+//int       pageHght;                           // Input Parameters
+//double    topMargin;                          // Top and Bottom Margins
+//double    botMargin;
+//  void setHeight(CDC* dc);
+//  void clearMax() {maxHeight = 0;}
+
+//int       chHeight;                           // Text height
+//int       maxHeight;                          // Max text height to deal with font changes
+//int       uLineDelta;                         // Y delta from y for the line option
 
