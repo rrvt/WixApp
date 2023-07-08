@@ -137,6 +137,10 @@ public:
 
   afx_msg void    onUpdateIcon();
   afx_msg void    onBrowseForIcon();
+#ifdef DialogSizable
+  afx_msg void    OnSize(UINT nType, int cx, int cy);
+#endif
+
   };
 
 

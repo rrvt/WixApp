@@ -15,25 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AccessDB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AccFldDsc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AccRcdSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AccTblDsc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AccIterT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AdrSet.h">
@@ -86,21 +68,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AccessDB.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AccFldDsc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AccRcdSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AccTblDsc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AdrSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

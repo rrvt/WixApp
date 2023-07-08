@@ -4,7 +4,7 @@
   VendorName="SlickEdit"
   TemplateName="Microsoft Visual Studio 2022 C++"
   WorkingDir="."
-  AssociatedFile="AccessDB.vcxproj"
+  AssociatedFile="RACESdb.vcxproj"
   AssociatedFileType="microsoft visual studio visual c++">
   <Config
     Name="Debug|Win32"

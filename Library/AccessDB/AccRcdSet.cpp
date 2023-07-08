@@ -1,4 +1,4 @@
-// My Record Set -- Test Interface to get table names
+// Part of the infastructure of examining tables and fields.
 
 
 #include "pch.h"
@@ -80,14 +80,3 @@ void AccRcdSet::close() {
   opened = false;
   }
 
-
-
-#if 0
-#ifndef _UNICODE  // Reset the buffer to point to next element.
-    lpszFieldName = m_rgODBCFieldInfos[n - 1].m_strName.GetBuffer(MAX_FNAME_LEN + 1);
-#endif
-#ifndef _UNICODE
-    m_rgODBCFieldInfos[n - 1].m_strName.ReleaseBuffer(nActualLen);
-#else    // Copy the proxy data to correct element.
-#endif
-#endif

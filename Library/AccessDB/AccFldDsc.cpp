@@ -1,4 +1,4 @@
-//My Field Names -- Test Intefface to get Field Names for a table
+// Provieds an iterator for seeing all the fields in a table and a descriptor of a single field.
 
 
 #include "pch.h"

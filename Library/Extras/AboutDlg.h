@@ -2,8 +2,8 @@
 
 
 #pragma once
-#include "ResourceExtra.h"
 #include "Resource.h"
+#include "ResourceExtra.h"
 
 
 // AboutDlg dialog used for App About

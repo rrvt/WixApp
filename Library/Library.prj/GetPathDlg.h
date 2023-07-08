@@ -49,10 +49,3 @@ bool getIncSavePathDlg(PathDlgDsc& dsc, String& path);      // Allows adding to 
 bool getDirPathDlg(TCchar* title, String& path);
 
 
-
-
-
-//bool getPathDlg(PathDlgDsc& dsc, String& path);
-
-//bool getPathDlg(TCchar* title, TCchar* iniFileName, TCchar* defExt, TCchar* extPat, String& path);
-

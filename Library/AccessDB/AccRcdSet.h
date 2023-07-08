@@ -1,4 +1,4 @@
-// My Record Set -- Test Interface to get table names
+// Part of the infastructure of examining tables and fields.
 
 
 #pragma once

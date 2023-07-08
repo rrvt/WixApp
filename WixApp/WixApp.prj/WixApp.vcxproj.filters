@@ -33,9 +33,6 @@
     <ClInclude Include="..\..\Library\Extras\AboutDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Library\Extras\ExtraResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WixAppDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,6 +97,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DspDirs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Library\Extras\ResourceExtra.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -187,9 +187,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
-    <None Include="res\WixApp02.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\Data\PreOutpost.wxd" />
     <None Include="..\Data\Product.wxs" />
     <None Include="..\ReadMe.md" />

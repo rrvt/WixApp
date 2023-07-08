@@ -255,16 +255,16 @@ char ch;
   }
 
 
-bool FileIO::read(void* blk, uint n) {
+bool FileIO::read(void* blk, int& n) {
 Byte* p = (Byte*) blk;
-uint  i;
+int   i;
 Byte  v;
 
-  if (eof) return false;
+  if (eof) {n = 0; return false;}
 
-  for (i = 0; i < n; i++) *p++ = read(v) ? v : 0;
+  for (i = 0; i < n && read(v); i++) *p++ = v;
 
-  return true;
+  n = i;  return n > 0;
   }
 
 

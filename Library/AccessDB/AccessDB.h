@@ -1,5 +1,4 @@
-// My Access -- Test Interface to get table names
-
+// Open an Access Database for the purposes of determining the table names and fields within the tables
 
 #pragma once
 

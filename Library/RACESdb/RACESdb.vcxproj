@@ -11,11 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AccessDB.h" />
-    <ClInclude Include="AccFldDsc.h" />
-    <ClInclude Include="AccIterT.h" />
-    <ClInclude Include="AccRcdSet.h" />
-    <ClInclude Include="AccTblDsc.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="targetver.h" />
@@ -35,10 +30,6 @@
     <ClInclude Include="StsTbl.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AccessDB.cpp" />
-    <ClCompile Include="AccFldDsc.cpp" />
-    <ClCompile Include="AccRcdSet.cpp" />
-    <ClCompile Include="AccTblDsc.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="AdrSet.cpp" />
     <ClCompile Include="AdrTbl.cpp" />
@@ -55,12 +46,21 @@
     <ClCompile Include="StsSet.cpp" />
     <ClCompile Include="StsTbl.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\AccessDB\AccessDB.vcxproj">
+      <Project>{57279f7b-d4b9-47e3-8419-cb9b97c596fa}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Library.prj\Library.vcxproj">
+      <Project>{cf57f3ec-d3db-4469-8519-3f9d73785d9b}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{12084586-a769-4348-b54d-336fa036a1fb}</ProjectGuid>
     <RootNamespace>AccessDB</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>RACESdb</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -118,8 +118,8 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <FunctionLevelLinking>false</FunctionLevelLinking>
-      <PrecompiledHeaderOutputFile/>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Library.prj\</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile />
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library.prj\;$(SolutionDir)..\..\Library\AccessDB\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -142,8 +142,8 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <DebugInformationFormat>None</DebugInformationFormat>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <PrecompiledHeaderOutputFile/>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Library.prj\</AdditionalIncludeDirectories>
+      <PrecompiledHeaderOutputFile />
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library.prj\;$(SolutionDir)..\..\Library\AccessDB\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

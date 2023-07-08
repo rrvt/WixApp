@@ -2,6 +2,12 @@
 // Microsoft Visual C++ generated include file.
 // Used by WixApp.rc
 
+// DialogSizable will cause the inclusion of statments and functions that allow the main Dialog Box to
+// be resized
+
+#define DialogSizable
+
+
 #define IDR_MAINFRAME                   100
 #define IDR_TOOLBAR                     101
 #define IDR_CbxMenu                     102

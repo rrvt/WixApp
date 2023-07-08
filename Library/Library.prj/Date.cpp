@@ -193,6 +193,20 @@ SYSTEMTIME sysTm;
   }
 
 
+Date& Date::toLocalTime(Date& date) {
+DYNAMIC_TIME_ZONE_INFORMATION tz;
+DWORD                         rslt     = GetDynamicTimeZoneInformation(&tz);
+int                           dayLight;
+
+  switch (rslt) {
+    case TIME_ZONE_ID_DAYLIGHT: dayLight = tz.DaylightBias; break;
+    default                   : dayLight = 0;               break;
+    }
+
+  CTimeSpan delta(-(tz.Bias + dayLight) * 60);      //
+
+  dt = date.dt;   dt += delta;   return *this;
+  }
 
 
 

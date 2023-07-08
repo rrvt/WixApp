@@ -248,9 +248,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <BasicRuntimeChecks />
-      <PrecompiledHeaderFile />
-      <PrecompiledHeaderOutputFile />
+      <BasicRuntimeChecks/>
+      <PrecompiledHeaderFile/>
+      <PrecompiledHeaderOutputFile/>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -280,9 +280,9 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <BasicRuntimeChecks />
-      <PrecompiledHeaderFile />
-      <PrecompiledHeaderOutputFile />
+      <BasicRuntimeChecks/>
+      <PrecompiledHeaderFile/>
+      <PrecompiledHeaderOutputFile/>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>

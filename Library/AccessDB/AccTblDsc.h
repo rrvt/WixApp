@@ -1,4 +1,5 @@
-// My Table Names -- Test Interface to get table names
+// Defines an iterator to see all the tables in the database and an descriptor that shows the details
+// of a single table in the database
 
 
 #pragma once
@@ -10,7 +11,7 @@ class AccTblDsc;
 typedef AccIterT<AccTblDsc> TblIter;
 
 
-class AccTblDsc                                                                                                            : public AccRcdSet {
+class AccTblDsc : public AccRcdSet {
 DECLARE_DYNAMIC(AccTblDsc)
 public:
 

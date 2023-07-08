@@ -51,7 +51,7 @@ uint      noPages;
           void     startContext();
           void     endContext();
 
-          void     setFooter() {footer = true;   startContext();   vert.setBottom();}
+          void     setFooter() {footer = true;   startContext();   if (printing) vert.setBottom();}
           void     clrFooter() {footer = false;    endContext();   txt->nonBlankLine = false;}
 
           void     lf() {vert.lf(printing, footer);}

@@ -44,6 +44,7 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
   static void onChangeDate(CEdit& ctrl);
   static void onChangeTime(CEdit& ctrl);
 
+  Date&    toLocalTime(Date& dt);
 
   time_t   getSeconds() {return dt.GetTime();}
   String   getDate();

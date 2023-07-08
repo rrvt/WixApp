@@ -1,4 +1,6 @@
-// My Table Names -- Test Interface to get table names
+// Defines an iterator to see all the tables in the database and an descriptor that shows the details
+// of a single table in the database
+
 
 
 #include "pch.h"
@@ -39,14 +41,7 @@ UWORD   bFunctionExists;
     OnSetOptions(m_hstmt);   AllocStatusArrays();
 
     // Call the ODBC function
-#if 1
     AFX_ODBC_CALL(::SQLTables(m_hstmt, 0, SQL_NTS, 0, SQL_NTS, 0, SQL_NTS, 0, SQL_NTS));
-#else
-    AFX_ODBC_CALL(
-      ::SQLTables(m_hstmt, (SQLWCHAR*) pszTableQualifier, SQL_NTS, (SQLWCHAR*) pszTableOwner, SQL_NTS,
-                           (SQLWCHAR*) pszTableName,      SQL_NTS, (SQLWCHAR*) pszTableType,  SQL_NTS)
-      );
-#endif
 
     if (!Check(nRetCode)) return false;
 

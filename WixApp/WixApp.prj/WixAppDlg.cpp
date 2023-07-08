@@ -83,6 +83,10 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_CBN_KILLFOCUS(IDC_ComponentIcon,     &onUpdateIcon)
   ON_BN_CLICKED(   IDC_BrowseForIcon,     &onBrowseForIcon)
 
+#ifdef DialogSizable
+  ON_WM_SIZE()
+#endif
+
 END_MESSAGE_MAP()
 
 
@@ -123,6 +127,20 @@ void WixAppDlg::setupToolBar() {
   toolBar.installBtn(ID_SaveAllFiles, _T(" Save All Files "));
   toolBar.installBtn(ID_SaveWxdFile,  _T(" Save Wxd File "));
   }
+
+
+#ifdef DialogSizable
+
+void WixAppDlg::OnSize(UINT nType, int cx, int cy) {
+CRect winRect;
+
+  CDialogEx::OnSize(nType, cx, cy);
+
+  if (!isInitialized) return;
+
+  GetWindowRect(&winRect);   winPos.set(winRect);   toolBar.move(winRect);   statusBar.move(winRect);
+  }
+#endif
 
 
 // Do ToolTips
