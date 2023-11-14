@@ -18,7 +18,7 @@ public:
 
 DirStor stor;                            // c:\ProgramFiles subdirectories into which apps are placed
 
-DirDesc appDir;
+DirDesc* appDir;
 
   PFFdirectories() : stor(PffExt) {}
  ~PFFdirectories() { }
@@ -26,7 +26,7 @@ DirDesc appDir;
  void     readWixData()  {stor.readWixData();}
  void     writeWixData() {stor.writeWixData();}
 
-  DirDesc* find(String& id) {return stor.findItem(id);}
+  DirDesc* find(String& id)      {return stor.findItem(id);}
 
   DirDesc* add(String& fullPath) {return stor.add(fullPath);}
   DirDesc* getDefault()          {return stor.getDefault();}

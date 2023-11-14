@@ -120,16 +120,3 @@ void TxtOps::setMetric() {horz.setEdges(); vert.getMaxHeight();}
 
 
 
-
-#if 0
-void TxtOps::setPosition(String& sum) {
-int     wth  = dvx.width(sum);
-DevTab& cur  = *txtOut.devTabs.cur;
-bool    rTab = cur.right;
-
-  if (center) {horz.centerText(wth);              center = false;}
-  if (right)  {horz.rightText(wth);               right  = false;}
-  if (rTab)   {horz.rightTabText(cur.pos, wth);   txtOut.devTabs.reset();}
-  }
-#endif
-

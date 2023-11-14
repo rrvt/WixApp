@@ -29,8 +29,8 @@ String version;
 
   // Title becomes:  <app name> -- <title> or just <title> (when setTitle alone is called)
 
-  void       setAppName(  TCchar* appName)   {getMainFrame()->setAppName(appName);}
-  void       setTitle(    TCchar* rightPart) {getMainFrame()->setTitle(rightPart);}
+  void       setAppName(  TCchar* appName);   //{getMainFrame()->setAppName(appName);}
+  void       setTitle(    TCchar* rightPart); //{getMainFrame()->setTitle(rightPart);}
 
   CDocument* getDoc();
   CView*     getView();

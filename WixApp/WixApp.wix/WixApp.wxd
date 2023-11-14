@@ -1,5 +1,5 @@
 [SolutionInfo]
-RootPath=D:\Sources\NewDlg\
+RootPath=D:\Sources\WixApp
 Path=D:\Sources\WixApp\WixApp\WixApp.sln
 Name=WixApp
 Version=2.100000
@@ -19,7 +19,7 @@ IconPath=D:\Sources\WixApp\WixApp.prj\res\WixApp.ico
 ProductName=WixApp
 Company=Bob -- K6RWY
 WixName=WixApp
-WixVersion=1.6.29.0
+WixVersion=1.6.33.0
 UpgradeCode=7CC7F21A-3742-4781-BDD8-0A0B7F27241C
 SaveVerAllowed=0
 LicenseRequired=0
@@ -29,7 +29,7 @@ IconID=WixApp
 NoDirectories=1
 [PFFDirDesc00]
 ID=WixApp
-WixID=WixApp.pff
+WixID=WIXAPP.PFF
 Parent=
 Name=WixApp
 HasChildren=0

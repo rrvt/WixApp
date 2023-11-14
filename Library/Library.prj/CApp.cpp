@@ -24,6 +24,12 @@ ResourceData res;
   }
 
 
+void CApp::setAppName(  TCchar* appName)   {if (getMainFrame()) getMainFrame()->setAppName(appName);}
+
+
+void CApp::setTitle(    TCchar* rightPart) {if (getMainFrame()) getMainFrame()->setTitle(rightPart);}
+
+
 CDocument* CApp::getDoc() {
 
   if (doc) return doc;

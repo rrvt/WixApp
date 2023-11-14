@@ -12,7 +12,7 @@
 class CDoc : public CDocument {
 protected:
 
-String path;                                     // Path to file being processed, strictly temporary
+String path;
 
 public:
 

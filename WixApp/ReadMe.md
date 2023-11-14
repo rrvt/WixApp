@@ -14,6 +14,12 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 11/13/23
+
+Arranged for the default location for the executable files to be changed by the installer.  It turns out
+that the Ids for the directory must be capitalized in order to be changed (makes the Id public rather
+than private).
+
 ### Update 7/7/23
 
 Library Update.

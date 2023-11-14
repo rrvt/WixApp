@@ -37,7 +37,7 @@ int i;
   pbuf = ebuf = buf;  path = filePath;
 
   for (i = 0; i < 2; i++) {
-    if (cfile.Open(path, openParms, &err) != 0) return true;
+    if (cfile.Open(path, openParms, &err) != 0) {clearException();   return true;}
 
     if (parms & Create && CreateDirectory(getPath(filePath), 0)) continue;
 
@@ -70,6 +70,10 @@ bool FileIO::reOpen() {
 
   return false;
   }
+
+
+
+String FileIO::getFilePath() {String s;   if (isOpen()) s = cfile.GetFilePath();   return s;}
 
 
 void FileIO::seekEnd() {
@@ -316,6 +320,13 @@ void FileIO::saveExcp(CFileException* e) {
   err.m_lOsError    = e->m_lOsError;
   err.m_strFileName = e->m_strFileName;
   e->Delete();
+  }
+
+
+void FileIO::clearException() {
+  err.m_cause       = 0;
+  err.m_lOsError    = 0;
+  err.m_strFileName.Delete(0, 99999);
   }
 
 

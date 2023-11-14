@@ -27,8 +27,8 @@
     </Publish>
   </UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
-  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
+  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixApp\Release\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixApp\Release\banner.bmp"/>
 
   <Icon     Id="WixApp_Icon.exe" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\WixApp.ico"/>
   <Property Id="ARPPRODUCTICON"  Value="WixApp_Icon.exe" />
@@ -55,7 +55,7 @@
 <Fragment>
   <Directory Id="TARGETDIR" Name="SourceDir">
     <Directory Id="ProgramFilesFolder">
-      <Directory Id="WixApp.pff" Name="WixApp" />
+      <Directory Id="WIXAPP.PFF" Name="WixApp" />
     </Directory>
 
     <Directory Id="ProgramMenuFolder">
@@ -67,13 +67,13 @@
   </Directory>
 
   <Property Id="ApplicationFolderName" Value="WixApp" />
-  <Property Id="WIXUI_INSTALLDIR"      Value="WixApp.pff"/>
+  <Property Id="WIXUI_INSTALLDIR"      Value="WIXAPP.PFF"/>
   <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
 </Fragment>
 
 <Fragment>
 
-  <Component Id="WixApp.cmp"  Guid="6318AFC0-BE15-4D99-90B2-221BB223D9B6" Directory="WixApp.pff">
+  <Component Id="WixApp.cmp"  Guid="6318AFC0-BE15-4D99-90B2-221BB223D9B6" Directory="WIXAPP.PFF">
     <File Id="WixApp.cmp" Source="$(var.SolutionDir)..\Release\WixApp.exe" KeyPath="yes"/>
 
     <Shortcut Id               = "WixApp.shc"
@@ -81,7 +81,7 @@
               Description      = "A Dialog Application"
               Advertise        = "yes"
               Directory        = "WixApp.pmf"
-              WorkingDirectory = "WixApp.pff"
+              WorkingDirectory = "WIXAPP.PFF"
               Icon             = "WixApp_Icon.exe"
               />
 
@@ -90,20 +90,20 @@
               Description      = "A Dialog Application"
               Advertise        = "yes"
               Directory        = "DesktopFolder"
-              WorkingDirectory = "WixApp.pff"
+              WorkingDirectory = "WIXAPP.PFF"
               Icon             = "WixApp_Icon.exe"
               />
   </Component>
 
-  <Component Id="Help.cmp"  Guid="24853113-D1E8-4D56-90E0-4F9D35258D80" Directory="WixApp.pff">
+  <Component Id="Help.cmp"  Guid="24853113-D1E8-4D56-90E0-4F9D35258D80" Directory="WIXAPP.PFF">
     <File Id="Help.cmp" Source="$(var.SolutionDir)..\Release\WixApp.chm" KeyPath="yes"/>
   </Component>
 
-  <Component Id="Banner.cmp"  Guid="C6ABEA36-D8D1-4E0A-837B-A3232B2F7B19" Directory="WixApp.pff">
+  <Component Id="Banner.cmp"  Guid="C6ABEA36-D8D1-4E0A-837B-A3232B2F7B19" Directory="WIXAPP.PFF">
     <File Id="Banner.cmp" Source="$(var.SolutionDir)..\Release\banner.bmp" KeyPath="yes"/>
   </Component>
 
-  <Component Id="Dialog.cmp"  Guid="A2C3DCB8-3986-4069-8169-738ED63D2924" Directory="WixApp.pff">
+  <Component Id="Dialog.cmp"  Guid="A2C3DCB8-3986-4069-8169-738ED63D2924" Directory="WIXAPP.PFF">
     <File Id="Dialog.cmp" Source="$(var.SolutionDir)..\Release\dialog.bmp" KeyPath="yes"/>
   </Component>
 
@@ -112,7 +112,7 @@
 <Fragment>
 
   <Component Id="Uninstall_WixApp.cmp" 
-                                  Guid="8FADB822-0074-47C6-B216-C7668E12F9FB" Directory="WixApp.pmf">
+                                  Guid="F98EA2C2-CEE8-482D-AE47-CF1EB45A9636" Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"
               Name             = "Uninstall WixApp"

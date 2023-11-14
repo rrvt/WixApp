@@ -43,6 +43,8 @@ public:
 
   bool     isOpen()                      {return opened;}
 
+  String   getFilePath()                 {String s;  if (isOpen()) s = fil.getFilePath();   return s;}
+
   void     seekEnd()                     {fil.seekEnd(); storing = true;}
 
   bool     write(String&       s)        {return fil.write(s);}             // interprets \n or \r

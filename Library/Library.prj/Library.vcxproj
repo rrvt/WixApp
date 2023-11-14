@@ -123,6 +123,7 @@
     <ClInclude Include="Executable.h" />
     <ClInclude Include="Expandable.h" />
     <ClInclude Include="ExpandableP.h" />
+    <ClInclude Include="ExpandablePX.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="FileName.h" />
     <ClInclude Include="FilePaths.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="NotePad.h" />
     <ClInclude Include="NotePadRpt.h" />
     <ClInclude Include="DevTabs.h" />
+    <ClInclude Include="SendMsg.h" />
     <ClInclude Include="TxtOps.h" />
     <ClInclude Include="TxtOut.h" />
     <ClInclude Include="ToDevBase.h" />
@@ -248,9 +250,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <BasicRuntimeChecks/>
-      <PrecompiledHeaderFile/>
-      <PrecompiledHeaderOutputFile/>
+      <BasicRuntimeChecks />
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -280,9 +282,9 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <BasicRuntimeChecks/>
-      <PrecompiledHeaderFile/>
-      <PrecompiledHeaderOutputFile/>
+      <BasicRuntimeChecks />
+      <PrecompiledHeaderFile />
+      <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>

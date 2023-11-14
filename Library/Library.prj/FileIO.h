@@ -39,6 +39,8 @@ enum OpenParms {Read=1, Write=2, Create=4};
   bool open(TCchar* filePath, int parms);
   void close();
 
+  String getFilePath();
+
   void seekEnd();
 
   bool reOpen();
@@ -69,6 +71,8 @@ enum OpenParms {Read=1, Write=2, Create=4};
   void crlf() {write(_T('\n'));}
 
   Tchar* getLastError();                            // Returns last error
+
+  void   clearException();
 
 private:
 

@@ -87,6 +87,7 @@ String     wxsPath;
 String     pathOnly;
 String     msg = _T("Output a new Wix Product File: ");
 Component* app;
+DirDesc*   appDir;
 String     currentGroup;
 String     defPath;
 PathDlgDsc dsc;
@@ -97,7 +98,9 @@ PathDlgDsc dsc;
 
   dsc(_T("Product"), defPath, _T("wxs"), _T("*.wxs"));   if (!getSaveAsPathDlg(dsc, wxsPath)) return;
 
-  app = features.findAnApp();   if (app) pffDirectories.appDir = app->getProgFile();
+  app = features.findAnApp();
+
+  if (app) {pffDirectories.appDir = appDir = app->getProgFile();   appDir->wixID.upperCase();}
 
   backupFile(wxsPath, 10);
 

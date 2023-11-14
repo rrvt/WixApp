@@ -551,6 +551,12 @@
     <ClInclude Include="DebugBlk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SendMsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExpandablePX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Documentation\XML.pdf" />

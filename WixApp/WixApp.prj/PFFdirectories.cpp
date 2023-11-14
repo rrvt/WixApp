@@ -7,11 +7,6 @@
 #include "WixUtilities.h"
 
 TCchar* PffExt       = _T("pff");
-//TCchar* PmfExt       = _T("pmf");
-//TCchar* DktExt       = _T("dkt");
-
-//TCchar* StartMenuDir = _T("StartMenuDir");
-//TCchar* DeskTopDir   = _T("DesktopFolder");
 
 
 PFFdirectories pffDirectories;
@@ -53,10 +48,14 @@ DirDesc* d;
   d = stor.getDefault();   wix(1);
   if (d) wix(_T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
 
-  wix(_T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir.wixID, _T("\"/>"));
+  wix(_T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir->wixID, _T("\"/>"));
   wix(_T("<Property Id=\"WixAppFolder\"          Value=\""), _T("WixPerMachineFolder"), _T("\" />"));
   wix(0);   wix(_T("</Fragment>"));   wix.crlf();
   }
+
+
+
+
 
 #if 0
 void DirDesc::store(CString& cs, TCchar* ext) {
@@ -75,4 +74,9 @@ void DirDesc::store(CString& cs, TCchar* ext) {
 
   wix.lit(1, _T("</Directory>\n\n"));
 #endif
+//TCchar* PmfExt       = _T("pmf");
+//TCchar* DktExt       = _T("dkt");
+
+//TCchar* StartMenuDir = _T("StartMenuDir");
+//TCchar* DeskTopDir   = _T("DesktopFolder");
 
