@@ -2,8 +2,8 @@
 
 
 #pragma once
-#include "ResourceExtra.h"
 #include "PrintMgr.h"
+#include "ResourceExtra.h"
 
 
 // OptionsDlg dialog

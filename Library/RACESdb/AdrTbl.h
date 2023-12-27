@@ -55,7 +55,7 @@ private:
 
 
 // Record Pointer Declaration, see ExpandableP.h for details
-typedef DatumPtrT<AdrRcd> AdrRcdP;
+typedef DatumPtrT<AdrRcd, int> AdrRcdP;
 
 // Iterator Declaration, see IterT.h for details
 class AdrTbl;
@@ -64,7 +64,7 @@ typedef IterT<AdrTbl, AdrRcd> AdrIter;
 
 class AdrTbl {
 
-ExpandableP<AdrRcd, AdrRcdP, 2> data;
+ExpandableP<AdrRcd, int, AdrRcdP, 2> data;
 
 int    maxID;
 AdrSet adrSet;

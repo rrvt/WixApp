@@ -96,9 +96,6 @@
     <ClCompile Include="IniFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LexTOut.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="match.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -317,9 +314,6 @@
     <ClInclude Include="Expandable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExpandableP.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -348,9 +342,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LexT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LexTOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManipT.h">
@@ -554,7 +545,10 @@
     <ClInclude Include="SendMsg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ExpandablePX.h">
+    <ClInclude Include="ExpandableP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LexErr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

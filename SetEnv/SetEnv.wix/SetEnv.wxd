@@ -19,7 +19,7 @@ IconPath=D:\Sources\SetEnv\SetEnv.prj\Airstream.ico
 ProductName=SetEnv
 Company=Bob -- K6RWY
 WixName=SetEnv
-WixVersion=1.2.15.0
+WixVersion=1.2.18.0
 UpgradeCode=242E8886-014A-42B0-AAEC-CB819CE99BD8
 SaveVerAllowed=0
 LicenseRequired=0
@@ -29,7 +29,7 @@ IconID=Airstream
 NoDirectories=1
 [PFFDirDesc00]
 ID=SetEnv
-WixID=SetEnv.pff
+WixID=SETENV.PFF
 Parent=
 Name=SetEnv
 HasChildren=0

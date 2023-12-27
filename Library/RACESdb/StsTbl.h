@@ -55,7 +55,7 @@ private:
 
 
 // Record Pointer Declaration, see ExpandableP.h for details
-typedef DatumPtrT<StsRcd> StsRcdP;
+typedef DatumPtrT<StsRcd, int> StsRcdP;
 
 // Iterator Declaration, see IterT.h for details
 class StsTbl;
@@ -64,7 +64,7 @@ typedef IterT<StsTbl, StsRcd> StsIter;
 
 class StsTbl {
 
-ExpandableP<StsRcd, StsRcdP, 2> data;
+ExpandableP<StsRcd, int, StsRcdP, 2> data;
 
 int    maxID;
 StsSet stsSet;

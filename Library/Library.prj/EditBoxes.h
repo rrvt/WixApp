@@ -9,7 +9,7 @@
 
 
 
-typedef DatumPtrT<EditBox> EditBoxP;
+typedef DatumPtrT<EditBox, int>   EditBoxP;
 class EditBoxes;
 typedef IterT<EditBoxes, EditBox> BxsIter;
 
@@ -17,7 +17,7 @@ typedef IterT<EditBoxes, EditBox> BxsIter;
 class EditBoxes {
 
 CWnd*                             view;
-ExpandableP<EditBox, EditBoxP, 2> boxes;
+ExpandableP<EditBox, int, EditBoxP, 2> boxes;
 
 public:
 

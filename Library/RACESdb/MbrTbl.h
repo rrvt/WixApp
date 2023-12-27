@@ -84,7 +84,7 @@ private:
 
 
 // Record Pointer Declaration, see ExpandableP.h for details
-typedef DatumPtrT<MbrRcd> MbrRcdP;
+typedef DatumPtrT<MbrRcd, int> MbrRcdP;
 
 // Iterator Declaration, see IterT.h for details
 class MbrTbl;
@@ -93,7 +93,7 @@ typedef IterT<MbrTbl, MbrRcd> MbrIter;
 
 class MbrTbl {
 
-ExpandableP<MbrRcd, MbrRcdP, 2> data;
+ExpandableP<MbrRcd, int, MbrRcdP, 2> data;
 
 int    maxID;
 MbrSet mbrSet;

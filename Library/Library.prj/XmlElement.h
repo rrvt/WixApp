@@ -52,7 +52,7 @@ private:
   };
 
 
-typedef DatumPtrT<XmlBase> XmlBasePB;
+typedef DatumPtrT<XmlBase, int> XmlBasePB;
 
 
 class XmlbaseP : public XmlBasePB {
@@ -91,7 +91,7 @@ class XmlElement : public XmlBase {
 
 XmlElement* upLink;
 
-ExpandableP<XmlBase, XmlbaseP, 2> data;
+ExpandableP<XmlBase, int, XmlbaseP, 2> data;
 
 public:
 

@@ -56,7 +56,7 @@ private:
 
 
 // Record Pointer Declaration, see ExpandableP.h for details
-typedef DatumPtrT<CtyRcd> CtyRcdP;
+typedef DatumPtrT<CtyRcd, int> CtyRcdP;
 
 // Iterator Declaration, see IterT.h for details
 class CtyTbl;
@@ -65,7 +65,7 @@ typedef IterT<CtyTbl, CtyRcd> CtyIter;
 
 class CtyTbl {
 
-ExpandableP<CtyRcd, CtyRcdP, 2> data;
+ExpandableP<CtyRcd, int, CtyRcdP, 2> data;
 
 int    maxID;
 CtySet ctySet;

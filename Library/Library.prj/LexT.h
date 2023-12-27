@@ -4,8 +4,7 @@
 
 
 #pragma once
-#include "LexTOut.h"
-#include "NotePad.h"
+#include "LexErr.h"
 #include "Token.h"
 #include <float.h>
 #include <math.h>
@@ -29,7 +28,8 @@ struct Input {
 inline Input::~Input() {}
 
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote> class LexT {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+class LexT {
 
 typedef enum {
   nil, begin_tok, collect_symbol, got_slash, collect_white,
@@ -71,10 +71,12 @@ bool     print_source_line;     // print source line when true
 int      line_number;           // current line number
 int      offset;                // offset to token
 
+int      error_count;           // number of syntax errors
+LexErr   lexErr;
+
 public:
 
 Input   input;                   // Input is performed with this class whatever it is.
-LexTOut output;
 
 Token*  token;                   // token returned    static const
 Token*  token1;                  // Next token in input stream
@@ -103,6 +105,9 @@ Token*  token1;                  // Next token in input stream
 
   void        error(Token* token, TCchar* stg);    // Error processing
 
+  int         noErrors()  {return error_count;}
+  LexErr&     lastError() {return lexErr;}
+
 private:
 
 // Local Functions
@@ -126,6 +131,8 @@ private:
   // Return offset of current token from left margin
 
   void display_source_line(Token* token);
+
+  void output(TCchar* tc);
   };
 
 
@@ -177,8 +184,8 @@ static Character_Classes character_class_table[] = {
 
 
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-                   LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::LexT() : pline(0), backOne(0) {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+             LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::LexT() : pline(0), backOne(0), error_count(0) {
   NewAlloc(Token); token = AllocNode; token1 = AllocNode;
   source[0] = &source_line; source[1] = &source_line1;
   }
@@ -186,15 +193,15 @@ template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQu
 
 // open lexical analyser file
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-                              void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::initialize() {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+                              void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::initialize() {
   input.initialize();  finishInit();
   }
 
 
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-                              void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::finishInit() {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+                              void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::finishInit() {
   state = begin_tok;
 
   current_source = 0; pline = source[current_source]; pline->clear();
@@ -203,37 +210,37 @@ template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQu
   val = last_val = no_digits = frac = divisor = exponent = 0;
   neg_exponent = startHex = false;
   accept_two_tokens(); startHex = false; ch = backOne = 0;
-  print_source_line = false;
+  print_source_line = false;   error_count = 0; lexErr.clear();
   }
 
 
 // Set print flag, true will cause source line to be printed
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-            void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::set_print_flag(bool flag)
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+            void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::set_print_flag(bool flag)
                                                                               {print_source_line = flag;}
 
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-                bool LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::get_print_flag(void)
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+                bool LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::get_print_flag(void)
                                                                               {return print_source_line;}
 
 
 // accept token by clearing the token code
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-                      void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::accept_token(void)
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+                      void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::accept_token(void)
                                                                                 {token->code = NoToken;}
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-  void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::accept_two_tokens(void)
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+  void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::accept_two_tokens(void)
                                                                   {token->code = token1->code = NoToken;}
 
 
 // get next token when token is empty, values set in globals
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-                      TokenCode LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::get_token(void) {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+                      TokenCode LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::get_token(void) {
 Token* p = 0;
 
   if (token->code != NoToken) return token->code;
@@ -244,8 +251,8 @@ Token* p = 0;
   }
 
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-                       void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::next_tok(Token* tok) {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+                       void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::next_tok(Token* tok) {
 Character_Classes ch_class;                 // character class of current character
 
   ptok = &tok->name; ptok->clear();
@@ -696,7 +703,6 @@ eof:      case eofch:   tok->code = EOFToken;
         move_char(); continue;
 
 
-
 // This should never happen, but ...
 
       default:          state = begin_tok; continue;
@@ -705,15 +711,10 @@ eof:      case eofch:   tok->code = EOFToken;
   }
 
 
-// Globals
-
-static int error_count;     /* number of syntax errors */
-
-
 // Functions
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-           void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::error(Token* token, TCchar* stg) {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+           void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::error(Token* token, TCchar* stg) {
 int    lng    = (int) _tcslen(stg);
 String f;
 
@@ -721,33 +722,33 @@ String f;
 
   f.format(_T("%i: Token: %s - Error: %s\n"),  error_count, token->name, stg);
 
-  output(notePad, _T("%s\n"), stg);
-
-  error_count++;
+  output(stg);   error_count++;
   }
 
 
 // display source line associated with current tok.
 // Return offset of current tok
 
-template<class Input, class LexTOut, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-            void LexT<Input, LexTOut, WhiteSpace, QuoteEol, BSinQuote>::display_source_line(Token* tok) {
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+            void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::display_source_line(Token* tok) {
 String* pstg   = tok->psource;
 String  f;
 
   pstg->trim();
 
-  if (pstg->empty()) {output(notePad, _T("%s\n"), f);}                         //notePad << f << nCrlf;
+  if (pstg->empty()) {output(f);}                         //notePad << f << nCrlf;
 
-  else if (offset  < 74)
-    {f.format(_T("%3i:  %s\n"), tok->line_number, pstg->str()); output(notePad, _T("%s\n"), f);}
-
+  else if (offset  < 74) {f.format(_T("%3i:  %s\n"), tok->line_number, pstg->str()); output(f);}
 
   else {
-    f.format(_T("%3i:  %s\n"), tok->line_number, pstg->substr(0, 74).str());
-    output(notePad, _T("%s\n"), f);
+    f.format(_T("%3i:  %s\n"), tok->line_number, pstg->substr(0, 74).str());   output(f);
 
-    f.format(_T("      %s\n"), pstg->substr(74).str()); output(notePad, _T("%s\n"), f);
+    f.format(_T("      %s\n"), pstg->substr(74).str()); output(f);
     }
   }
+
+
+template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
+void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::output(TCchar* tc) {lexErr.addLine(tc);}
+
 

@@ -2,7 +2,6 @@
 // Copyright Software Design & Engineering, Robert R. Van Tuyl, 2013.  All rights reserved.
 
 // Requires the following operations for node N* p, N* q, N* s
-//  *p == *q
 //  *p >  *q
 //  *p <= *q
 //  *s =  *p

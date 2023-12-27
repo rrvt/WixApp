@@ -45,13 +45,13 @@ private:
   };
 
 
-typedef DatumPtrT<FontAttr> FontAttrP;                      // Usually defined just before iterator
+typedef DatumPtrT<FontAttr, String> FontAttrP;                      // Usually defined just before iterator
 
 
 class FontMgr {
 FontAttr*                           cur;
 int                                 stkX;
-ExpandableP<FontAttr, FontAttrP, 8> data;
+ExpandableP<FontAttr, String, FontAttrP, 8> data;
 
 public:
 

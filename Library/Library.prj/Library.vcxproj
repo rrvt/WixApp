@@ -50,7 +50,6 @@
     <ClCompile Include="History.cpp" />
     <ClCompile Include="Horiz.cpp" />
     <ClCompile Include="IniFile.cpp" />
-    <ClCompile Include="LexTOut.cpp" />
     <ClCompile Include="match.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -123,7 +122,6 @@
     <ClInclude Include="Executable.h" />
     <ClInclude Include="Expandable.h" />
     <ClInclude Include="ExpandableP.h" />
-    <ClInclude Include="ExpandablePX.h" />
     <ClInclude Include="FileIO.h" />
     <ClInclude Include="FileName.h" />
     <ClInclude Include="FilePaths.h" />
@@ -139,7 +137,7 @@
     <ClInclude Include="InsertSorted.h" />
     <ClInclude Include="IterT.h" />
     <ClInclude Include="LexT.h" />
-    <ClInclude Include="LexTOut.h" />
+    <ClInclude Include="LexErr.h" />
     <ClInclude Include="ManipT.h" />
     <ClInclude Include="match.h" />
     <ClInclude Include="MessageBox.h" />

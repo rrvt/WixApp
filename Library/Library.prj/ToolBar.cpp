@@ -132,6 +132,13 @@ TBMenuButton btn(id);
   }
 
 
+bool ToolBar::installMenu(uint id, uint idr, uint imageIndex) {
+TBMenuButton btn(id);
+
+  btn.install(idr, imageIndex);   return ReplaceButton(id, btn) > 0;
+  }
+
+
 void ToolBar::addCbxItems(uint id, CbxItem* items, int nItems, bool sorted) {
 TBBtnCtx& ctx = *findCtx(id);   if (!&ctx || !nItems) return;
 

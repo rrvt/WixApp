@@ -11,43 +11,54 @@ Datum is a class, e.g. class Datum {...}, and requires the following methods:
  -- Destructor, e.g. ~Datum() that releases objects obtained from the heap and zeros all data
     components
 
+The following methods are required in Datum if the corresponding Expandable data method is needed:
+ -- bool operator>= (Datum& d);     // Required for data = datum (Insertion Sort)
+ -- bool operator<= (Datum& d);     // Required for qsort
+ -- bool operator>  (Datum& d);     // Required for qsort
+
+ -- bool operator== (Key  key);     // Required for linear(Key key) and bSearch(Key key)
+ -- bool operator>  (Key  key);     // Required for bSearch(Key key)
+ -- bool operator<  (Key  key);     // Required for bSearch(Key key)
+
+Interator
+
 The easiest way to loop through all the elements in the array is to use an iterator.  It IterT.h file
 contains a template for creating an iterator for Expandable files.  First one must declare the Iterator
 class so that an object may be created somewhere that it is going to be used.  The Datum class is a record
 that is stored in an expandable array which is housed in class Xyz
 
   class Xyz;
-  typedef IterT<Xyz, Datum> DataIter;                        // Iterator for the Xyz
+  typedef IterT<Xyz, Datum> XyzIter;                        // Iterator for the Xyz
 
 Now that is not all there is to do.  The Xyz class must implement the following:
 
-The template requires two functions be part of Store:
+// int    nData()            -- returns number of data items in array
+// Datum* datum(int i)       -- returns either a pointer to data (or datum) at index i in array or zero
+// void   removeDatum(int i) -- if i in bounds, removes and deallocates record
+// friend typename DataIter  -- required to give access to private area of Xyz.
 
-  int    nData()            -- returns number of data items in array
-  Datum* datum(int i)       -- returns either a pointer to data (or datum) at index i in array or zero
-  void   removeDatum(int i) -- if i in bounds, removes and deallocates record
-  friend typename DataIter -- required to give access to private area of Xyz.
-
+class Xyz {
+  ooo
 private:
 
   // returns either a pointer to datum at index i in array or zero
 
   Datum* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}
 
-  int   nData()      {return data.end();}                       // returns number of data items in array
+  int    nData()      {return data.end();}                    // Returns number of data items in array,
+                                                              // not necessarily private
+  void   removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
 
-  void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
-
-  friend typename DataIter;
+  friend typename XyzIter;
   };
 
 Once the iterator class is defined then the following is how it would be used:
 
-   DataIter iter(xyz);                          // Where: Xyz xyz;  (i.e. xyz is an object of class Xyz
-   Datum*   data;                               //
+   XyzIter iter(xyz);                           // Where: Xyz xyz;  (i.e. xyz is an object of class Xyz
+   Datum*  datum;                               // May be iter(*this) in an Xyz method
 
-     for (data = iter(); data; data = iter++) {
-       <Use data as a pointer to the record, it is guaranteed to be non-zero>
+     for (datum = iter(); datum; datum = iter++) {
+       <Use datum as a pointer to the record, it is guaranteed to be non-zero>
        }
 
 
@@ -58,20 +69,25 @@ The operations supported by an Expandable array where the declaration is:
 
 the operations supported are:
 
-  datum = data[i];                  // where 0 <= i < endN
-  data[i] = datum;                  // array expands to encompass i
+  data1    = data;                  // Copies all the current elements in data to data1, data is unchanged
+  datum    = data[i];               // where 0 <= i < endN
+  data[i]  = datum;                 // array expands to encompass i
   data.clear();                     // content is ignored but number of elements is set to zero
-  data = datum;                     // datum is inserted into the sorted array at the correct position
-                                    // ">=" and "==" operators in datum must be defined
-  data += datum;                    // datum is appended to array (at new last element)
+  data     = datum;                 // datum is copied into the sorted array at the correct position
+                                    // Requires datum >= datum1
+  data    += datum;                 // datum is appended to array (at new last element)
   Datum& d = data.nextData();       // A reference to new last element of array is returned.  It may used
                                     // as shown or immedialy with a dot operator or even as a target of
-  data.nextData() = _T("xxx");      // an assignment (where a Datum operator= is defined)
+  data.nextData() = datum;          // an assignment (where a Datum operator= is defined)
   data(i, datum);                   // datum is inserted at index i, the contents at i and above are moved
                                     // up one element
   data.del(i);                      // The datum at index i is deleted and the elements above are moved
                                     // down to fill in the hole.  The number of elements in the array is
                                     // reduced by one
+  data.find(key)                    // Performs a linear search for key.  Requires datum == Key object,
+                                    // where Key is a type found in Datum object
+  data.bsearch(key)                 // Performs a binary search for key.  Requires a sorted array and the
+                                    // boolean operations datum > key, datum < key, datum == key
 */
 
 
@@ -90,34 +106,36 @@ Datum* tbl;                           // Pointer to a heap object which is treat
 
 public:
 
-  Expandable();                       // Constructor & destructor
+  Expandable();                                 // Constructor & destructor
  ~Expandable();
 
-  Expandable& operator= (Expandable& e);  // Copy from one array to another
+  Expandable& operator= (Expandable& e);        // Copy from one array to another
 
-  Datum& operator[] (int i);          // Index into array, returns a reference
+  Datum& operator[] (int i);                    // Index into array, returns a reference
 
-  void clear() {endN = 0;}            // Clears the number of items in array (without deleting data)
-  int  end()   {return endN;}         // Returns number of items in array if inserted sequentially
+  void clear() {endN = 0;}                      // Clears the number of items in array, no data deleted!
+  int  end()   {return endN;}                   // Returns number of elements in array
 
-  // Insert every Datum d into array sorted (being sure to expand it if necessary.  Note, if one
-  // use [] to insert data into array, sorting is up to the user...!
+  // Insert every Datum d into array sorted (being sure to expand it if necessary.
+  // Requires datum >= datum1 method.   Note, if one use [] to insert data into array, sorting is up to
+  // the user...!
 
   Datum* operator= (Datum* d) {return d ? (*this) = *d : 0;}
   Datum* operator= (Datum& d);
 
-  Datum* operator+= (Datum& d);   // Append Datum to end of array, copies datum into array entry
-  Datum* operator+= (Datum* d);
+  Datum* operator+= (Datum& d);                 // Append Datum to end of array, copies datum into
+  Datum* operator+= (Datum* d);                 // array entry
 
-  Datum& nextData() {return (*this)[endN];} // Return reference to next available node in array (at end)
+  Datum& nextData() {return (*this)[endN];}     // Return reference to next available node in array
+                                                // (at end)
+  bool operator() (int x, Datum& d);            // Insert data at index, moving other entries out of the
+                                                // way
+  bool del(int x);                              // Delete datum at index x, move higher elements up one
 
-  bool operator() (int x, Datum& d);        // Insert data at index, moving other entries out of the way
+  template<class Key> Datum* find(Key key);     // Linear search. Requires datum == key method
 
-  bool del(int x);                          // Delete datum at index x, move higher elements up one
-
-  template<class Key> Datum* find(Key key);     // Linear search
-
-  template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array
+  template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array,
+                                                // Requires datum > key, datum < key, datum == key
 
 private:
 

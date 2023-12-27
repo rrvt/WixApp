@@ -17,3 +17,9 @@ CMenu menu;  if (!menu.LoadMenu(idr)) return false;
   }
 
 
+bool TBMenuButton::install(uint idr, uint imageIndex) {
+CMenu menu;  if (!menu.LoadMenu(idr)) return false;
+
+  Initialize(m_nID, menu.GetSafeHmenu(), -1);   SetImage(imageIndex);   return true;
+  }
+

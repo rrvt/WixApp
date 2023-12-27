@@ -29,14 +29,14 @@ private:
 
 
 class DevTabs;
-typedef DatumPtrT<DevTab>      DevTabP;
-typedef IterT<DevTabs, DevTab> DvTbIter;
+typedef DatumPtrT<DevTab, double> DevTabP;
+typedef IterT<DevTabs, DevTab>    DvTbIter;
 
 
 class DevTabs {
 
-ExpandableP<DevTab, DevTabP, 2> data;
-DevTab                          dfltTab;
+ExpandableP<DevTab, double, DevTabP, 2> data;
+DevTab                                  dfltTab;
 
 public:
 

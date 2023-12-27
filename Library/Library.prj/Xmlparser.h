@@ -1,4 +1,4 @@
-// XML Parser -- Data goes into the Store (see Store.h)
+// XML Parser -- Data goes into the StoreX (see StoreX.h)
 
 
 #pragma once

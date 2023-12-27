@@ -38,11 +38,11 @@ Using the CSVRcdsT template is as follows:
 #include "ExpandableP.h"
 
 
-template<class CSVRcd, class CSVRcdP>
+template<class CSVRcd, class Key, class CSVRcdP>
 class CSVRcdsT {
 protected:
 
-ExpandableP<CSVRcd, CSVRcdP, 2> data;
+ExpandableP<CSVRcd, Key, CSVRcdP, 2> data;
 
 public:
 
@@ -76,17 +76,17 @@ public:
   };
 
 
-template<class Data, class CSVRcdP>
-class CSVIterT : public CSVRcdsT<Data, CSVRcdP> {
+template<class Data, class Key, class CSVRcdP>
+class CSVIterT : public CSVRcdsT<Data, Key, CSVRcdP> {
 
 int                      iterX;
-CSVRcdsT<Data, CSVRcdP>& store;
+CSVRcdsT<Data, Key, CSVRcdP>& store;
 
 public:
 
 enum Dir {Fwd, Rev};
 
-  CSVIterT(CSVRcdsT<Data, CSVRcdP>& dataStore) : iterX(0),          store(dataStore)  { }
+  CSVIterT(CSVRcdsT<Data, Key, CSVRcdP>& dataStore) : iterX(0),          store(dataStore)  { }
   CSVIterT(CSVIterT& iter)      : iterX(iter.iterX), store(iter.store) { }
 
   Data* operator() (Dir rev = Fwd) {iterX = rev ? store.nData() : 0; return rev ? decr() : current();}
@@ -113,8 +113,8 @@ private:
 
 // load csv data from file
 
-template<class CSVRcd, class CSVRcdP>
-void CSVRcdsT<CSVRcd, CSVRcdP>::load(Archive& ar) {
+template<class CSVRcd, class Key, class CSVRcdP>
+void CSVRcdsT<CSVRcd, Key, CSVRcdP>::load(Archive& ar) {
 CSVLex lex(ar);
 
 //clear();            In order to merge multiple files together, do clear() explicitly
@@ -127,8 +127,8 @@ CSVLex lex(ar);
   }
 
 
-template<class CSVRcd, class CSVRcdP>
-void CSVRcdsT<CSVRcd, CSVRcdP>::store(Archive& ar) {
+template<class CSVRcd, class Key, class CSVRcdP>
+void CSVRcdsT<CSVRcd, Key, CSVRcdP>::store(Archive& ar) {
 int     i;
 CSVRcd* rcd;
 
@@ -138,8 +138,8 @@ CSVRcd* rcd;
 
 // display as comman separated field
 
-template<class CSVRcd, class CSVRcdP>
-void CSVRcdsT<CSVRcd, CSVRcdP>::display(NotePad& np) {
+template<class CSVRcd, class Key, class CSVRcdP>
+void CSVRcdsT<CSVRcd, Key, CSVRcdP>::display(NotePad& np) {
 int     i;
 CSVRcd* rcd;
 

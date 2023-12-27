@@ -55,7 +55,7 @@ private:
 
 
 // Record Pointer Declaration, see ExpandableP.h for details
-typedef DatumPtrT<LocRcd> LocRcdP;
+typedef DatumPtrT<LocRcd, int> LocRcdP;
 
 // Iterator Declaration, see IterT.h for details
 class LocTbl;
@@ -64,7 +64,7 @@ typedef IterT<LocTbl, LocRcd> LocIter;
 
 class LocTbl {
 
-ExpandableP<LocRcd, LocRcdP, 2> data;
+ExpandableP<LocRcd, int, LocRcdP, 2> data;
 
 int    maxID;
 LocSet locSet;

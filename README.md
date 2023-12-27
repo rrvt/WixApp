@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### update 12/26/23
+
+Library Update.
+
 ### Update 11/13/23
 
 Arranged for the default location for the executable files to be changed by the installer.  It turns out

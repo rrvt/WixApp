@@ -11,5 +11,6 @@ public:
  ~TBMenuButton() { }
 
   bool install(uint idr, TCchar* caption);
+  bool install(uint idr, uint imageIndex);
   };
 

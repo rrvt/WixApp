@@ -38,9 +38,9 @@
   <Binary Id="SetEnvExe" SourceFile="C:\Program Files (x86)\SetEnv\SetEnv.exe" />
 
   <CustomAction Id="SetEnv.pth" BinaryKey="SetEnvExe" Impersonate="no"
-                          Execute="deferred" ExeCommand='-a Path " [SetEnv.pff] "'   Return="check"/>
+                          Execute="deferred" ExeCommand='-a Path " [SETENV.PFF] "'   Return="check"/>
   <CustomAction Id="SetEnv.rmp" BinaryKey="SetEnvExe" Impersonate="no"
-                          Execute="deferred" ExeCommand='-d Path " [SetEnv.pff] "'   Return="check"/>
+                          Execute="deferred" ExeCommand='-d Path " [SETENV.PFF] "'   Return="check"/>
 
   <InstallExecuteSequence>
     <Custom Action="SetEnv.pth" Before="InstallFinalize">
@@ -66,7 +66,7 @@
 <Fragment>
   <Directory Id="TARGETDIR" Name="SourceDir">
     <Directory Id="ProgramFilesFolder">
-      <Directory Id="SetEnv.pff" Name="SetEnv" />
+      <Directory Id="SETENV.PFF" Name="SetEnv" />
     </Directory>
 
 
@@ -74,13 +74,13 @@
   </Directory>
 
   <Property Id="ApplicationFolderName" Value="SetEnv" />
-  <Property Id="WIXUI_INSTALLDIR"      Value="SetEnv.pff"/>
+  <Property Id="WIXUI_INSTALLDIR"      Value="SETENV.PFF"/>
   <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
 </Fragment>
 
 <Fragment>
 
-  <Component Id="SetEnv.cmp"  Guid="EB4772E3-E1A1-4E9A-83F4-1678E40000E9" Directory="SetEnv.pff">
+  <Component Id="SetEnv.cmp"  Guid="EB4772E3-E1A1-4E9A-83F4-1678E40000E9" Directory="SETENV.PFF">
     <File Id="SetEnv.cmp" Source="$(var.SolutionDir)..\Release\SetEnv.exe" KeyPath="yes"/>
   </Component>
 

@@ -3,8 +3,8 @@
 
 #include "pch.h"
 #include "AboutDlg.h"
-#include "ResourceExtra.h"
 #include "Resources.h"
+#include "ResourceExtra.h"
 
 
 void AboutDlg::DoDataExchange(CDataExchange* pDX) {CDialogEx::DoDataExchange(pDX);}

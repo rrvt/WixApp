@@ -20,9 +20,9 @@ class  TBMenuButton;
 struct CbxItem;
 
 
-typedef DatumPtrT<TBBtnCtx> TBBtnCtxP;
+typedef DatumPtrT<TBBtnCtx, uint> TBBtnCtxP;
 class ToolBar;
-typedef IterT<ToolBar, TBBtnCtx> TlBrIter;
+typedef IterT<ToolBar, TBBtnCtx>  TlBrIter;
 
 
 class ToolBar : public CMFCToolBar {
@@ -35,7 +35,7 @@ int   height;
 int   winWidth;
 int   winHeight;
 
-ExpandableP<TBBtnCtx, TBBtnCtxP, 2> data;
+ExpandableP<TBBtnCtx, uint, TBBtnCtxP, 2> data;
 
 public:
 
@@ -53,6 +53,7 @@ public:
   bool           installComboBox( uint id);
   bool           installEditBox(  uint id, int noChars);
   bool           installMenu(     uint id, uint idr, TCchar* caption);
+  bool           installMenu(     uint id, uint idr, uint imageIndex);
   bool           installPopupMenu(uint id);
 
   bool           addPopupItems(uint id, const CbxItem* items, int noItems, bool sorted = false);

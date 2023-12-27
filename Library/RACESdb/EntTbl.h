@@ -64,7 +64,7 @@ private:
 
 
 // Record Pointer Declaration, see ExpandableP.h for details
-typedef DatumPtrT<EntRcd> EntRcdP;
+typedef DatumPtrT<EntRcd, int> EntRcdP;
 
 // Iterator Declaration, see IterT.h for details
 class EntTbl;
@@ -73,7 +73,7 @@ typedef IterT<EntTbl, EntRcd> EntIter;
 
 class EntTbl {
 
-ExpandableP<EntRcd, EntRcdP, 2> data;
+ExpandableP<EntRcd, int, EntRcdP, 2> data;
 
 int    maxID;
 EntSet entSet;

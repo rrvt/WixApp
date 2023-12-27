@@ -55,7 +55,7 @@ private:
 
 
 // Record Pointer Declaration, see ExpandableP.h for details
-typedef DatumPtrT<AsnRcd> AsnRcdP;
+typedef DatumPtrT<AsnRcd, int> AsnRcdP;
 
 // Iterator Declaration, see IterT.h for details
 class AsnTbl;
@@ -64,7 +64,7 @@ typedef IterT<AsnTbl, AsnRcd> AsnIter;
 
 class AsnTbl {
 
-ExpandableP<AsnRcd, AsnRcdP, 2> data;
+ExpandableP<AsnRcd, int, AsnRcdP, 2> data;
 
 int    maxID;
 AsnSet asnSet;
