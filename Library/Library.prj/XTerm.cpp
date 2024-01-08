@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "XTerm.h"
-#include "match.h"
+#include "RegExpr.h"
 
 
 XTerm::State XTerm::state   = BeginState;

@@ -27,28 +27,20 @@
 
 
 #include "pch.h"
-#include "match.h"
+#include "RegExpr.h"
 
 
 #define      setIndex(ch)  ((ch >> 5) & 0x0007)
 #define      indexMask(ch) ((ulong) 1 << (ch & 0x001f))
 
 
-// Search a file for a regular expression
-
-void RegExpr::searchFile(FILE* lu, processLine&) {
-
-  while (_fgetts(line, noElements(line), lu)) if (match(line)) processLine(line);
-  }
-
-
 bool RegExpr::match(TCchar* stg) {
 
   if (pattern[0].key == Bol) {
-    if (anchoredMatch(stg, &pattern[1])) return true;
+    if (anchoredMatch(stg, 1)) return true;
     }
 
-  else if (unanchoredMatch(stg, pattern)) return true;
+  else if (unanchoredMatch(stg, 0)) return true;
 
   return false;
   }
@@ -56,11 +48,11 @@ bool RegExpr::match(TCchar* stg) {
 
 // Unanchored Match pattern to substring anywhere in line
 
-Tchar* RegExpr::unanchoredMatch(TCchar* line, Pattern pat[]) {
+Tchar* RegExpr::unanchoredMatch(TCchar* line, int index) {
 
   if (!line) return 0;
 
-  for (; *line; line++) if (anchoredMatch(line, pat)) return (Tchar*) line;
+  for (; *line; line++) if (anchoredMatch(line, index)) return (Tchar*) line;
 
   return 0;
   }
@@ -71,24 +63,24 @@ Tchar* RegExpr::unanchoredMatch(TCchar* line, Pattern pat[]) {
 //   Returns pointer to next position in line or
 //   zero if no match
 
-Tchar* RegExpr::anchoredMatch(TCchar* line, Pattern pat[]) {
+Tchar* RegExpr::anchoredMatch(TCchar* line, int index) {
 short    i;
 short    rslt;
 Pattern* p;
 TCchar*  subStg;
 Tchar*   nextStg;
 
-  for (i = 0; i < NoPattern && pat[i].key != EndOfPat; i++) {
-    if (pat[i].key != KleeneClosure) {
+  for (i = index; i < nData() && pattern[i].key != EndOfPat; i++) {
+    if (pattern[i].key != KleeneClosure) {
 
-      rslt = omatch(line, &pat[i]);
+      rslt = omatch(line, &pattern[i]);
 
       if      (rslt < 0) return 0;
       else if (rslt > 0) line++;
       }
 
     else {
-      p = &pat[i+1]; subStg = line;
+      p = &pattern[i+1]; subStg = line;
 
       for (; *subStg;) {
         rslt = omatch(subStg, p);
@@ -98,7 +90,7 @@ Tchar*   nextStg;
         }
 
       for (; subStg >= line; subStg--) {
-        nextStg = anchoredMatch(subStg, &pat[i+2]);
+        nextStg = anchoredMatch(subStg, i+2);
         if (nextStg) return nextStg;
         }
 
@@ -174,7 +166,7 @@ Tchar ch;
 
   if (!pat) return false;
 
-  for (i = 0; (ch = *pat) != 0 && i < noElements(pattern); pat++, i++) {
+  for (ch = *pat, i = 0; ch; ch = *++pat, i++) {
 
     switch (ch) {
       case _T('^')    : if (i) goto processChar;
@@ -195,7 +187,7 @@ Tchar ch;
       case pathSepChar: ch = *++pat;
                         if (!ch) return false;
                         if (ch == _T('t')) ch = _T('\t');   // Tab character?
-                                                      // else fall through
+                                                            // else fall through
 processChar:
       default         : pattern[i].key = Ch; pattern[i].ch = ch; break;
       }
@@ -272,3 +264,18 @@ short i;
 
   for (i = 0; i < SetSize; i++) set[i] ^= -1L;
   }
+
+
+
+
+
+
+#if 0
+// Search a file for a regular expression
+
+void RegExpr::searchFile(FILE* lu, processLine&) {
+
+  while (_fgetts(line, noElements(line), lu)) if (match(line)) processLine(line);
+  }
+#endif
+

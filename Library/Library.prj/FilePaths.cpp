@@ -5,7 +5,7 @@
 #include "FilePaths.h"
 #include "Expandable.h"
 #include "filesrch.h"
-#include "match.h"
+#include "RegExpr.h"
 
 
 

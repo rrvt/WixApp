@@ -28,6 +28,9 @@
 
 
 #pragma once
+#include "Expandable.h"
+#include "IterT.h"
+
 
 typedef void processLine(String& line);
 
@@ -36,7 +39,7 @@ typedef void processLine(String& line);
 
 class RegExpr {
 
-enum {SetSize   =   8, NoPattern = 512};
+enum {SetSize   =   8};                                    //, NoPattern = 512
 enum PatKey {nilKey, Ch, Bol, Eol, CharClass, KleeneClosure, Any, EndOfPat};
 
 
@@ -46,32 +49,43 @@ Tchar  ch;
 ulong  set[SetSize];
 } Pattern;
 
+typedef IterT<RegExpr, Pattern> ReIter;
 
-Pattern pattern[NoPattern];       // Adequate size
-Tchar   line[512];
+typedef Expandable<Pattern, 32> PatVector;
+PatVector                       pattern;
 
 public:
 
-  RegExpr()            {line[0] = 0; pattern[0].key = nilKey; }
-  RegExpr(TCchar* pat) {line[0] = 0; pattern[0].key = nilKey; setPattern(pat);}
- ~RegExpr() {}
+         RegExpr()            {pattern[0].key = nilKey; }
+         RegExpr(TCchar* pat) {pattern[0].key = nilKey; setPattern(pat);}
+        ~RegExpr() {}
 
-  bool setWildCardPattern(TCchar* name);
-  bool setPattern(TCchar* pat);
+  bool   setWildCardPattern(TCchar* name);
+  bool   setPattern(TCchar* pat);
 
-  bool match(TCchar* stg);          // Match string against previously set pattern
+  bool   match(TCchar* stg);          // Match string against previously set pattern
 
-  void searchFile(FILE* lu, processLine&);
+  void   searchFile(FILE* lu, processLine&);
 
 private:
 
-  Tchar* unanchoredMatch(TCchar* line, Pattern pat[]);
-  Tchar* anchoredMatch(TCchar* line, Pattern pat[]);
-  short  omatch(TCchar* s,    Pattern* pat);
-  bool   collectSet(TCchar** s, Pattern* p);
+  Tchar* unanchoredMatch(TCchar* line, int index);
+  Tchar* anchoredMatch(  TCchar* line, int index);
+  short  omatch(         TCchar* s,    Pattern* pat);
+  bool   collectSet(     TCchar** s,   Pattern* p);
   bool   installKleene(short i);
   void   clrSet(ulong set[]);
   void   setBit(Tchar ch, ulong set[]);
   bool   inSet( Tchar ch, ulong set[]);
   void   invertSet(ulong set[]);
+
+  // returns either a pointer to datum at index i in array or zero
+
+  Pattern* datum(int i) {return 0 <= i && i < nData() ? &pattern[i] : 0;}
+
+  int      nData()      {return pattern.end();}               // returns number of data items in array
+
+  void     removeDatum(int i) {if (0 <= i && i < nData()) pattern.del(i);}
+
+  friend typename ReIter;
   };

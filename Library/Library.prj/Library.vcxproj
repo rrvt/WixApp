@@ -50,7 +50,6 @@
     <ClCompile Include="History.cpp" />
     <ClCompile Include="Horiz.cpp" />
     <ClCompile Include="IniFile.cpp" />
-    <ClCompile Include="match.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Note.cpp" />
@@ -58,6 +57,7 @@
     <ClCompile Include="NotePad.cpp" />
     <ClCompile Include="NotePadRpt.cpp" />
     <ClCompile Include="DevTabs.cpp" />
+    <ClCompile Include="RegExpr.cpp" />
     <ClCompile Include="TxtOps.cpp" />
     <ClCompile Include="TxtOut.cpp" />
     <ClCompile Include="ToDevBase.cpp" />
@@ -139,7 +139,6 @@
     <ClInclude Include="LexT.h" />
     <ClInclude Include="LexErr.h" />
     <ClInclude Include="ManipT.h" />
-    <ClInclude Include="match.h" />
     <ClInclude Include="MessageBox.h" />
     <ClInclude Include="NewAllocator.h" />
     <ClInclude Include="Node.h" />
@@ -148,6 +147,7 @@
     <ClInclude Include="NotePad.h" />
     <ClInclude Include="NotePadRpt.h" />
     <ClInclude Include="DevTabs.h" />
+    <ClInclude Include="RegExpr.h" />
     <ClInclude Include="SendMsg.h" />
     <ClInclude Include="TxtOps.h" />
     <ClInclude Include="TxtOut.h" />

@@ -96,9 +96,6 @@
     <ClCompile Include="IniFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="match.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MessageBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -252,6 +249,9 @@
     <ClCompile Include="DebugBlk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RegExpr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archive.h">
@@ -345,9 +345,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ManipT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="match.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MessageBox.h">
@@ -549,6 +546,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LexErr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RegExpr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

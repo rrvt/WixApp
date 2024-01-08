@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 1/8/24
+
+Library and other changes.
+
 ### update 12/26/23
 
 Library Update.
