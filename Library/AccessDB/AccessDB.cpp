@@ -33,6 +33,6 @@ DWORD  options;
 
 // Closes the open database
 
-void AccessDB::close() {if (opened) {Close();   opened = false;}}
+void AccessDB::close() {if (opened) {Free();   Close();}   opened = false;}
 
 

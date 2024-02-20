@@ -1,0 +1,55 @@
+rem Build LibCurl.dll & LibCurl.lib & copy relevant files
+rem Create a Makefile project for LibCurl.  In the NMake Property Page Add the following
+
+rem Build Command Line:        tcc Build.cmd   $(ProjectName) $(SolutionDir) $(Configuration) $(ProjectDir)
+rem Rebuild All Command Line:  tcc Rebuild.cmd $(ProjectName) $(SolutionDir) $(Configuration) $(ProjectDir)
+rem Clean Command Line:        tcc clean.cmd   $(ProjectName) $(SolutionDir) $(Configuration) $(ProjectDir)
+
+echo off
+
+set ProjectName=%1
+set ProjPath=%~2
+set ConfigName=%3
+
+set BuildPath=%ProjPath%..\builds\libcurl-vc22-x86-debug-dll-ipv6-sspi-schannel\
+
+iff "%ConfigName%" == "Debug" then
+  set debugYes=yes
+else
+  set debugYes=no
+endiff
+
+
+iff 0 then
+@echo ProjectName:        %ProjectName%
+@echo ProjPath:           %ProjPath%
+@echo Configuration Name: %ConfigName%
+@echo BuildPath:          %BuildPath%
+endiff
+
+set vs2022="C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars32.bat"
+CALL %vs2022%
+
+nmake /f Makefile.vc VC=22 MODE=dll ENABLE_UNICODE=yes DEBUG=%debugYes% MACHINE=x86
+
+
+set ConfigDir=%ProjPath%..\..\%ConfigName%\
+set IntermediateDir=%ConfigDir%%ProjectName%\
+set IncDir=%IntermediateDir%include\
+set IncCrl=%IncDir%curl\
+
+iff 1 then
+@echo ConfigDir           %ConfigDir%
+@echo Intermediate Dir:   %IntermediateDir%
+@echo IncDir              %IncDir%
+@echo IncCrl              %IncCrl%
+endiff
+
+md /S /Ne %ConfigDir%
+md /S /Ne %IntermediateDir%
+md /S /Ne %incDir%
+md /S /Ne %IncCrl%
+
+copy /T /Q %BuildPath%bin\libcurl*.*   %ConfigDir%
+copy /T /Q %BuildPath%include\curl\*.* %IncCrl%
+copy /T /Q %BuildPath%lib\*.*          %ConfigDir%

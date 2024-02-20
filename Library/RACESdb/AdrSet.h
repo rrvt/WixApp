@@ -16,7 +16,7 @@ CString address2;
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {AccRcdSet::close(); opened = false;}
+  void close() {opened = false;}
 
   bool edit();
   bool addNew();

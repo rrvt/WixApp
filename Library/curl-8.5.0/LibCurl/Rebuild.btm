@@ -1,0 +1,12 @@
+rem Rebuild LibCurl.dll & LibCurl.lib & copy relevant files
+rem Create a Makefile project for LibCurl.  In the NMake Property Page Add the following
+
+rem Build Command Line:        tcc Build.cmd $(ProjectName) $(SolutionDir) $(Configuration)
+rem Rebuild All Command Line:  tcc Rebuild.cmd $(ProjectName) $(SolutionDir) $(Configuration)
+rem Clean Command Line:        tcc clean.cmd $(ProjectName) $(SolutionDir) $(Configuration)
+
+
+CALL clean %1 %2 %3
+build %1 %2 %3 %4
+
+

@@ -73,9 +73,13 @@ void AccRcdSet::CheckRowsetError(RETCODE nRetCode) {
 
 void AccRcdSet::close() {
 
-  CRecordset::FreeRowset();   CRecordset::Close();
-
   if (m_rgODBCFieldInfos) {delete[] m_rgODBCFieldInfos;   m_rgODBCFieldInfos = 0;}
+  if (m_rgRowStatus)      {delete[] m_rgRowStatus;        m_rgRowStatus      = 0;}
+
+  try {Close();} catch (...) { }
+
+  if (!opened) return;
+  try {if (m_rgRowStatus) FreeRowset();   if (m_rgFieldInfos) FreeDataCache();} catch (...) { }
 
   opened = false;
   }

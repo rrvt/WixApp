@@ -64,8 +64,7 @@
         WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)
       </PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>
-        $(SolutionDir)..\SrcFiles\;$(SolutionDir)..\..\Library\Library.prj\;$(SolutionDir)..\..\SetEnv\SrcFiles\
+      <AdditionalIncludeDirectories>$(SolutionDir)..\SrcFiles\;$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\SetEnv\SrcFiles\
       </AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -83,6 +82,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.lib</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalOptions />
@@ -100,8 +101,7 @@
         WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)
       </PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>
-        $(SolutionDir)..\SrcFiles\;$(SolutionDir)..\..\Library\Library.prj\;
+      <AdditionalIncludeDirectories>$(SolutionDir)..\SrcFiles\;$(SolutionDir)..\..\Library\Library\;
       </AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -118,6 +118,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <ProgramDatabaseFile />
+      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Library.lib</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalOptions />
@@ -125,11 +127,6 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
-  <ItemGroup>
-    <ProjectReference Include="..\..\Library\Library.prj\Library.vcxproj">
-      <Project>{cf57f3ec-d3db-4469-8519-3f9d73785d9b}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SetEnv.rc" />
   </ItemGroup>

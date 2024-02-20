@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{65141E0B-4AF7-43D8-8FA2-CBD750B757CB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakePreprocessorDefinitions>
+    </NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="slist_wc.c" />
+    <ClCompile Include="tool_binmode.c" />
+    <ClCompile Include="tool_bname.c" />
+    <ClCompile Include="tool_cb_dbg.c" />
+    <ClCompile Include="tool_cb_hdr.c" />
+    <ClCompile Include="tool_cb_prg.c" />
+    <ClCompile Include="tool_cb_rea.c" />
+    <ClCompile Include="tool_cb_see.c" />
+    <ClCompile Include="tool_cb_wrt.c" />
+    <ClCompile Include="tool_cfgable.c" />
+    <ClCompile Include="tool_dirhie.c" />
+    <ClCompile Include="tool_doswin.c" />
+    <ClCompile Include="tool_easysrc.c" />
+    <ClCompile Include="tool_filetime.c" />
+    <ClCompile Include="tool_findfile.c" />
+    <ClCompile Include="tool_formparse.c" />
+    <ClCompile Include="tool_getparam.c" />
+    <ClCompile Include="tool_getpass.c" />
+    <ClCompile Include="tool_help.c" />
+    <ClCompile Include="tool_helpers.c" />
+    <ClCompile Include="tool_hugehelp.c" />
+    <ClCompile Include="tool_ipfs.c" />
+    <ClCompile Include="tool_libinfo.c" />
+    <ClCompile Include="tool_listhelp.c" />
+    <ClCompile Include="tool_main.c" />
+    <ClCompile Include="tool_msgs.c" />
+    <ClCompile Include="tool_operate.c" />
+    <ClCompile Include="tool_operhlp.c" />
+    <ClCompile Include="tool_paramhlp.c" />
+    <ClCompile Include="tool_parsecfg.c" />
+    <ClCompile Include="tool_progress.c" />
+    <ClCompile Include="tool_setopt.c" />
+    <ClCompile Include="tool_sleep.c" />
+    <ClCompile Include="tool_stderr.c" />
+    <ClCompile Include="tool_strdup.c" />
+    <ClCompile Include="tool_urlglob.c" />
+    <ClCompile Include="tool_util.c" />
+    <ClCompile Include="tool_vms.c" />
+    <ClCompile Include="tool_writeout.c" />
+    <ClCompile Include="tool_writeout_json.c" />
+    <ClCompile Include="tool_xattr.c" />
+    <ClCompile Include="var.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="slist_wc.h" />
+    <ClInclude Include="tool_binmode.h" />
+    <ClInclude Include="tool_bname.h" />
+    <ClInclude Include="tool_cb_dbg.h" />
+    <ClInclude Include="tool_cb_hdr.h" />
+    <ClInclude Include="tool_cb_prg.h" />
+    <ClInclude Include="tool_cb_rea.h" />
+    <ClInclude Include="tool_cb_see.h" />
+    <ClInclude Include="tool_cb_wrt.h" />
+    <ClInclude Include="tool_cfgable.h" />
+    <ClInclude Include="tool_dirhie.h" />
+    <ClInclude Include="tool_doswin.h" />
+    <ClInclude Include="tool_easysrc.h" />
+    <ClInclude Include="tool_filetime.h" />
+    <ClInclude Include="tool_findfile.h" />
+    <ClInclude Include="tool_formparse.h" />
+    <ClInclude Include="tool_getparam.h" />
+    <ClInclude Include="tool_getpass.h" />
+    <ClInclude Include="tool_help.h" />
+    <ClInclude Include="tool_helpers.h" />
+    <ClInclude Include="tool_hugehelp.h" />
+    <ClInclude Include="tool_ipfs.h" />
+    <ClInclude Include="tool_libinfo.h" />
+    <ClInclude Include="tool_main.h" />
+    <ClInclude Include="tool_msgs.h" />
+    <ClInclude Include="tool_operate.h" />
+    <ClInclude Include="tool_operhlp.h" />
+    <ClInclude Include="tool_paramhlp.h" />
+    <ClInclude Include="tool_parsecfg.h" />
+    <ClInclude Include="tool_progress.h" />
+    <ClInclude Include="tool_sdecls.h" />
+    <ClInclude Include="tool_setopt.h" />
+    <ClInclude Include="tool_setup.h" />
+    <ClInclude Include="tool_sleep.h" />
+    <ClInclude Include="tool_stderr.h" />
+    <ClInclude Include="tool_strdup.h" />
+    <ClInclude Include="tool_urlglob.h" />
+    <ClInclude Include="tool_util.h" />
+    <ClInclude Include="tool_version.h" />
+    <ClInclude Include="tool_vms.h" />
+    <ClInclude Include="tool_writeout.h" />
+    <ClInclude Include="tool_writeout_json.h" />
+    <ClInclude Include="tool_xattr.h" />
+    <ClInclude Include="var.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

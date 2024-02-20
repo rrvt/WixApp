@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AccessDB", "..\AccessDB\AccessDB.vcxproj", "{57279F7B-D4B9-47E3-8419-CB9B97C596FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{57279F7B-D4B9-47E3-8419-CB9B97C596FA}.Debug|x86.ActiveCfg = Debug|Win32
+		{57279F7B-D4B9-47E3-8419-CB9B97C596FA}.Debug|x86.Build.0 = Debug|Win32
+		{57279F7B-D4B9-47E3-8419-CB9B97C596FA}.Release|x86.ActiveCfg = Release|Win32
+		{57279F7B-D4B9-47E3-8419-CB9B97C596FA}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34D9D7B1-2042-4B8A-A676-7571D5F69E40}
+	EndGlobalSection
+EndGlobal

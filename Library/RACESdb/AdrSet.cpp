@@ -27,8 +27,6 @@ bool AdrSet::open(TCchar* path) {
     catch(...) {close(); return false;}
     }
 
-  AllocRowset();          // Allocate memory and cache info
-
   return opened = true;
   }
 

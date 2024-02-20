@@ -1,0 +1,47 @@
+rem Clean LibCurl.dll & LibCurl.lib & copy relevant files
+rem Create a Makefile project for LibCurl.  In the NMake Property Page Add the following
+
+rem Build Command Line:        tcc Build.cmd $(ProjectName) $(SolutionDir) $(Configuration)
+rem Rebuild All Command Line:  tcc Rebuild.cmd $(ProjectName) $(SolutionDir) $(Configuration)
+rem Clean Command Line:        tcc clean.cmd $(ProjectName) $(SolutionDir)
+
+echo off
+
+set ProjectName=%1
+set ProjectPath=%~2
+set ConfigName=%3
+set ConfigDir=%ProjectPath%..\..\%ConfigName%\
+set IntermediateDir=%ConfigDir%%ProjectName%\
+set IncDir=%IntermediateDir%include\
+set IncCrl=%IncDir%curl\
+
+iff "%ConfigName%" == "Debug" then
+  set debugYes=yes
+else
+  set debugYes=no
+endiff
+
+iff 0
+@echo ProjectName: %ProjectName%
+@echo Project Path: %ProjectPath%
+@echo Configuration Name: %ConfigName%
+@echo Intermediate Dir: %IntermediateDir%
+
+rem WITH_PREFIX=%IntermediateDir%
+endiff
+
+set vs2022="C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars32.bat"
+CALL %vs2022%
+
+nmake /f Makefile.vc VC=22 MODE=dll ENABLE_UNICODE=yes DEBUG=%debugYes% MACHINE=x86 clean
+
+iff DIREXIST %ConfigDir% del /t %ConfigDir%libcurl*.*
+iff DIREXIST %IncCrl% then
+ del /t %IncCrl%*.h
+ rmdir  %IncCrl%
+endiff
+
+iff DIREXIST %IncDir% rmdir %IncDir%
+
+
+
