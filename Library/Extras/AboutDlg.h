@@ -22,8 +22,12 @@ enum { IDD = IDD_AboutBox };     // Dialog Data
 protected:
 
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+
 public:
-    DECLARE_MESSAGE_MAP()
-    afx_msg void onOk();
-  };
+
+  DECLARE_MESSAGE_MAP()
+
+  afx_msg void onOk();
+  afx_msg void onChangePdfapps();
+};
 

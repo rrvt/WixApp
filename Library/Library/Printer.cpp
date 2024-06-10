@@ -59,6 +59,14 @@ uint   x;
   iniFile.read(name, LeftEvenKey,    s,     _T("3.0"));     leftEven  = s.stod(x);
   iniFile.read(name, RightEvenKey,   s,     _T("3.0"));     rightEven = s.stod(x);
   iniFile.read(name, ScaleKey,       s,     _T("7175.0"));  scale     = s.stod(x);
+
+  // And set defaults
+
+  orient    = PortOrient;
+  paperSize = LetterPprSz;
+  copies    = 1;
+  collate   = 1;
+  pagePlex  = SimPlex;
   }
 
 

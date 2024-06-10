@@ -163,6 +163,7 @@
     <ClInclude Include="FinishDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Icons.h" />
+    <ClInclude Include="MyToolBar.h" />
     <ClInclude Include="PathDesc.h" />
     <ClInclude Include="PathUnits.h" />
     <ClInclude Include="pch.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="Features.cpp" />
     <ClCompile Include="FinishDlg.cpp" />
     <ClCompile Include="Icons.cpp" />
+    <ClCompile Include="MyToolBar.cpp" />
     <ClCompile Include="PathDesc.cpp" />
     <ClCompile Include="PathUnits.cpp" />
     <ClCompile Include="pch.cpp" />

@@ -23,3 +23,5 @@ private:
   void copy(CbxItem& item) {txt = item.txt; data = item.data;}
   };
 
+
+typedef const CbxItem CCbxItem;

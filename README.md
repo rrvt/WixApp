@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 6/9/24
+
+Reorganize t;he Toolbar.
+
 ### Update 2/19/24
 
 Reorganized the Library so that it compiles once into Debug and Release directories under the Library

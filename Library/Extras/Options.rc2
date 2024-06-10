@@ -10,7 +10,7 @@
 #include "ResourceExtra.h"
 
 /////////////////////////////////////////////////////////////////////////////
-//
+//                                          CBS_DROPDOWN          CBS_DROPDOWNLIST
 // Dialog
 
 
@@ -24,7 +24,8 @@ BEGIN
     EDITTEXT        IDC_DspScale,51,16,68,12,ES_AUTOHSCROLL
     GROUPBOX        "Printer",IDC_STATIC,2,39,268,179,0,WS_EX_STATICEDGE
     LTEXT           "Name:",IDC_STATIC,12,52,35,12,SS_CENTERIMAGE,WS_EX_RIGHT
-    COMBOBOX        IDC_PrinterName,51,52,213,200,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_PrinterName,51,52,213,200,
+                                              CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Page Margins",IDC_STATIC,7,70,257,42,0,WS_EX_STATICEDGE
     LTEXT           "Top:",IDC_STATIC,81,83,28,12,SS_CENTERIMAGE,WS_EX_RIGHT
     EDITTEXT        IDC_TopMargin,113,83,68,12,ES_AUTOHSCROLL

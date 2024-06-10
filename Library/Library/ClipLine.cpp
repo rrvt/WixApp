@@ -105,10 +105,11 @@ HGLOBAL hData;
 
   if (!OpenClipboard(0)) {messageBox(_T("Cannot open the Clipboard")); return false;}
 
-  if (!EmptyClipboard()) {messageBox(_T("Cannot empty the Clipboard")); CloseClipboard(); return false;}
+  if (!EmptyClipboard())
+                 {messageBox(_T("Cannot empty the Clipboard"));    CloseClipboard(); return false;}
 
   if (::SetClipboardData(CF_TEXT, hData) == NULL)
-                       {messageBox(_T("Unable to set Clipboard data"));  CloseClipboard(); return false;}
+                 {messageBox(_T("Unable to set Clipboard data"));  CloseClipboard(); return false;}
 
   CloseClipboard();   return true;
   }

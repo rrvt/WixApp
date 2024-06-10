@@ -17,6 +17,7 @@ public:
   void setReady(bool r = true);
   bool isReady() {return ready;}
 
+  bool setText(TCchar* txt) {return setText(0, txt);}
   bool setText(int index, TCchar* txt);
 
   void move(CRect& rect);

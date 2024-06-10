@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "StatusBar.h"
+#include "WinPos.h"
 
 
 bool StatusBar::create(CWnd* wnd, uint id) {
@@ -25,11 +26,15 @@ bool StatusBar::setText(int index, TCchar* txt) {return SetText(txt, index, 0);}
 
 void StatusBar::move(CRect& winRect) {
 CRect rect;
+int   vDelta = winPos.dluToScreen(10, false);
 
   GetWindowRect(&rect);
-  rect.bottom = rect.bottom  - 25;
-  rect.left   = winRect.left + 16;
-  rect.right  = winRect.right;   ScreenToClient(rect);   MoveWindow(&rect);   setParts();
+
+  rect.top    = winRect.bottom - vDelta;
+  rect.bottom = winRect.bottom;
+  rect.right  = rect.left + winRect.right - winRect.left;
+
+  ScreenToClient(rect);   MoveWindow(&rect);   setParts();
   }
 
 

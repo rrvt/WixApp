@@ -3,18 +3,27 @@
 
 #pragma once
 
-struct TBBtnCtx;
+//struct TBBtnCtx;
+
 
 
 class TBEditBox : public CMFCToolBarEditBoxButton {
+
+uint id;
+
 public:
+
+int maxChars;
 
   TBEditBox(uint id);
  ~TBEditBox() { }
 
-         void       install(TBBtnCtx& ctx);
+//         void       install(TBBtnCtx& ctx);
+         void       install(int noChars);
 
-         void       getText(String& txt) {txt = m_strContents;}
+          uint      getId() {return id;}
+
+         CString    getText() {return CMFCToolBarEditBoxButton::GetContentsAll(id);}
          void       setText(TCchar* txt) {CString cs = txt; SetContents(cs);}
 
   static TBEditBox* get(int id);

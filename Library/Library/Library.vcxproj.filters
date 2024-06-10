@@ -129,16 +129,10 @@
     <ClCompile Include="TBButton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TBComboBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TBEditBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextPosition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ToolBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ToString.cpp">
@@ -166,12 +160,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileSrch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TBMenuButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TBBtnCtx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="History.cpp">
@@ -250,6 +238,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RegExpr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBarBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBarDim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBCbxMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBCboBx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -398,9 +401,6 @@
     <ClInclude Include="TBButton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TBComboBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TBEditBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -408,9 +408,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Token.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ToolBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ToString.h">
@@ -444,12 +441,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileSrch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TBMenuButton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TBBtnCtx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="History.h">
@@ -549,6 +540,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RegExpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBarBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBarDim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBCbxMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBCboBx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

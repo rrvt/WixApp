@@ -107,7 +107,7 @@ private:
   Data* incr() {return iterX < store.nData() ? store.datum(++iterX) : 0;}
   Data* decr() {return iterX > 0             ? store.datum(--iterX) : 0;}
 
-  CSVIterT() : store(*(CSVRcdsT*) 0), iterX(0) { }      // This prevents an uninitizlized iterator
+//  CSVIterT() : store(*(CSVRcdsT*) 0), iterX(0) { }      // This prevents an uninitizlized iterator
   };
 
 

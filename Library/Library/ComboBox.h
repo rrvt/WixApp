@@ -12,7 +12,7 @@
 // The Message is caught by the following in xxxDoc.cpp file:
 //
 //    BEGIN_MESSAGE_MAP(xxxDoc, CDocument)
-//      ON_CBN_CLOSEUP(ID_ComboBox, &xxxDoc::OnCloseCombo)
+//      ON_CBN_CLOSEUP(ID_Cbx, &xxxDoc::OnCloseCombo)
 //    END_MESSAGE_MAP()
 //
 // Note, the message processing may be done whereever message maps are found.

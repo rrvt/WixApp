@@ -47,25 +47,20 @@ double     leftEven;
 double     rightEven;
 double     scale;
 
-  Printer() : orient(NilOrient), paperSize(LetterPprSz), pagePlex(NilPlex), copies(1), collate(false),
-              topMargin(0.0), botMargin(0.0), leftOdd(0.0), rightOdd(0.0), leftEven(0.0), rightEven(0.0),
-              scale(0.0) { }
+  Printer() : orient(NilOrient), paperSize(LetterPprSz), pagePlex(NilPlex), copies(1),
+              collate(false),    topMargin(0.0),         botMargin(0.0),    leftOdd(0.0),
+              rightOdd(0.0),     leftEven(0.0),          rightEven(0.0),    scale(0.0) { }
  ~Printer() { }
 
   void       load(TCchar* printer);
   void       store();
 
+  void       set(PrtrOrient o) {orient = o;}
+
   PrtrOrient toOrient(Cstring& cs);
   TCchar*    toStg(PrtrOrient orient);
-
-  void       set(PrtrOrient o) {orient = o;}
   };
 
 extern Printer printer;
 
-
-
-
-  //  void operator() (CScrView* vw);
-//  void setOrient(PrtrOrient v) {orient = v; store();}
 

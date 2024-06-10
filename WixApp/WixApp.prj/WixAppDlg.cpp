@@ -9,7 +9,6 @@
 #include "Product.h"
 #include "Solution.h"
 #include "StatusBar.h"
-#include "TBComboBox.h"
 #include "WixData.h"
 #include "WixOptsDlg.h"
 
@@ -122,10 +121,10 @@ LRESULT WixAppDlg::OnResetToolBar(WPARAM wParam, LPARAM lParam) {setupToolBar();
 
 
 void WixAppDlg::setupToolBar() {
-  toolBar.installBtn(ID_NewProject,   _T(" New Project "));
-  toolBar.installBtn(ID_OpenProject,  _T(" Open Project "));
-  toolBar.installBtn(ID_SaveAllFiles, _T(" Save All Files "));
-  toolBar.installBtn(ID_SaveWxdFile,  _T(" Save Wxd File "));
+  toolBar.addButton(ID_NewProject,   _T(" New Project "));
+  toolBar.addButton(ID_OpenProject,  _T(" Open Project "));
+  toolBar.addButton(ID_SaveAllFiles, _T(" Save All Files "));
+  toolBar.addButton(ID_SaveWxdFile,  _T(" Save Wxd File "));
   }
 
 

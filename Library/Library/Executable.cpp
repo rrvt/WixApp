@@ -39,20 +39,20 @@ int         wSize;
 STARTUPINFO info={sizeof(info)};
 
   for (i = 0, va_start(vaList, nCmdArgs), tc = va_arg(vaList, TCchar*); i < nCmdArgs;
-                                                                      i++, tc = va_arg(vaList, TCchar*)) {
+                                                               i++, tc = va_arg(vaList, TCchar*)) {
     arg = tc;   addQuotes(arg);
 
     if (i) cmdLine += _T(' ');   cmdLine += arg;
     }
+
   va_end(vaList);
 
   wSize = cmdLine.length() + nCmdArgs * 5;
 
-  NewArray(WCHAR); wCmdArgs = AllocArray(wSize);
-  copy(cmdLine, wCmdArgs, wSize);
+  NewArray(WCHAR); wCmdArgs = AllocArray(wSize);   copy(cmdLine, wCmdArgs, wSize);
 
   if (CreateProcess(0, wCmdArgs, 0, 0, true, 0, 0, 0, &info, &procInfo))
-                                                                    {FreeArray(wCmdArgs);   return true;}
+                                                             {FreeArray(wCmdArgs);   return true;}
   FreeArray(wCmdArgs);
 
   String err;   getError(GetLastError(), err);    messageBox(err);  return false;

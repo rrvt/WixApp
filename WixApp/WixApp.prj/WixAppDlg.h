@@ -6,8 +6,7 @@
 #include "FinishDlg.h"
 #include "Resource.h"
 #include "StatusBar.h"
-#include "TBBtnCtx.h"
-#include "ToolBar.h"
+#include "MyToolBar.h"
 #include "WinPos.h"
 
 class StatusBar;
@@ -22,11 +21,10 @@ DECLARE_DYNAMIC(WixAppDlg)
 String    helpPath;
 
 CRect     winRect;
-ToolBar   toolBar;
+MyToolBar toolBar;
 StatusBar statusBar;
 
 bool      isInitialized;
-WinPos    winPos;                                // Position of dialog box
 
 public:
 
