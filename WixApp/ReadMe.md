@@ -16,7 +16,7 @@ know all the files needed in the output.
 
 ### Update 6/9/24
 
-Reorganize t;he Toolbar.
+Reorganize the Toolbar.
 
 ### Update 2/19/24
 

@@ -84,6 +84,11 @@
 #define ID_Help                         409
 #define ID_App_Exit                     410
 
+// Main Dialog Size
+
+#define DlgDepth                        295
+#define DlgWidth                        320
+
 
 // Next default values for new objects
 //

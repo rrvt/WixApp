@@ -6,15 +6,22 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WixApp", "..\WixApp.prj\WixApp.vcxproj", "{B02B99B3-1CAC-4271-A0CF-2036BB89BAAB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64} = {8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64}
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
 	EndProjectSection
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WixAppWix", "..\WixApp.wix\WixAppWix.wixproj", "{C90388D6-3129-4DE9-8971-1F4FEA6D9865}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64} = {8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64}
 		{B02B99B3-1CAC-4271-A0CF-2036BB89BAAB} = {B02B99B3-1CAC-4271-A0CF-2036BB89BAAB}
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WixApp.hlp", "..\WixApp.hlp\WixApp.hlp.vcxproj", "{8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "..\..\Library\Library\Library.vcxproj", "{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64} = {8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +40,10 @@ Global
 		{8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64}.Debug|Win32.Build.0 = Debug|Win32
 		{8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64}.Release|Win32.ActiveCfg = Release|Win32
 		{8856D6D2-E842-4CA0-8B82-1FC5DD2A3B64}.Release|Win32.Build.0 = Release|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|Win32.Build.0 = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|Win32.ActiveCfg = Release|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

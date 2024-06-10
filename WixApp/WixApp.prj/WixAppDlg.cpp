@@ -105,11 +105,13 @@ BOOL WixAppDlg::OnInitDialog() {
 
   CDialogEx::OnInitDialog();
 
+  GetWindowRect(&winRect);   winPos.setDLUToPxls(winRect, DlgWidth, DlgDepth);
+
   if (!toolBar.create(this, IDR_TOOLBAR)) return false;
 
-  GetWindowRect(&winRect);   toolBar.move(winRect);   SetBackgroundColor(RGB(255,255,255));
-
   if (!statusBar.create(this, IDC_StatusBar)) return false;
+
+  GetWindowRect(&winRect);   toolBar.move(winRect);   SetBackgroundColor(RGB(255,255,255));
 
   winPos.initialPos(this, winRect);   isInitialized = true;   statusBar.setReady();   return true;
   }
