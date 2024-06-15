@@ -14,9 +14,13 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 6/14/24
+
+Fix WinPos.
+
 ### Update 6/9/24
 
-Reorganize t;he Toolbar.
+Reorganize the Toolbar.
 
 ### Update 2/19/24
 

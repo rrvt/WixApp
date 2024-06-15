@@ -56,7 +56,7 @@ CButton   isWin2Kch;
 ComboBox  iconCB;
 
                WixAppDlg(TCchar* helpPth, CWnd* pParent = nullptr);
-  virtual     ~WixAppDlg() { }
+  virtual     ~WixAppDlg() {winPos.~WinPos();}
 
   virtual BOOL OnInitDialog();
 
@@ -135,10 +135,7 @@ public:
 
   afx_msg void    onUpdateIcon();
   afx_msg void    onBrowseForIcon();
-#ifdef DialogSizable
   afx_msg void    OnSize(UINT nType, int cx, int cy);
-#endif
-
   };
 
 

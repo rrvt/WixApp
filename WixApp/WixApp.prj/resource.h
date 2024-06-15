@@ -86,8 +86,8 @@
 
 // Main Dialog Size
 
-#define DlgDepth                        295
 #define DlgWidth                        320
+#define DlgDepth                        260
 
 
 // Next default values for new objects

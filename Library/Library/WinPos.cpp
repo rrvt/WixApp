@@ -65,6 +65,13 @@ void WinPosData::load(CRect& defaultRect) {
   width  = iniFile.readInt(WindowPosData, Width, defaultRect.right  - defaultRect.left);
   depth  = iniFile.readInt(WindowPosData, Depth, defaultRect.bottom - defaultRect.top);
 
+  if (!width || !depth) {
+    left   = defaultRect.left;
+    top    = defaultRect.top;
+    width  = defaultRect.right  - defaultRect.left;
+    depth  = defaultRect.bottom - defaultRect.top;
+    }
+
   defWidth = width;                    defDepth = depth;
   minWidth = int(width / MinFactor);   minDepth = int(depth / MinFactor);
 

@@ -63,7 +63,7 @@ int        screenHeight;
 public:
 
   WinPos();
- ~WinPos() {save();}
+ ~WinPos() {if (wnd) save();  wnd = 0;}
 
   void setDLUToPxls(CRect& rect, int hDLU, int vDLU);   // Window Rectangle in pixels and
                                                         // Dialog box h&v Device Logical units
@@ -85,7 +85,7 @@ public:
 
 private:
 
-  void save() {data.save();}                     // Save the current position and size when app closes.
+  void save() {data.save();}                // Save the current position and size when app closes.
   };
 
 

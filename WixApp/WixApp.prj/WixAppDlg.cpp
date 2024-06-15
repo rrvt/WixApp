@@ -23,11 +23,6 @@ IMPLEMENT_DYNAMIC(WixAppDlg, CDialogEx)
 
 BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
 
-  ON_WM_CREATE()
-  ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, &OnResetToolBar)
-  ON_NOTIFY_EX(    TTN_NEEDTEXT, 0,       &OnTtnNeedText)         // Do ToolTips
-  ON_WM_MOVE()
-
   ON_COMMAND(      ID_NewProject,         &onNewProject)
   ON_COMMAND(      ID_OpenProject,        &onOpenProject)
   ON_COMMAND(      ID_Solution,           &onGetSolution)
@@ -82,9 +77,11 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_CBN_KILLFOCUS(IDC_ComponentIcon,     &onUpdateIcon)
   ON_BN_CLICKED(   IDC_BrowseForIcon,     &onBrowseForIcon)
 
-#ifdef DialogSizable
+  ON_WM_CREATE()
+  ON_REGISTERED_MESSAGE(AFX_WM_RESETTOOLBAR, &OnResetToolBar)
+  ON_NOTIFY_EX(    TTN_NEEDTEXT, 0,       &OnTtnNeedText)         // Do ToolTips
+  ON_WM_MOVE()
   ON_WM_SIZE()
-#endif
 
 END_MESSAGE_MAP()
 
@@ -109,11 +106,15 @@ BOOL WixAppDlg::OnInitDialog() {
 
   if (!toolBar.create(this, IDR_TOOLBAR)) return false;
 
+  SetBackgroundColor(RGB(255,255,255));
+
   if (!statusBar.create(this, IDC_StatusBar)) return false;
 
-  GetWindowRect(&winRect);   toolBar.move(winRect);   SetBackgroundColor(RGB(255,255,255));
+  statusBar.setReady();
 
-  winPos.initialPos(this, winRect);   isInitialized = true;   statusBar.setReady();   return true;
+  winPos.initialPos(this, winRect);   toolBar.move(winRect);   statusBar.move(winRect);
+
+  isInitialized = true;      return true;
   }
 
 
@@ -130,8 +131,6 @@ void WixAppDlg::setupToolBar() {
   }
 
 
-#ifdef DialogSizable
-
 void WixAppDlg::OnSize(UINT nType, int cx, int cy) {
 CRect winRect;
 
@@ -141,7 +140,6 @@ CRect winRect;
 
   GetWindowRect(&winRect);   winPos.set(winRect);   toolBar.move(winRect);   statusBar.move(winRect);
   }
-#endif
 
 
 // Do ToolTips
@@ -285,6 +283,6 @@ String topic = helpPath; topic += _T(">Introduction");
 void WixAppDlg::onAppAbout() {AboutDlg aboutDlg; aboutDlg.DoModal();}
 
 
-void WixAppDlg::onExit()            {CDialogEx::OnOK();}
+void WixAppDlg::onExit() {winPos.~WinPos();   CDialogEx::OnOK();}
 
 
