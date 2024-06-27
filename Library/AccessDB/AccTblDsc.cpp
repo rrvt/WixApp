@@ -1,5 +1,5 @@
-// Defines an iterator to see all the tables in the database and an descriptor that shows the details
-// of a single table in the database
+// Defines an iterator to see all the tables in the database and an descriptor that shows the
+// details of a single table in the database
 
 
 
@@ -33,7 +33,7 @@ UWORD   bFunctionExists;
 
   if (!bFunctionExists) return false;
 
-  SetState(CRecordset::dynaset, NULL, readOnly);                 // Cache state info and allocate hstmt
+  SetState(CRecordset::dynaset, NULL, readOnly);            // Cache state info and allocate hstmt
 
   if (!AllocHstmt()) return false;
 

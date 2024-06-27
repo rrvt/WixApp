@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{B02B99B3-1CAC-4271-A0CF-2036BB89BAAB}</ProjectGuid>
+    <Keyword>MFCProj</Keyword>
+    <RootNamespace>WixApp</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>
+        WIN32;_WINDOWS;_DEBUG;DsplyHistoryXXX;%(PreprocessorDefinitions)
+      </PreprocessorDefinitions>
+      <PrecompiledHeaderFile />
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <BasicRuntimeChecks />
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PrecompiledHeaderOutputFile />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <AdditionalDependencies>Htmlhelp.lib;Library.lib</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+        $(IntDir);$(SolutionDir)..\..\Library\Extras\
+      </AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>        copy $(SolutionDir)..\WixApp.prj\res\banner.bmp $(OutDir)
+        copy $(SolutionDir)..\WixApp.prj\res\My_en-us.wxl $(OutDir)
+        copy $(SolutionDir)..\WixApp.prj\res\dialog.bmp $(OutDir)
+   </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>
+      </FunctionLevelLinking>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile />
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <DebugInformationFormat />
+      <BasicRuntimeChecks />
+      <PrecompiledHeaderOutputFile />
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <AdditionalDependencies>Htmlhelp.lib;Library.lib</AdditionalDependencies>
+      <ProgramDatabaseFile />
+      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+        $(IntDir);$(SolutionDir)..\..\Library\Extras\
+      </AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <PreBuildEvent>
+      <Command>        copy $(SolutionDir)..\WixApp.prj\res\banner.bmp $(OutDir)
+        copy $(SolutionDir)..\WixApp.prj\res\My_en-us.wxl $(OutDir)
+        copy $(SolutionDir)..\WixApp.prj\res\dialog.bmp $(OutDir)
+   </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Library\Extras\AboutDlg.h" />
+    <ClInclude Include="..\..\Library\Extras\ResourceExtra.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="DefaultPath.h" />
+    <ClInclude Include="DirDesc.h" />
+    <ClInclude Include="DirStore.h" />
+    <ClInclude Include="DspDirs.h" />
+    <ClInclude Include="EntityStore.h" />
+    <ClInclude Include="Feature.h" />
+    <ClInclude Include="Features.h" />
+    <ClInclude Include="FinishDlg.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Icons.h" />
+    <ClInclude Include="MyToolBar.h" />
+    <ClInclude Include="RelPath.h" />
+    <ClInclude Include="PathUnits.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="PFFdirectories.h" />
+    <ClInclude Include="PMFdirectories.h" />
+    <ClInclude Include="Product.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Solution.h" />
+    <ClInclude Include="SolutionPathDlg.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="WixApp.h" />
+    <ClInclude Include="WixAppDlg.h" />
+    <ClInclude Include="WixData.h" />
+    <ClInclude Include="WixOptsDlg.h" />
+    <ClInclude Include="WixOut.h" />
+    <ClInclude Include="WixUtilities.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Library\Extras\AboutDlg.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DefaultPath.cpp" />
+    <ClCompile Include="DirDesc.cpp" />
+    <ClCompile Include="DspDirs.cpp" />
+    <ClCompile Include="Feature.cpp" />
+    <ClCompile Include="Features.cpp" />
+    <ClCompile Include="FinishDlg.cpp" />
+    <ClCompile Include="Icons.cpp" />
+    <ClCompile Include="MyToolBar.cpp" />
+    <ClCompile Include="RelPath.cpp" />
+    <ClCompile Include="PathUnits.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="PFFdirectories.cpp" />
+    <ClCompile Include="PMFdirectories.cpp" />
+    <ClCompile Include="Product.cpp" />
+    <ClCompile Include="Solution.cpp" />
+    <ClCompile Include="SolutionPathDlg.cpp" />
+    <ClCompile Include="WixApp.cpp" />
+    <ClCompile Include="WixAppDlg.cpp" />
+    <ClCompile Include="WixData.cpp" />
+    <ClCompile Include="WixOptsDlg.cpp" />
+    <ClCompile Include="WixOut.cpp" />
+    <ClCompile Include="WixUtilites.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WixApp.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ReadMe.md" />
+    <None Include="..\..\Library\Extras\AboutDlg.rc2" />
+    <None Include="..\Data\PreOutpost.wxd" />
+    <None Include="..\Data\Product.wxs" />
+    <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
+    <None Include="res\WixApp.ico" />
+    <None Include="res\WixApp.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\ShortToolbar.bmp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

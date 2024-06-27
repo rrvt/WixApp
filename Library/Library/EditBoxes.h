@@ -28,24 +28,27 @@ public:
 
   void    create(int vPos, int editBoxX, int x, int y, int width, int height);
 
-  void    set(      int x, String& s, BoxType bt) {EditBox* eb = datum(x); if (eb) eb->set(s, bt);}
-  void    setFocus( int x, bool home = false)     {EditBox* eb = datum(x); if (eb) eb->setFocus(home);}
-//  void    setHome(  int x)              {EditBox* eb = datum(x); if (eb) eb->setHome();}
+  void    set(      int x, String& s, BoxType bt)
+                                              {EditBox* eb = datum(x); if (eb) eb->set(s, bt);}
+  void    setFocus( int x, bool home = false) {EditBox* eb = datum(x); if (eb) eb->setFocus(home);}
 
-  void    getLine(  int x, String& line) {EditBox* eb = datum(x); if (eb) eb->getLine(line);}
+  void    getLine(  int x, String& line)      {EditBox* eb = datum(x); if (eb) eb->getLine(line);}
 
-  int     getVertPos(int x)            {EditBox* eb = datum(x); return eb ? eb->getVertPos() : 0;}
+  int     getVertPos(int x)             {EditBox* eb = datum(x); return eb ? eb->getVertPos() : 0;}
   void    getRect(   int x, RECT& rect) {
             EditBox* eb = datum(x);
             if (eb) eb->getRect(rect);   else rect.top = rect.bottom = rect.left = rect.right = 0;
             }
 
-  void    getWindowPos(int x, int* xx, int* yy)
-            {EditBox* eb = datum(x); if (eb) eb->getWindowPos(getHWND(x), xx, yy); else *xx = *yy = 0;}
+  void    getWindowPos(int x, int* xx, int* yy) {
+            EditBox* eb = datum(x);
+            if (eb) eb->getWindowPos(getHWND(x), xx, yy); else *xx = *yy = 0;
+            }
 
-  HWND    getHWND(int x) {EditBox* eb = datum(x); return eb ? eb->m_hWnd : 0;}
+  HWND    getHWND(int x) {EditBox* eb = datum(x);   return eb ? eb->m_hWnd : 0;}
 
-  String getInitialVal(int x) {EditBox* eb = datum(x); return eb ? eb->initialVal : String(_T(""));}
+  String getInitialVal(int x)
+                         {EditBox* eb = datum(x);   return eb ? eb->initialVal : String(_T(""));}
 
   BoxType getBoxType(int x) {EditBox* eb = datum(x); return eb ? eb->boxType : NilBox;}
   int     count() {return nData();}

@@ -5,7 +5,8 @@
 #include "afxdb.h"
 
 
-enum SetResult {SuccessSet, SuccesWithInfoSet, NoDataSet, ErrorSet, InvalidHandleSet, StillExecutingSet};
+enum SetResult {SuccessSet, SuccesWithInfoSet, NoDataSet, ErrorSet, InvalidHandleSet,
+                                                                                StillExecutingSet};
 
 
 class AccRcdSet : public CRecordset {
@@ -20,7 +21,7 @@ SetResult result;
 public:
 
   AccRcdSet(CDatabase* database) : CRecordset(database), opened(false), result(SuccessSet)
-                                                                              {m_nDefaultType = dynaset;}
+                                                                        {m_nDefaultType = dynaset;}
  ~AccRcdSet() {close();}
 
   void AllocAndCacheFieldInfo();

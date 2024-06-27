@@ -1,4 +1,5 @@
-// Open an Access Database for the purposes of determining the table names and fields within the tables
+// Open an Access Database for the purposes of determining the table names and fields within the
+// tables
 
 
 #include "pch.h"

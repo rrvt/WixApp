@@ -9,9 +9,8 @@
 FontMgr::~FontMgr() {stkX = -1; cur = 0;}
 
 
-
 void FontMgr::setBase(DevCtx& dvx, TCchar* face, double fontSize)
-                        {FontAttr* attr;   stkX = -1;   attr = next();   attr->init(dvx, face, fontSize);}
+                 {FontAttr* attr;   stkX = -1;   attr = next();   attr->init(dvx, face, fontSize);}
 
 
 FontAttr* FontMgr::next() {
@@ -98,6 +97,7 @@ FontAttr* oldAttr;
 
   cur = stkX >= 0 ? data[stkX].p : 0;
   }
+
 
 FontAttr* FontMgr::getAttr(int i) {
 FontAttr* attr = datum(i);

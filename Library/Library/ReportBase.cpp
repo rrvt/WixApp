@@ -36,5 +36,5 @@ void ReportBase::txtOut(Archive& ar, double tabFactor) {setArchiveAttr(tabFactor
 
 
 void ReportBase::setArchiveAttr(double f)
-                               {int w = prtrOrietn == PortOrient ? 106 : 128;   np.setArchiveAttr(w, f);}
+                         {int w = prtrOrietn == PortOrient ? 106 : 128;   np.setArchiveAttr(w, f);}
 

@@ -46,13 +46,11 @@ HRESULT rslt;
 
 
 void IniFile::setFilePath(String& pth, CWinApp& theApp)
-                                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
-
+                                           {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
 
 
 void IniFile::setFilePath(TCchar* pth, CWinApp& theApp)
-                                                {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
-
+                                           {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
 
 
 void IniFile::setTheAppPath(CWinApp& theApp) {
@@ -75,17 +73,15 @@ String path = getPath(iniFilePath);
   }
 
 
-
-
 String IniFile::initIniDatum(TCchar* section, TCchar* name, TCchar* deflt, String& valu) {
   if (!iniFile.readString(section, name, valu))
-                                              {valu = deflt; iniFile.writeString(section, name, valu);}
+                                          {valu = deflt; iniFile.writeString(section, name, valu);}
   return valu;
   }
 
 
 void IniFile::saveIniDatum(TCchar* section, TCchar* name, String& valu)
-                                                              {iniFile.writeString(section, name, valu);}
+                                                        {iniFile.writeString(section, name, valu);}
 
 
 String IniFile::initIniPwd(TCchar* section, TCchar* name, TCchar* deflt, String& valu) {
@@ -95,7 +91,7 @@ String IniFile::initIniPwd(TCchar* section, TCchar* name, TCchar* deflt, String&
 
 
 void IniFile::saveIniPwd(TCchar* section, TCchar* name, String& valu)
-                                                                 {iniFile.writePwd(section, name, valu);}
+                                                           {iniFile.writePwd(section, name, valu);}
 
 
 bool IniFile::writeString(TCchar* section, TCchar* key, CString& val) {
@@ -142,21 +138,19 @@ CFile cFile(iniFilePath, CFile::modeWrite);
   }
 
 
-void IniFile::deleteString(TCchar* section, TCchar* key) {
-  WritePrivateProfileString(section, key, 0, iniFilePath);
-  }
+void IniFile::deleteString(TCchar* section, TCchar* key)
+                                         {WritePrivateProfileString(section, key, 0, iniFilePath);}
 
 
-void IniFile::deleteSection(TCchar* section) {
-  WritePrivateProfileString(section, 0, 0, iniFilePath);
-  }
+void IniFile::deleteSection(TCchar* section)
+                                         {WritePrivateProfileString(section,   0, 0, iniFilePath);}
 
 
 bool IniFile::readString( TCchar* section, TCchar* key, Cstring& val) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, val, stg, noElements(stg), iniFilePath))
-                                                                               {val = stg; return true;}
+                                                                          {val = stg; return true;}
   return false;
   }
 
@@ -165,63 +159,67 @@ bool IniFile::readString(TCchar* section, TCchar* key, String& val) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, val, stg, noElements(stg), iniFilePath))
-                                                                               {val = stg; return true;}
+                                                                          {val = stg; return true;}
   return false;
   }
 
 
 bool IniFile::read(TCchar* section, TCchar* key, String&  val, TCchar* dflt)
-                                                            {return readString(section, key, val, dflt);}
+                                                      {return readString(section, key, val, dflt);}
 
 
 bool IniFile::readString( TCchar* section, TCchar* key, String&  val, TCchar* dflt) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, dflt, stg, noElements(stg), iniFilePath))
-                                                                               {val = stg; return true;}
+                                                                          {val = stg; return true;}
   return false;
   }
 
 
 bool IniFile::read(TCchar* section, TCchar* key, Cstring& val, TCchar* dflt)
-                                                            {return readString(section, key, val, dflt);}
+                                                      {return readString(section, key, val, dflt);}
 
 
 bool IniFile::readString( TCchar* section, TCchar* key, Cstring& val, TCchar* dflt) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, dflt, stg, noElements(stg), iniFilePath))
-                                                                               {val = stg; return true;}
+                                                                          {val = stg; return true;}
   return false;
   }
 
 
 bool IniFile::read(TCchar* section, TCchar* key, int& val, int dflt) {
 
-  val = GetPrivateProfileInt(section, key, dflt, iniFilePath);   if (val == -1) {val = 0; return false;}
+  val = GetPrivateProfileInt(section, key, dflt, iniFilePath);
+
+  if (val == -1) {val = 0; return false;}
 
   return true;
   }
 
 
 int IniFile::readInt(TCchar* section, TCchar* key, int def)
-                                            {return GetPrivateProfileInt(section, key, def, iniFilePath);}
+                                     {return GetPrivateProfileInt(section, key, def, iniFilePath);}
 
 
 bool IniFile::read(TCchar* section, TCchar* key, int& val) {
 
-  val = GetPrivateProfileInt(section, key, -1, iniFilePath);   if (val == -1) {val = 0; return false;}
+  val = GetPrivateProfileInt(section, key, -1, iniFilePath);
+
+  if (val == -1) {val = 0; return false;}
 
   return true;
   }
 
 
-bool IniFile::readPwd(   TCchar* section, TCchar* key, String&  val) {
+bool IniFile::readPwd(TCchar* section, TCchar* key, String&  val) {
 Tchar  stg[64];
 String s;
 
   if (GetPrivateProfileString(section, key, 0, stg, noElements(stg), iniFilePath))
-                                                        {s = stg; val = decodePassword(s); return true;}
+                                                   {s = stg; val = decodePassword(s); return true;}
   return false;
   }
 

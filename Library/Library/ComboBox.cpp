@@ -6,7 +6,7 @@
 
 
 bool ComboBox::getWindowText(String& s)
-                                    {CString t;   GetWindowText(t);   s = t;   return s.length() != 0;}
+                                {CString t;   GetWindowText(t);   s = t;   return s.length() != 0;}
 
 
 void ComboBox::clear() {ResetContent();}
@@ -19,8 +19,8 @@ bool ComboBox::setCurSel(TCchar* tc) {
 String s = tc;
 String t = s.isEmpty() ? _T(' ') : s;
 
-return SetCurSel(FindStringExact(-1, t)) >= 0;
-}
+  return SetCurSel(FindStringExact(-1, t)) >= 0;
+  }
 
 
 bool ComboBox::getText(int i, String& s) {
@@ -44,7 +44,7 @@ CString t;
 
 
 void ComboBox::del(String& s)
-                      {int i;   if (!s.empty()) {i = find(s);   if (i >= 0) DeleteString(i);}   return;}
+                 {int i;   if (!s.empty()) {i = find(s);   if (i >= 0) DeleteString(i);}   return;}
 
 
 void ComboBox::add(String& s) {if (!s.empty() && find(s) < 0) AddString(s);}

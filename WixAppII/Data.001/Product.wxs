@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+
+<Product Id="*" UpgradeCode="28037721-4FE5-490D-A110-9FCCD92FE091" Language="1033"
+                Manufacturer="Bob -- K6RWY" Name="Media List"
+                Version="!(bind.fileVersion.Media.cmp)"
+                >
+
+  <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
+                Manufacturer="Bob -- K6RWY" Description="Installs Media List"
+                Comments="Copyright (c) Bob -- K6RWY"
+                />
+
+  <MajorUpgrade Schedule="afterInstallInitialize"
+                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
+                DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+                />
+
+  <MediaTemplate EmbedCab="yes" />
+
+  <WixVariable Id="WixUILicenseRtf"
+                              Value="$(var.SolutionDir)..\..\Library\License\MITLicenseFile.rtf" />
+  <UI Id="My_InstallDir.ui"><UIRef Id="WixUI_InstallDir" /></UI>
+
+  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixAppII\Debug\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixAppII\Debug\banner.bmp"/>
+
+  <Icon     Id="Media_Icon.exe" SourceFile="$(var.SolutionDir)..\Media.prj\res\Media.ico"/>
+  <Icon     Id="MITLicense_Icon.exe"
+                              SourceFile="$(var.SolutionDir)..\..\Library\License\MITLicense.ico"/>
+  <Property Id="ARPPRODUCTICON"  Value="Media_Icon.exe" />
+
+  <Feature Id="ProductFeatures" Title="Main Product" Level="1" >
+    <ComponentGroupRef Id="Media_List.ftr"/>
+    <ComponentGroupRef Id="License.ftr"/>
+    <ComponentGroupRef Id="Uninstall_Media.ftr"/>
+  </Feature>
+</Product>
+
+<Fragment>
+  <ComponentGroup Id="Media_List.ftr">
+    <ComponentRef Id="Media.cmp"/>
+    <ComponentRef Id="Help.cmp"/>
+  </ComponentGroup>
+  <ComponentGroup Id="License.ftr">
+    <ComponentRef Id="MIT_License.cmp"/>
+  </ComponentGroup>
+  <ComponentGroup Id="Uninstall_Media.ftr">
+    <ComponentRef Id="Uninstall_Media.cmp"/>
+  </ComponentGroup>
+</Fragment>
+
+<!--Directory structure-->
+<Fragment>
+  <Directory Id="TARGETDIR" Name="SourceDir">
+    <Directory Id="ProgramFilesFolder">
+      <Directory Id="MEDIA.PFF" Name="Media" />
+    </Directory>
+
+    <Directory Id="ProgramMenuFolder">
+      <Directory Id="Media_List.pmf" Name="Media List" />
+    </Directory>
+
+    <Directory Id="DesktopFolder" />
+  </Directory>
+
+  <Property Id="ApplicationFolderName" Value="Media" />
+  <Property Id="WIXUI_INSTALLDIR"      Value="MEDIA.PFF"/>
+  <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
+</Fragment>
+
+<Fragment>
+  <Component Id="Media.cmp" Guid="EFE40462-F017-4A48-829A-23E134DCF881" Directory="MEDIA.PFF">
+    <File Id="Media.cmp" Source="$(var.SolutionDir)..\Release\Media.exe" KeyPath="yes"/>
+
+    <Shortcut Id               = "Media.shc"
+              Name             = "Media"
+              Description      = "Media List for Bob and Maureen"
+              Advertise        = "yes"
+              Directory        = "Media_List.pmf"
+              WorkingDirectory = "MEDIA.PFF"
+              Icon             = "Media_Icon.exe"
+              />
+
+    <Shortcut Id               = "Media.dsk"
+              Name             = "Media"
+              Description      = "Media List for Bob and Maureen"
+              Advertise        = "yes"
+              Directory        = "DesktopFolder"
+              WorkingDirectory = "MEDIA.PFF"
+              Icon             = "Media_Icon.exe"
+              />
+  </Component>
+
+  <Component Id="Help.cmp" Guid="25470748-5D20-49E5-B763-BDD0D9147E5B" Directory="MEDIA.PFF">
+    <File Id="Help.cmp" Source="$(var.SolutionDir)..\Release\Media.chm" KeyPath="yes"/>
+  </Component>
+</Fragment>
+
+<Fragment>
+  <Component Id="MIT_License.cmp" Guid="907409AF-BB81-4818-A331-2EE1D61D7DC8"
+                                                                             Directory="MEDIA.PFF">
+    <File Id="MIT_License.cmp"
+                Source="$(var.SolutionDir)..\..\Library\License\MITLicenseFile.rtf" KeyPath="yes"/>
+
+    <Shortcut Id               = "MITLicense.shc"
+              Name             = "MIT License"
+              Description      = "MIT License"
+              Advertise        = "yes"
+              Directory        = "Media_List.pmf"
+              WorkingDirectory = "MEDIA.PFF"
+              Icon             = "MITLicense_Icon.exe"
+              />
+  </Component>
+</Fragment>
+
+<Fragment>
+  <Component Id="Uninstall_Media.cmp" Guid="25FFE218-A46F-45D1-B3D8-3A00DB3A2223"
+                                                                        Directory="Media_List.pmf">
+
+    <Shortcut Id               = "UninstallMedia.shc"
+              Name             = "Uninstall Media"
+              Description      = "Uninstalls Media"
+              Target           = "[System64Folder]msiexec.exe"
+              Arguments        = "/x [ProductCode]"
+              Icon             = "Media_Icon.exe"
+              />
+    <RemoveFolder Id="Media_List.uni" Directory="Media_List.pmf" On="uninstall"/>
+    <RegistryValue Root="HKCU" Key="Software\Uninstall_Media.cmp" Name="installed"
+                                                           Type="integer" Value="1" KeyPath="yes"/>
+  </Component>
+</Fragment>
+</Wix>

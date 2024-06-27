@@ -11,7 +11,7 @@ typedef MyClass& (*Func)(MyClass&);
 MyClass* n;
 Func     func;
 
-  ManipT()                            : n(0),       func(0)    {}
+  ManipT() : n(0), func(0)    {}
 
  ~ManipT() {func = 0;}
 
@@ -26,7 +26,7 @@ typedef MyClass& (*Func)(MyClass&, int);
 Func func;
 int  v;
 
-  ManipIntT()                : func(0), v(0)   {}
+  ManipIntT() : func(0), v(0)   {}
 
  ~ManipIntT() {func = 0; v = 0;}
 
@@ -41,7 +41,7 @@ typedef MyClass& (*Func)(MyClass&, String&);
 Func   func;
 String v;
 
-  ManipStgT()                  : func(0)       { }
+  ManipStgT() : func(0)       { }
 
  ~ManipStgT() {func = 0;}
 
@@ -56,7 +56,7 @@ typedef MyClass& (*Func)(MyClass&, double);
 Func   func;
 double v;
 
-  ManipDblT()                   : func(0), v(0.0)   {}
+  ManipDblT() : func(0), v(0.0)   {}
 
  ~ManipDblT() {func = 0; v = 0.0;}
 

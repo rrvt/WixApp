@@ -52,12 +52,3 @@ private:
   bool dspError(CURLcode res);
   };
 
-
-
-
-
-//  TCchar* getBodyHtm();
-
-//  bool    getPlainText(String& plainText);
-//  bool    getHtmlText( String& htmlText);
-

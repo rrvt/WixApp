@@ -19,11 +19,12 @@ double      botMargin;
 public:
 
   DsplyMgr(CScrView& view) : ShowMgr(view, npd, displayOut), npd(), displayOut(npd),
-                             leftMargin(0.33), rightMargin(0.33), topMargin(0.33), botMargin(0.33) { }
+                             leftMargin(0.33), rightMargin(0.33), topMargin(0.33),
+                             botMargin(0.33) { }
  ~DsplyMgr() { }
 
   void     setMgns(double left, double top, double right, double bot)
-                             {leftMargin = left; topMargin = top;  rightMargin = right;  botMargin = bot;}
+                      {leftMargin = left; topMargin = top;  rightMargin = right;  botMargin = bot;}
 
   void     onPrepareDC(CDC* dc);
   void     startDev() {displayOut.startDev();}

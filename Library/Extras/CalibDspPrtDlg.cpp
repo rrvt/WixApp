@@ -19,17 +19,17 @@ static const TCchar* PrtLeftKey  = _T("PrtLeft");
 static const TCchar* PrtRightKey = _T("PrtRight");
 
 static const TCchar* expl0 = _T("There is a constant that govens the size of the fonts.  ")
-            _T("It is different for the display and printer.  ")
-            _T("The value reported in the edit box is used to set the scale factor.  ")
-            _T("The 12.0 point Courier Font string output of 10 characters should be 1 inch in length.  ")
-            _T("Use a ruler to measure the distance between the vertical bars.  ")
-            _T("There are two versions of the character string.  ")
-            _T("One is 80 characters and one is 100 characters.  ")
-            _T("They should be 8 and 10 inches respectfully.")
-            _T("Unfortunately the physical length of the string may not be precisely 8 or 10 inches.")
-            _T("Try to get close and make the display and printer similar in length.  ")
-            _T("Once the scale facter is chosen, the the setFontSize function and the stream modifiers, ")
-            _T("nFSize and dFSize, will adjust the font size during execution of the program.");
+     _T("It is different for the display and printer.  ")
+     _T("The value reported in the edit box is used to set the scale factor.  ")
+     _T("The 12.0 point Courier Font string output of 10 characters should be 1 inch in length.  ")
+     _T("Use a ruler to measure the distance between the vertical bars.  ")
+     _T("There are two versions of the character string.  ")
+     _T("One is 80 characters and one is 100 characters.  ")
+     _T("They should be 8 and 10 inches respectfully.")
+     _T("Unfortunately the physical length of the string may not be precisely 8 or 10 inches.")
+     _T("Try to get close and make the display and printer similar in length.  ")
+     _T("Once the scale facter is chosen, the the setFontSize function and the stream modifiers, ")
+     _T("nFSize and dFSize, will adjust the font size during execution of the program.");
 
 
 // CalibDspPrtDlg dialog

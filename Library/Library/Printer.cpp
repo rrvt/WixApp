@@ -27,8 +27,6 @@ static TCchar* ScaleKey       = _T("Scale");
 Printer printer;
 
 
-
-
 void Printer::load(TCchar* printer) {
 String s;
 uint   x;
@@ -92,15 +90,10 @@ String s;
   }
 
 
-
-
 PrtrOrient Printer::toOrient(Cstring& cs)
-                                {String s = cs;   return s == LandscapeKey ? LandOrient : PortOrient;}
+                             {String s = cs;   return s == LandscapeKey ? LandOrient : PortOrient;}
 
 
-TCchar* Printer::toStg(PrtrOrient orient) {return orient == PortOrient ? PortraitKey : LandscapeKey;}
-
-
-
-//static TCchar* OrientationKey = _T("Orientation");
+TCchar* Printer::toStg(PrtrOrient orient)
+                                        {return orient == PortOrient ? PortraitKey : LandscapeKey;}
 

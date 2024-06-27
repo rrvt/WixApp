@@ -12,28 +12,19 @@
 // characters *?, etc.)  Use getName to retrieve the names one by one into your character array
 // All names must be retrieved before find... may be called again.
 
-bool FileSrch::findSubDirs(   TCchar* path, TCchar* dirWildCard) {
-  return findAll(true, dirWildCard, path, false);
-  }
+bool FileSrch::findSubDirs(   TCchar* path, TCchar* dirWildCard)
+                                            {return findAll(true, dirWildCard, path, false);}
 
-
-bool FileSrch::findAllSubDirs(TCchar* path) {
-  return findAll(true, 0, path, true);
-  }
-
+bool FileSrch::findAllSubDirs(TCchar* path) {return findAll(true, 0, path, true);}
 
 // Call getName to retrieve full path
 
-bool FileSrch::findFiles(TCchar* path, TCchar* nameWildCard) {
-  return findAll(false, nameWildCard, path, false);
-  }
-
+bool FileSrch::findFiles(TCchar* path, TCchar* nameWildCard)
+                                            {return findAll(false, nameWildCard, path, false);}
 
 // find all files at path
 
-bool FileSrch::findAllFiles(  TCchar* path) {
-  return findAll(false, 0, path, true);
-  }
+bool FileSrch::findAllFiles(  TCchar* path) {return findAll(false, 0, path, true);}
 
 
 // Searches a single directory given by path for files or subdirectories.  No subdirectories are
@@ -50,7 +41,8 @@ RegExpr         regExpr;
 WIN32_FIND_DATA findData;
 HANDLE          h;
 BOOL            rslt;
-NewAlloc(FSNode);
+
+  NewAlloc(FSNode);
 
   tgtNames.removeAll();
 
@@ -117,7 +109,8 @@ int lng;
   }
 
 
-FSNode* FSNode::clone() {NewAlloc(FSNode);  FSNode* node = AllocNode;  node->name = name; return node;}
+FSNode* FSNode::clone()
+                    {NewAlloc(FSNode);  FSNode* node = AllocNode;  node->name = name; return node;}
 
 
 

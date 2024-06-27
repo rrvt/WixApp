@@ -68,8 +68,7 @@ int en = st + sz;
 void Debug::add(void* nd, void* secnd) {
 int i;
 
-  if (dbgX >= noElements(dbgData))
-    return;
+  if (dbgX >= noElements(dbgData)) return;
 
   for (i = 0; i < dbgX; i++) {
     DbgData& dbgD = dbgData[i];
@@ -78,10 +77,6 @@ int i;
     }
 
   DbgData& dbgD = dbgData[dbgX++];  dbgD.node = nd;  dbgD.secnd = secnd;  dbgD.ordinal = ordinal;
-
-if (ordinal >= 28) {
-int x = 1;
-}
   }
 
 
@@ -89,7 +84,7 @@ int x = 1;
 
 
 void Memory::alct(void* b, uint sz, Cchar* f, int ln) {
-int      i;
+int       i;
 MemData*  md   = findEmpty(b, i);        if (!b) return;
 int       p    = (int) b + sz - 1;
 void*     e    = (void*) p;

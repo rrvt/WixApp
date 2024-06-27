@@ -27,7 +27,7 @@ public:
 PrtrOrient prtrOrietn;
 
                ReportBase(NotePad& notePad) : np(notePad), maxPages(0),
-                                                             printing(false), prtrOrietn(PortOrient) { }
+                                                        printing(false), prtrOrietn(PortOrient) { }
               ~ReportBase() { }
 
           void setTitle(TCchar* t) {title = t;}

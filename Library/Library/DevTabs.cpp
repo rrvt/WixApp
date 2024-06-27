@@ -18,7 +18,7 @@ void DevTabs::set(Horiz& hz, int pos, DevTab& tab) {
 double tabPos = pos;
 
   tab.pos = tabPos > 0 ? tabPos * hz.avgLgChWidth() + hz.leftBnd :
-                                                                hz.rightBnd + hz.avgLgChWidth() * tabPos;
+                                                          hz.rightBnd + hz.avgLgChWidth() * tabPos;
   data = tab;               // inserts in sorted order
   }
 

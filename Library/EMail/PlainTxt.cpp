@@ -12,7 +12,7 @@ Tchar ch;
   loop {
     switch (state) {
       case InitPlain  : text.clear();
-                        i = 0;   n = body.length();   lineLng = 0;   state = CollPlain;    continue;
+                        i = 0;   n = body.length();   lineLng = 0;   state = CollPlain;   continue;
 
       case CollPlain  : ch = nextChar();   if (!ch) return text;   // Fall Thru into GotChPln
 
@@ -26,12 +26,13 @@ Tchar ch;
 
       case EolPlain   : ch = nextChar();   if (!ch) return text;
                         if (appdFragPlus(_T(" "))) {state = ch == TEolCh ? EolNPlain : GotChPln;}
-                        else if (ch == TEolCh)  {state = EolNPlain;   text += TCrlf;    lineLng = 0;}
+                        else if (ch == TEolCh)  {state = EolNPlain;  text += TCrlf;   lineLng = 0;}
                         else                     state = GotChPln;
                         continue;
 
       case EolNPlain  : ch = nextChar();   if (!ch) return text;
-                        text += TCrlf;   lineLng = 0;   if (ch != TEolCh) state = GotChPln;   continue;
+                        text += TCrlf;   lineLng = 0;   if (ch != TEolCh) state = GotChPln;
+                        continue;
 
       case SlashPlain : ch = nextChar();   if (!ch) return text;
                         state = CollPlain;   fragLng = frag.length();
@@ -58,7 +59,7 @@ bool brk  = false;
   fragLng = frag.length();
 
   if (lineLng + fragLng  + tcLng >= Threshold)
-                                        {text += _T(' ');    text += TCrlf;   lineLng = 0;   brk = true;}
+                                  {text += _T(' ');    text += TCrlf;   lineLng = 0;   brk = true;}
 
   text += frag + tc;   lineLng += fragLng + tcLng;    frag.clear();   return brk;
   }

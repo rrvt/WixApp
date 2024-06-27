@@ -3,18 +3,19 @@
 /*
 The template for loading, storing and accessing CSV files is contained in several files:
   *  CSVLex   -- A Lexical Analyser (FSM) for reading CSV files
-  *  CSVOut   -- Contains a class for outputing to a CSV file (managing commas and quotes withing fields)
+  *  CSVOut   -- Contains a class for outputing to a CSV file (managing commas and quotes withing
+                 fields)
   *  CSVRcdB  -- A base file for your CSV Record to provide basic functionality
-  *  CSVRcdsT -- Contains a template for creating a container for CSV Records.  May be used as a base
-                 class for extending functionality with a subclass.
+  *  CSVRcdsT -- Contains a template for creating a container for CSV Records.  May be used as a
+                 base class for extending functionality with a subclass.
 
-This class provides a template for a container of CSV records or a base class for a container of CSV
-records.  In addition there is a template to create an iterator for the accessing each record in the
-container.
+This class provides a template for a container of CSV records or a base class for a container of
+CSV records.  In addition there is a template to create an iterator for the accessing each record
+in the container.
 
-This container uses the DatumPtrT template which is contained in the ExpandableP.h file.  The record pointer
-class allows pointers to be housed in the array and manipulated rather than the whole record being in
-the array.  Ultimately this is for efficiency reasons.
+This container uses the DatumPtrT template which is contained in the ExpandableP.h file.  The
+record pointer class allows pointers to be housed in the array and manipulated rather than the
+whole record being in the array.  Ultimately this is for efficiency reasons.
 
 Using the CSVRcdsT template is as follows:
 
@@ -51,8 +52,8 @@ public:
 
   void clear() {data.clear();}
 
-  void load(Archive& ar);               // load csv data from file
-  void store(Archive& ar);              // store csv data in file (comman separated fields)
+  void load(Archive& ar);                       // load csv data from file
+  void store(Archive& ar);                      // store csv data in file (comman separated fields)
 
   void del(int x) {data.del(x);}
 
@@ -62,7 +63,7 @@ public:
 
   CSVRcd* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}
 
-  void display(NotePad& np);            // display as comman separated fields
+  void display(NotePad& np);                            // display as comman separated fields
 
 protected:
 
@@ -70,7 +71,7 @@ protected:
 
 public:
 
-  int   nData()      {return data.end();}                       // returns number of data items in array
+  int   nData()      {return data.end();}               // returns number of data items in array
 
   void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
   };
@@ -89,7 +90,8 @@ enum Dir {Fwd, Rev};
   CSVIterT(CSVRcdsT<Data, Key, CSVRcdP>& dataStore) : iterX(0),          store(dataStore)  { }
   CSVIterT(CSVIterT& iter)      : iterX(iter.iterX), store(iter.store) { }
 
-  Data* operator() (Dir rev = Fwd) {iterX = rev ? store.nData() : 0; return rev ? decr() : current();}
+  Data* operator() (Dir rev = Fwd)
+                                {iterX = rev ? store.nData() : 0; return rev ? decr() : current();}
   Data* operator++ (int) {return iterX < store.nData() ? incr() : 0;}
   Data* operator-- (int) {return iterX > 0             ? decr() : 0;}
 
@@ -106,8 +108,6 @@ private:
 
   Data* incr() {return iterX < store.nData() ? store.datum(++iterX) : 0;}
   Data* decr() {return iterX > 0             ? store.datum(--iterX) : 0;}
-
-//  CSVIterT() : store(*(CSVRcdsT*) 0), iterX(0) { }      // This prevents an uninitizlized iterator
   };
 
 

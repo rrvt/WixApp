@@ -26,7 +26,7 @@ Main    main(argc, argv, envp);
   if (!hModule) {_tprintf(_T("Fatal Error: GetModuleHandle failed\n")); return 1;}
 
   if (!AfxWinInit(hModule, NULL, ::GetCommandLine(), 0))
-                                    {_tprintf(_T("Fatal Error: MFC initialization failed\n")); return 1;}
+                              {_tprintf(_T("Fatal Error: MFC initialization failed\n")); return 1;}
   restart.init(argc, argv);
 
   while (main.processArgs()) main.setEnv();

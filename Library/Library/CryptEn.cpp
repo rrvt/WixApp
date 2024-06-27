@@ -35,6 +35,7 @@ DWORD      dwLength;
   }
 #endif
 
+
 bool Crypt::enc(String& password, String& key, ByteBlock& encryption) {
 DWORD n;
 NewArray(Byte);
@@ -51,7 +52,7 @@ NewArray(Byte);
   n = (DWORD) (password.length() + 1);
 
   if (!encryption.noBytes)
-                {encryption.bytes = AllocArray(n); encryption.noBytes = n; encryption.allocated = true;}
+           {encryption.bytes = AllocArray(n); encryption.noBytes = n; encryption.allocated = true;}
 
   if (n > encryption.noBytes) return false;
 

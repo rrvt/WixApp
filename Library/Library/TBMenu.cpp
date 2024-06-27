@@ -7,7 +7,7 @@
 
 TBMenu* TBMenu::install(uint idr, TCchar* caption) {
 CMenu menu;  if (!menu.LoadMenu(idr)) return 0;
-int   n;                                                      // rrvt test
+int   n;
 int   i;
 int   id;
 

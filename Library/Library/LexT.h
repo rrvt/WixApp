@@ -14,14 +14,14 @@ class String;
 
 struct Input {
 
-               Input() {}
-  virtual     ~Input()       = 0;
+                Input() {}
+  virtual      ~Input()       = 0;
 
-  virtual bool set(void* p)  {return false;}
-  virtual void initialize()  = 0;
-  virtual Tchar operator()()  = 0;             // Returns one character or zero (end of file)
-  virtual void acceptChar()  = 0;
-  virtual void backOneChar() = 0;             // Use only once before going forward again...
+  virtual bool  set(void* p)  {return false;}
+  virtual void  initialize()  = 0;
+  virtual Tchar operator()()  = 0;              // Returns one character or zero (end of file)
+  virtual void  acceptChar()  = 0;
+  virtual void  backOneChar() = 0;              // Use only once before going forward again...
   };
 
 
@@ -103,7 +103,7 @@ Token*  token1;                  // Next token in input stream
   void        accept_token(void);                // Set first token to NO_Token
   void        accept_two_tokens(void);           // Set both tokens to No_Token
 
-  void        error(Token* token, TCchar* stg);    // Error processing
+  void        error(Token* token, TCchar* stg);  // Error processing
 
   int         noErrors()  {return error_count;}
   LexErr&     lastError() {return lexErr;}
@@ -122,10 +122,10 @@ private:
 
   void add_to_line()   {*pline += ch; offset++;}
 
-  void move_char()     {accept_char(); *ptok += ch; *pline += ch; offset++;}      // add_to_line() too
+  void move_char()     {accept_char(); *ptok += ch; *pline += ch; offset++;}  // add_to_line() too
 
   void terminate(Token* tok, String* source[])
-                                  {tok->line_number = line_number; tok->psource = source[current_source];}
+                           {tok->line_number = line_number; tok->psource = source[current_source];}
 
   // display source line associated with current token.
   // Return offset of current token from left margin
@@ -185,7 +185,7 @@ static Character_Classes character_class_table[] = {
 
 
 template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
-             LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::LexT() : pline(0), backOne(0), error_count(0) {
+      LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::LexT() : pline(0), backOne(0), error_count(0) {
   NewAlloc(Token); token = AllocNode; token1 = AllocNode;
   source[0] = &source_line; source[1] = &source_line1;
   }
@@ -218,23 +218,23 @@ template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
 
 template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
             void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::set_print_flag(bool flag)
-                                                                              {print_source_line = flag;}
+                                                                        {print_source_line = flag;}
 
 
 template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
                 bool LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::get_print_flag(void)
-                                                                              {return print_source_line;}
+                                                                        {return print_source_line;}
 
 
 // accept token by clearing the token code
 
 template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
                       void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::accept_token(void)
-                                                                                {token->code = NoToken;}
+                                                                           {token->code = NoToken;}
 
 template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
   void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::accept_two_tokens(void)
-                                                                  {token->code = token1->code = NoToken;}
+                                                            {token->code = token1->code = NoToken;}
 
 
 // get next token when token is empty, values set in globals
@@ -530,7 +530,8 @@ fin_tok:                state = begin_tok; terminate(tok, source); return;
         switch (ch_class) {
           case cr   :
           case eol  :
-          case eofch: tok->code = ApostropheToken; terminate(tok, source); state = begin_tok; return;
+          case eofch: tok->code = ApostropheToken; terminate(tok, source); state = begin_tok;
+                      return;
           case bslsh: state = sqt_backslash; break;
           default   : state = collect_final_sq; break;
           }
@@ -540,7 +541,8 @@ fin_tok:                state = begin_tok; terminate(tok, source); return;
         switch (ch_class) {
           case cr   :
           case eol  :
-          case eofch: tok->code = ApostropheToken; terminate(tok, source); state = begin_tok; return;
+          case eofch: tok->code = ApostropheToken; terminate(tok, source); state = begin_tok;
+                      return;
           default   : state = collect_final_sq; break;
           }
         move_char(); continue;
@@ -617,7 +619,8 @@ fin_tok:                state = begin_tok; terminate(tok, source); return;
           case cr:      accept_char(); continue;
 
           case eol:
-          case eofch:   tok->code = CommentToken; terminate(tok, source); state = begin_tok; return;
+          case eofch:   tok->code = CommentToken; terminate(tok, source); state = begin_tok;
+                        return;
 
           default:      break;
           }

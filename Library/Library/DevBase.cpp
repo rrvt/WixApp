@@ -107,11 +107,11 @@ void DevBase::initFont(TCchar* face, double fontSize) {dvx.setBaseFont(face, fon
 
 
 void DevBase::setHorzMgns(double left, double right)
-                                       {dvx.leftMgn = left;   dvx.rightMgn = right;    txt->initBounds();}
+                                {dvx.leftMgn = left;   dvx.rightMgn = right;    txt->initBounds();}
 
 
 void DevBase::setVertMgns(double top,  double bot)
-                                       {dvx.topMgn  = top;     dvx.botMgn  = bot;      vert.initBounds();}
+                                {dvx.topMgn  = top;     dvx.botMgn  = bot;      vert.initBounds();}
 
 
 DevBase& DevBase::append(int   v) {txt->append(v); return *this; }
@@ -150,11 +150,11 @@ DevBase& DevBase::doFlush(DevBase& d) {d.txt->flush(); return d;}
 DevBase& DevBase::doBeginLine(DevBase& d) {d.txt->doBeginULine(d.vert.getUlinePos());   return d;}
 
 
-DevBase& DevBase::doEndLine(DevBase& d) {d.txt->doEndULine(d.vert.getUlinePos());   return d;}
+DevBase& DevBase::doEndLine(DevBase& d)   {d.txt->doEndULine(d.vert.getUlinePos());     return d;}
 
 
 DevBase& DevBase::doEndPage(DevBase& d)
-                            {if (d.printing && d.vert.withinBounds()) (*d.txt)(DoEndPgAftr);   return d;}
+                      {if (d.printing && d.vert.withinBounds()) (*d.txt)(DoEndPgAftr);   return d;}
 
 
 bool DevBase::isPortrait(CPrintInfo* pInfo) {

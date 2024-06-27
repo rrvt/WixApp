@@ -22,8 +22,8 @@ int minDepth;
   WinPosData();
  ~WinPosData() { }
 
-  WinPosData& set(CWnd* wnd, CRect& r);                       // Call with rectangle from GetWindowRect
-  void        set(CWnd* wnd, int& cx, int& cy);               // Call from OnSize message function
+  WinPosData& set(CWnd* wnd, CRect& r);                   // Call with rectangle from GetWindowRect
+  void        set(CWnd* wnd, int& cx, int& cy);           // Call from OnSize message function
   void        get(CRect& r) {r.right = r.left + width;   r.bottom = r.top + depth;}
 
   void        setInvBdrs(CRect& winRect, int cx, int cy);
@@ -40,8 +40,8 @@ int minDepth;
 
 private:
 
-  void getWidthDepth(CWnd* wnd, int w, int d);  // width and depth in pixels including invisible boarders
-
+  void getWidthDepth(CWnd* wnd, int w, int d);            // width and depth in pixels including
+                                                          // invisible boarders
   void rationalize();
 
   void display(TCchar* tgt, int d);
@@ -53,9 +53,11 @@ class WinPos {
 WinPosData data;                                  // App window position and size in pixels
 
 CWnd*      wnd;                                   // MainFrame or Dialog Window
-double     hDLUtoPxls;                            // Factor (dlu * factore = pixels) to convert DLUs to
-double     vDLUtoPxls;                            // pixelse, different for horizontal and vertical
-int        defWidth;                              // Width and depth in DLUs specified in Resource File
+double     hDLUtoPxls;                            // Factor (dlu * factore = pixels) to convert
+double     vDLUtoPxls;                            // DLUs to pixelse, different for horizontal and
+                                                  // vertical
+int        defWidth;                              // Width and depth in DLUs specified in Resource
+                                                  // File
 int        defDepth;
 int        screenWidth;                           // Maximum Screen width and height
 int        screenHeight;

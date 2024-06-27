@@ -34,5 +34,5 @@ static bool   eolSeen;
  ~XTerm() {}
 
   static bool putChar(Tchar ch, XCmd& xCmd);    // If return v is true, xCmd.ch is a character
-                                               // else sp.u.code.suffix is a code, v is optional
-  };
+  };                                            // else sp.u.code.suffix is a code, v is optional
+

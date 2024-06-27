@@ -17,8 +17,8 @@ public:
   IniFile() : rand() {}
  ~IniFile() { }
 
-  String  getAppDataPath(TCchar* helpPath);   // Sets ini File Name & path to appData/Roming directory
-                                              // returns path to directory
+  String  getAppDataPath(TCchar* helpPath);   // Sets ini File Name & path to appData/Roming
+                                              // directory returns path to directory
   void    setPath(TCchar* filePath);          // Sets ini file name & path.
   String  path() {return iniFilePath;}
 
@@ -35,17 +35,20 @@ public:
   bool    write(      TCchar* section, TCchar* key, TCchar*  val);
   bool    writeString(TCchar* section, TCchar* key, CString& val);
   bool    write(      TCchar* section, TCchar* key, CString& val);
-  bool    write(      TCchar* section, TCchar* key, int      val) {return writeInt(section, key, val);}
+  bool    write(      TCchar* section, TCchar* key, int      val)
+                                                              {return writeInt(section, key, val);}
   bool    writeInt(   TCchar* section, TCchar* key, int      val);
   bool    write(      TCchar* section, TCchar* key, double   val);
   bool    writePwd(   TCchar* section, TCchar* key, String&  val);
   void    writeEnd();
 
   bool    readString( TCchar* section, TCchar* key, String&  val);
-  bool    read(       TCchar* section, TCchar* key, String&  val) {return readString(section, key, val);}
+  bool    read(       TCchar* section, TCchar* key, String&  val)
+                                                            {return readString(section, key, val);}
   bool    readString( TCchar* section, TCchar* key, Cstring& val);
-  bool    read(       TCchar* section, TCchar* key, Cstring& val) {return readString(section, key, val);}
-  bool    read(       TCchar* section, TCchar* key, int&     val);                // Defaults to zero
+  bool    read(       TCchar* section, TCchar* key, Cstring& val)
+                                                            {return readString(section, key, val);}
+  bool    read(       TCchar* section, TCchar* key, int&     val);            // Defaults to zero
 
   bool    readString( TCchar* section, TCchar* key, String&  val, TCchar* dflt);
   bool    readString( TCchar* section, TCchar* key, Cstring& val, TCchar* dflt);
@@ -53,7 +56,6 @@ public:
   bool    read(       TCchar* section, TCchar* key, Cstring& val, TCchar* dflt);
   bool    read(       TCchar* section, TCchar* key, int&     val, int     dflt);
   int     readInt(    TCchar* section, TCchar* key, int      def);
-//int     read(       TCchar* section, TCchar* key, int      def);
   bool    readPwd(    TCchar* section, TCchar* key, String&  val);
 
   void    deleteString(TCchar* section, TCchar* key);
@@ -110,12 +112,3 @@ private:
   void clear() {if (buf) {NewArray(Tchar); FreeArray(buf); buf = 0;}}
   };
 
-
-
-//  Tchar*  startReadSection();
-//  Tchar*  nextSection();
-//  Tchar*  getSection() {return p < q ? p : 0;}
-//Tchar*   p;
-//Tchar*   q;
-//Tchar*   buf;
-// p(0), q(0), buf(0),

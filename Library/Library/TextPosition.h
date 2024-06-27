@@ -47,12 +47,13 @@ public:
     }
 
   void setLeftMargin( int lm)
-                      {leftOdd = lm >= 0 ? lm : 0;  maxCursorPos = cursorPos = getInitialCursorPos();}
+            {leftOdd = lm >= 0 ? lm : 0;         maxCursorPos = cursorPos = getInitialCursorPos();}
   void iPos(int left, int right)
-                  {leftEdge = left; rightEdge = right; maxCursorPos = cursorPos = getInitialCursorPos();}
+            {leftEdge = left; rightEdge = right; maxCursorPos = cursorPos = getInitialCursorPos();}
 
   void pos(int x)  {cursorPos  = x;}         // Change position to x
-  bool exceedsRtMargin(int width);           // return true when new position would exceed right margin
+  bool exceedsRtMargin(int width);           // return true when new position would exceed right
+                                             // margin
   int  remaining();
   int  widthCh()   {return width;}
   void move(int x) {cursorPos += x;}         // Move Cursor by the number of characters specified
@@ -78,7 +79,7 @@ public:
 
 private:
 
-  int charsPerLine() {return (rightEdge - leftEdge) / width;}
-  int getInitialCursorPos() {return leftEdge + leftOdd * width;}
+  int charsPerLine()        {return (rightEdge - leftEdge) / width;}
+  int getInitialCursorPos() {return leftEdge   + leftOdd   * width;}
   };
 

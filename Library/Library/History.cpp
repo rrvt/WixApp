@@ -21,9 +21,7 @@ HistData*  h;
 
   if (!file.open(path, FileIO::Write | FileIO::Create)) return;
 
-  for (h = iter(); h; h = iter++) {
-    h->output(file);
-    }
+  for (h = iter(); h; h = iter++) h->output(file);
   }
 
 

@@ -25,7 +25,9 @@ bool VertMgmt::lf(bool printing, bool footer) {
 
   if (printing && !footer && exceedsBnd()) {setEndPage(); return false;}
 
-  y += maxHeight ? maxHeight : dvx.chHeight;   maxHeight = dvx.chHeight;   setMaxY(y);   return true;
+  y += maxHeight ? maxHeight : dvx.chHeight;   maxHeight = dvx.chHeight;   setMaxY(y);
+
+  return true;
   }
 
 

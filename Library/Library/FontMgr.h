@@ -18,9 +18,9 @@ bool    underline;
 bool    strikeout;
 
   FontAttr()               : dvx(0), sz(0), bold(false), italic(false),
-                                                                    underline(false), strikeout(false) { }
+                                                             underline(false), strikeout(false) { }
   FontAttr(DevCtx& devCtx) : dvx(&devCtx), sz(0.0), bold(false), italic(false),
-                                                                        underline(false), strikeout(0) { }
+                                                             underline(false), strikeout(false) { }
 
  ~FontAttr() { }
 
@@ -45,7 +45,7 @@ private:
   };
 
 
-typedef DatumPtrT<FontAttr, String> FontAttrP;                      // Usually defined just before iterator
+typedef DatumPtrT<FontAttr, String> FontAttrP;            // Usually defined just before iterator
 
 
 class FontMgr {
@@ -55,7 +55,7 @@ ExpandableP<FontAttr, String, FontAttrP, 8> data;
 
 public:
 
-  FontMgr() : stkX(-1), cur(0) { }            //, scale(0.0)
+  FontMgr() : stkX(-1), cur(0) { }
  ~FontMgr();
 
   FontMgr&  operator= (FontMgr& fm) {copy(fm); return *this;}
@@ -83,7 +83,7 @@ private:
 
   FontAttr* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}
 
-  int       nData()      {return data.end();}                   // returns number of data items in array
+  int       nData()      {return data.end();}             // returns number of data items in array
 
   void      removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
   };

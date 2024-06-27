@@ -10,8 +10,6 @@
 
 #ifndef Win2K
 #include <filesystem>
-//using namespace experimental;
-//using namespace filesystem;
 #endif
 
 
@@ -29,12 +27,13 @@ CFile  srcFile;
 int    nRead;
 Byte   buf[4096];
 HANDLE hFile = CreateFile(dst, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS,
-                                                                            FILE_ATTRIBUTE_NORMAL, NULL);
+                                                                      FILE_ATTRIBUTE_NORMAL, NULL);
   if (hFile == INVALID_HANDLE_VALUE) return false;
 
-CFile dstFile(hFile);                                   // Attach a CFile object to the handle we have.
+CFile dstFile(hFile);                               // Attach a CFile object to the handle we have.
 
-  if (!srcFile.Open(source, CFile::modeRead | CFile::shareDenyWrite)) {dstFile.Close(); return false;}
+  if (!srcFile.Open(source, CFile::modeRead | CFile::shareDenyWrite))
+                                                                   {dstFile.Close(); return false;}
 
   while (nRead = srcFile.Read(buf, noElements(buf))) dstFile.Write(buf, nRead);
 
@@ -43,12 +42,7 @@ CFile dstFile(hFile);                                   // Attach a CFile object
 
 #else
 
-
-bool copyFile(TCchar* source, String& dst) {
-
-//  return copy_file(source, dst,  copy_options::overwrite_existing);
-  return CopyFile(source, dst, false);
-  }
+bool copyFile(TCchar* source, String& dst) {return CopyFile(source, dst, false);}
 
 #endif
 
@@ -59,7 +53,7 @@ Names  names;
 String bkupName;
 
   if (bkupFileName(filePath, bkupName, names))
-                                        {moveFile(filePath, bkupName);   removeExcess(names, noBackups);}
+                                  {moveFile(filePath, bkupName);   removeExcess(names, noBackups);}
   }
 
 
@@ -68,7 +62,7 @@ String bkupName;
 Names  names;
 
   if (bkupFileName(filePath, bkupName, names)) {
-                                        copyFile(filePath, bkupName);  removeExcess(names, noBackups);}
+                                    copyFile(filePath, bkupName);  removeExcess(names, noBackups);}
   }
 
 

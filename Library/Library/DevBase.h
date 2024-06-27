@@ -41,8 +41,6 @@ uint      noPages;
   virtual void     initFont(TCchar* face, double fontSize);
 
           void     initTxt() {txt->initialize();}
-//          void     initPageSize();
-//          void     initPageSize() {txt->initialize();}
           void     setHorzMgns(double left, double right);
           void     setVertMgns(double top,  double bot);
 
@@ -130,8 +128,6 @@ protected:
           DevBase& append(int   v);
           DevBase& append(ulong v);
 
-//          DevBase& evalNmbr(NoteNmbr& nmbr);
-
           void     tab();
           void     findNextTab();
           bool     crlf();
@@ -170,13 +166,15 @@ extern DspManip dUnderLine;
 extern DspManip dStrikeOut;
 extern DspManip dFont;
 
-extern DspManip dClrTabs;        // add to stream to clear tabs:                   dsp << dClrTabs;
-extern DspManip dCrlf;           // add to stream to terminate a line on display:  dsp << "xyz" << dCrlf;
+extern DspManip dClrTabs;        // add to stream to clear tabs:  dsp << dClrTabs;
+extern DspManip dCrlf;           // add to stream to terminate a line on display:
+                                 // dsp << "xyz" << dCrlf;
 extern DspManip dCR;             // add to stream to perform a carriage return (only)
 extern DspManip dEndPage;        // add to stream to terminate a page when printing or do nothing
 extern DspManip dFlush;          // flush text so tht the next sequence may be setup
 extern DspManip dFlushFtr;       // add to stream to terminate a footer when printing
-extern DspManip dTab;            // add to stream to tab to next tab position:     dsp << dTab << "xyz";
+extern DspManip dTab;            // add to stream to tab to next tab position:
+                                 // dsp << dTab << "xyz";
 extern DspManip dCenter;         // center the string following up to the nCrlf
 extern DspManip dRight;          // right align the string following up to the nCrlf
 extern DspManip dBeginLine;      // begin line here

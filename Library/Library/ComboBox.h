@@ -19,11 +19,11 @@
 
 // Styles suggested for the combo box:
 
-//   CBS_SIMPLE       The list box is displayed at all times. The current selection in the list box is
-//                    displayed in the edit control.
+//   CBS_SIMPLE       The list box is displayed at all times. The current selection in the list box
+//                    is displayed in the edit control.
 
-//   CBS_DROPDOWN     Similar to CBS_SIMPLE, except that the list box is not displayed unless the user
-//                    selects an icon next to the edit control.
+//   CBS_DROPDOWN     Similar to CBS_SIMPLE, except that the list box is not displayed unless the
+//                    user selects an icon next to the edit control.
 
 //   CBS_DROPDOWNLIST Similar to CBS_DROPDOWN, except that the edit control is replaced by a
 //                    static-text item that displays the current selection in the list box.
@@ -59,12 +59,9 @@ private:
 
   bool getText(int i, String& s);
 
-  // returns either a pointer to data (or datum) at index i in array or zero
-  String* getDatum(int i, String& s);
-//                              {CString t; return 0 <= i && i < nData() ? {GetLBText(i, t);   s = t} : 0;}
-
-  // returns number of data items in array
-  int   nData()      {return GetCount();}
+  String* getDatum(int i, String& s);               // returns either a pointer to data (or datum)
+                                                    // at index i in array or zero
+  int   nData() {return GetCount();}                // returns number of data items in array
 
   friend typename CBIter;
   };

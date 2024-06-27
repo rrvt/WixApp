@@ -33,8 +33,8 @@ public:
 
 /* Doc/View Framework Calls to implement printing
      CMyView::OnPreparePrinting    o Set length of doc if known
-             |                     o Call DoPreparePrining to display Print dialog box which creates DC
-             V
+             |                     o Call DoPreparePrining to display Print dialog box which
+             V                     o creates DC
      CMyView::OnBeginPrinting      o Set length of document based on DC
              |                     o Allocate DGI resources
              V
@@ -70,7 +70,8 @@ public:
 private:
 
   void       prepareDC();
-  void       setMargins() {pageOut.setVertMgns(printer.topMargin, printer.botMargin);   setHorzMgns();}
+  void       setMargins()
+                      {pageOut.setVertMgns(printer.topMargin, printer.botMargin);   setHorzMgns();}
   void       setHorzMgns();
   void       findNextPreviewPage(CDC* dc, CPrintInfo* info);
   void       onePageOut();

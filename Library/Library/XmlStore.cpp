@@ -79,7 +79,9 @@ XmlBase*     base;
         String s = base->line;
         int    n = s.length();
 
-        base->line = s.substr(0, n-1) + _T(" />");   base->tagType = ElemTag;   elem.removeEndTag(0);
+        base->line = s.substr(0, n-1) + _T(" />");   base->tagType = ElemTag;
+
+        elem.removeEndTag(0);
         }
       }
   }
@@ -91,7 +93,7 @@ XmlBase*     base;
 
   for (base = iter(); base; base = iter++)
     if (base->dtmType == ElementDtm)
-                  {XmlElement& elem = *(XmlElement*) base;   if (elem.isConsolidatable()) elem.consolidate();}
+       {XmlElement& elem = *(XmlElement*) base;   if (elem.isConsolidatable()) elem.consolidate();}
   }
 
 

@@ -36,7 +36,7 @@ void CScrView::OnInitialUpdate() {
 
 void CScrView::initNoteOrietn() {
   dspNote.prtrOrietn = prtNote.prtrOrietn =
-                                  (PrtrOrient) iniFile.readInt(RptOrietnSect, NoteOrietnKey, PortOrient);}
+                           (PrtrOrient) iniFile.readInt(RptOrietnSect, NoteOrietnKey, PortOrient);}
 
 
 void CScrView::saveNoteOrietn() {iniFile.write(RptOrietnSect, NoteOrietnKey, prtNote.prtrOrietn);}
@@ -44,7 +44,7 @@ void CScrView::saveNoteOrietn() {iniFile.write(RptOrietnSect, NoteOrietnKey, prt
 
 
 void CScrView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
-                                    {dMgr.setScrollSize(); CScrollView::OnUpdate(pSender, lHint, pHint);}
+                              {dMgr.setScrollSize(); CScrollView::OnUpdate(pSender, lHint, pHint);}
 
 
 void CScrView::OnPrepareDC(CDC* dc, CPrintInfo* info) {
@@ -101,7 +101,7 @@ int   delta;
 BOOL OnPreparePrinting(        CPrintInfo* pInfo);  -- 1st
 void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);  -- 2nd
      CDC::StartDoc()                                -- 3rd
-void OnPrepareDC(    CDC* pDC, CPrintInfo* pInfo);  -- 4th                         <-// CScrView => Mgr
+void OnPrepareDC(    CDC* pDC, CPrintInfo* pInfo);  -- 4th                     <-// CScrView => Mgr
      CDC::StartPage()                               -- 5th                          ^
 void OnPrint(        CDC* pDC, CPrintInfo* pInfo);  -- 6th                          ^
      CDC::EndPage()                                 -- 7th then loops for each page ^

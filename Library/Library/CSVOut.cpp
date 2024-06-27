@@ -34,7 +34,7 @@ bool   addQuotes = false;
 
 
 
-CSVManip vCrlf;                  // add to stream to terminate a line on display: dsp << "xyz" << vCrlf;
+CSVManip vCrlf;           // add to stream to terminate a line on display: dsp << "xyz" << vCrlf;
 
 void CSVOut::initialize() {vCrlf.n = this; vCrlf.func = CSVOut::doCrlf;}
 

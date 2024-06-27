@@ -18,7 +18,7 @@ CRect rect = CRect(0, 0, 0, 0);
 
 
 void StatusBar::setReady(bool r)
-                            {String s = r ? _T("Ready") : _T("Not Ready");   ready = r;   setText(0, s);}
+                      {String s = r ? _T("Ready") : _T("Not Ready");   ready = r;   setText(0, s);}
 
 
 bool StatusBar::setText(int index, TCchar* txt) {return SetText(txt, index, 0);}

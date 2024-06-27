@@ -11,8 +11,8 @@
 
 /* Doc/View Framework Calls to implement printing
      CMyView::OnPreparePrinting    o Set length of doc if known
-             |                     o Call DoPreparePrining to display Print dialog box which creates DC
-             V
+             |                     o Call DoPreparePrining to display Print dialog box which
+             V                     o creates DC
      CMyView::OnBeginPrinting      o Set length of document based on DC
              |                     o Allocate DGI resources
              V
@@ -38,7 +38,7 @@
 */
 
 /* The following functions are called for printing a page in the order given with one exception:
-BOOL OnPreparePrinting(        CPrintInfo* pInfo);  -- 1st                    // handled by CScrView
+BOOL OnPreparePrinting(        CPrintInfo* pInfo);  -- 1st                  // handled by CScrView
 void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);  -- 2nd
      CDC::StartDoc()                                -- 3rd
 void OnPrepareDC(    CDC* pDC, CPrintInfo* pInfo);  -- 4th
@@ -99,7 +99,9 @@ void PrintMgr::onPrepareDC(CDC* pDC, CPrintInfo* pInfo) {                       
 void PrintMgr::prepareDC() {
 DEVMODE devMode;
 
-  memset(&devMode, 0, sizeof(devMode));   dc->ResetDC(&devMode); // sets the Addtribut devmode parameter
+  memset(&devMode, 0, sizeof(devMode));
+
+  dc->ResetDC(&devMode);                                  // sets the Addtribut devmode parameter
 
   pageOut.initFont(font, fontSize);
   }
@@ -155,9 +157,9 @@ DevBase& dev = pageOut.getDev();
   }
 
 
-// The most secure way to cease printed output is to change the continuePrinting value in the printer
-// info structure from true to false.  This function determinse that by examining the progress of the
-// passage through the NotePad list of entities.
+// The most secure way to cease printed output is to change the continuePrinting value in the
+// printer info structure from true to false.  This function determinse that by examining the
+// progress of the passage through the NotePad list of entities.
 
 bool PrintMgr::isFinishedPrinting(CPrintInfo* info) {
 bool fin = pageOut.isEndDoc();

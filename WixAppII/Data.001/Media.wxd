@@ -1,0 +1,86 @@
+[SolutionInfo]
+RootPath=D:\Sources\Media\
+Path=D:\Sources\Media\Media\Media.sln
+Name=Media
+Version=2.100000
+[DefaultPath]
+NPaths=4
+DefKey0=Icon
+Icon.Path=D:\Sources\Library\License\
+DefKey1=Media_List.ftr
+Media_List.ftr.Path=D:\Sources\Media\Release\
+DefKey2=License.ftr
+License.ftr.Path=D:\Sources\Library\License\
+DefKey3=License
+License.Path=D:\Sources\Library\License\
+[Icons]
+NoIcons=2
+[Icon00]
+IconID=Media
+WixID=Media_Icon.exe
+IconPath=D:\Sources\Media\Media.prj\res\Media.ico
+[Icon01]
+IconID=MITLicense
+WixID=MITLicense_Icon.exe
+IconPath=D:\Sources\Library\License\MITLicense.ico
+[Product]
+ProductName=Media List
+Company=Bob -- K6RWY
+WixName=Media
+WixVersion=1.1.1.0
+UpgradeCode=28037721-4FE5-490D-A110-9FCCD92FE091
+SaveVerAllowed=0
+LicenseRequired=1
+LicensePath=D:\Sources\Library\License\MITLicenseFile.rtf
+IconID=Media
+[PFFDirectories]
+NoDirectories=1
+[PFFDirDesc00]
+ID=Media
+WixID=MEDIA.PFF
+Parent=
+Name=Media
+HasChildren=0
+[PMFDirectories]
+NoDirectories=1
+[PMFDirDesc00]
+ID=Media List
+WixID=Media_List.pmf
+Parent=
+Name=Media List
+HasChildren=0
+[Features]
+Count=2
+CurSel=License
+[Ftr00]
+FeatureID=Media List
+ProgramID=Media
+StartMenuID=Media List
+CurSel=Media
+NoComponents=2
+[Ftr00Cmp00]
+ID=Media
+Path=D:\Sources\Media\Release\Media.exe
+Guid=EFE40462-F017-4A48-829A-23E134DCF881
+Description=Media List for Bob and Maureen
+IconID=Media
+IsStartMenu=1
+IsDeskTop=1
+IsVersionAvail=1
+[Ftr00Cmp01]
+ID=Help
+Path=D:\Sources\Media\Release\Media.chm
+Guid=25470748-5D20-49E5-B763-BDD0D9147E5B
+[Ftr01]
+FeatureID=License
+ProgramID=Media
+StartMenuID=Media List
+CurSel=MIT License
+NoComponents=1
+[Ftr01Cmp00]
+ID=MIT License
+Path=D:\Sources\Library\License\MITLicenseFile.rtf
+Guid=907409AF-BB81-4818-A331-2EE1D61D7DC8
+Description=MIT License
+IconID=MITLicense
+IsStartMenu=1

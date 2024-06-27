@@ -1,5 +1,6 @@
 // Restart as Administrator
-// A program cannot just raise their capability to admin level, so just restart with the same arguments
+// A program cannot just raise their capability to admin level, so just restart with the same
+// arguments
 
 
 #include "pch.h"
@@ -43,7 +44,8 @@ bool RestartAsAdmin::elevate() {
       }
     }
   }
-  catch(...) {dspErr(_T("Exception error determining if running as Administrator"), GetLastError());}
+  catch(...)
+           {dspErr(_T("Exception error determining if running as Administrator"), GetLastError());}
 
   return false;
   }
@@ -55,8 +57,8 @@ BOOL                     fIsRunAsAdmin        = FALSE;
 DWORD                    dwError              = ERROR_SUCCESS;
 PSID                     pAdministratorsGroup = NULL;
 SID_IDENTIFIER_AUTHORITY NtAuthority          = SECURITY_NT_AUTHORITY;
-                                                                 // Allocate and initialize a SID of
-                                                                 // the administrators group.
+                                                                // Allocate and initialize a SID of
+                                                                // the administrators group.
   if (!AllocateAndInitializeSid(&NtAuthority,
                                 2,
                                 SECURITY_BUILTIN_DOMAIN_RID,
@@ -69,7 +71,7 @@ SID_IDENTIFIER_AUTHORITY NtAuthority          = SECURITY_NT_AUTHORITY;
   // the primary access token of the process.
 
   if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
-                                                              {dwError = GetLastError(); goto Cleanup;}
+                                                          {dwError = GetLastError(); goto Cleanup;}
 
 Cleanup:                                  // Centralized cleanup for all allocated resources.
 

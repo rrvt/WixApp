@@ -69,12 +69,13 @@ public:
 
   // Append to list
 
-  virtual Node* append(Node* node) {node->link = tail->link; tail->link = node; tail = node; return node;}
+  virtual Node* append(Node* node)
+                            {node->link = tail->link; tail->link = node; tail = node; return node;}
 
   // add at beginning of list
 
   virtual Node* prefix(Node* node)
-                                  {if (!head) tail = node;   node->link = head; head = node; return node;}
+                           {if (!head) tail = node;   node->link = head; head = node; return node;}
 
   // True if list is empty
   bool isEmpty() {return !head;}

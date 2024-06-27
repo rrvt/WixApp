@@ -31,13 +31,17 @@ Cstring& Cstring::operator= (String& s) {CString& cs = *this; cs = s.str(); retu
 
 
 Cstring& Cstring::operator= (variant_t& v)
-                    {CString& cs = *this;  if (v.vt == VT_BSTR) cs = (Tchar*) bstr_t(v);  return *this;}
+               {CString& cs = *this;  if (v.vt == VT_BSTR) cs = (Tchar*) bstr_t(v);  return *this;}
 
 
-Cstring& Cstring::operator= (int    v) {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
-Cstring& Cstring::operator= (long   v) {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
-Cstring& Cstring::operator= (ulong  v) {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
-Cstring& Cstring::operator= (double v) {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
+Cstring& Cstring::operator= (int    v)
+                                {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
+Cstring& Cstring::operator= (long   v)
+                                {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
+Cstring& Cstring::operator= (ulong  v)
+                                {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
+Cstring& Cstring::operator= (double v)
+                                {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
 
 
 String& String::trim() {trimLeft(); return trimRight();}
@@ -110,9 +114,11 @@ unique_ptr<Tchar> formatted;
 
   loop {
 
-    formatted.reset(new Tchar[n]);               /* Wrap the plain Tchar array into the unique_ptr */
+    formatted.reset(new Tchar[n]);            /* Wrap the plain Tchar array into the unique_ptr */
 
-    va_start(ap, fmt_str);   noChars = _vsntprintf_s(formatted.get(), n, n-1, fmt_str, ap);   va_end(ap);
+    va_start(ap, fmt_str);
+      noChars = _vsntprintf_s(formatted.get(), n, n-1, fmt_str, ap);
+    va_end(ap);
 
     if (noChars >= 0) break;
 

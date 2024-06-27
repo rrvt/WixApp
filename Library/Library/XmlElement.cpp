@@ -14,12 +14,15 @@ NewAlloc(XmlContent);  XmlContent* p = AllocNode;
   }
 
 
-XmlElement&  XmlElement::addElement(TagType tagTyp, String& tg, XmlAttributes& attributes, String& frag) {
+XmlElement& XmlElement::addElement(TagType tagTyp, String& tg,
+                                                         XmlAttributes& attributes, String& frag) {
 NewAlloc(XmlElement);  XmlElement* p = AllocNode;
 
   p->dtmType = ElementDtm; p->upLink = this;
 
-  p->tagType = tagTyp; p->tag = tg; p->attributes = attributes; p->line = frag; data += p; return *p;
+  p->tagType = tagTyp; p->tag = tg; p->attributes = attributes; p->line = frag; data += p;
+
+  return *p;
   }
 
 
@@ -91,8 +94,10 @@ void XmlbaseP::clear() {
   if (!p) return;
 
   switch(p->dtmType) {
-    case ElementDtm : {NewAlloc(XmlElement);  XmlElement* q = (XmlElement*) p;  FreeNode(q);} break;
-    case ContentDtm : {NewAlloc(XmlContent);  XmlContent* q = (XmlContent*) p;  FreeNode(q);} break;
+    case ElementDtm : {NewAlloc(XmlElement);  XmlElement* q = (XmlElement*) p;  FreeNode(q);}
+                      break;
+    case ContentDtm : {NewAlloc(XmlContent);  XmlContent* q = (XmlContent*) p;  FreeNode(q);}
+                      break;
     }
 
   p = 0;

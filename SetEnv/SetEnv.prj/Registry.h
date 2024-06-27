@@ -41,10 +41,10 @@ bool   dirty;
  ~Registry();
 
   bool  closeBase();
-  bool  openTgt(    String& key);                           // Obtains the value string, length and type
-  bool  appendValue(String& val);                                 // append val if not already present
+  bool  openTgt(    String& key);               // Obtains the value string, length and type
+  bool  appendValue(String& val);               // append val if not already present
   bool  prefixValue(String& val);
-  bool  deleteValue(String& val);                     // Delete whole key if value empty, otherwise just
+  bool  deleteValue(String& val);               // Delete whole key if value empty, otherwise just
   bool  setValue(   String& val) {tgtValue = val; return set();}  // set new value, stays open.
 
   void  displayTgt();
@@ -61,8 +61,8 @@ private:
   bool  set();
   bool  del();
   int   find(String& val);
-  bool  isLeftSepCh(int i);                         // Left non-space character is separator char
-  bool  isRightSepCh(int i);                        // Right non-space character is separator char
+  bool  isLeftSepCh(int i);                     // Left non-space character is separator char
+  bool  isRightSepCh(int i);                    // Right non-space character is separator char
   int   prevSep(int i);
   int   nextSep(int i);
   void  setTgtLng(DWORD bfLng) {tgtLng = bfLng/sizeof(Tchar) - 1;}

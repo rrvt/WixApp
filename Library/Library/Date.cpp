@@ -19,7 +19,6 @@ static bool vrfyMin( int cnt, TCchar ch, int& v);
 static void replTmSel(int i,  TCchar ch, CEdit& ctrl);
 
 
-
 const int Date::MinDate = 30000;
 
 typedef struct tm Tm;
@@ -72,10 +71,10 @@ Date Date::operator= (String& s) {
 Lex        lex;
 __time64_t tm = 0;
 int        nDigits;
-int        mm = 0;                            // Date may not be ealier than 1/1/1970 at UTC
+int        mm = 0;                      // Date may not be ealier than 1/1/1970 at UTC
 int        dd = 0;
 int        yr = 0;
-int        hr = 0;                            // Time w/o date based on 1/1/70 date.  Sorry no zero date!
+int        hr = 0;                      // Time w/o date based on 1/1/70 date.  Sorry no zero date!
 int        mn = 0;
 int        ss = 0;
 Token*     t;
@@ -318,9 +317,12 @@ int     yr    = 0;
 
 
 
-bool vrfyMnth(int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return 1 <= v && v <= 12;}
-bool vrfyDay( int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return 1 <= v && v <= 31;}
-bool vrfyYr(  int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return 0 <= v && v <= 40;}
+bool vrfyMnth(int cnt, TCchar ch, int& v)
+                                    {v = v * cnt * 10 + ch - _T('0');   return 1 <= v && v <= 12;}
+bool vrfyDay( int cnt, TCchar ch, int& v)
+                                    {v = v * cnt * 10 + ch - _T('0');   return 1 <= v && v <= 31;}
+bool vrfyYr(  int cnt, TCchar ch, int& v)
+                                    {v = v * cnt * 10 + ch - _T('0');   return 0 <= v && v <= 40;}
 
 
 void replDtSel(int i, TCchar ch, CEdit& ctrl) {

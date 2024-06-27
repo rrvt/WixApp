@@ -49,8 +49,8 @@ UWORD   bFunctionExists;
 
   if (!Check(nRetCode) || !bFunctionExists) return false;
 
-  SetState(CRecordset::dynaset, NULL, CRecordset::readOnly);    // Cache state info and allocate hstmt
-
+  SetState(CRecordset::dynaset, NULL, CRecordset::readOnly);  // Cache state info and allocate
+                                                              // hstmt
   if (!AllocHstmt()) return FALSE;
 
   try {OnSetOptions(m_hstmt);}

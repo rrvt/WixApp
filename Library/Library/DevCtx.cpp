@@ -6,11 +6,9 @@
 #include "MessageBox.h"
 
 
-DevCtx::DevCtx() : dc(0), suppress(false), scale(1000),     //  savedDC(0),
-                   pgWidth(0), rightMgn(0), leftMgn(0),
-                   pgHeight(0),  topMgn(0),  botMgn(0),
-                   avgFlChWidth(1), avgLgChWidth(1), edgeChWidth(0),
-                   chHeight(0), uLineDelta(0) { }
+DevCtx::DevCtx() : dc(0),           suppress(false), scale(1000), pgWidth(0),   rightMgn(0),
+                   leftMgn(0),      pgHeight(0),     topMgn(0),   botMgn(0),    avgFlChWidth(1),
+                   avgLgChWidth(1), edgeChWidth(0),  chHeight(0), uLineDelta(0) { }
 
 
 DevCtx::~DevCtx() { }
@@ -44,7 +42,7 @@ CFont  font;
 
 
 bool DevCtx::createFont(LOGFONT& logFont, CFont& font)
-                                                     {return font.CreatePointFontIndirect(&logFont, dc);}
+                                               {return font.CreatePointFontIndirect(&logFont, dc);}
 
 
 bool DevCtx::select(CFont& font) {
@@ -65,7 +63,7 @@ Cstring cs = tc;
 
 
 void DevCtx::outError(TCchar* stg)
-                  {String err = _T("Unable to output: '"); err += stg; err += _T("'");   messageBox(err);}
+           {String err = _T("Unable to output: '"); err += stg; err += _T("'");   messageBox(err);}
 
 
 void DevCtx::line(POINT* points, int& n) {if (!suppress) dc->Polyline(points, n);   n = 0;}
@@ -86,7 +84,9 @@ double     sum;
 
     avgLgChWidth = sum / n;
 
-    avgFlChWidth = metric.tmAveCharWidth;   if (avgFlChWidth > avgLgChWidth) avgLgChWidth = avgFlChWidth;
+    avgFlChWidth = metric.tmAveCharWidth;
+
+    if (avgFlChWidth > avgLgChWidth) avgLgChWidth = avgFlChWidth;
 
     if (!edgeChWidth) edgeChWidth = avgLgChWidth;
     }

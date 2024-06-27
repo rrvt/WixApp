@@ -1,12 +1,13 @@
 // Debug version of new -- hopefully to find memory leaks
 
 
-// This package provides some help in locating memory leaks (along with the vs17 internal debug tracking
-// of allocated nodes.  Three things must happen to effect the outcome:
+// This package provides some help in locating memory leaks (along with the vs17 internal debug
+// tracking of allocated nodes.  Three things must happen to effect the outcome:
 // -- Debug must be in force
 // -- all new must be replaced with two macros, one to create a specialized allocator of memory for
 //    a class or type that simulates the "new" c++ operator.
-// -- Everywhere "new" appears for the specific the class designator is removed and AllocNode replaces new
+// -- Everywhere "new" appears for the specific the class designator is removed and AllocNode
+//    replaces new
 // An example:
 //   struct Node {
 //   String s;
@@ -16,13 +17,15 @@
 //
 //    ooo
 //
-//    NewAlloc(Node); Node* p = AllocNode;            // An allocation object is created and one node
-//                                                    // is created and the constructor called...
+//    NewAlloc(Node); Node* p = AllocNode;            // An allocation object is created and one
+//                                                    // node is created and the constructor
+//                                                    // called...
 //
 // Arrays are a bit more trouble in that the number of nodes must be explicitly mentioned
 //
-//   NewArray(Node); Node* p = AllocArray(3);         // Three entries in an array of Nodes are created
-//                                                    // and the Node's constructor called for each entry
+//   NewArray(Node); Node* p = AllocArray(3);         // Three entries in an array of Nodes are
+//                                                    // created and the Node's constructor called
+//                                                    // for each entry
 // Freeing the nodes must be done with the FreeNode or FreeArray macros.  The destructor for each
 // Node is called and then the block of memory is freed.
 
@@ -135,7 +138,7 @@ public:
 
   template<class I1, class I2, class I3>
   T* operator() (I1& i1, I2& i2, I3& i3)
-                        {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(i1, i2, i3);}   return p;}
+                      {T* p = (T*) malloc(sizeof(T));   if (p) {new(p) T(i1, i2, i3);}   return p;}
 
   template<class I1, class I2, class I3, class I4>
   T* operator() (I1& i1, I2& i2, I3& i3, I4& i4)

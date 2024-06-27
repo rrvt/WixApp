@@ -7,7 +7,7 @@
 
 
 
-ArchManip aCrlf;                  // add to stream to terminate a line on display: dsp << "xyz" << dCrlf;
+ArchManip aCrlf;            // add to stream to terminate a line on display: dsp << "xyz" << dCrlf;
 
 
 void Archive::initialize() {aCrlf.n = this; aCrlf.func = Archive::doCrlf;}

@@ -28,9 +28,9 @@ bool getIncSavePathDlg(PathDlgDsc& dsc, String& path) {return saveDlg(dsc, false
 
 
 bool openDlg(PathDlgDsc& dsc, bool overwrt, String& path)
-                                    {return pathDlg(dsc, true, overwrt ? OFN_OVERWRITEPROMPT : 0, path);}
+                             {return pathDlg(dsc, true,  overwrt ? OFN_OVERWRITEPROMPT : 0, path);}
 bool saveDlg(PathDlgDsc& dsc, bool overwrt, String& path)
-                                   {return pathDlg(dsc, false, overwrt ? OFN_OVERWRITEPROMPT : 0, path);}
+                             {return pathDlg(dsc, false, overwrt ? OFN_OVERWRITEPROMPT : 0, path);}
 
 
 static bool pathDlg(PathDlgDsc& dsc, bool openDlg, DWORD flags, String& path) {
@@ -71,5 +71,5 @@ TCchar* PathDlgDsc::getPath() {path = ::getPath(name);  return path;}
 
 
 void PathDlgDsc::copy(PathDlgDsc& dsc)
-                           {title = dsc.title;  name = dsc.name;   ext = dsc.ext;  pattern = dsc.pattern;}
+                    {title = dsc.title;  name = dsc.name;   ext = dsc.ext;  pattern = dsc.pattern;}
 

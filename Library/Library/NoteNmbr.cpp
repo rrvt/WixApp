@@ -1,4 +1,5 @@
-// A Little Class to hold the details of a number (int, uint, double) width and precision (double only).
+// A Little Class to hold the details of a number (int, uint, double) width and precision
+// (double only).
 
 
 #include "pch.h"

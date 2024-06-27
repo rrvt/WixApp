@@ -36,7 +36,9 @@ bool CDoc::reOpenDocument() {
 
   if (path.isEmpty()) return false;
 
-  Archive ar(path, (FileIO::OpenParms) (FileIO::Write | FileIO::Read));   if (!ar.isOpen()) return false;
+  Archive ar(path, (FileIO::OpenParms) (FileIO::Write | FileIO::Read));
+
+  if (!ar.isOpen()) return false;
 
   ar.seekEnd();   serialize(ar);   return true;
   }
@@ -81,10 +83,5 @@ BOOL CDoc::DoFileSave() {
 
 
 const CString& CDoc::GetPathName() {static CString cs; cs = path; return cs;}
-
-
-
-
-//bool CDoc::setPath(PathDlgDsc& dsc) {return getPathDlg(dsc, path);}
 
 

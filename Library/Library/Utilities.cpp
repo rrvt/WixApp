@@ -7,7 +7,9 @@
 #include "NotePad.h"
 
 
-static String blks = _T("                                                                         ");
+static String blks = _T("                                                                       ")
+                     _T("                                                                       ")
+                     _T("                                                                       ");
 
 
 String addSepTab(String& s, int max) {
@@ -59,6 +61,7 @@ Date   dt = s;
   s = dt.format(_T("%D"));  return s;
   }
 
+
 String normalizeTime(TCchar* time) {
 String s  = time ? time : _T("");   if (s.isEmpty()) return s;
 Date   dt = s;
@@ -73,8 +76,7 @@ String getTimeNow() {Date dt;   dt.getToday();   return dt.format(_T("%R"));}
 
 
 time_t getDiff(Date& dtUpper, Date& dtLower)
-                                   {CTimeSpan delta = dtUpper - dtLower; return delta.GetTotalSeconds();}
-
+                             {CTimeSpan delta = dtUpper - dtLower; return delta.GetTotalSeconds();}
 
 
 void floatingOnly(CEdit& ctrl) {
@@ -145,13 +147,10 @@ String* p;
 
   if (s->size() != 0) return false;
 
-  for (va_start(args, s);  (p = va_arg(args, String*)) && p != 0;) if (p->size() != 0) return false;
+  for (va_start(args, s); (p = va_arg(args, String*)) && p != 0;) if (p->size() != 0) return false;
 
   return true;
   }
-
-
-
 
 
 String formatPhone(TCchar* ph, Tchar sep) {

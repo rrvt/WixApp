@@ -22,7 +22,7 @@ public:
 uint     lastPageNo;
 
                    ToDevBase(NotePad& np, DevBase& device) : npIter(np), dev(device), note(0),
-                                                        endDoc(false), debugging(false), lastPageNo(0) { }
+                                                 endDoc(false), debugging(false), lastPageNo(0) { }
                   ~ToDevBase() { }
 
   void             clearOps() {dev.clearOps();}
@@ -41,7 +41,7 @@ uint     lastPageNo;
   DevTabs&         getTabs()         {return dev.getTabs();}
   void             restoreTabs(DevTabs& tm) {dev.restoreTabs(tm);}
 
-          DevBase& getDev() {return dev;}                             // Useful for producing a footer
+          DevBase& getDev() {return dev;}                         // Useful for producing a footer
 
   virtual DevBase& getDevDC(CDC*& dc) {dc = dev.getDC(); return dev;}
 

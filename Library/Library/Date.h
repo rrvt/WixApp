@@ -1,7 +1,6 @@
 // Date & Time using CTime
 
 
-
 #pragma once
 
 
@@ -26,14 +25,14 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
 
   void       clear() {dt = 0;}
 
-  Date       operator= (String& s);                    // Translates m/d/yy h/m/s all digits to CTime
+  Date       operator= (String& s);                  // Translates m/d/yy h/m/s all digits to CTime
   Date       operator= (CString& cs) {String s = cs; return s;}
   Date&      operator= (CTime& tm)   {dt = tm; return *this;}
   Date&      operator= (time_t sec)  {dt = sec; return *this;}
   Date&      operator= (COleDateTime& ole);
 
   Date&      operator= (variant_t& v)
-          {double t;   if (v.vt == VT_DATE) {t = v; t *= SecondsPerDay; dt = time_t(t);}   return *this;}
+        {double t; if (v.vt == VT_DATE) {t = v; t *= SecondsPerDay; dt = time_t(t);} return *this;}
   Date&      operator= (Date& date) {copy(date); return *this;}
 
   operator COleDateTime();
@@ -52,11 +51,12 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
   String   getHHMM();
   String   getHHMMSS();
   String   dayOfWeek();
-  String   format(TCchar* f) {Cstring s; s = dt.Format(f);                      return String(s);}
+  String   format(TCchar* f) {Cstring s; s = dt.Format(f);   return String(s);}
 
   // Transform from Date to String with yyyymmddhhmmss format and from String to Date
 
-  Date&    operator>> (String& s) {Cstring cs; s = cs = dt.Format(_T("%Y%m%d%H%M%S")); return *this;}
+  Date&    operator>> (String& s)
+                                {Cstring cs; s = cs = dt.Format(_T("%Y%m%d%H%M%S")); return *this;}
   Date&    operator<< (String& s);
 
   bool     isEmpty()  {return dt.GetTime() == 0;}
@@ -142,39 +142,39 @@ private:
 // %t -- A horizontal tab character (\t)
 // %T -- Equivalent to %H:%M:%S, the ISO 8601 time format
 // %u -- ISO 8601 weekday as a decimal number (1 - 7; Monday is 1)
-// %U -- Week number of the year as a decimal number (00 - 53), where the first Sunday is the first day
-//       of week 1
+// %U -- Week number of the year as a decimal number (00 - 53), where the first Sunday is the first
+//       day of week 1
 // %V -- ISO 8601 week number as a decimal number (00 - 53)
 // %w -- Weekday as a decimal number (0 - 6; Sunday is 0)
-// %W -- Week number of the year as a decimal number (00 - 53), where the first Monday is the first day
-//       of week 1
+// %W -- Week number of the year as a decimal number (00 - 53), where the first Monday is the first
+//       day of week 1
 // %x -- Date representation for the locale
 // %X -- Time representation for the locale
 // %y -- Year without century, as decimal number (00 - 99)
 // %Y -- Year with century, as decimal number
 // %z -- The offset from UTC in ISO 8601 format; no characters if time zone is unknown
-// %Z -- Either the locale's time-zone name or time zone abbreviation, depending on registry settings; no
-//       characters if time zone is unknown
+// %Z -- Either the locale's time-zone name or time zone abbreviation, depending on registry
+//       settings; no characters if time zone is unknown
 // %% -- Percent sign
 //
-// As in the printf function, the # flag may prefix any formatting code. In that case, the meaning of
-// the format code is changed as follows:
+// As in the printf function, the # flag may prefix any formatting code. In that case, the meaning
+// of the format code is changed as follows:
 //
-//
-// %#a, %#A, %#b, %#B, %#g, %#G, %#h, %#n,
-// %#p, %#t, %#u, %#w, %#X, %#z, %#Z, %#%  -- # flag is ignored.
+//   %#a, %#A, %#b, %#B, %#g, %#G, %#h, %#n,
+//   %#p, %#t, %#u, %#w, %#X, %#z, %#Z, %#%  -- # flag is ignored.
 //
 // %#c -- Long date and time representation, appropriate for the locale. For example:
 //        "Tuesday, March 14, 1995, 12:41:29".
 //
-// %#x -- Long date representation, appropriate to the locale. For example: "Tuesday, March 14, 1995".
+// %#x -- Long date representation, appropriate to the locale. For example:
+// "Tuesday, March 14, 1995".
 //
-// %#d, %#D, %#e, %#F, %#H, %#I, %#j, %#m,
-// %#M, %#r, %#R, %#S, %#T, %#U, %#V, %#W,
-// %#y, %#Y                                -- Remove leading zeros or spaces (if any).
+//   %#d, %#D, %#e, %#F, %#H, %#I, %#j, %#m,
+//   %#M, %#r, %#R, %#S, %#T, %#U, %#V, %#W,
+//   %#y, %#Y                                -- Remove leading zeros or spaces (if any).
 //
 // The ISO 8601 week and week-based year produced by %V, %g, and %G, uses a week that begins on
 // Monday, where week 1 is the week that contains January 4th, which is the first week that includes
-// at least four days of the year. If the first Monday of the year is the 2nd, 3rd, or 4th, the preceding
-// days are part of the last week of the preceding year. For those days, %V is replaced by 53, and both
-// %g and %G are replaced by the digits of the preceding year.
+// at least four days of the year. If the first Monday of the year is the 2nd, 3rd, or 4th, the
+// preceding days are part of the last week of the preceding year. For those days, %V is replaced
+// by 53, and both %g and %G are replaced by the digits of the preceding year.

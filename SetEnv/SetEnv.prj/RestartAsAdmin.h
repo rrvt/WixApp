@@ -1,5 +1,6 @@
 // Restart as Administrator
-// A program cannot just raise their capability to admin level, so just restart with the same arguments
+// A program cannot just raise their capability to admin level, so just restart with the same
+// arguments
 
 
 #pragma once

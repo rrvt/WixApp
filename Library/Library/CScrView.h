@@ -56,7 +56,7 @@ public:
           double     getFontScale(bool printing)
                                             {return printing ? pMgr.getFontScale() : dMgr.getFontScale();}
           void       setFontScale(bool printing, double scl)
-                                    {if (printing) pMgr.setFontScale(scl);   else dMgr.setFontScale(scl);}
+                             {if (printing) pMgr.setFontScale(scl);   else dMgr.setFontScale(scl);}
 
           DevBase&   getDplDevDC(CDC*& dc);
           DevBase&   getPrtDevDC(CDC*& dc);
@@ -64,9 +64,9 @@ public:
 protected:
 
 /* Doc/View Framework Calls to implement printing
-     CMyView::OnPreparePrinting    o Set length of doc if known
-             |                     o Call DoPreparePrining to display Print dialog box which creates DC
-             V
+     CMyView::OnPreparePrinting    o Set length of doc if known.
+             |                     o Call DoPreparePrining to display Print dialog box which
+             V                     o creates DC
      CMyView::OnBeginPrinting      o Set length of document based on DC
              |                     o Allocate DGI resources
              V
@@ -93,16 +93,16 @@ protected:
 
   virtual BOOL OnPreparePrinting(CPrintInfo* info);
   virtual void OnBeginPrinting(CDC* dc, CPrintInfo* info) {pMgr.onBeginPrinting(dc, info);}
-  virtual void OnPrepareDC(    CDC* dc, CPrintInfo* info = 0);                // Display/Printer Override
+  virtual void OnPrepareDC(    CDC* dc, CPrintInfo* info = 0);      // Display/Printer Override
   virtual void OnPrint(        CDC* dc, CPrintInfo* info) {pMgr.onPrint(dc, info);}
-  virtual void OnEndPrinting(  CDC* dc, CPrintInfo* info) { }   //
+  virtual void OnEndPrinting(  CDC* dc, CPrintInfo* info) { }
 
 public:
           void disablePrtWrap()     {pMgr.wrapEnabled = false;}
           void enablePrtWrap()      {pMgr.wrapEnabled = true;}
 
   virtual void onPreparePrinting(CPrintInfo* info) { }
-  virtual void onBeginPrinting() { }               // View link to Begin Printing
+  virtual void onBeginPrinting() { }                                // View link to Begin Printing
 
   // Printer Overrides
 

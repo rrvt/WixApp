@@ -22,7 +22,6 @@ int    pos = stg.findLastOf(_T('\\'));   if (pos >= 0) {stg.resize(pos+1);   ret
   }
 
 
-
 String getExtension(TCchar* fullPath) {
 String stg = fullPath;
 int    pos = stg.findLastOf('.');

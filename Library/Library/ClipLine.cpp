@@ -11,8 +11,11 @@
 ClipLine clipLine;
 
 
-void ClipLine::clear()
-    {savedDC = 0;   opened = false;   point = {-99, -99};   hzPos = 0;   tabSpaces = 0;  clipped.clear();}
+void ClipLine::clear() {
+  savedDC = 0;   opened = false;   point = {-99, -99};   hzPos = 0;   tabSpaces = 0;
+
+  clipped.clear();
+  }
 
 
 int ClipLine::tabWidth(int newPos, int maxChWidth) {

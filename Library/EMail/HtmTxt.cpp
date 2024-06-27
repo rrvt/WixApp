@@ -49,8 +49,9 @@ Tchar ch;
 
       case SlashHtml: ch = nextChar();   if (!ch) return text;
 
-                      if (ch == _T('n')) {appdFragPlus(EoParaHtm);   addNewLine();   state = CollHtml;}
-                      else               {appdFragPlus(_T("\\"));    state = GotChHtml;}
+                      if (ch == _T('n'))
+                                    {appdFragPlus(EoParaHtm);   addNewLine();   state = CollHtml;}
+                      else          {appdFragPlus(_T("\\"));    state = GotChHtml;}
                       continue;
       }
     }
@@ -72,7 +73,7 @@ int    len;
   if (!forTxt || !(len = _tcslen(forTxt))) return;
 
   for (pos = body.find(forTxt); pos >= 0; pos = body.find(forTxt))
-                                       {s = body.substr(0, pos);   body = s + txt + body.substr(pos+len);}
+                                {s = body.substr(0, pos);   body = s + txt + body.substr(pos+len);}
   }
 
 

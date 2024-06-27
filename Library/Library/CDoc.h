@@ -7,8 +7,6 @@
 #include <setupapi.h>
 
 
-
-
 class CDoc : public CDocument {
 protected:
 
@@ -23,13 +21,14 @@ public:
 
   virtual bool OnOpenIncDocument(LPCTSTR lpszPathName);
 
-          bool reOpenDocument();              // Position to end of file
+          bool reOpenDocument();                    // Position to end of file
 
   virtual void OnOpenArb(void* arbObj);
 
-  virtual bool setSaveAsPath(PathDlgDsc& dsc);          // Request approval to over write existing file
-  virtual bool setIncSavePath(PathDlgDsc& dsc);         // Over write file always, use backup to save file
-  virtual void backupFile(int noBackups);               // move current file to one with 12 digit ext
+  virtual bool setSaveAsPath(PathDlgDsc& dsc);      // Request approval to over write existing file
+  virtual bool setIncSavePath(PathDlgDsc& dsc);     // Over write file always, use backup to save
+                                                    // file
+  virtual void backupFile(int noBackups);           // move current file to one with 12 digit ext
 
   virtual BOOL OnSaveDocument(LPCTSTR lpszPathName) override;
           bool onSaveDocument(LPCTSTR lpszPathName, bool savePath = false);
@@ -40,7 +39,7 @@ public:
   virtual TCchar* getPath() {return path;}
 
   virtual void SetPathName(LPCTSTR lpszPathName, BOOL bAddToMRU = TRUE)
-                                         {path = lpszPathName; SetupAddToSourceList(SRCLIST_USER, path);}
+                                  {path = lpszPathName; SetupAddToSourceList(SRCLIST_USER, path);}
 
   virtual void serialize(Archive& arcv) = 0;
   };

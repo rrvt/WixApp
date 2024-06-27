@@ -48,8 +48,6 @@ bool   printing;
   void printingNow() {printing = true;}
   void notPrinting() {printing = false;}
 
-//  void examine();
-//  void examineNode(Node* n);
   void examineTwo(void* n, void* two);
   void examineBlk(void* n, int sz);
 

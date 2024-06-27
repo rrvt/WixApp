@@ -4,7 +4,7 @@
 #pragma once
 
 
-class StatusBar : public CStatusBarCtrl {           //
+class StatusBar : public CStatusBarCtrl {
 
 bool ready;                   // Just a boolean to indicate Ready/Not Ready in the status bar
 

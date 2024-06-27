@@ -4,8 +4,6 @@
 #include "Crypt.h"
 
 
-
-
 // Ensure that the default cryptographic client is set up.
 
 BOOL Crypt::initialize() {
@@ -13,8 +11,8 @@ BOOL Crypt::initialize() {
   // Attempt to acquire a handle to the default key container or create default key container.
 
   if (!CryptAcquireContext(&hProv, NULL, MS_DEF_PROV, PROV_RSA_FULL, 0) &&
-      !CryptAcquireContext(&hProv, NULL, MS_DEF_PROV, PROV_RSA_FULL, CRYPT_NEWKEYSET)) return FALSE;
-
+      !CryptAcquireContext(&hProv, NULL, MS_DEF_PROV, PROV_RSA_FULL, CRYPT_NEWKEYSET))
+                                                                                      return FALSE;
   // Attempt to get handle to signature key.
 
   if (!CryptGetUserKey(hProv, AT_SIGNATURE, &hKey)) {
@@ -50,7 +48,7 @@ void Crypt::release() {
 
 
 bool Crypt::acquireContext()
-          {return hProv ? true : CryptAcquireContext(&hProv, NULL, NULL, PROV_RSA_FULL, 0) != 0;}
+            {return hProv ? true : CryptAcquireContext(&hProv, NULL, NULL, PROV_RSA_FULL, 0) != 0;}
 
 
 bool Crypt::createHash() {return CryptCreateHash(hProv, CALG_MD5, 0, 0, &hHash) != 0;}

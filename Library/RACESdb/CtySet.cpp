@@ -16,7 +16,7 @@ bool CtySet::open(TCchar* path) {
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 
-  SetState(CRecordset::dynaset, NULL, CRecordset::none);          // Cache state info and allocate hstmt
+  SetState(CRecordset::dynaset, NULL, CRecordset::none);    // Cache state info and allocate hstmt
 
   if (!AllocHstmt()) return false;
 
@@ -43,19 +43,19 @@ CtySet* set = &rcd;
 
 
 bool CtySet::edit()
-  {if (!opened) return false;   try {Edit(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Edit(); return true;} catch(...) {return false;}}
 
 
 bool CtySet::addNew()
-  {if (!opened) return false;   try {AddNew(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {AddNew(); return true;} catch(...) {return false;}}
 
 
 bool CtySet::update()
-  {if (!opened) return false;   try {Update(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Update(); movePrev(); return true;} catch(...) {return false;}}
 
 
 bool CtySet::remove()
-  {if (!opened) return false;   try {Delete(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Delete(); movePrev(); return true;} catch(...) {return false;}}
 
 
 void CtySet::DoFieldExchange(CFieldExchange* pFX) {

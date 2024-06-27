@@ -1,5 +1,5 @@
 // OptionsDlg.cpp : implementation file
-//
+
 
 #include "pch.h"
 #include "OptionsDlg.h"
@@ -31,8 +31,8 @@ END_MESSAGE_MAP()
 
 
 OptionsDlg::OptionsDlg(CWnd* pParent) : CDialogEx(IDD_Options, pParent),
-     topMargin(_T("")), leftOdd(_T("")), rightOdd(_T("")), botMargin(_T("")),
-     dspScale(_T("")), prtScale(_T("")), printerName(_T("")) { }
+     topMargin(_T("")), leftOdd(_T("")),  rightOdd(_T("")), botMargin(_T("")),
+     dspScale(_T("")),  prtScale(_T("")), printerName(_T("")) { }
 
 
 OptionsDlg::~OptionsDlg() { }
@@ -206,15 +206,4 @@ double v = s.stod(x);
 String OptionsDlg::toStg(double v) {String s = v;   return s;}
 
 
-
-
-
-//  orientCtrl.AddString(PortraitKey);
-//  orientCtrl.AddString(LandscapeKey);
-//  orient      = printer.toStg(printer.orient);
-//  orientCtrl.SelectString(-1, orient);
-
-//  DDX_Control( pDX, IDC_Orientation, orientCtrl);
-//  DDX_CBString(pDX, IDC_Orientation, orient);
-//  printer.orient    = printer.toOrient(orient);
 

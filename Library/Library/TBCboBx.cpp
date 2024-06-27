@@ -33,8 +33,8 @@ bool       rslt = true;
 TBCboBx* TBCboBx::install(const CbxItem cbxItem[], int n, TCchar* caption) {
 int     i;
 
-  for (i = 0, maxChars = 0; i < n; i++) {const CbxItem& item = cbxItem[i];   add(item.txt, item.data);}
-
+  for (i = 0, maxChars = 0; i < n; i++)
+                                    {const CbxItem& item = cbxItem[i];   add(item.txt, item.data);}
   return finInstall(caption);
   }
 
@@ -43,14 +43,7 @@ bool TBCboBx::setCaption() {
 
   if (!getActual()) return false;
 
-#if 1
   actual->SetText(caption);   return true;
-#else
-  CEdit* edit;
-  edit   = actual->GetEditCtrl();   if (!edit) return false;
-
-  edit->ModifyStyle(0, ES_CENTER);   edit->SetWindowText(caption);   return true;
-#endif
   }
 
 
@@ -100,7 +93,7 @@ int maxHeight = (toolBarDim.height/25 - 3) * 25;
   }
 
 
-bool TBCboBx::getCurSel(String& s, int& data) {
+  bool TBCboBx::getCurSel(String& s, int& data) {
 int i;
 
   if (!getActual()) return false;

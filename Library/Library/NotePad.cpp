@@ -161,39 +161,37 @@ NotePad& NotePad::append(const String& line) {getNote(NmbrNAttr).line += line;  
 NotePad& NotePad::append(Tchar   v)          {getNote(NmbrNAttr).line += v;     return *this;}
 NotePad& NotePad::append(Cchar* cs)
                           {ToUniCode uni(cs); getNote(NmbrNAttr).line += uni(); return *this;}
-NotePad& NotePad::append(Date    v)          {String s = v;                      return append(s);}
+NotePad& NotePad::append(Date    v)          {String s = v;                     return append(s);}
 
 
-NotePad& NotePad::doSetWidth(  NotePad& n, int v) {n.getNote(NmbrNAttr).nmbr.width = v;   return n;}
-NotePad& NotePad::doSetPrec(   NotePad& n, int v) {n.getNote(NmbrNAttr).nmbr.prec  = v;   return n;}
+NotePad& NotePad::doSetWidth(  NotePad& n, int v) {n.getNote(NmbrNAttr).nmbr.width = v;  return n;}
+NotePad& NotePad::doSetPrec(   NotePad& n, int v) {n.getNote(NmbrNAttr).nmbr.prec  = v;  return n;}
 
 
 NotePad& NotePad::doNmbr(long   v)
-                  {getNote(NmbrNAttr).nmbr.longVal  = v;   note->nmbr.typ = IntNmbrTyp;    return *this;}
+            {getNote(NmbrNAttr).nmbr.longVal  = v;   note->nmbr.typ = IntNmbrTyp;    return *this;}
 NotePad& NotePad::doNmbr(ulong  v)
-                  {getNote(NmbrNAttr).nmbr.uLongVal = v;   note->nmbr.typ = UIntNmbrTyp;   return *this;}
+            {getNote(NmbrNAttr).nmbr.uLongVal = v;   note->nmbr.typ = UIntNmbrTyp;   return *this;}
 NotePad& NotePad::doNmbr(double v)
-                  {getNote(NmbrNAttr).nmbr.dblVal   = v;   note->nmbr.typ = DblNmbTyp;     return *this;}
+            {getNote(NmbrNAttr).nmbr.dblVal   = v;   note->nmbr.typ = DblNmbTyp;     return *this;}
 
 
-
-
-
-
-
-NotePad& NotePad::doSetLMargin(NotePad& n, int v) {n.getNote(LMgnNAttr).leftMargin = v;    return n;}
-NotePad& NotePad::doClrTabs(   NotePad& n)        {n.getNote(StTbsNAttr).clrTabs   = true; return n;}
-NotePad& NotePad::doSetTab(    NotePad& n, int v) {n.getNote(StTbsNAttr).tabValue  = v;    return n;}
+NotePad& NotePad::doSetLMargin(NotePad& n, int v)
+                                                {n.getNote(LMgnNAttr).leftMargin = v;    return n;}
+NotePad& NotePad::doClrTabs(   NotePad& n)      {n.getNote(StTbsNAttr).clrTabs   = true; return n;}
+NotePad& NotePad::doSetTab(    NotePad& n, int v)
+                                                {n.getNote(StTbsNAttr).tabValue  = v;    return n;}
 NotePad& NotePad::doSetRTab(   NotePad& n, int v)
-     {Note& note = n.getNote(StTbsNAttr);   note.rightTab = true;   note.tabValue  = v;    return n;}
-NotePad& NotePad::doTab(       NotePad& n)        {n.getNote(TbNAttr).tab          = true; return n;}
-NotePad& NotePad::doCenter(    NotePad& n)        {n.getNote(CtrNAttr).center      = true; return n;}
-NotePad& NotePad::doRight(     NotePad& n)        {n.getNote(RghtNAttr).right      = true; return n;}
-NotePad& NotePad::doBeginLine( NotePad& n)        {n.getNote(BgLnNAttr).beginLine  = true; return n;}
-NotePad& NotePad::doEndLine(   NotePad& n)        {n.getNote(EndLnNAttr).endLine   = true; return n;}
+     {Note& note = n.getNote(StTbsNAttr);   note.rightTab = true;   note.tabValue  = v;  return n;}
+NotePad& NotePad::doTab(       NotePad& n)      {n.getNote(TbNAttr).tab          = true; return n;}
+NotePad& NotePad::doCenter(    NotePad& n)      {n.getNote(CtrNAttr).center      = true; return n;}
+NotePad& NotePad::doRight(     NotePad& n)      {n.getNote(RghtNAttr).right      = true; return n;}
+NotePad& NotePad::doBeginLine( NotePad& n)      {n.getNote(BgLnNAttr).beginLine  = true; return n;}
+NotePad& NotePad::doEndLine(   NotePad& n)      {n.getNote(EndLnNAttr).endLine   = true; return n;}
 
-NotePad& NotePad::crlf() {noLines++;   getNote(CrlfNAttr).crlf = true;                     return *this;}
+NotePad& NotePad::crlf()
+                  {noLines++;    getNote(CrlfNAttr).crlf = true;                     return *this;}
 NotePad& NotePad::endPage()
-                        {if (noLines) {getNote(EndPgNAttr).endPage = true; noLines = 0;}   return *this;}
+                  {if (noLines) {getNote(EndPgNAttr).endPage = true; noLines = 0;}   return *this;}
 
 

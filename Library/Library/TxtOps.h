@@ -37,7 +37,8 @@ String    fontFace;                           // Font Face when afterTxt chooses
 double    pos;                                // position each line uses during wrap operation
 Wrap      wrap;
 
-  TxtOps() : txtOut(*(TxtOut*)0), dvx(*(DevCtx*)0), horz(*(Horiz*)0), vert(*(VertMgmt*)0), wrap(dvx) { }
+  TxtOps() : txtOut(*(TxtOut*)0), dvx(*(DevCtx*)0), horz(*(Horiz*)0),
+                                                                 vert(*(VertMgmt*)0), wrap(dvx) { }
 
   TxtOps(TxtOut& to, AfterTxt aftr, double aftrVal, TCchar* face);
 

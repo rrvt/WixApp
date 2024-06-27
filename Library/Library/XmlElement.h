@@ -111,11 +111,13 @@ XmlAttributes attributes;
 
   void        consolidate();
 
-  bool        isEmpty()
-    {return (tagType == SmplTag || tagType == EnhcTag) && nData() == 1 && datum(0)->tagType == EndTag;}
+  bool        isEmpty() {return (tagType == SmplTag || tagType == EnhcTag) &&
+                                 nData() == 1 &&
+                                 datum(0)->tagType == EndTag;
+                                 }
 
   bool        isConsolidatable();
-  int         nData()     {return data.end();}                    // returns number of data data in array
+  int         nData()     {return data.end();}              // returns number of data data in array
 
   void        removeEndTag(int i) {if (datum(i)->tagType == EndTag) removeDatum(i);}
 
@@ -127,7 +129,6 @@ private:
 
   void copy(XmlElement& el);
 
-
   // returns either a pointer to data (or datum) at index i in array or zero
   XmlBase* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}
 
@@ -136,27 +137,4 @@ private:
   friend typename ElIter;
   };
 
-
-
-
-//  void     output(Archive& ar);
-/*
-//  *p == *q       required for qSort
-//  *p >  *q
-//  *p <= *q
-//  *s =  *p
-
-  // Required for Insertion Sort, i.e. data = dtm;
-  bool operator >= (Record& r) {return key >= r.key;}
-  bool operator == (Record& r) {return key == r.key;}
-
-  // Required for Binary Search
-  bool operator== (TCchar* key) {return this->key == key;}
-  bool operator<  (TCchar* key) {return this->key <  key;}
-  bool operator>  (TCchar* key) {return this->key >  key;}
-*/
-
-//  void   output(Archive& ar) {ar.write(line); ar.crlf();}
-
-//  bool   find(TCchar* s) {return line.find(s) >= 0;}
 

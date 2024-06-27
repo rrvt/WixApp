@@ -3,9 +3,6 @@
 
 #pragma once
 
-//struct TBBtnCtx;
-
-
 
 class TBEditBox : public CMFCToolBarEditBoxButton {
 
@@ -15,13 +12,12 @@ public:
 
 int maxChars;
 
-  TBEditBox(uint id);
- ~TBEditBox() { }
+                    TBEditBox(uint id);
+                   ~TBEditBox() { }
 
-//         void       install(TBBtnCtx& ctx);
          void       install(int noChars);
 
-          uint      getId() {return id;}
+         uint       getId() {return id;}
 
          CString    getText() {return CMFCToolBarEditBoxButton::GetContentsAll(id);}
          void       setText(TCchar* txt) {CString cs = txt; SetContents(cs);}

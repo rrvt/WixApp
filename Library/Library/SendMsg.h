@@ -5,6 +5,6 @@
 
 
 inline void sendMsg(int msgID, WPARAM wParam, LPARAM lParam)
-                                                    {AfxGetMainWnd()->PostMessage(msgID, wParam, lParam);}
+                                             {AfxGetMainWnd()->PostMessage(msgID, wParam, lParam);}
 
 

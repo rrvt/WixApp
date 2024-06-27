@@ -16,8 +16,6 @@ String s = appName;
   }
 
 
-
-
 bool CMainFrm::addAboutToSysMenu(uint idm, uint ids) {
 CMenu*  sysMenu;
 Cstring cs;

@@ -55,7 +55,7 @@ private:
   TagTy   getTag();
   void    getAttributes();
   Tchar   getEntity();
-  void    nextChar();//      {if (getNext) {if (!ar.read(tch)) tch = 26;}   getNext = false;}
+  void    nextChar();
   void    acceptChar()    {getNext = true;}
 
           XMLparser() : ar(*(Archive*)0) { }

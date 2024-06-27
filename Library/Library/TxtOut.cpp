@@ -15,8 +15,9 @@ TxtOut::TxtOut(DevBase& d) : dev(d), dvx(d.dvx), vert(d.vert), ops(0), horz(dvx)
 
 void TxtOut::initialize() {
 
-  undrLn.clear();   nmbr.clear();   sum.clear();   wrapEnabled = center = right = nonBlankLine = false;
-  bkMaxHeight = 0;
+  undrLn.clear();   nmbr.clear();   sum.clear();
+
+  wrapEnabled = center = right = nonBlankLine = false;   bkMaxHeight = 0;
   }
 
 
@@ -30,8 +31,9 @@ void TxtOut::clear() {
   }
 
 
-void TxtOut::crlf()
-        {dev.lf();   cr();   clrPositions();   clipLine.setHzPos(horz.currentPos()); clipLine.close(dvx);}
+void TxtOut::crlf() {
+  dev.lf();   cr();   clrPositions();   clipLine.setHzPos(horz.currentPos()); clipLine.close(dvx);
+  }
 
 
 bool TxtOut::operator() (AfterTxt after, double val, TCchar* tc) {
@@ -78,7 +80,7 @@ void TxtOut::cleanupWrap() {if (ops) {ops->cleanupWrap(sum);   ops->afterTxtOut(
 
 
 void TxtOut::allocOps(AfterTxt aftr, double aftrVal, TCchar* face)
-                        {NewAlloc(TxtOps);   if (!ops) ops = AllocNodeI4(*this, aftr, aftrVal, face);}
+                     {NewAlloc(TxtOps);   if (!ops) ops = AllocNodeI4(*this, aftr, aftrVal, face);}
 
 
 void TxtOut::freeOps()  {NewAlloc(TxtOps);   FreeNode(ops);   ops = 0;}
@@ -87,7 +89,7 @@ void TxtOut::freeOps()  {NewAlloc(TxtOps);   FreeNode(ops);   ops = 0;}
 // Stack logic
 
 TxtOutStk::TxtOutStk(DevBase& d) : i(-1)
-                                      {for (int j = 0; j < noElements(txtOut); j++) txtOut[j].create(d);}
+                                {for (int j = 0; j < noElements(txtOut); j++) txtOut[j].create(d);}
 
 
 void TxtOutP::create(DevBase& d) {NewAlloc(TxtOut);  if (!p) p = AllocNodeI1(d);}

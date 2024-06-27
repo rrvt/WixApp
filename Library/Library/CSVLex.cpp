@@ -226,7 +226,7 @@ eof:      case eofch:   tok.code = EOFToken;
           }
         move_char(); continue;
 
-      default:          state = begin_tok; continue;              // This should never happen, but ...
+      default:          state = begin_tok; continue;          // This should never happen, but ...
       }
     }
   }
@@ -261,7 +261,8 @@ String name = tok.name;
 
   if (tok.code == EolToken) name = _T("<eol>");
 
-  f.format(_T("       Token #%i: \"%s\" -> Error %i: %s\n"), tok.tokenNo, name.str(), error_count, stg);
+  f.format(_T("       Token #%i: \"%s\" -> Error %i: %s\n"),
+                                                        tok.tokenNo, name.str(), error_count, stg);
   notePad << f << nCrlf;
   }
 

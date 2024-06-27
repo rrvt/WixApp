@@ -1,7 +1,6 @@
 // Simple file I/O using CFile from MFC
 
 
-
 #include "pch.h"
 #include "FileIO.h"
 #include "filename.h"
@@ -24,7 +23,7 @@ static char FE = (char) 0xfe;
 
 
 FileIO::FileIO() : encoding(NilEncode), encdState(0), openParms(0), pos(0), pbuf(buf), ebuf(buf),
-                                   rtnSeen(false), eof(false), tabSize(2), col(0), lastOP(0) {buf[0] = 0;}
+                            rtnSeen(false), eof(false), tabSize(2), col(0), lastOP(0) {buf[0] = 0;}
 
 
 bool FileIO::open(TCchar* filePath, int parms) {
@@ -333,6 +332,6 @@ void FileIO::clearException() {
 // Returns last error
 
 Tchar* FileIO::getLastError()
-        {static Tchar stg[128];   stg[0] = 0;   err.GetErrorMessage(stg, noElements(stg));   return stg;}
+  {static Tchar stg[128];   stg[0] = 0;   err.GetErrorMessage(stg, noElements(stg));   return stg;}
 
 

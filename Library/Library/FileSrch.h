@@ -1,10 +1,9 @@
-
+// Search for files
 
 
 #pragma once
 #include "Node.h"
 #include "RegExpr.h"
-
 
 
 class FSNode : public Node {
@@ -86,22 +85,20 @@ public:
 
   // Searches a single directory given by path for files or subdirectories.  No subdirectories are
   // searched (i.e. no recursion).  Returns true if any files or directories are found matching
-  // dirwildCard (which may contain wildcards characters *?, etc.)  Use getName to retrieve the full
-  // path to entities found.  Names are stored in the object and must be retrieved by getName before
-  // subsequent calls of find... functions.
+  // dirwildCard (which may contain wildcards characters *?, etc.)  Use getName to retrieve the
+  // full path to entities found.  Names are stored in the object and must be retrieved by getName
+  // before subsequent calls of find... functions.
 
   bool findSubDirs(   TCchar* path, TCchar* dirWildCard);
   bool findAllSubDirs(TCchar* path);
 
-  bool findFiles(     TCchar* path, TCchar* nameWildCard);      // find files that match nameWC at path
+  bool findFiles(     TCchar* path, TCchar* nameWildCard);      // find files that match nameWC at
+                                                                // path
   bool findAllFiles(  TCchar* path);                            // find all files at path
 
   bool  getName(String& path);                                  // Returns path to full file path
 
 private:
-
-//  bool  findAllDirectories(     TCchar* dirName,  TCchar* path, bool subDirs);
-//  bool  findAllFiles(           TCchar* fileName, TCchar* path, bool subDirs);
 
   bool  findAll(bool directory, TCchar* name,     TCchar* path, bool all);
 

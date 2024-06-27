@@ -16,9 +16,9 @@ public:
 
 String path;
 
-       ResourceData();                           // Use when in a static library
-       ResourceData(void*   staticEntity);       // Need an address in the application to identify app
-       ResourceData(String& path);               // Any application
+       ResourceData();                        // Use when in a static library
+       ResourceData(void*   staticEntity);    // Need an address in the application to identify app
+       ResourceData(String& path);            // Any application
       ~ResourceData();
 
   bool isOpened() {return success;}
@@ -36,11 +36,11 @@ String path;
   bool getProductVersion(  String& s) {return getStg(_T("ProductVersion"),   s);}
   uint getFileType();
 
-  void threeSect(String& t);                  // Trim version (i.e. 1.2.3.4) to 3 segments (i.e. 1.2.3)
+  void threeSect(String& t);              // Trim version (i.e. 1.2.3.4) to 3 segments (i.e. 1.2.3)
 private:
 
-  void initEntity(void* staticEntity);        // Initialize exe or dll by static address
-  void initialize(TCchar* path);              // May be just the app's full name
+  void initEntity(void* staticEntity);    // Initialize exe or dll by static address
+  void initialize(TCchar* path);          // May be just the app's full name
   bool getStg(TCchar* pat, String& s);
   };
 

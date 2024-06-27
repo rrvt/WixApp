@@ -56,14 +56,15 @@ enum OpenParms {Read=1, Write=2, Create=4};
   bool write(Tchar   c);                            // Writes one character (unicode or ansi)
   bool write(void* blk, int noBytes);               // writes n bytes (not chars or Tchars) without
                                                     // interpretation of /n or /r
-  bool write(Byte    v);                            // Writes one byte without interpretation of /n or /r
-
+  bool write(Byte    v);                            // Writes one byte without interpretation of /n
+                                                    // or /r
   bool read(String& s);                             // Reads a line terminated by _T("\n")
   bool read(String& s, int  n);                     // Read n characters into a string
   bool read(Tchar&  c);                             // reads on char or wchar (i.e. a Tchar)
-  bool read(Byte&   v);                             // Reads one byte without interpretation of /n or /r
-  bool read(void* blk, int& n);                     // Reads up to n bytes in blk, returns true and no of
-                                                    // bytes in blk
+  bool read(Byte&   v);                             // Reads one byte without interpretation of /n
+                                                    // or /r
+  bool read(void* blk, int& n);                     // Reads up to n bytes in blk, returns true and
+                                                    // no of bytes in blk
   void setTabSize(int nSpaces)                      // Set Tab Size for output, default is 2 spaces
               {if (nSpaces > 0) tabSize = nSpaces;}
   void tab(   int nTabs);                           // Tab every 2 spaces
@@ -83,9 +84,4 @@ private:
   void flush();
   void saveExcp(CFileException* e);
   };
-
-
-
-//  int  readRaw(void* blk, uint n);                  // Read block of data from buffer without
-//  void writeRaw(void* blk, int noBytes);
 

@@ -12,9 +12,7 @@
 bool TextPosition::exceedsRtMargin(int width) {return cursorPos + width > rightEdge;}
 
 
-int TextPosition::remaining() {
-  return rightEdge - cursorPos;
-  }
+int TextPosition::remaining() {return rightEdge - cursorPos;}
 
 
 // Insert an approximate character position for the next tab position
@@ -26,7 +24,6 @@ Tab xTab;
 
   xTab.right = right;   tabs = xTab;
   }
-
 
 
 // set cursorPos to next tab position and return new position and type

@@ -24,7 +24,7 @@ public:
 bool wrapEnabled;
 
           ShowMgr(CScrView& view, NotePad& notePad, ToDevBase& dspPrtDv) : vw(view), npd(notePad),
-                                dpDev(dspPrtDv), font(_T("Arial")), fontSize(12.0), wrapEnabled(false) { }
+                         dpDev(dspPrtDv), font(_T("Arial")), fontSize(12.0), wrapEnabled(false) { }
          ~ShowMgr() { }
 
           void     setFont(TCchar* f, double points = 12.0) {font = f; fontSize = points;}

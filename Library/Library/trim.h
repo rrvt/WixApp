@@ -10,7 +10,6 @@
 // Trim blanks from both ends of String
 
 Tchar*  trim(Tchar* p);
-//String trim(String& s);
 
 
 // Remove whitespace from end of String, return number of bytes in String

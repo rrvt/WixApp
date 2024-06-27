@@ -266,16 +266,3 @@ short i;
   }
 
 
-
-
-
-
-#if 0
-// Search a file for a regular expression
-
-void RegExpr::searchFile(FILE* lu, processLine&) {
-
-  while (_fgetts(line, noElements(line), lu)) if (match(line)) processLine(line);
-  }
-#endif
-

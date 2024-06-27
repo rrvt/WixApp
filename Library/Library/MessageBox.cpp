@@ -6,8 +6,6 @@
 #include "MessageBox.h"
 
 
-
-
 void getError(DWORD v, String& err) {
 DWORD  lng;
 Tchar  buf[256];

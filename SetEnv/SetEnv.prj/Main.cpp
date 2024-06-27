@@ -12,7 +12,7 @@
 
 
 Main::Main(int argc, TCchar* argv[], TCchar* envp[]) : nArgs(argc), argX(1), args(argv),
-                                                                                     env(envp) {init();}
+                                                                                env(envp) {init();}
 
 
 void Main::init() {operation = NilOp; isSystemEnv = true; name.clear(); value.clear();}
@@ -22,7 +22,7 @@ void Main::init() {operation = NilOp; isSystemEnv = true; name.clear(); value.cl
 
 bool Main::processArgs() {
 
-  if (nArgs < 2) {Usage();  return false;}             // Did they specify enough arguments?
+  if (nArgs < 2) {Usage();  return false;}                  // Did they specify enough arguments?
   if (argX >= nArgs)        return false;
 
   init();
@@ -33,13 +33,13 @@ bool Main::processArgs() {
 
     if ((arg[0] != _T('-')) && (arg[0] != _T('/'))) break;  // Switch?
 
-    if (_tcschr(arg, _T('u'))) isSystemEnv = false;     // User variable
+    if (_tcschr(arg, _T('u'))) isSystemEnv = false;         // User variable
 
-    if (_tcschr(arg, _T('s'))) operation = SetOP;        // Set key to value
+    if (_tcschr(arg, _T('s'))) operation = SetOP;           // Set key to value
 
-    if (_tcschr(arg, _T('a'))) operation = AppendOp;     // Add variable / value
+    if (_tcschr(arg, _T('a'))) operation = AppendOp;        // Add variable / value
 
-    if (_tcschr(arg, _T('d'))) operation = DeleteOp;     // Delete variable / value
+    if (_tcschr(arg, _T('d'))) operation = DeleteOp;        // Delete variable / value
 
     if (_tcschr(arg, _T('p'))) operation = PrePendOp;
 
@@ -103,7 +103,8 @@ static TCchar* usage[] = {
   _T("\tSetEnv -[u]p name value \tPrepend a value to an [user] variable"),
   _T("\tSetEnv -[u]d name\t\tDelete the [user] variable"),
   _T("\tSetEnv -[u]d name value\t\tDelete the value from the [user] variable"),
-  _T("\tSetEnv -[u]c name toVariable\tCopy the [user] variable 'name' to the variable [user] 'toVariable'"),
+  _T("\tSetEnv -[u]c name toVariable\tCopy the [user] variable 'name' ")
+                                                         _T("to the variable [user] 'toVariable'"),
   _T("\tSetEnv -[u]v name \t\tDisplay name and value of environment variable"),
   _T("\tSetEnv -e\t\t\tShow examples of using SetEnv"),
   _T(""),
@@ -149,7 +150,8 @@ static TCchar* examples[] = {
           _T("\tcreate PATH if necessary."),
           _T(""),
           _T("SetEnv -p Path C:\\foo\\goo "),
-          _T("\tPrepends (prefix) the value of Path to \"C:\\foo\\goo\" in the MACHINE environment."),
+          _T("\tPrepends (prefix) the value of Path to \"C:\\foo\\goo\" in the ")
+                                                                        _T("MACHINE environment."),
           _T("")
           };
 

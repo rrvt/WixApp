@@ -6,7 +6,7 @@
 
 
 void Wrap::set(bool enable, int widthLeft, int maxWidth)
-        {enabled = enable && maxWidth >= 100; extent = widthLeft; maxExtent = maxWidth; usedMax = false;}
+  {enabled = enable && maxWidth >= 100; extent = widthLeft; maxExtent = maxWidth; usedMax = false;}
 
 
 bool Wrap::operator() (String& s) {

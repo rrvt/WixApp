@@ -6,12 +6,12 @@
 
 
 ResourceData::ResourceData() : data(0), dataSize(0), handle(0), fileInfo(0), success(false)
-                                                                  {static Tchar tch;   initEntity(&tch);}
+                                                            {static Tchar tch;   initEntity(&tch);}
 
 
 
 ResourceData::ResourceData(void* staticEntity) : data(0), dataSize(0), handle(0),
-                                                  fileInfo(0), success(false) {initEntity(staticEntity);}
+                                            fileInfo(0), success(false) {initEntity(staticEntity);}
 
 
 // Initialize exe or dll by static address
@@ -21,7 +21,7 @@ Tchar path[MAX_PATH];
 HMODULE modl;
 
   if (!GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
-                      GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (Tchar*)staticEntity, &modl)) return;
+                GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (Tchar*)staticEntity, &modl)) return;
 
   if (!GetModuleFileName(modl, path, noElements(path))) return;
 
@@ -31,7 +31,7 @@ HMODULE modl;
 
 
 ResourceData::ResourceData(String& path) : data(0), dataSize(0), handle(0),
-                                                          fileInfo(0), success(false) {initialize(path);}
+                                                    fileInfo(0), success(false) {initialize(path);}
 
 
 ResourceData::~ResourceData() {NewArray(Byte); FreeArray(data); data = 0; success = false;}
@@ -54,7 +54,8 @@ uint   lng;
 
   VerQueryValue(data, _T("\\VarFileInfo\\Translation"), (LPVOID*) &lpTranslate, &cbTranslate);
 
-  prefix.format(_T("\\StringFileInfo\\%04x%04x\\"), lpTranslate->wLanguage, lpTranslate->wCodePage);
+  prefix.format(_T("\\StringFileInfo\\%04x%04x\\"),
+                                                   lpTranslate->wLanguage, lpTranslate->wCodePage);
 
   if (!VerQueryValue(data, _T("\\"), (LPVOID*) &fileInfo, &lng) || !lng) return;
 

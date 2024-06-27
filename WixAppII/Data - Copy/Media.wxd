@@ -1,0 +1,64 @@
+[SolutionInfo]
+Path=D:\Sources\Media\Media\Media.sln
+Name=Media
+Version=2.0
+[DefaultPath]
+NPaths=2
+DefKey0=Icon
+Icon.Path=D:\Sources\Media\Media.prj\res\
+DefKey1=Media.ftr
+Media.ftr.Path=D:\Sources\Media\Release\
+[Icons]
+NoIcons=1
+[Icon00]
+IconID=Media
+WixID=Media_Icon.exe
+IconPath=D:\Sources\Media\Media.prj\res\Media.ico
+[Product]
+ProductName=Media List
+Company=Bob -- K6RWY
+WixName=Media
+WixVersion=1.0.2.0
+UpgradeGUID=59933A07-E885-4630-9C63-9D95D4998E7B
+SaveVerAllowed=0
+LicenseRequired=0
+LicensePath=D:\Sources\Media\Media\
+IconID=Media
+[PFFDirectories]
+NoDirectories=1
+[PFFDirDesc00]
+ID=Media
+WixID=Media.pff
+Parent=
+Name=Media
+HasChildren=0
+[PMFDirectories]
+NoDirectories=1
+[PMFDirDesc00]
+ID=Media List
+WixID=MediaList.pmf
+Parent=
+Name=Media List
+HasChildren=0
+[Features]
+Count=1
+CurSel=Media
+[Ftr00]
+FeatureID=Media
+ProgramID=Media
+StartMenuID=Media List
+CurSel=Help
+NoComponents=2
+[Ftr00Cmp00]
+ID=Media
+Path=D:\Sources\Media\Release\Media.exe
+Guid=17888276-761A-4367-A2D4-9D0049E1C984
+Description=Media List for Bob and Maureen
+IconID=Media
+IsStartMenu=1
+IsDeskTop=1
+IsVersionAvail=1
+[Ftr00Cmp01]
+ID=Help
+Path=D:\Sources\Media\Release\Media.chm
+Guid=8A7D2422-3210-40E8-82D0-4A2CC17D4E76

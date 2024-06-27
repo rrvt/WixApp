@@ -11,13 +11,13 @@ class DevCtx {
 
 CDC*    dc;
 
-bool    suppress;                              // Suppress output when true;
+bool    suppress;                         // Suppress output when true;
 
 FontMgr font;
 
 public:
 
-double  scale;                                 // Font Scale (just need one of these)
+double  scale;                            // Font Scale (just need one of these)
 
 int     pgWidth;
 double  rightMgn;
@@ -28,11 +28,11 @@ double  topMgn;
 double  botMgn;
 
 double  avgFlChWidth;
-double  avgLgChWidth;                           // Character Width
-double  edgeChWidth;                            // Average character width used to determine page margins
+double  avgLgChWidth;                     // Character Width
+double  edgeChWidth;                      // Average character width used to determine page margins
 
-int     chHeight;                               // Text height
-int     uLineDelta;                             // Y delta from y for the line option
+int     chHeight;                         // Text height
+int     uLineDelta;                       // Y delta from y for the line option
 
            DevCtx();
           ~DevCtx();
@@ -124,11 +124,11 @@ double  topMgn;
 double  botMgn;
 
 double  avgFlChWidth;
-double  avgLgChWidth;                           // Character Width
-double  edgeChWidth;                            // Character Width
+double  avgLgChWidth;                     // Character Width
+double  edgeChWidth;                      // Character Width
 
-int     chHeight;                               // Text height
-int     uLineDelta;                             // Y delta from y for the line option
+int     chHeight;                         // Text height
+int     uLineDelta;                       // Y delta from y for the line option
 
   DevCtxBkp() { }
  ~DevCtxBkp();

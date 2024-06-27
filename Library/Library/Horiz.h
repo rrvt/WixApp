@@ -1,6 +1,5 @@
 // Horizonal line management for display/printer output
 
-
 /*
 The window (display or printer) has an outer boundary and a output boundary:
 leftEdge          leftBnd                                    rightBnd           rightEdge
@@ -16,6 +15,7 @@ leftEdge          leftBnd                                    rightBnd           
    -- rightMargin
    -- position
 */
+
 
 #pragma once
 #include "DevCtx.h"

@@ -28,10 +28,10 @@ void EditBox::getRect(RECT& rect) {if (created) GetRect(&rect);}
 
 
 void EditBox::getWindowPos(HWND hWnd, int* x, int* y) {
-CWnd* hWndParent = GetParent();                                     //HWND hWnd
+CWnd* hWndParent = GetParent();
 POINT p          = {0};
 
-  MapWindowPoints(hWndParent, &p, 1);                               // hWnd,
+  MapWindowPoints(hWndParent, &p, 1);
 
   (*x) = p.x;
   (*y) = p.y;
@@ -55,11 +55,7 @@ int   n;
 void EditBox::setFocus(bool home) {
 int pos = home ? 0 : -1;
 
-  if (created) {
-    SetFocus();
-    SetSel(0, pos);
-    SetSel(pos);
-    }
+  if (created) {SetFocus();   SetSel(0, pos);   SetSel(pos);}
   }
 
 

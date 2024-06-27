@@ -15,7 +15,7 @@ bool LocSet::open(TCchar* path) {
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 
-  SetState(CRecordset::dynaset, NULL, CRecordset::none);          // Cache state info and allocate hstmt
+  SetState(CRecordset::dynaset, NULL, CRecordset::none);    // Cache state info and allocate hstmt
 
   if (!AllocHstmt()) return false;
 
@@ -34,27 +34,28 @@ bool LocSet::open(TCchar* path) {
 LocSet* LocSetIter::find(int id) {
 LocSet* set = &rcd;
 
-  for ( ; set && set->locationPrefID <= id; set = (*this)++) if (set->locationPrefID == id) return set;
-  for ( ; set && set->locationPrefID >= id; set = (*this)--) if (set->locationPrefID == id) return set;
-
+  for ( ; set && set->locationPrefID <= id; set = (*this)++)
+                                                         if (set->locationPrefID == id) return set;
+  for ( ; set && set->locationPrefID >= id; set = (*this)--)
+                                                         if (set->locationPrefID == id) return set;
   return 0;
   }
 
 
 bool LocSet::edit()
-  {if (!opened) return false;   try {Edit(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Edit(); return true;} catch(...) {return false;}}
 
 
 bool LocSet::addNew()
-  {if (!opened) return false;   try {AddNew(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {AddNew(); return true;} catch(...) {return false;}}
 
 
 bool LocSet::update()
-  {if (!opened) return false;   try {Update(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Update(); movePrev(); return true;} catch(...) {return false;}}
 
 
 bool LocSet::remove()
-  {if (!opened) return false;   try {Delete(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Delete(); movePrev(); return true;} catch(...) {return false;}}
 
 
 void LocSet::DoFieldExchange(CFieldExchange* pFX) {

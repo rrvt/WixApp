@@ -10,9 +10,9 @@ class FilePaths;
 typedef IterT<FilePaths, String> FPsIter;                        // Iterator for the StoreX
 
 
-// Searches for a directory or file recursively in all subdirectories of the startPath that match the
-// dirWildCard (which can contain file system wild card chararcters: '*', '?', etc.).  Attempts to find
-// a specific tgtWildCard name (either a directory or file name).
+// Searches for a directory or file recursively in all subdirectories of the startPath that match
+// the dirWildCard (which can contain file system wild card chararcters: '*', '?', etc.).  Attempts
+// to find a specific tgtWildCard name (either a directory or file name).
 
 // The number found is returned by nofound (which can trigger a boolean statment).
 
@@ -23,11 +23,11 @@ typedef IterT<FilePaths, String> FPsIter;                        // Iterator for
 //   String  successPath[100];
 //
 //     for (path = iter(), i = 0; path; path = iter++, i++) {
-//       successPath[i] = *path;        // or whatever one needs to do (this not being a good example)
+//       successPath[i] = *path;     // or whatever one needs to do (this not being a good example)
 //       }
 //
-// clear will initialize the internal data structures so that another find... may be called.  The inherent
-// recursion prevents
+// clear will initialize the internal data structures so that another find... may be called.  The
+// inherent recursion prevents
 
 class FilePaths {
 int                    i;

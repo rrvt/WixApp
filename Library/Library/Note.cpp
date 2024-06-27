@@ -45,8 +45,6 @@ void Note::copy(Note& n) {
   }
 
 
-
-
 bool Note::isAfter(NoteAttr attr) {
 
   switch (attr) {
@@ -68,12 +66,4 @@ bool Note::isAfter(NoteAttr attr) {
   return false;
   }
 
-
-
-//  startHdr = endHdr = false;
-//  startHdr    = n.startHdr;
-//  endHdr      = n.endHdr;
-//  isTable     = n.isTable;
-//  editBoxX    = n.editBoxX;
-//  wrap        = n.wrap;
 

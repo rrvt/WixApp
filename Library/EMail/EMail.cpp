@@ -13,10 +13,11 @@
 
 
 /* curl will not send the QUIT command until you call cleanup, so you should be able to reuse this
- * connection for additional messages (setting CURLOPT_MAIL_FROM and CURLOPT_MAIL_RCPT as required, and
- * calling curl_easy_perform() again. It may not be a good idea to keep the connection open for a long
- * time though (more than a few minutes may result in the server timing out the connection), and you do
- * want to clean up in the end.  */
+ * connection for additional messages (setting CURLOPT_MAIL_FROM and CURLOPT_MAIL_RCPT as required,
+ * and calling curl_easy_perform() again. It may not be a good idea to keep the connection open for
+ * a long time though (more than a few minutes may result in the server timing out the connection),
+ * and you do want to clean up in the end.
+*/
 
 EMail::~EMail() {clearRecipients();   curl_easy_cleanup(curl);   curl = 0;}
 
@@ -26,15 +27,18 @@ String url;
 
   eMailHost = host;  url = _T("smtp.") + eMailHost + _T(":");   url += port;
 
-  curl = curl_easy_init();                                              if (!curl)         return false;
+  curl = curl_easy_init();   if (!curl) return false;
 
   if (dspError(curl_easy_setopt(curl, CURLOPT_USE_SSL, (long) CURLUSESSL_ALL))) return false;
 
-  ToAnsi urlA(url);     if (dspError(curl_easy_setopt(curl, CURLOPT_URL, urlA())))       return false;
+  ToAnsi urlA(url);
+  if (dspError(curl_easy_setopt(curl, CURLOPT_URL, urlA())))       return false;
 
-  ToAnsi idA(id);       if (dspError(curl_easy_setopt(curl, CURLOPT_USERNAME, idA())))   return false;
+  ToAnsi idA(id);
+  if (dspError(curl_easy_setopt(curl, CURLOPT_USERNAME, idA())))   return false;
 
-  ToAnsi pswdA(pswd);   if (dspError(curl_easy_setopt(curl, CURLOPT_PASSWORD, pswdA()))) return false;
+  ToAnsi pswdA(pswd);
+  if (dspError(curl_easy_setopt(curl, CURLOPT_PASSWORD, pswdA()))) return false;
 
   return true;
   }

@@ -35,7 +35,6 @@ Node* node;
   }
 
 
-
 Node* List::removeHead() {
 Node* node = head;
 
@@ -62,7 +61,6 @@ Node* node = lst.head;
   }
 
 
-
 Node* ListLoop::removeCurNode() {
 Node* node = rover;
 
@@ -84,9 +82,6 @@ Node* node;
   }
 
 
-
-
-
 Node* ListIter::removeHead() {
 Node* node = lst.head;
 
@@ -100,7 +95,6 @@ Node* node = lst.head;
 
   return node;
   }
-
 
 
 Node* ListIter::removeCurNode() {

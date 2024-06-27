@@ -56,20 +56,13 @@ bool TBCbxMenu::setCaption() {
 
   if (!getActual()) return false;
 
-#if 1
   actual->SetText(caption);   return true;
-#else
-CMFCToolBarComboBoxButton* cbxBtn = GetByCmd(id);   if (!cbxBtn) return false;
-CEdit*                     edit   = cbxBtn->GetEditCtrl();
-
-  edit->SetReadOnly();   edit->ModifyStyle(0, ES_CENTER);   edit->SetWindowText(caption);   return true;
-#endif
   }
 
 
 uint TBCbxMenu::getCmdId() {
 CMFCToolBarComboBoxButton* cbxBtn = GetByCmd(id);   if (!cbxBtn) return 0;
-int i = cbxBtn->GetCurSel();
+int                        i      = cbxBtn->GetCurSel();
 
   return i >= 0 ? cbxBtn->GetItemData(i) : 0;
   }

@@ -32,9 +32,9 @@ LPSTR   fieldName;
   // Allocate buffer and get the ODBC meta data.
   m_rgODBCFieldInfos = new CODBCFieldInfo[m_nResultCols];
 
-  fieldName = new char[MAX_FNAME_LEN + 1];              // Temporarary storage for non-UNICODE name.
+  fieldName = new char[MAX_FNAME_LEN + 1];            // Temporarary storage for non-UNICODE name.
 
-  for (WORD i = 0; i < GetODBCFieldCount(); i++) {      // Get the field info for each field.
+  for (WORD i = 0; i < GetODBCFieldCount(); i++) {    // Get the field info for each field.
 
     AFX_ODBC_CALL(
       ::SQLDescribeCol(m_hstmt, i + 1,

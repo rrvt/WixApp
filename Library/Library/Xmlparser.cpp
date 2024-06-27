@@ -72,8 +72,8 @@ static Character_Classes character_class_table[] = {
   other, other, other, other, other, other, other, other, //  -255
   };
 
-// LessThan, FirstWht, EnhcStart, AlphaEnhc, LessSeen, SlashSeen, Slash, FindGT, GreaterThan, Question,
-// GetAngl,
+// LessThan, FirstWht, EnhcStart, AlphaEnhc, LessSeen, SlashSeen, Slash, FindGT, GreaterThan,
+// Question, GetAngl,
 
 
 enum State {StartSt, SecondCh, GetContnt, GetTag, SmpSlsh, GetEnhc, GotSlsh};

@@ -18,7 +18,7 @@ class  VertMgmt;
 class TxtOut {
 
 DevBase&  dev;
-DevCtx&   dvx;                      // Device Context and all details related to DCD
+DevCtx&   dvx;                    // Device Context and all details related to DCD
 VertMgmt& vert;
 
 DevTabs   devTabs;
@@ -34,12 +34,12 @@ public:
 String    sum;
 Horiz     horz;
 bool      wrapEnabled;
-bool      center;                       // center string horizonally in window when true;
-bool      right;                        // right align in window when true;
-bool      nonBlankLine;                 // true when first non blank line is encountered during printing
+bool      center;                 // center string horizonally in window when true;
+bool      right;                  // right align in window when true;
+bool      nonBlankLine;           // true when first non blank line is encountered during printing
 
 DevCtxBkp bkp;
-int       bkMaxHeight;                  // Backup Max character height to deal with font changes
+int       bkMaxHeight;            // Backup Max character height to deal with font changes
 
 
   TxtOut(DevBase& d);
@@ -58,10 +58,10 @@ int       bkMaxHeight;                  // Backup Max character height to deal w
   void     flush()         {(*this)(NilAftr);}
 
   void     clearTabs()      {devTabs.clear();}
-  void     setTab( int pos) {devTabs.setTab(horz, pos);}            // Insert an character position for
-                                                                    // the next tab position
-  void     setRTab(int pos) {devTabs.setRTab(horz, pos);}           // Insert an character position for
-                                                                    // the next right
+  void     setTab( int pos) {devTabs.setTab(horz, pos);}      // Insert an character position for
+                                                              // the next tab position
+  void     setRTab(int pos) {devTabs.setRTab(horz, pos);}     // Insert an character position for
+                                                              // the next right
   void     tab()         {clipLine.setHzPos(horz.currentPos()); clipLine.close(dvx);}
   void     findNextTab() {devTabs.findNextTab(horz);  horz.position = devTabs.cur->pos;}
 

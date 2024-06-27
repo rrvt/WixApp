@@ -15,7 +15,7 @@ bool AsnSet::open(TCchar* path) {
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 
-  SetState(CRecordset::dynaset, NULL, CRecordset::none);          // Cache state info and allocate hstmt
+  SetState(CRecordset::dynaset, NULL, CRecordset::none);    // Cache state info and allocate hstmt
 
   if (!AllocHstmt()) return false;
 
@@ -42,19 +42,19 @@ AsnSet* set = &rcd;
 
 
 bool AsnSet::edit()
-  {if (!opened) return false;   try {Edit(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Edit(); return true;} catch(...) {return false;}}
 
 
 bool AsnSet::addNew()
-  {if (!opened) return false;   try {AddNew(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {AddNew(); return true;} catch(...) {return false;}}
 
 
 bool AsnSet::update()
-  {if (!opened) return false;   try {Update(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Update(); movePrev(); return true;} catch(...) {return false;}}
 
 
 bool AsnSet::remove()
-  {if (!opened) return false;   try {Delete(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;  try {Delete(); movePrev(); return true;} catch(...) {return false;}}
 
 
 void AsnSet::DoFieldExchange(CFieldExchange* pFX) {

@@ -9,7 +9,8 @@
 void NotePadRpt::onPreparePrinting(CPrintInfo* info) {printer.set(prtrOrietn);}
 
 
-void NotePadRpt::onBeginPrinting(CScrView& vw) {printing = true;  vw.disablePrtWrap();  getPageAttr(vw);}
+void NotePadRpt::onBeginPrinting(CScrView& vw)
+                                         {printing = true;  vw.disablePrtWrap();  getPageAttr(vw);}
 
 
 void NotePadRpt::getData(CScrView& vw) {
@@ -18,7 +19,7 @@ Note*    note;
 
   np.clear();
 
-  for (note = iter(); note; note = iter++) {Note& n = *note->alloc();   n = *note;    np.append(&n);}
+  for (note = iter(); note; note = iter++) {Note& n = *note->alloc();  n = *note;   np.append(&n);}
   }
 
 

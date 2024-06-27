@@ -55,23 +55,3 @@ private:
   friend class DevBase;
   };
 
-
-
-
-// bool printing
-
-//int    noLines;
-//int    maxLines;
-//  void clrLines()        {noLines = 0;}
-//  int  getMaxLines()     {return maxLines;}
-
-//int       pageHght;                           // Input Parameters
-//double    topMargin;                          // Top and Bottom Margins
-//double    botMargin;
-//  void setHeight(CDC* dc);
-//  void clearMax() {maxHeight = 0;}
-
-//int       chHeight;                           // Text height
-//int       maxHeight;                          // Max text height to deal with font changes
-//int       uLineDelta;                         // Y delta from y for the line option
-

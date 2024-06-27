@@ -8,7 +8,6 @@
 #include "RegExpr.h"
 
 
-
 bool FilePaths::findDirs(TCchar* startPath, TCchar* dirWildCard, TCchar* tgtWildCard) {
 RegExpr                tgt;
 FileSrch               fileSrch;

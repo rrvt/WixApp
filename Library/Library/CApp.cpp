@@ -24,10 +24,10 @@ ResourceData res;
   }
 
 
-void CApp::setAppName(  TCchar* appName)   {if (getMainFrame()) getMainFrame()->setAppName(appName);}
+void CApp::setAppName(TCchar* appName)   {if (getMainFrame()) getMainFrame()->setAppName(appName);}
 
 
-void CApp::setTitle(    TCchar* rightPart) {if (getMainFrame()) getMainFrame()->setTitle(rightPart);}
+void CApp::setTitle(  TCchar* rightPart) {if (getMainFrame()) getMainFrame()->setTitle(rightPart);}
 
 
 CDocument* CApp::getDoc() {
@@ -78,19 +78,20 @@ DEVMODE* devMode;
 
   if (hdl) {
 
-    devMode = (DEVMODE*) GlobalLock(hdl);                   // Protect memory handle with ::GlobalLock
+    devMode = (DEVMODE*) GlobalLock(hdl);               // Protect memory handle with ::GlobalLock
 
-      if (devMode->dmFields & DM_ORIENTATION) printer.orient    = (PrtrOrient) devMode->dmOrientation;
-      if (devMode->dmFields & DM_PAPERSIZE)   printer.paperSize = (PaperSize)  devMode->dmPaperSize;
-      if (devMode->dmFields & DM_COPIES)      printer.copies    =              devMode->dmCopies;
-      if (devMode->dmFields & DM_COLLATE)     printer.collate   =              devMode->dmCollate;
-      if (devMode->dmFields & DM_DUPLEX)      printer.pagePlex  = (PagePlex)   devMode->dmDuplex;
+      if (devMode->dmFields & DM_ORIENTATION) printer.orient = (PrtrOrient) devMode->dmOrientation;
+      if (devMode->dmFields & DM_PAPERSIZE)   printer.paperSize = (PaperSize) devMode->dmPaperSize;
+      if (devMode->dmFields & DM_COPIES)      printer.copies    =             devMode->dmCopies;
+      if (devMode->dmFields & DM_COLLATE)     printer.collate   =             devMode->dmCollate;
+      if (devMode->dmFields & DM_DUPLEX)      printer.pagePlex  = (PagePlex)  devMode->dmDuplex;
 
     GlobalUnlock(hdl);
     }
 
   printer.store();
   }
+
 
 String CApp::getPrinterName() {
 HANDLE   hdl = getDevMode();
@@ -99,7 +100,7 @@ String   name;
 
   if (!hdl) return name;
 
-  devMode = (DEVMODE*) GlobalLock(hdl);                   // Protect memory handle with ::GlobalLock
+  devMode = (DEVMODE*) GlobalLock(hdl);                 // Protect memory handle with ::GlobalLock
 
     name = devMode->dmDeviceName;
 
@@ -119,10 +120,10 @@ DEVMODE* devMode;
   memset(&pd, 0, sizeof(PRINTDLG));   pd.lStructSize = sizeof(PRINTDLG);
 
   if (!GetPrinterDeviceDefaults(&pd))
-              {messageBox(_T("Default printer drivers are damaged, try reinstalling drivers")); return 0;}
+       {messageBox(_T("Default printer drivers are damaged, try reinstalling drivers")); return 0;}
 
   hdl = pd.hDevMode;
-  devMode = (DEVMODE*) GlobalLock(hdl);     // Protect memory handle with ::GlobalLock
+  devMode = (DEVMODE*) GlobalLock(hdl);               // Protect memory handle with ::GlobalLock
 
     if (devMode->dmFields & DM_ORIENTATION) devMode->dmOrientation = PortOrient;
     if (devMode->dmFields & DM_PAPERSIZE)   devMode->dmPaperSize   = LetterPprSz;
@@ -134,23 +135,24 @@ DEVMODE* devMode;
   }
 
 
-HANDLE CApp::swapDevMode(HANDLE newDevMode) {HANDLE h = m_hDevMode; m_hDevMode = newDevMode;  return h;}
+HANDLE CApp::swapDevMode(HANDLE newDevMode)
+                                      {HANDLE h = m_hDevMode; m_hDevMode = newDevMode;  return h;}
 
 
 /*
 Find memory leaks with the CRT Library - Visual Studio | Microsoft
   https://docs.microsoft.com/en-us/visualstudio/debugger/finding-memory-leaks-using-the-crt-library?view=vs-2019
 
-Memory leaks are incidious.  Here is some help for finding them.  Look at framework.h for turning on the
-facilities needed for the following to work.  Must be turned on in all projects.
+Memory leaks are incidious.  Here is some help for finding them.  Look at framework.h for turning
+on the facilities needed for the following to work.  Must be turned on in all projects.
 
   #ifdef DebugMemoryLeaks
   #define _CRTDBG_MAP_ALLOC
   #include <crtdbg.h>
   #endif
 
-If your app doesn't define _CRTDBG_MAP_ALLOC , _CrtDumpMemoryLeaks displays a memory-leak report that
-looks like:
+If your app doesn't define _CRTDBG_MAP_ALLOC , _CrtDumpMemoryLeaks displays a memory-leak report
+that looks like:
 
   Detected memory leaks!
   Dumping objects ?>
@@ -178,32 +180,33 @@ Whether or not you define _CRTDBG_MAP_ALLOC , the memory-leak report displays:
   * The first 16 bytes of data in the block, in hexadecimal form.
 
 Memory block types are normal, client, or CRT. A normal block is ordinary memory allocated by your
-program. A client block is a special type of memory block used by MFC programs for objects that require
-a destructor. The MFC new operator creates either a normal block or a client block, as appropriate for
-the object being created.
+program. A client block is a special type of memory block used by MFC programs for objects that
+require a destructor. The MFC new operator creates either a normal block or a client block, as
+appropriate for the object being created.
 
-A CRT block is allocated by the CRT library for its own use. The CRT library handles the deallocation
-for these blocks, so CRT blocks won't appear in the memory-leak report unless there are serious problems
-with the CRT library.
+A CRT block is allocated by the CRT library for its own use. The CRT library handles the
+deallocation for these blocks, so CRT blocks won't appear in the memory-leak report unless there
+are serious problems with the CRT library.
 
-There are two other types of memory blocks that never appear in memory-leak reports. A free block is
-memory that has been released, so by definition isn't leaked. An ignore block is memory that you've
-explicitly marked to exclude from the memory-leak report.
+There are two other types of memory blocks that never appear in memory-leak reports. A free block
+is memory that has been released, so by definition isn't leaked. An ignore block is memory that
+you've explicitly marked to exclude from the memory-leak report.
 
-// Just a quick note:  The module NewAllocator defines some macros for displaying the location of each
-// allocation of memory performed by the program.  The bug that required this note and additional
-// debugging capability came about because the programmed initialized a string twice throwing away the
-// memory allocated for the first initialization.  This was very hard to find since the location was not
-// recorded but the allocation number (count of the number of allocations) was recorded and that allowed
-// the problem to be found.  It was easy to fix, hard to find.
+// Just a quick note:  The module NewAllocator defines some macros for displaying the location of
+// each allocation of memory performed by the program.  The bug that required this note and
+// additional debugging capability came about because the programmed initialized a string twice
+// throwing away the memory allocated for the first initialization.  This was very hard to find
+// since the location was not recorded but the allocation number (count of the number of
+// allocations) was recorded and that allowed the problem to be found.  It was easy to fix, hard to
+// find.
 
 Setting Breakpoints on a memory allocation number
 
-The memory allocation number tells you when a leaked memory block was allocated. A block with a memory
-allocation number of 18, for example, is the 18th block of memory allocated during the run of the app.
-The CRT report counts all memory-block allocations during the run, including allocations by the CRT
-library and other libraries such as MFC. Therefore, memory allocation block number 18 probably isn't the
-18th memory block allocated by your code.
+The memory allocation number tells you when a leaked memory block was allocated. A block with a
+memory allocation number of 18, for example, is the 18th block of memory allocated during the run
+of the app.  The CRT report counts all memory-block allocations during the run, including
+allocations by the CRT library and other libraries such as MFC. Therefore, memory allocation block
+number 18 probably isn't the 18th memory block allocated by your code.
 
 You can use the allocation number to set a breakpoint on the memory allocation.
 
@@ -211,28 +214,30 @@ To set a memory-allocation breakpoint using the Watch window:
 
   1. Set a breakpoint near the start of your app, and start debugging.
 
-  2. When the app pauses at the breakpoint, open a Watch window by selecting Debug > Windows > Watch 1
-    (or Watch 2, Watch 3, or Watch 4).
+  2. When the app pauses at the breakpoint, open a Watch window by selecting
+     Debug > Windows > Watch 1 (or Watch 2, Watch 3, or Watch 4).
 
   3. In the Watch window, type _crtBreakAlloc in the Name column.
 
-     If you're using the multithreaded DLL version of the CRT library (the /MD option), add the context
-     operator:  {,,ucrtbased.dll}_crtBreakAlloc
+     If you're using the multithreaded DLL version of the CRT library (the /MD option), add the
+     context operator:  {,,ucrtbased.dll}_crtBreakAlloc
 
-     Make sure that debug symbols are loaded. Otherwise _crtBreakAlloc will be reported as unidentified.
+     Make sure that debug symbols are loaded. Otherwise _crtBreakAlloc will be reported as
+     unidentified.
 
   4. Press Enter.
 
-     The debugger evaluates the call and places the result in the Value column. This value will be -1 if
-     you have not set any breakpoints on memory allocations.
+     The debugger evaluates the call and places the result in the Value column. This value will
+     be -1 if you have not set any breakpoints on memory allocations.
 
-  5. In the Value column, replace the value with the allocation number of the memory allocation where
-     you want the debugger to break.
+  5. In the Value column, replace the value with the allocation number of the memory allocation
+     where you want the debugger to break.
 
-After you set a breakpoint on a memory-allocation number, continue to debug. Make sure to run under the
-same conditions, so the memory-allocation number doesn't change. When your program breaks at the
-specified memory allocation, use the Call Stack window and other debugger windows to determine the
-conditions under which the memory was allocated. Then, you can continue execution to observe what happens to the object and determine why it isn't correctly deallocated.
+After you set a breakpoint on a memory-allocation number, continue to debug. Make sure to run under
+the same conditions, so the memory-allocation number doesn't change. When your program breaks at
+the specified memory allocation, use the Call Stack window and other debugger windows to determine
+the conditions under which the memory was allocated. Then, you can continue execution to observe
+what happens to the object and determine why it isn't correctly deallocated.
 
 Setting a data breakpoint on the object might also be helpful. For more information, see Using
 breakpoints.

@@ -8,9 +8,10 @@ class XmlStoreIter;
 
 
 // This is the main XmlStore.  I think of it as a permanent home for the data while the program is
-// running.  The store (in this case) is a sort of tree where the top of the tree is elem.  An element
-// may have many sub-entities, some of which are Attribures and some are Elements.  When a sub-entity
-// is an XmlElement a new tree leaf is created.  A tree node may have many sub-tree nodes.
+// running.  The store (in this case) is a sort of tree where the top of the tree is elem.  An
+// element may have many sub-entities, some of which are Attribures and some are Elements.  When a
+// sub-entity is an XmlElement a new tree leaf is created.  A tree node may have many sub-tree
+// nodes.
 
 
 class XmlStore {
@@ -50,11 +51,11 @@ private:
   };
 
 
-extern XmlStore xmlStore;                                   // Sometimes there only needs to one object
+extern XmlStore xmlStore;                              // Sometimes there only needs to one object
 
 
-// This allows an iterator to be declared which will traverse the entire tree from top to bottom and left
-// to right (i.e. in the order the nodes were created).
+// This allows an iterator to be declared which will traverse the entire tree from top to bottom
+// and left to right (i.e. in the order the nodes were created).
 
 class XmlStoreIter {
 XmlElement& elem;
@@ -73,7 +74,8 @@ public:
 
 private:
 
-  ElIter* push(XmlElement* element);     // Create and Push the current Expandable Iterator on a stack
+  ElIter* push(XmlElement* element);  // Create and Push the current Expandable Iterator on a
+                                      // stack
   ElIter* pop();                      // Release the current Expandable Iterator and pop an iterator
   };                                  // from the stack
 

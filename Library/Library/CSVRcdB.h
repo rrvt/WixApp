@@ -3,13 +3,14 @@
 /*
 The template for loading, storing and accessing CSV files is contained in several files:
   *  CSVLex   -- A Lexical Analyser (FSM) for reading CSV files
-  *  CSVOut   -- Contains a class for outputing to a CSV file (managing commas and quotes withing fields)
+  *  CSVOut   -- Contains a class for outputing to a CSV file (managing commas and quotes withing
+                 fields)
   *  CSVRcdB  -- A base file for your CSV Record to provide basic functionality
-  *  CSVRcdsT -- Contains a template for creating a container for CSV Records.  May be used as a base
-                 class for extending functionality with a subclass.
+  *  CSVRcdsT -- Contains a template for creating a container for CSV Records.  May be used as a
+                 base class for extending functionality with a subclass.
 
-This class provides a base class for a record defined by the user.  Nearly all the virtual classes must
-be provided in a subclass.
+This class provides a base class for a record defined by the user.  Nearly all the virtual classes
+must be provided in a subclass.
 */
 
 

@@ -26,7 +26,8 @@ TxtOps::TxtOps(TxtOut& to, AfterTxt aftr, double aftrVal, TCchar* face) :
 TxtOps::~TxtOps() { }
 
 
-void TxtOps::clear() {afterTxt = NilAftr;   afterVal = 0;   fontFace.clear();   pos = 0;   wrap.clear();}
+void TxtOps::clear()
+               {afterTxt = NilAftr;   afterVal = 0;   fontFace.clear();   pos = 0;   wrap.clear();}
 
 
 void TxtOps::start(bool wrapEnabled) {wrap.set(wrapEnabled, horz.remaining(), horz.maxExtent());}

@@ -5,6 +5,7 @@
 
 struct CbxItem;
 
+
 class TBCboBx : public CMFCToolBarComboBoxButton {
 
 uint                       id;
@@ -15,7 +16,8 @@ public:
 
 String caption;
 
-              TBCboBx(uint id) : CMFCToolBarComboBoxButton(id, -1), id(id), maxChars(0), actual(0) { }
+              TBCboBx(uint id) : CMFCToolBarComboBoxButton(id, -1), id(id), maxChars(0),
+                                                                                      actual(0) { }
              ~TBCboBx() { }
 
   TBCboBx*    install(int           noChars);
@@ -39,14 +41,6 @@ private:
 
   bool        add(TCchar* txt, int data);
   TBCboBx*    finInstall(TCchar* caption);
-  void        setMaxChars(TCchar* txt) {int t;   t = _tcslen(txt);   if (t > maxChars) maxChars = t;}
+  void        setMaxChars(TCchar* txt) {int t;  t = _tcslen(txt);  if (t > maxChars) maxChars = t;}
   };
-
-
-
-
-//  static bool getCurSel(uint id, String& s, int& data);     // Returns current selection when true
-
-//  static TBCboBx* get(uint id);
-//  bool        getSel(String& s, int& data);              // Returns current selection of if none faile
 

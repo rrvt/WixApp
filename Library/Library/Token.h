@@ -6,15 +6,16 @@
 
 //  Token codes
 
-enum TokenCode {NoToken,      WhiteToken,
-                IdentToken,   IntLitToken,    RealLitToken,   HexToken,       CharToken,      StringToken,
-                BangToken,    PluSToken,      DollarToken,    MinuSToken,     AsterickToken,  SlashToken,
-                ModToken,     NotToken,       AndToken,       OrToken,        ColonEqualToken,
-                LParenToken,  RParenToken,    LBracketToken,  RBracketToken,  LBraceToken,
-                RBraceToken,  HatToken,       ColonToken,     SemicolonToken, CommaToken,     PeriodToken,
-                AtSignToken,  LbSignToken,    LTToken,        GTToken,        EQToken,        NEToken,
-                LEToken,      GEToken,        SqglToken,      ApostropheToken, DelChToken,
-                CommentToken, EolToken,       EOFToken,       IllegalToken
+enum TokenCode {NoToken,        WhiteToken,
+                IdentToken,     IntLitToken,     RealLitToken,    HexToken,     CharToken,
+                StringToken,    BangToken,       PluSToken,       DollarToken,  MinuSToken,
+                AsterickToken,  SlashToken,      ModToken,        NotToken,     AndToken,
+                OrToken,        ColonEqualToken, LParenToken,     RParenToken,  LBracketToken,
+                RBracketToken,  LBraceToken,     RBraceToken,     HatToken,     ColonToken,
+                SemicolonToken, CommaToken,      PeriodToken,     AtSignToken,  LbSignToken,
+                LTToken,        GTToken,         EQToken,         NEToken,      LEToken,
+                GEToken,        SqglToken,       ApostropheToken, DelChToken,   CommentToken,
+                EolToken,       EOFToken,        IllegalToken
                 };
 
 

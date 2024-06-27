@@ -39,7 +39,7 @@ typedef void processLine(String& line);
 
 class RegExpr {
 
-enum {SetSize   =   8};                                    //, NoPattern = 512
+enum {SetSize   =   8};
 enum PatKey {nilKey, Ch, Bol, Eol, CharClass, KleeneClosure, Any, EndOfPat};
 
 
@@ -83,7 +83,7 @@ private:
 
   Pattern* datum(int i) {return 0 <= i && i < nData() ? &pattern[i] : 0;}
 
-  int      nData()      {return pattern.end();}               // returns number of data items in array
+  int      nData()      {return pattern.end();}           // returns number of data items in array
 
   void     removeDatum(int i) {if (0 <= i && i < nData()) pattern.del(i);}
 

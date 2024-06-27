@@ -69,7 +69,7 @@ private:
 
   DevTab* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}
 
-  int     nData()      {return data.end();}                      // returns number of data items in array
+  int     nData()      {return data.end();}     // returns number of data items in array
 
   void    removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
 

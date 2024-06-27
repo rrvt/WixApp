@@ -19,6 +19,6 @@ int    len;
   if (!forTxt || !(len = _tcslen(forTxt))) return;
 
   for (pos = body.find(forTxt); pos >= 0; pos = body.find(forTxt))
-                                       {s = body.substr(0, pos);   body = s + txt + body.substr(pos+len);}
+                                {s = body.substr(0, pos);   body = s + txt + body.substr(pos+len);}
   }
 

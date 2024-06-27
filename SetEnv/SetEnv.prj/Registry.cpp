@@ -10,9 +10,10 @@
 
 // The registry location under 2000/XP/etc. where environment variables are stored
 
-static TCchar* LocalMachBase   = _T("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment");
-                                                                // System Variables (HKEY_LOCAL_MACHINE)
-static TCchar* CurrentUserBase = _T("Environment");              // User Variables (HKEY_CURRENT_USER)
+static TCchar* LocalMachBase =
+                            _T("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment");
+                                                          // System Variables (HKEY_LOCAL_MACHINE)
+static TCchar* CurrentUserBase = _T("Environment");       // User Variables (HKEY_CURRENT_USER)
 
 
 
@@ -39,11 +40,11 @@ LRESULT result;
 
   if (!dirty) return true;
 
-  result = SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0, (LPARAM)L"Environment",
-                                                                      SMTO_ABORTIFHUNG, 5000, &result2);
-  if (result == 0) {Output(_T("Propagation failed\n")); return false;}
+  result = SendMessageTimeout(HWND_BROADCAST, WM_SETTINGCHANGE, 0,
+                                        (LPARAM) L"Environment", SMTO_ABORTIFHUNG, 5000, &result2);
+  if (result) return true;
 
-  return true;
+  Output(_T("Propagation failed\n")); return false;
   }
 
 
@@ -55,8 +56,8 @@ ulong rslt;
 DWORD dwDisp;
 
   if (create) {
-    rslt = RegCreateKeyEx(baseH, levelOneKey, 0, 0, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, 0,
-                                                                                   &lvlOneKeyH, &dwDisp);
+    rslt = RegCreateKeyEx(baseH, levelOneKey, 0, 0,
+                                REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, 0, &lvlOneKeyH, &dwDisp);
     }
 
   else {
@@ -85,13 +86,15 @@ Byte* buf;
 
   tgtOpen = true; tgtName = key; tgtValue.clear(); tgtLng = 0;
 
-  if (RegQueryValueEx(lvlOneKeyH, tgtName, 0, &tgtType, 0, &bufLng) != ERROR_SUCCESS || bufLng == 0)
-                                                                         {tgtType = REG_SZ; return true;}
+  if (RegQueryValueEx(lvlOneKeyH, tgtName, 0, &tgtType, 0, &bufLng) != ERROR_SUCCESS ||
+                                                      bufLng == 0) {tgtType = REG_SZ; return true;}
   buf = new Byte[bufLng];
 
   if (RegQueryValueEx(lvlOneKeyH, key, 0, &tgtType, buf, &bufLng)) return false;
 
-  tgtValue = (Tchar*) buf;   tgtLng = tgtValue.length();   tgtOpen = true;   delete[] buf;   return true;
+  tgtValue = (Tchar*) buf;   tgtLng = tgtValue.length();   tgtOpen = true;   delete[] buf;
+
+  return true;
   }
 
 
@@ -104,7 +107,9 @@ bool Registry::appendValue(String& val) {
 
   if (find(val) >= 0)                     return true;    // Already in the current value
 
-  if (tgtValue[tgtLng-1] != sepChar) tgtValue += sepChar;   tgtValue += val;   set();   return true;
+  if (tgtValue[tgtLng-1] != sepChar) tgtValue += sepChar;
+
+  tgtValue += val;   set();   return true;
   }
 
 
@@ -176,7 +181,9 @@ String t;
     leftX = rightX + 1;
     }
 
-  rightX = s.length();  if (rightX > leftX) {t = s.substr(leftX, rightX-leftX);   insertInTable(t);}
+  rightX = s.length();
+
+  if (rightX > leftX) {t = s.substr(leftX, rightX-leftX);   insertInTable(t);}
 
   qsort(&tbl[0], &tbl[tbl.end()-1]);
 
@@ -190,7 +197,8 @@ void Registry::insertInTable(String& t) {
 int i;
 
   for (i = 0; i < tbl.end(); i++)
-            if (t == tbl[i]) {deleteValue(t); t = _T("Duplicated: ") + t + _T("\n");  Output(t); return;}
+      if (t == tbl[i]) {deleteValue(t); t = _T("Duplicated: ") + t + _T("\n");  Output(t); return;}
+
   tbl += t;
   }
 
@@ -205,8 +213,8 @@ bool expandVal = tgtValue.find(_T('%')) >= 0;
   if (tgtType == REG_SZ        &&  expandVal) tgtType = REG_EXPAND_SZ;
   if (tgtType == REG_EXPAND_SZ && !expandVal) tgtType = REG_SZ;
 
-  if (RegSetValueEx(lvlOneKeyH, tgtName, NULL, tgtType, (Byte*) tgtValue.str(), bufLng)) return false;
-
+  if (RegSetValueEx(lvlOneKeyH, tgtName, NULL, tgtType, (Byte*) tgtValue.str(), bufLng))
+                                                                                      return false;
   dirty = true;  return true;
   }
 
@@ -272,8 +280,11 @@ Tchar ch;
 bool Registry::del() {
 bool rslt = RegDeleteValue(lvlOneKeyH, tgtName) == ERROR_SUCCESS;
 
-  if (rslt)
-    {tgtOpen = false; tgtName.clear(); tgtValue.clear(); tgtType = REG_NONE; tgtLng = 0; dirty = true;}
+  if (rslt) {
+    tgtOpen = false;   tgtName.clear();   tgtValue.clear();   tgtType = REG_NONE;
+
+    tgtLng = 0;   dirty = true;
+    }
 
   return rslt;
   }
