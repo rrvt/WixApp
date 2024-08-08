@@ -40,12 +40,16 @@ public:
   void setArchiveAttr(int w, double f = 1.0) {arWidth   = w; tabFactor = f;}
   void archive(Archive& ar);
 
-  NotePad& operator <<(const String&   s) {return append(s);}
+  NotePad& operator <<(TCchar*        tc) {return append(tc);}
+  NotePad& operator <<(const String&   s) {return append((TCchar*)(s));}
+  NotePad& operator <<(const CString& cs) {return append(cs);}
+  NotePad& operator <<(const bstr_t   bs) {return append((TCchar*)bs);}
+
   NotePad& operator <<(Tchar           v) {return append(v);}
   NotePad& operator <<(Cchar*         cs) {return append(cs);}
 
-  NotePad& operator <<(int             v) {return doNmbr((long) v);}
-  NotePad& operator <<(size_t          v) {return doNmbr((long) v);}
+  NotePad& operator <<(int             v) {return doNmbr((long)  v);}
+  NotePad& operator <<(size_t          v) {return doNmbr((ulong) v);}
   NotePad& operator <<(long            v) {return doNmbr(v);}
   NotePad& operator <<(ulong           v) {return doNmbr(v);}
   NotePad& operator <<(double          v) {return doNmbr(v);}
@@ -65,9 +69,10 @@ private:
 
   void initialize();                    // Must open Notepad before first use.
 
-  NotePad& append(const String& line);
-  NotePad& append(Cchar*        cs);
-  NotePad& append(Tchar         v);
+  NotePad& append(String const& s);
+  NotePad& append(TCchar* tc);
+  NotePad& append(Tchar   v);
+  NotePad& append(Cchar*  cs);
 
   NotePad& doNmbr(long   v);
   NotePad& doNmbr(ulong  v);

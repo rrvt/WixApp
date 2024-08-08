@@ -156,12 +156,13 @@ int x = from.getCharPos();
 
 
 
-NotePad& NotePad::append(const String& line) {getNote(NmbrNAttr).line += line;  return *this;}
+NotePad& NotePad::append(String const& s) {getNote(NmbrNAttr).line += s;        return *this;}
+NotePad& NotePad::append(TCchar* tc)      {getNote(NmbrNAttr).line += tc;       return *this;}
 
-NotePad& NotePad::append(Tchar   v)          {getNote(NmbrNAttr).line += v;     return *this;}
+NotePad& NotePad::append(Tchar   v)       {getNote(NmbrNAttr).line += v;        return *this;}
 NotePad& NotePad::append(Cchar* cs)
                           {ToUniCode uni(cs); getNote(NmbrNAttr).line += uni(); return *this;}
-NotePad& NotePad::append(Date    v)          {String s = v;                     return append(s);}
+NotePad& NotePad::append(Date    v)       {String s = v;   return append((TCchar*)s);}
 
 
 NotePad& NotePad::doSetWidth(  NotePad& n, int v) {n.getNote(NmbrNAttr).nmbr.width = v;  return n;}

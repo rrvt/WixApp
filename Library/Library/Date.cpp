@@ -384,11 +384,7 @@ int     min = 0;
 
     updateTime = false;
     }
-
-
   }
-
-
 
 
 bool vrfyHr( int cnt, TCchar ch, int& v) {v = v * cnt * 10 + ch - _T('0');   return v < 24;}
@@ -404,8 +400,6 @@ String s;
 
   ctrl.SetSel(i, i+1);   ctrl.ReplaceSel(s);
   }
-
-
 
 
 void ToDate::convert() {

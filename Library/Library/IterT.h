@@ -50,8 +50,9 @@ enum Dir {Fwd, Rev};
 
   Datum* operator() (Dir rev = Fwd)
                                 {iterX = rev ? store.nData() : 0; return rev ? decr() : current();}
-  Datum* operator++ (int)           {return iterX < store.nData() ? incr() : 0;}
-  Datum* operator-- (int)           {return iterX > 0             ? decr() : 0;}
+  Datum* operator++ (int)           {return store.datum(++iterX);}
+                                                            //iterX < store.nData() ? incr() : 0;}
+  Datum* operator-- (int)           {return decr();}        //iterX > 0             ? decr() : 0;}
 
   int    index()                    {return iterX;}
   Datum* current()                  {return store.datum(iterX);}
@@ -65,8 +66,9 @@ enum Dir {Fwd, Rev};
 
 private:
 
-  Datum* incr()  {return iterX < store.nData() ? store.datum(++iterX) : 0;}
-  Datum* decr()  {return iterX > 0             ? store.datum(--iterX) : 0;}
+//Datum* incr()  {return iterX < store.nData() ? store.datum(++iterX) : 0;}
+  Datum* decr()  {return store.datum(--iterX);}
+              // {return iterX > 0             ? store.datum(--iterX) : 0;}
 
   IterT() : store(*(Store*) 0), iterX(0) { }      // This prevents an uninitizlized iterator
   };

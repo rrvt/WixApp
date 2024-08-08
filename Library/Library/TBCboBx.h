@@ -16,7 +16,7 @@ public:
 
 String caption;
 
-              TBCboBx(uint id) : CMFCToolBarComboBoxButton(id, -1), id(id), maxChars(0),
+              TBCboBx(uint myId) : CMFCToolBarComboBoxButton(myId, -1), id(myId), maxChars(0),
                                                                                       actual(0) { }
              ~TBCboBx() { }
 
@@ -37,7 +37,7 @@ String caption;
 
 private:
 
-  bool        getActual();
+  bool        getActual() {if (!actual) actual = GetByCmd(id);   return actual != 0;}
 
   bool        add(TCchar* txt, int data);
   TBCboBx*    finInstall(TCchar* caption);

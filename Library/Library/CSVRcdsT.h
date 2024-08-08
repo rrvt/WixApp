@@ -57,7 +57,7 @@ public:
 
   void del(int x) {data.del(x);}
 
-  int  count() {return nData();}
+//  int  count() {return nData();}
 
 // returns either a pointer to data (or datum) at index i in array or zero
 

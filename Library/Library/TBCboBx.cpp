@@ -105,7 +105,7 @@ int i;
   }
 
 
-bool TBCboBx::getActual() {if (!actual) actual = GetByCmd(id);   return actual != 0;}
+//bool TBCboBx::getActual()
 
 
 bool TBCboBx::add(TCchar* txt, int data) {
