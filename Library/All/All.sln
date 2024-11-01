@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RACESdb", "..\RACESdb\RACES
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibCurl", "..\curl-8.5.0\LibCurl\LibCurl.vcxproj", "{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SftpSSL", "..\SftpSSL\SftpSSL.vcxproj", "{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -49,6 +51,10 @@ Global
 		{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}.Debug|x86.Build.0 = Debug|Win32
 		{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}.Release|x86.ActiveCfg = Release|Win32
 		{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}.Release|x86.Build.0 = Release|Win32
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Debug|x86.ActiveCfg = Debug|Win32
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Debug|x86.Build.0 = Debug|Win32
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Release|x86.ActiveCfg = Release|Win32
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

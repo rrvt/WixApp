@@ -328,10 +328,6 @@ bool Feature::validate(bool rptErrors) {
 int  i;
 bool rslt = true;
 
-if (wixID == _T("TestAppHlp.ftr")) {
-int x = 1;
-}
-
   for (i = 0; i < nComponents(); i++) if (!components.data[i].validate(rptErrors)) rslt &= false;
 
   return rslt;
@@ -361,5 +357,23 @@ String line;
   tab -= TabVal;
 
   wix(tab, _T("</Fragment>"));
+  }
+
+
+void Feature::saveData(Archive& ar) {
+String k;
+ComponentsIter iter(components);
+Component*     cmp;
+
+  ar.tab(1);  ar << _T("ID:");               ar.tab(8);   ar << id << aCrlf;
+  ar.tab(2);  ar << _T("Wix ID:");           ar.tab(8);   ar << wixID << aCrlf;
+  ar.tab(2);  ar << _T("Section:");          ar.tab(8);   ar << section << aCrlf;
+  ar.tab(2);  ar << _T("Program File ID:");  ar.tab(8);   ar << progFileID << aCrlf;
+  ar.tab(2);  ar << _T("StartMenuID:");      ar.tab(8);   ar << startMenuID << aCrlf;
+  ar.tab(2);  ar << _T("save:");             ar.tab(8);   k = save;        ar << k << aCrlf;
+  ar.tab(2);  ar << _T("Is Uninstall:");     ar.tab(8);   k = isUninstall; ar << k << aCrlf;
+
+  ar.tab(2);  ar << _T("Components") << aCrlf;
+  for (cmp = iter(); cmp; cmp = iter++) {cmp->saveData(ar);   ar << aCrlf;}
   }
 

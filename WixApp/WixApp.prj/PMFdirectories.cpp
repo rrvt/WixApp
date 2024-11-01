@@ -51,3 +51,15 @@ String   line;
   }
 
 
+void PMFdirectories::saveData(Archive& ar) {
+String k;
+
+  ar << _T("PMF Directories") << aCrlf;
+
+  ar.tab(1);   k = startMenuSeen;   ar << _T("Start Menu Seen:");    ar.tab(8);   ar << k << aCrlf;
+  ar.tab(1);   k = desktopDirSeen;  ar << _T("Desk Top Dir Seen:");  ar.tab(8);   ar << k << aCrlf;
+  ar.tab(1);   k = startupDirSeen;  ar << _T("Start Up Dir Seen:");  ar.tab(8);   ar << k << aCrlf;
+
+  stor.saveData(ar);
+  }
+

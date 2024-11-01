@@ -38,6 +38,12 @@ public:
   operator TCchar*() const {return GetString();}
   TCchar*      str() const {return GetString();}
 
+  int find(Tchar   ch,  int offset=0) {try {return Find(ch,  offset);} catch (...) {return -1;}}
+  int find(TCchar* stg, int offset=0) {try {return Find(stg, offset);} catch (...) {return -1;}}
+//  int find(TCchar* stg, int offset, int count)
+
+//  int find(const String& stg, int offset=0)
+
   bool     loadRes(uint id) {return LoadString(id);}
 
   // Left Hand side of TCchar*, Cstring, bstr & variant_t

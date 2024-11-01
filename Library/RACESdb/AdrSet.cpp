@@ -6,12 +6,13 @@
 #include "AccessDB.h"
 
 
-AdrSet::AdrSet() : AccRcdSet(accessDB.db()), addressID(0), address1(), address2() { }
+AdrSet::AdrSet() : AccRcdSet(accessDB.db()),
+                   addressID(0), address1(), address2() { }
 
 
 bool AdrSet::open(TCchar* path) {
 
-  opened = false;
+  if (opened) close();
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 

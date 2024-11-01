@@ -255,6 +255,18 @@
     <ClCompile Include="TBMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ByteBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CNG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CNGblock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NoteUndrLn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archive.h">
@@ -555,6 +567,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TBMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ByteBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CNG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CNGblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NoteUndrLn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

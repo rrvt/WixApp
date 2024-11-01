@@ -30,8 +30,10 @@ void    floatingOnly(CEdit& ctrl);
 String  addQuotes(TCchar* p);     // Conditionally add quotes to protect interior quotes and commas
 String& removeQuotes(String& s);
 
-bool    isEmpty(String* s, ...);
-
+bool    isEmpty(String*   s, ...);
+void    expunge(String&   s);
+void    expunge(Cstring& cs);
+void    expunge(ToAnsi& ansi);
 
 String formatPhone(TCchar* ph, Tchar sep);
 

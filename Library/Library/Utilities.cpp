@@ -5,6 +5,7 @@
 #include "Utilities.h"
 #include "Date.h"
 #include "NotePad.h"
+#include "Random.h"
 
 
 static String blks = _T("                                                                       ")
@@ -151,6 +152,42 @@ String* p;
 
   return true;
   }
+
+
+void expunge(String& s) {
+int    i;
+int    n = s.length();
+Random rnd;
+
+  for (i = 0; i < n; i++) s[i] = (Byte) (256 * rnd.next());
+  }
+
+
+void expunge(Cstring& cs) {
+int    i;
+int    n = cs.length();
+Random rnd;
+
+  for (i = 0; i < n; i++) {
+    cs.Delete(i);
+
+    cs.Insert(i, (Byte) (256 * rnd.next()));
+    }
+  }
+
+
+void expunge(ToAnsi& ansi) {
+int    i;
+int    n = ansi.length();     if (!n) return;
+char*  p = ansi();            if (!p) return;
+Random rnd;
+
+  for (i = 0; i < n; i++) {
+
+    *p++ = (Byte) (256 * rnd.next());
+    }
+  }
+
 
 
 String formatPhone(TCchar* ph, Tchar sep) {

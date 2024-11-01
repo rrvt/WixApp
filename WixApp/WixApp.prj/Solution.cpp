@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "Solution.h"
+#include "Archive.h"
 #include "DefaultPath.h"
 #include "GetPathDlg.h"
 #include "filename.h"
@@ -123,5 +124,23 @@ String fullPath = solution.pathUnits + name + _T(".sln");
   }
 
 
+void Solution::saveData(Archive& ar) {
+PUIter  iter(pathUnits);
+String* s;
+int     i;
+String  k;
+
+  ar << _T("Root: ") << rootPath << aCrlf;
+  ar << _T("Name: ") << name << aCrlf;
+  k = ver;
+  ar << _T("Version: ") << k << aCrlf;
+
+  ar << _T("Path Units") << aCrlf;
+
+  for (i = 0, s = iter(); s; i++, s = iter++) {
+    k = i;
+    ar.tab(1); ar << k;  ar.tab(2);  ar << *s << aCrlf;
+    }
+  }
 
 

@@ -4,8 +4,12 @@
 #include "pch.h"
 #include "WixAppDlg.h"
 #include "AboutDlg.h"
+#include "Archive.h"
+#include "defaultPath.h"
 #include "DspDirs.h"
-#include "PmfDirectories.h"
+#include "GetPathDlg.h"
+#include "PFFdirectories.h"
+#include "PMFdirectories.h"
 #include "Product.h"
 #include "Solution.h"
 #include "StatusBar.h"
@@ -31,6 +35,7 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_COMMAND(      ID_Validate,           &onValidate)
   ON_COMMAND(      ID_SaveWxdFile,        &onSaveWXDFile)
   ON_BN_CLICKED(   ID_SaveAllFiles,       &onSaveAllFiles)
+  ON_COMMAND(      ID_SaveData,           &onSaveData)
 
   ON_BN_CLICKED(   IDCANCEL,              &onExit)
   ON_COMMAND(      ID_App_Exit,           &onExit)
@@ -157,6 +162,26 @@ void WixAppDlg::onNewProject()  {if (!wixData.newProject(this)) onExit();}
 void WixAppDlg::onGetSolution() {solution.newProject(false);}
 
 void WixAppDlg::onOpenProject() {wixData.openProject(this);}
+
+
+void WixAppDlg::onSaveData() {
+PathDlgDsc pathDsc(_T("Wix Data Detail:"), _T("WixData"), _T("txt"), _T("*.txt"));
+String     path;
+
+  if (!getSaveAsPathDlg(pathDsc, path)) return;
+
+  Archive ar(path, FileIO::Write);   if (!ar.isOpen()) return;
+
+  ar.setTabSize(3);
+
+  solution.saveData(ar);         ar << aCrlf;
+  product.saveData(ar);          ar << aCrlf;
+  features.saveData(ar);         ar << aCrlf;
+  pffDirectories.saveData(ar);   ar << aCrlf;
+  pmfDirectories.saveData(ar);   ar << aCrlf;
+  icons.saveData(ar);            ar << aCrlf;
+  defaultPath.saveData(ar);      ar << aCrlf;
+  }
 
 
 void WixAppDlg::onOptions() {

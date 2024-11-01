@@ -45,5 +45,9 @@
 #define IDC_RptOrietn3    538
 #define ID_Orientation    539
 
+#define IDD_NamePswd      540
+
+#define IDC_NPName        541
+#define IDC_NPPswd        542
 
 

@@ -144,7 +144,7 @@ String     path;
 
   dsc(WxdDataFile, path, WxdDefExt, WxdExtPat);    if (!getSaveAsPathDlg(dsc, path)) return;
 
-  saveWxdPath(path);   validate(false);
+  saveWxdPath(path);     validate(false);
 
   wxd.setPath(path);     backupFile(path, 10);
 

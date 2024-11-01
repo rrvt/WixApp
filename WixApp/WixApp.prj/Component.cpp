@@ -539,4 +539,31 @@ void Component::copyObj(Component& c) {
   }
 
 
+void Component::saveData(Archive& ar) {
+String k;
+
+  ar.tab(3);  ar << _T("ID:");              ar.tab(8);   ar << id << aCrlf;
+  ar.tab(3);  ar << _T("Wix ID:");          ar.tab(8);   ar << wixID << aCrlf;
+  ar.tab(3);  ar << _T("Section:");         ar.tab(8);   ar << section << aCrlf;
+  ar.tab(3);  ar << _T("GUID:");            ar.tab(8);   ar << guid << aCrlf;
+  ar.tab(3);  ar << _T("Prog File ID:");    ar.tab(8);   ar << progFileID << aCrlf;
+  ar.tab(3);  ar << _T("Start Menu ID:");   ar.tab(8);   ar << startMenuID << aCrlf;
+  ar.tab(3);  ar << _T("Icon ID:");         ar.tab(8);   ar << iconID << aCrlf;
+  ar.tab(3);  ar << _T("Rel Path:");        ar.tab(8);   ar << relPath << aCrlf;
+  ar.tab(3);  ar << _T("Description:");     ar.tab(8);   ar << description << aCrlf;
+  ar.tab(3);  ar << _T("Target:");          ar.tab(8);   ar << target << aCrlf;
+  ar.tab(3);  ar << _T("Arguments:");       ar.tab(8);   ar << arguments << aCrlf;
+  ar.tab(3);  ar << _T("iconUsed:");        ar.tab(8);   k = iconUsed;         ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isStartMenu:");     ar.tab(8);   k = isStartMenu;      ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isDesktop:");       ar.tab(8);   k = isDesktop;        ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isVersionAvail:");  ar.tab(8);   k = isVersionAvail;   ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isOnPath:");        ar.tab(8);   k = isOnPath;         ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isStartupApp:");    ar.tab(8);   k = isStartupApp;     ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isWin7:");          ar.tab(8);   k = isWin7;           ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isWinXP:");         ar.tab(8);   k = isWinXP;          ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isWin2K:");         ar.tab(8);   k = isWin2K;          ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isUninstall:");     ar.tab(8);   k = isUninstall;      ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isUninstallDir:");  ar.tab(8);   k = isUninstallDir;   ar << k << aCrlf;
+  ar.tab(3);  ar << _T("isApp:");           ar.tab(8);   k = isApp;            ar << k << aCrlf;
+  }
 

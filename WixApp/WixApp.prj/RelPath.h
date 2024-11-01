@@ -3,7 +3,9 @@
 
 
 #pragma once
+#include "Archive.h"
 #include "GetPathDlg.h"
+
 
 
 class KeyedPathDsc : public PathDlgDsc {
@@ -50,6 +52,8 @@ public:
 
   String    localPath();          // Local full path -- Prefix with local root directory
   String    prodPath();           // Product full path -- Prefix relative path with root directory
+
+  void      saveData(Archive& ar) {ar << relPath;}
 
 private:
 

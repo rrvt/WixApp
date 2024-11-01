@@ -85,6 +85,7 @@ Tab          tab;
 bool         hasTab;
 bool         rightTab;
 int          cnt;
+String       s;
 
   for (nt = iter(); nt; nt = iter++) {
 
@@ -99,42 +100,32 @@ int          cnt;
       if (!rightTab) movPos(tPos, tab.pos, ar);
       }
 
-    if (nt->right) {
-      tab.pos = arWidth; tab.right = rightTab = hasTab = true;
-      }
+    if (nt->right) {tab.pos = arWidth; tab.right = rightTab = hasTab = true;}
 
-    cnt = nt->line.length();
+    if      (!nt->nmbr.isEmpty()) s = nt->nmbr();
+    else if (!nt->line.isEmpty()) s = nt->line;
+    else                          s.clear();
+
+    cnt = s.length();
 
     if (nt->center) movPos(tPos, (arWidth - cnt) / 2, ar);
 
     if (hasTab && rightTab) movPos(tPos, tab.pos - cnt, ar);
 
-    if (cnt) {ar.write(nt->line); tPos.move(cnt);}
+    if (nt->beginLine) undrLn.begin(tPos.get());
 
-    archive(nt->nmbr, tPos, ar);
+    if (cnt) {ar.write(s); tPos.move(cnt);}
 
-    if (nt->crlf) {ar.write(_T('\n'));   tPos.doCR();}
+    if (nt->endLine) undrLn.end(tPos.get());
+
+    if (nt->crlf) {
+      ar.write(_T('\n'));   tPos.doCR();
+
+      if (!undrLn.isEmpty()) {
+        s = undrLn();   ar.write(s);   tPos.move(s.length());   ar.write(_T('\n'));   tPos.doCR();
+        }
+      }
     }
-  }
-
-
-void NotePad::archive(NoteNmbr& nn, TextPosition& tPos, Archive& ar) {
-String s;
-int    lng;
-int    nWidth;
-int    excess;
-
-  if (!nn.typ) return;
-
-  s = nn.stg();   lng = s.length();   nWidth = nn.width;
-
-  excess = (nWidth >= 0 ? nWidth : -nWidth) - lng;
-
-  if (nWidth > 0 && excess > 0) movPos(tPos, tPos.getCharPos() + excess, ar);
-
-  ar.write(s);   tPos.move(s.length());
-
-  if (nWidth < 0 && excess > 0) movPos(tPos, tPos.getCharPos() + excess, ar);
   }
 
 
@@ -155,7 +146,6 @@ int x = from.getCharPos();
   }
 
 
-
 NotePad& NotePad::append(String const& s) {getNote(NmbrNAttr).line += s;        return *this;}
 NotePad& NotePad::append(TCchar* tc)      {getNote(NmbrNAttr).line += tc;       return *this;}
 
@@ -165,16 +155,16 @@ NotePad& NotePad::append(Cchar* cs)
 NotePad& NotePad::append(Date    v)       {String s = v;   return append((TCchar*)s);}
 
 
-NotePad& NotePad::doSetWidth(  NotePad& n, int v) {n.getNote(NmbrNAttr).nmbr.width = v;  return n;}
-NotePad& NotePad::doSetPrec(   NotePad& n, int v) {n.getNote(NmbrNAttr).nmbr.prec  = v;  return n;}
+NotePad& NotePad::doSetWidth(  NotePad& n, int v) {n.getNote(LineNAttr).nmbr.width = v;  return n;}
+NotePad& NotePad::doSetPrec(   NotePad& n, int v) {n.getNote(LineNAttr).nmbr.prec  = v;  return n;}
 
 
 NotePad& NotePad::doNmbr(long   v)
-            {getNote(NmbrNAttr).nmbr.longVal  = v;   note->nmbr.typ = IntNmbrTyp;    return *this;}
+            {getNote(LineNAttr).nmbr.longVal  = v;   note->nmbr.typ = IntNmbrTyp;    return *this;}
 NotePad& NotePad::doNmbr(ulong  v)
-            {getNote(NmbrNAttr).nmbr.uLongVal = v;   note->nmbr.typ = UIntNmbrTyp;   return *this;}
+            {getNote(LineNAttr).nmbr.uLongVal = v;   note->nmbr.typ = UIntNmbrTyp;   return *this;}
 NotePad& NotePad::doNmbr(double v)
-            {getNote(NmbrNAttr).nmbr.dblVal   = v;   note->nmbr.typ = DblNmbTyp;     return *this;}
+            {getNote(LineNAttr).nmbr.dblVal   = v;   note->nmbr.typ = DblNmbTyp;     return *this;}
 
 
 NotePad& NotePad::doSetLMargin(NotePad& n, int v)
@@ -195,4 +185,37 @@ NotePad& NotePad::crlf()
 NotePad& NotePad::endPage()
                   {if (noLines) {getNote(EndPgNAttr).endPage = true; noLines = 0;}   return *this;}
 
+
+
+
+
+///----------------------------
+
+#if 0
+String NotePad::archive(NoteNmbr& nn, TextPosition& tPos, Archive& ar) {
+String s;
+int    lng;
+int    nWidth;
+int    excess;
+String t;
+
+  if (!nn.typ) return;
+
+  s = nn.stg();   lng = s.length();   nWidth = nn.width;
+
+  excess = (nWidth >= 0 ? nWidth : -nWidth) - lng;
+
+#if 1
+
+  if (nWidth > 0 && excess > 0) {addSpcs(t, excess);   t += s;   return t;}
+  if (nWidth < 0 && excess > 0) {t = s;   addSpcs(t, excess);    return t;}
+#else
+  if (nWidth > 0 && excess > 0) movPos(tPos, tPos.getCharPos() + excess, ar);
+
+  ar.write(s);   tPos.move(s.length());
+
+  if (nWidth < 0 && excess > 0) movPos(tPos, tPos.getCharPos() + excess, ar);
+#endif
+  }
+#endif
 

@@ -6,15 +6,15 @@
 #include "AccessDB.h"
 
 
-EntSet::EntSet() : AccRcdSet(accessDB.db()), entityID(0),   firstName(), middleInitial(),
-                   lastName(),               suffix(),      addrID(0),   cityStID(0),
-                   addrIsPO(false),          locationZip(), eMail(),     phone1(),
-                   phone2() { }
+EntSet::EntSet() : AccRcdSet(accessDB.db()),
+                   entityID(0), firstName(), middleInitial(), lastName(),    suffix(),
+                   addrID(0),   cityStID(0), addrIsPO(false), locationZip(), eMail(),
+                   phone1(),    phone2() { }
 
 
 bool EntSet::open(TCchar* path) {
 
-  opened = false;
+  if (opened) close();
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 

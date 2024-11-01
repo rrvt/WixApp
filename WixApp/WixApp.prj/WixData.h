@@ -13,6 +13,8 @@ class WixData {
 bool   isNewProject;
 bool   loadingFileNow;
 
+
+
 public:
 
        WixData() : isNewProject(false), loadingFileNow(false) {}

@@ -55,19 +55,18 @@ String path;
 
 
 void Icons::writeWixData() {
-ListIter  iter(iconList);
 int       nToWrite;
-String    section;
-IconDesc* dsc;
+ListIter  iter(iconList);
 int       i;
+IconDesc* dsc;
+String    section;
 
-  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++) if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
+  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++) if (dsc->isValid()) nToWrite++;
 
   wxd.writeInt(IconsSection, NoKeys, nToWrite);
 
   for (i = 0, dsc = iter(); dsc; dsc = iter++)
-    if (dsc->inUse && !dsc->id.isEmpty())
-                                 {section.format(IconSection, i); dsc->writeWixData(section); i++;}
+    if (dsc->isValid()) {section.format(IconSection, i); dsc->writeWixData(section); i++;}
   }
 
 
@@ -169,8 +168,24 @@ IconDesc* dsc;
   }
 
 
+void Icons::saveData(Archive& ar) {
+ListIter  iter(iconList);
+IconDesc* dsc;
+String    k;
+
+  ar << _T("Icon List") << aCrlf;
+
+  for (dsc = iter(); dsc; dsc = iter++) {
+    ar.tab(1);
+    dsc->saveData(ar);   ar.tab(20);   k = dsc->inUse;   ar << k << aCrlf;
+    }
+  }
+
+
 void IconDesc::outputOne(int tab) {
 String line;
+
+  if (!inUse) return;
 
   line  = _T("<Icon     Id=\"") + wixID + _T("\" SourceFile=\"") + relPath.prodPath() + _T("\"/>");
   wix(tab, line);
@@ -186,4 +201,6 @@ struct _stat buffer;
 
   MessageBox(0, msg, _T("WixApp"), MB_OK);   return false;
   }
+
+
 

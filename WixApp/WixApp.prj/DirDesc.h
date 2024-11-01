@@ -5,10 +5,13 @@
 #include "EntityStore.h"
 #include "WixOut.h"
 
+class Archive;
+
 
 extern TCchar* ParentKy;
 extern TCchar* ChildKey;
 
+extern TCchar* DDID;
 
 class DirDesc : public Data {
 public:
@@ -28,11 +31,19 @@ bool   inUse;
   void clear()
      {id.clear(); wixID.clear(); parent.clear(); name.clear(); hasChildren = false; inUse = false;}
 
+  bool   isValid() {return inUse && !id.isEmpty();}
+
   void   writeWixData(TCchar* section, TCchar* prefix);
 
   void  prepareUninstalls();
 
   void  getOutput(String& line);
+
+  void  readWixData(String& section);
+
+  bool  writeWixData(String& section);
+
+  void  saveData(Archive& ar);
 
 private:
 

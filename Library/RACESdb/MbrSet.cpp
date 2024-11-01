@@ -6,22 +6,23 @@
 #include "AccessDB.h"
 
 
-MbrSet::MbrSet() : AccRcdSet(accessDB.db()), memberID(0),           badgeNumber(0),
-                   mbrEntityID(0),           emplEntityID(0),       iCE_EntityID(0),
-                   assgnPrefID(0),           locationPrefID(0),     statusID(0),
-                   callSign(),               fCCExpiration(),       startDate(),
-                   dSWDate(),                badgeExpDate(),        responder(),
-                   secondaryEmail(),         textMsgPh1(),          textMsgPh2(),
-                   handHeld(),               portMobile(),          portPacket(),
-                   otherEquip(),             multilingual(),        otherCapabilities(),
-                   limitations(),            comments(),            shirtSize(),
-                   isOfficer(false),         skillCertifications(), eOC_Certifications(),
-                   updateDate(),             badgeOK(false),        image() { }
+MbrSet::MbrSet() : AccRcdSet(accessDB.db()),
+                   memberID(0),           badgeNumber(0),       mbrEntityID(0),
+                   emplEntityID(0),       iCE_EntityID(0),      assgnPrefID(0),
+                   locationPrefID(0),     statusID(0),          callSign(),
+                   fCCExpiration(),       startDate(),          dSWDate(),
+                   badgeExpDate(),        responder(),          secondaryEmail(),
+                   textMsgPh1(),          textMsgPh2(),         handHeld(),
+                   portMobile(),          portPacket(),         otherEquip(),
+                   multilingual(),        otherCapabilities(),  limitations(),
+                   comments(),            shirtSize(),          isOfficer(false),
+                   skillCertifications(), eOC_Certifications(), updateDate(),
+                   badgeOK(false),        image() { }
 
 
 bool MbrSet::open(TCchar* path) {
 
-  opened = false;
+  if (opened) close();
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 

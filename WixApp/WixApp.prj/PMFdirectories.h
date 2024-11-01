@@ -23,7 +23,8 @@ bool    startupDirSeen;
 
 //DirDesc appDir;
 
-  PMFdirectories() : stor(PmfExt), startMenuSeen(false), desktopDirSeen(false), startupDirSeen(false) {}
+  PMFdirectories() : stor(PmfExt), startMenuSeen(false), desktopDirSeen(false),
+                                                                          startupDirSeen(false) {}
  ~PMFdirectories() { }
 
   void     initFixedDirs() { startMenuSeen = desktopDirSeen = startupDirSeen = false;}
@@ -47,6 +48,8 @@ bool    startupDirSeen;
   void     outputRemoves(int tab) {stor.outputRemoves(tab);}
 
   void     prepareUninstalls(Feature* ftr) {stor.prepareUninstalls(ftr);}
+
+  void     saveData(Archive& ar);
   };
 
 extern TCchar* DeskTopDir;

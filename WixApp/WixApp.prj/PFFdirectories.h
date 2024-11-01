@@ -20,11 +20,11 @@ DirStor stor;                         // c:\ProgramFiles subdirectories into whi
 
 DirDesc* appDir;
 
-  PFFdirectories() : stor(PffExt) {}
- ~PFFdirectories() { }
+           PFFdirectories() : stor(PffExt) {}
+          ~PFFdirectories() { }
 
- void     readWixData()  {stor.readWixData();}
- void     writeWixData() {stor.writeWixData();}
+ void      readWixData()  {stor.readWixData();}
+ void      writeWixData() {stor.writeWixData();}
 
   DirDesc* find(String& id)      {return stor.findItem(id);}
 
@@ -36,6 +36,8 @@ DirDesc* appDir;
   void     begOutput(int& tab);
   void     finOutput(int tab);
   void     outputSubs(String& parent, int tab) {stor.outputSubs(parent, tab);}
+
+  void     saveData(Archive& ar);
   };
 
 

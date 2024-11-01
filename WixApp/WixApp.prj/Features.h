@@ -65,6 +65,8 @@ public:
   bool       validate(bool rptErrors = true);
   void       outputComponents(int tab);
 
+  void       saveData(Archive& ar);
+
 private:
 
   void       oneFeatureAvail() {if (!nFeatures()) store.add(String(""));}

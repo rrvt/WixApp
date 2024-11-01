@@ -17,27 +17,32 @@ public:
 
 bool     inUse;
 
-  IconDesc() : inUse(false) { }
-  IconDesc(IconDesc& d) : inUse(false) {copyObj(d);}
- ~IconDesc() { }
+            IconDesc() : inUse(false) { }
+            IconDesc(IconDesc& d) : inUse(false) {copyObj(d);}
+           ~IconDesc() { }
 
-  void clear() {id.clear(); relPath.clear(); inUse = false;}
+  void      clear() {id.clear(); relPath.clear(); inUse = false;}
+
+  bool      isValid() {return inUse && !id.isEmpty();}
 
   IconDesc& operator= (RelPath& rp) {relPath = rp; return *this;}
 
-  void readWixData( TCchar* section);
-  void writeWixData(TCchar* section);
+  void      readWixData( TCchar* section);
+  void      writeWixData(TCchar* section);
 
-  void setWixID(bool isStartupApp);
+  void      setWixID(bool isStartupApp);
 
   IconDesc& operator= (IconDesc& d) {copyObj(d); return *this;}
 
-  bool validate(bool rptErrors = true);
-  void outputOne(int tab);
+  bool      validate(bool rptErrors = true);
+  void      outputOne(int tab);
+
+  void      saveData(Archive& ar) {relPath.saveData(ar);}
 
 private:
 
-  void copyObj(IconDesc& d) {id = d.id; wixID = d.wixID; relPath = d.relPath; inUse = d.inUse;}
+  void      copyObj(IconDesc& d)
+                              {id = d.id; wixID = d.wixID; relPath = d.relPath; inUse = d.inUse;}
   };
 
 
@@ -75,6 +80,7 @@ public:
   bool      validate(bool rptErrors = true);
   void      output(int tab);
 
+  void      saveData(Archive& ar);
 private:
 
   IconDesc* getNew() {return iconList.addNil(_T("Icon"));}

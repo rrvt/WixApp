@@ -97,5 +97,17 @@ DefPathDsc* dsc;
   }
 
 
+void DefaultPath::saveData(Archive& ar) {
+DPIter      iter(defaultPath);
+DefPathDsc* dsc;
+String      k;
+
+  ar << _T("Default Path") << aCrlf;
+
+  for (dsc = iter(); dsc; dsc = iter++) {
+    ar.tab(1);  ar << dsc->key;   ar.tab(7);  dsc->relPath.saveData(ar);
+    ar.tab(15);   k = dsc->inUse;   ar << k << aCrlf;
+    }
+  }
 
 

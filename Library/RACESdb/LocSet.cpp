@@ -6,12 +6,13 @@
 #include "AccessDB.h"
 
 
-LocSet::LocSet() : AccRcdSet(accessDB.db()), locationPrefID(0), key(), txt() { }
+LocSet::LocSet() : AccRcdSet(accessDB.db()),
+                   locationPrefID(0), key(), txt() { }
 
 
 bool LocSet::open(TCchar* path) {
 
-  opened = false;
+  if (opened) close();
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 

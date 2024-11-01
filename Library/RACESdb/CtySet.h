@@ -17,7 +17,7 @@ CString zip;
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {opened = false;}
+  void close() {AccRcdSet::close(); opened = false;}
 
   bool edit();
   bool addNew();

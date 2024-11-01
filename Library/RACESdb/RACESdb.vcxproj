@@ -146,6 +146,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <PrecompiledHeaderOutputFile />
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Library\;$(ProjectDir)..\AccessDB\</AdditionalIncludeDirectories>
+      <ProgramDataBaseFileName />
     </ClCompile>
     <Link>
       <SubSystem>

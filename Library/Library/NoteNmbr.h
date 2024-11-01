@@ -4,7 +4,7 @@
 #pragma once
 class TxtOut;
 
-enum NoteNmbrTyp {NilNmbrTyp, IntNmbrTyp, UIntNmbrTyp, DblNmbTyp};
+enum NoteNmbrTyp {NilNmbrTyp = 0, IntNmbrTyp, UIntNmbrTyp, DblNmbTyp};
 
 
 struct NoteNmbr {
@@ -17,18 +17,23 @@ union {
 int width;          // Width of Integer or floating point field  >0 right adj, <0 left adj
 int prec;           // Precision for floating point display (digits after period)
 
-  NoteNmbr() : typ(NilNmbrTyp), dblVal(0), width(0), prec(0) { }
-  NoteNmbr(NoteNmbr& nn) {copy(nn);}
- ~NoteNmbr() { }
+            NoteNmbr() : typ(NilNmbrTyp), dblVal(0), width(0), prec(0) { }
+            NoteNmbr(NoteNmbr& nn) {copy(nn);}
+           ~NoteNmbr() { }
 
   void      clear() {typ = NilNmbrTyp; longVal = 0; width = 0; prec = 0;}
 
+  bool      isEmpty() {return !typ;}
+
   NoteNmbr& operator= (NoteNmbr& nn) {copy(nn); return *this;}
 
-  String    stg();
+  String&   operator() ();
+
+  String&   stg();
 
 private:
 
-  void copy(NoteNmbr& nn);
+  void      copy(NoteNmbr& nn);
+  void      addSpcs(int n);
   };
 

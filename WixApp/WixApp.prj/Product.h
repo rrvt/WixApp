@@ -47,6 +47,8 @@ RelPath  licPath;
 
   void output(Component* app, Features& features);
 
+  void saveData(Archive& ar);
+
 private:
 
   void productID(int tab, Component* app);

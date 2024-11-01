@@ -6,13 +6,13 @@
 #include "AccessDB.h"
 
 
-CtySet::CtySet() : AccRcdSet(accessDB.db()), cityStateID(0), city(), state(),
-          zip() { }
+CtySet::CtySet() : AccRcdSet(accessDB.db()),
+                   cityStateID(0), city(), state(), zip() { }
 
 
 bool CtySet::open(TCchar* path) {
 
-  opened = false;
+  if (opened) close();
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 

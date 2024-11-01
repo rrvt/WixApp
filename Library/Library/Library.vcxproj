@@ -12,11 +12,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Archive.cpp" />
+    <ClCompile Include="ByteBlock.cpp" />
     <ClCompile Include="CalibDpsPrt.cpp" />
     <ClCompile Include="CApp.cpp" />
     <ClCompile Include="CDoc.cpp" />
     <ClCompile Include="ClipLine.cpp" />
     <ClCompile Include="CMainFrm.cpp" />
+    <ClCompile Include="CNG.cpp" />
+    <ClCompile Include="CNGblock.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="CopyFile.cpp" />
     <ClCompile Include="CryptDe.cpp" />
@@ -57,6 +60,7 @@
     <ClCompile Include="NotePad.cpp" />
     <ClCompile Include="NotePadRpt.cpp" />
     <ClCompile Include="DevTabs.cpp" />
+    <ClCompile Include="NoteUndrLn.cpp" />
     <ClCompile Include="RegExpr.cpp" />
     <ClCompile Include="TBCboBx.cpp" />
     <ClCompile Include="TBCbxMenu.cpp" />
@@ -94,12 +98,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Archive.h" />
+    <ClInclude Include="ByteBlock.h" />
     <ClInclude Include="CalibDspPrt.h" />
     <ClInclude Include="CApp.h" />
     <ClInclude Include="CbxItem.h" />
     <ClInclude Include="CDoc.h" />
     <ClInclude Include="ClipLine.h" />
     <ClInclude Include="CMainFrm.h" />
+    <ClInclude Include="CNG.h" />
+    <ClInclude Include="CNGblock.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="CopyFile.h" />
     <ClInclude Include="Crypt.h" />
@@ -148,6 +155,7 @@
     <ClInclude Include="NotePad.h" />
     <ClInclude Include="NotePadRpt.h" />
     <ClInclude Include="DevTabs.h" />
+    <ClInclude Include="NoteUndrLn.h" />
     <ClInclude Include="RegExpr.h" />
     <ClInclude Include="SendMsg.h" />
     <ClInclude Include="TBCboBx.h" />
@@ -277,7 +285,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>
+      </ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>true</WholeProgramOptimization>

@@ -5,6 +5,7 @@
 #include "WixAppDlg.h"
 #include "PathUnits.h"
 
+class Archive;
 
 extern TCchar* IniSection;
 extern TCchar* RootPathKey;
@@ -41,6 +42,8 @@ String    name;
   int      noUnits()    {return pathUnits.nData();}
 
   String*  operator[](int i) {return pathUnits[i];}
+
+  void     saveData(Archive& ar);
 
 private:
 

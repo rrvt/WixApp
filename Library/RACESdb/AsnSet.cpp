@@ -6,12 +6,13 @@
 #include "AccessDB.h"
 
 
-AsnSet::AsnSet() : AccRcdSet(accessDB.db()), assgnPrefID(0), aPKey(), txt() { }
+AsnSet::AsnSet() : AccRcdSet(accessDB.db()),
+                   assgnPrefID(0), aPKey(), txt() { }
 
 
 bool AsnSet::open(TCchar* path) {
 
-  opened = false;
+  if (opened) close();
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 

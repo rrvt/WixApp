@@ -276,3 +276,20 @@ IconDesc* dsc = icons.find(iconID);
   if (dsc) wix(tab, _T("<Property Id=\"ARPPRODUCTICON\"  Value=\""), dsc->wixID, _T("\" />"));
   }
 
+
+void Product::saveData(Archive& ar) {
+String k;
+
+  ar << _T("Product: ") << productName << aCrlf;
+  ar.tab(1);   ar << _T("Company:");           ar.tab(10);   ar << company << aCrlf;
+  ar.tab(1);   ar << _T("Wix Name:");          ar.tab(10);   ar << wixName << aCrlf;
+  ar.tab(1);   ar << _T("Wix Version:");       ar.tab(10);   ar << wixVersion << aCrlf;
+  ar.tab(1);   ar << _T("Wix Path:");          ar.tab(10);   ar << wixPath << aCrlf;
+  ar.tab(1);   ar << _T("upgrade Code:");      ar.tab(10);   ar << upgradeCode << aCrlf;
+  ar.tab(1);   ar << _T("Icon ID:");           ar.tab(10);   ar << iconID << aCrlf;
+  ar.tab(1);   ar << _T("Installer Icon ID:"); ar.tab(10);   ar << installerIconPath << aCrlf;
+  ar.tab(1);   k = isSameVerAllowed;   ar << _T("isSameVerAllowed:"); ar.tab(10); ar << k << aCrlf;
+  ar.tab(1);   k = isLicenseReq;       ar << _T("isLicenseReq:");     ar.tab(10); ar << k << aCrlf;
+  ar.tab(1);   ar << _T("License Path:");      ar.tab(10);   licPath.saveData(ar);   ar << aCrlf;
+  }
+

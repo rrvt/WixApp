@@ -7,6 +7,7 @@
 #include "Date.h"
 #include "ManipT.h"
 #include "Note.h"
+#include "NoteUndrLn.h"
 
 class TextPosition;
 
@@ -21,13 +22,14 @@ typedef ManipStgT<NotePad> NtManipStg;
 
 
 class NotePad {
-NoteList noteList;
-Note*    note;
-int      noLines;
+NoteList   noteList;
+Note*      note;
+int        noLines;
 
-int      arWidth;                   // Width of output to a text file
-double   tabFactor;                 // n = tab * tabFactor where tab is an integer and n is the
-                                    // number of characters to move in the output text file.
+int        arWidth;                   // Width of output to a text file
+double     tabFactor;                 // n = tab * tabFactor where tab is an integer and n is the
+                                      // number of characters to move in the output text file.
+NoteUndrLn undrLn;
 public:
 
   NotePad();
@@ -65,9 +67,9 @@ public:
                             {NewAlloc(NtManipStg); m.func(*this, m.v); FreeNode(&m); return *this;}
 private:
 
-  void archive(NoteNmbr& nn, TextPosition& tPos, Archive& ar);
+  String&  underLineStg();
 
-  void initialize();                    // Must open Notepad before first use.
+  void     initialize();                      // Must open Notepad before first use.
 
   NotePad& append(String const& s);
   NotePad& append(TCchar* tc);

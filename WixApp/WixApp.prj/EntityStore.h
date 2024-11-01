@@ -2,6 +2,7 @@
 
 
 #pragma once
+#include "Archive.h"
 #include "ComboBox.h"
 #include "Expandable.h"
 #include "MessageBox.h"
@@ -241,6 +242,8 @@ String* s;
   setCurData(curID);   return curData();
   }
 
+
+// Data class common to several other classes
 
 class Data {
 public:

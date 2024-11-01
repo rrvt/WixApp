@@ -90,6 +90,7 @@ public:
   afx_msg void    onOpenProject();
   afx_msg void    onSaveAllFiles();
   afx_msg void    onSaveWXDFile();
+  afx_msg void    onSaveData();
 
   afx_msg void    onGetSolution();
   afx_msg void    onOptions();

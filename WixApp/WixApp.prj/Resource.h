@@ -76,13 +76,14 @@
 #define ID_OpenProject                  401
 #define ID_SaveAllFiles                 402
 #define ID_SaveWxdFile                  403
-#define ID_Option                       404
-#define ID_Solution                     405
-#define ID_Validate                     406
-#define ID_DisplayDir                   407
-#define ID_App_About                    408
-#define ID_Help                         409
-#define ID_App_Exit                     410
+#define ID_SaveData                     404
+#define ID_Option                       405
+#define ID_Solution                     406
+#define ID_Validate                     407
+#define ID_DisplayDir                   408
+#define ID_App_About                    409
+#define ID_Help                         410
+#define ID_App_Exit                     411
 
 // Main Dialog Size
 

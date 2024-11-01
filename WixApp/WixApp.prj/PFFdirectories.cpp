@@ -6,6 +6,7 @@
 #include "Feature.h"
 #include "WixUtilities.h"
 
+
 TCchar* PffExt = _T("pff");
 
 
@@ -54,6 +55,15 @@ DirDesc* d;
   }
 
 
+void PFFdirectories::saveData(Archive& ar) {
+
+  ar << _T("PFF Directories") << aCrlf;
+
+  if (appDir) {ar << _T("App Directory") << aCrlf;   appDir->saveData(ar);
+  }
+
+  stor.saveData(ar);
+  }
 
 
 

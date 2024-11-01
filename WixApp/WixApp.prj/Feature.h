@@ -27,6 +27,8 @@ bool    isUninstall;
 
   void       clear();
 
+  bool       isValid() {return save && !isUninstall && !id.isEmpty();}
+
   void       readWixData( );
   void       writeWixData();
   void       readWixData2( String& section);
@@ -78,6 +80,8 @@ bool    isUninstall;
   bool       outputSetPath(int tab, bool& crlfOut);    // Add app to Environment variable Path
   void       outputRefs(int tab);
   void       output(int tab);
+
+  void       saveData(Archive& ar);
 
 private:
 

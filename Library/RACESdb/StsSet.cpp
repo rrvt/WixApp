@@ -6,12 +6,13 @@
 #include "AccessDB.h"
 
 
-StsSet::StsSet() : AccRcdSet(accessDB.db()), stsID(0), abbreviation(), description() { }
+StsSet::StsSet() : AccRcdSet(accessDB.db()),
+                   stsID(0), abbreviation(), description() { }
 
 
 bool StsSet::open(TCchar* path) {
 
-  opened = false;
+  if (opened) close();
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 

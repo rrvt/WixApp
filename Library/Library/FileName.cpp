@@ -18,8 +18,9 @@ static void get_extension(TCchar* name, Tchar* ext, int dSize);
 String getPath(TCchar* fullPath) {
 String stg = fullPath;
 int    pos = stg.findLastOf(_T('\\'));   if (pos >= 0) {stg.resize(pos+1);   return stg;}
-       pos = stg.findLastOf(_T('/'));    if (pos >= 0)  stg.resize(pos+1);   return stg;
-  }
+       pos = stg.findLastOf(_T('/'));    if (pos >= 0) {stg.resize(pos+1);   return stg;}
+       stg.clear();   return stg;
+       }
 
 
 String getExtension(TCchar* fullPath) {

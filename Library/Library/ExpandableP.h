@@ -95,6 +95,7 @@ the operations supported are:
 
   data1    = data;              // Copies all the current elements in data to data1, data is
                                 // unchanged
+  data1    =- data;             // moves all the current elements in data to data1 and clears data
   datum    = data[i];           // where 0 <= i < endN
   data[i]  = datum;             // array expands to encompass i
   data.clear();                 // content is ignored but number of elements is set to zero
@@ -197,16 +198,17 @@ public:
   ExpandableP();                      // Constructor & Destructor
  ~ExpandableP();
 
- ExpandableP& operator= (ExpandableP& e);                                   // copy the whole array
+  ExpandableP& operator=  (ExpandableP& e);                               // copy the whole array
+  ExpandableP& operator-= (ExpandableP& e);                               // moves the whole array
 
-  Datum*    allocate()           {NewAlloc(Datum); return AllocNode;}       // allocate a heap
-                                                                            // record
-  void      deallocate(Datum* p) {NewAlloc(Datum); FreeNode(p);}            // Does not clear array
-                                                                            // entry.
-  DatumPtr* getDatumPtr(int i) {return 0 <= i && i < endN ? &tbl[i] : 0;}   // Used for difficult
-                                                                            // cases
+  Datum*    allocate()           {NewAlloc(Datum); return AllocNode;}     // allocate a heap
+                                                                          // record
+  void      deallocate(Datum* p) {NewAlloc(Datum); FreeNode(p);}          // Does not clear array
+                                                                          // entry.
+  DatumPtr* getDatumPtr(int i) {return 0 <= i && i < endN ? &tbl[i] : 0;} // Used for difficult
+                                                                          // cases
 
-  DatumPtr& operator[] (int i);                                             // return the reference
+  DatumPtr& operator[] (int i);                                           // return the reference
 
   void      clear() {freeAllNodes();}       // Clears the number of items in array (without
                                             // deleting data)
@@ -264,6 +266,7 @@ private:
   void   freeAllNodes();                  // Free all Nodes
 
   void   copy(ExpandableP& e);            // Copy array e to this array
+  void   move(ExpandableP& e);            // Move array e to this array
 
   void   expand(int i);                   // Expand array
   };
@@ -289,6 +292,15 @@ ExpandableP<Datum, Key, DatumPtr, n>::~ExpandableP()
 template <class Datum, class Key, class DatumPtr, const int n>
 ExpandableP<Datum, Key, DatumPtr, n>&
  ExpandableP<Datum, Key, DatumPtr, n>::operator= (ExpandableP& e) {clear(); copy(e); return *this;}
+
+
+// move the whole array
+
+ template <class Datum, class Key, class DatumPtr, const int n>
+ ExpandableP<Datum, Key, DatumPtr, n>&
+  ExpandableP<Datum, Key, DatumPtr, n>::operator-= (ExpandableP& e) {clear(); move(e); return *this;}
+
+
 
 
 // return the reference
@@ -478,6 +490,19 @@ void ExpandableP<Datum, Key, DatumPtr, n>::copy(ExpandableP& e) {
   if (e.endN > tblN) expand(e.endN);
 
   for (endN = 0; endN < e.endN; endN++) {tbl[endN] = e.tbl[endN];  e.tbl[endN] = 0;}
+  }
+
+
+// Copy array e to this array
+
+template <class Datum, class Key, class DatumPtr, const int n>
+void ExpandableP<Datum, Key, DatumPtr, n>::move(ExpandableP& e) {
+
+  if (e.endN > tblN) expand(e.endN);
+
+  for (endN = 0; endN < e.endN; endN++) {tbl[endN].p = e.tbl[endN].p;  e.tbl[endN].p = 0;}
+
+  e.endN = 0;
   }
 
 

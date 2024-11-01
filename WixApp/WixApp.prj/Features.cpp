@@ -103,15 +103,14 @@ String     prefix;
 Feature*   ftr;
 int        nToWrite;
 
-  for (nToWrite = 0, ftr = iter(); ftr; ftr = iter++)
-                                    if (ftr->save && !ftr->isUninstall && !ftr->id.isEmpty()) nToWrite++;
+  for (nToWrite = 0, ftr = iter(); ftr; ftr = iter++) if (ftr->isValid()) nToWrite++;
 
   wxd.writeInt(FtrsSection, FtrsCountKey, nToWrite);
   if (!store.curID.isEmpty()) wxd.writeString(FtrsSection, CurSelKey,    store.curID);
 
   for (i = 0, ftr = iter(); ftr; ftr = iter++) {
 
-    if (!ftr->save || ftr->isUninstall || ftr->id.isEmpty()) continue;
+    if (!ftr->isValid()) continue;
 
     prefix.format(FtrPrefix, i++);   ftr->writeWixData2(prefix);
     }
@@ -311,4 +310,15 @@ Feature* ftr;
 
   for (ftr = iter(); ftr; ftr = iter++) {wix.crlf(); ftr->output(tab);}
   }
+
+
+void Features::saveData(Archive& ar) {
+Iter     iter(store);
+Feature* ftr;
+
+  ar << _T("Features") << aCrlf;
+
+  for (ftr = iter(); ftr; ftr = iter++) ftr->saveData(ar);
+  }
+
 

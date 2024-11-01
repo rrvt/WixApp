@@ -52,12 +52,13 @@ public:
   bool     write(Tchar        ch)     {return fil.write(ch);}
 
   bool     write(int           x)     {return write(&x, sizeof(x));}     // no interpretation of \n
-                                                                         // or \r
+  bool     write(ulong         x)     {return write(&x, sizeof(x));}     // or \r
+
   bool     write(const void* blk, int n) {return fil.write((void*) blk, n);}
   bool     write(Byte          v)     {return fil.write(v);}
 
   void     setTabSize(int nSpaces)    {fil.setTabSize(nSpaces);}         // Set tab size for output
-  void     tab(       int nTabs)      {fil.tab(nTabs);}
+  void     tab(       int nTab)       {fil.tab(nTab);}                   // Tab to nth tab position
   void     spaces(    int nSpaces)    {fil.spaces(nSpaces);}
   void     crlf()                     {fil.crlf();}
 
@@ -72,8 +73,9 @@ public:
   bool     read(Tchar&            ch) {return fil.read(ch);}
 
   bool     read(int&               x) {int sz = sizeof(x); return readBlk(&x, sz);}
-                                                                      // No interpretation of \n or
-  bool     readBlk(void* blk, int& n) {return fil.read(blk, n);}      // \r
+  bool     read(ulong&             x) {int sz = sizeof(x); return readBlk(&x, sz);}
+
+  bool     readBlk(void* blk, int& n) {return fil.read(blk, n);}
   bool     read(Byte&              v) {return fil.read(v);}
 
   Tchar*   getLastError()             {return fil.getLastError();}    // Returns last error

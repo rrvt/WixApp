@@ -91,6 +91,8 @@ bool     isApp;
   bool       validate(bool rptErrors = true);
   void       output(int tab);
 
+  void       saveData(Archive& ar);
+
 private:
 
   void       setApp(String& path);

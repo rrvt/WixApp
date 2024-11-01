@@ -54,6 +54,8 @@ public:
 
   int    nData() {return data.end();}         // returns number of data items in array
 
+  void   saveData(Archive& ar);
+
 private:
 
   DefPathDsc* find(TCchar* key);

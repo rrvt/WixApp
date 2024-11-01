@@ -30,11 +30,13 @@ String ext;
   void  readWixData();
   void  writeWixData();
 
+  void  saveData(Archive& ar);
+
 private:
 
   Data* addOne(String fullPath);
-  void  readDesc(String& section);
-  void  writeDesc(   DirDesc& dsc, String& section);
+//  void  readDesc(String& section);
+//  void  writeDesc(   DirDesc& dsc, String& section);
   void  outputOne(   DirDesc* dsc, int tab);
   void  outputParent(DirDesc* dsc, int tab);
 
@@ -222,12 +224,6 @@ Component*  cmp;
 
 static TCchar* NoKeys        = _T("NoDirectories");
 static TCchar* DirDescSect   = _T("%sDirDesc%02i");
-static TCchar* DDID          = _T("ID");
-static TCchar* DDWixID       = _T("WixID");
-static TCchar* DDParent      = _T("Parent");
-static TCchar* DDName        = _T("Name");
-static TCchar* DDHasChildren = _T("HasChildren");
-
 static TCchar* DfltSection   = _T("%sDirectories");
 
 
@@ -237,34 +233,24 @@ int      end;
 String   section;
 String   e = ext;
 int      i;
+int      j;
+String   id;
+DirDesc* dsc;
+
 
   e.upperCase();   section.format(DfltSection, e.str());
 
   end = wxd.readInt(section, NoKeys, 99);
 
-  for (i = 0; i < end; i++) {
+  for (i = 0, j = 0; i < end && j < end+5; j++) {
 
-    section.format(DirDescSect, e.str(), i);
+    section.format(DirDescSect, e.str(), j);
 
-    readDesc(section);
+    if (!wxd.readString(section, DDID, id)) continue;
+
+    dsc = add(id);   dsc->readWixData(section);   i++;
     }
   }
-
-
-template <class Data, const int n>
-void DirStore<Data, n>::readDesc(String& section) {
-String   id;
-DirDesc* dsc;
-
-  if (!wxd.readString(section, DDID, id)) return;
-
-  dsc = add(id);   dsc->wixID = getWixID(id, ext);   dsc->inUse = false;
-//  wxd.readString(section, DDWixID,  dsc->wixID);
-  wxd.readString(section, DDParent, dsc->parent);
-  wxd.readString(section, DDName,   dsc->name);
-  dsc->hasChildren = wxd.readInt(section, DDHasChildren, 0);
-  }
-
 
 
 template <class Data, const int n>
@@ -276,21 +262,51 @@ String              e = ext;
 DirDesc*            dsc;
 int                 i;
 
-  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++)
-                                                  if (dsc->inUse && !dsc->id.isEmpty()) nToWrite++;
+  for (nToWrite = 0, dsc = iter(); dsc; dsc = iter++) if (dsc->isValid()) nToWrite++;
+
   e.upperCase();   section.format(DfltSection, e.str());
 
   wxd.writeInt(section, NoKeys, nToWrite);
 
-  for (i = 0, dsc = iter(); dsc; dsc = iter++, i++) {
+  for (i = 0, dsc = iter(); dsc; dsc = iter++) {
 
     section.format(DirDescSect, e.str(), i);
 
-    if (dsc->inUse && !dsc->id.isEmpty()) writeDesc(*dsc, section);;
+    if (dsc->writeWixData(section)) i++;
     }
   }
 
 
+template <class Data, const int n>
+void DirStore<Data, n>::saveData(Archive& ar) {
+EStoreIter<Data, n> iter(*this);
+DirDesc*            dsc;
+int                 i;
+
+  for (i = 0, dsc = iter(); dsc; i++, dsc = iter++) {if (i) ar << aCrlf;   dsc->saveData(ar);}
+  }
+
+
+
+
+///----------------------
+
+#if 0
+template <class Data, const int n>
+void DirStore<Data, n>::readDesc(String& section) {
+String   id;
+DirDesc* dsc;
+
+  if (!wxd.readString(section, DDID, id)) return;
+
+  dsc = add(id);   dsc->wixID = getWixID(id, ext);   dsc->inUse = false;
+  wxd.readString(section, DDParent, dsc->parent);
+  wxd.readString(section, DDName,   dsc->name);
+  dsc->hasChildren = wxd.readInt(section, DDHasChildren, 0);
+  }
+#endif
+#if 0
+//    if (dsc->inUse && !dsc->id.isEmpty()) {writeDesc(*dsc, section);   i++;}
 template <class Data, const int n>
 void DirStore<Data, n>::writeDesc(DirDesc& dsc, String& section) {
 
@@ -300,4 +316,12 @@ void DirStore<Data, n>::writeDesc(DirDesc& dsc, String& section) {
   wxd.writeString(section, DDName,        dsc.name);
   wxd.writeInt(   section, DDHasChildren, dsc.hasChildren);
   }
+#endif
+#if 0
+//static TCchar* DDID          = _T("ID");
+static TCchar* DDWixID       = _T("WixID");
+static TCchar* DDParent      = _T("Parent");
+static TCchar* DDName        = _T("Name");
+static TCchar* DDHasChildren = _T("HasChildren");
+#endif
 
