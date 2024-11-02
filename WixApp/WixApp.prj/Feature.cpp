@@ -24,14 +24,14 @@ static TCchar* IDkey         = _T("ID");
 static TCchar* NilCmp        = _T("NilComponent");
 
 
-
+#if 0
 void Feature::clear() {
   Data::clear();
   components.clear();           section.clear();
   progFileID.clear();           startMenuID.clear();
   save = isUninstall = false;
   }
-
+#endif
 
 void Feature::copy(Feature& g) {
     Data::copy(g);

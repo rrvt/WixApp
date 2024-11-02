@@ -42,6 +42,8 @@ public:
          DefaultPath() : curPath(0) { }
         ~DefaultPath() { }
 
+  void   clearMarks();
+
   void   readWixData();
   void   writeWixData();
 

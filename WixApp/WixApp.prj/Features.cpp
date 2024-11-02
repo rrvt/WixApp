@@ -203,8 +203,9 @@ Feature* ftr = newItem();
   }
 
 
-Feature* Features::newItem()           {Feature* ftr = store.addNil(NilFtr); ftr->newItem(); return ftr;}
-Feature* Features::newItem(TCchar* id) {Feature* ftr = store.add(id);        ftr->newItem(); return ftr;}
+Feature* Features::newItem()     {Feature* ftr = store.addNil(NilFtr); ftr->newItem(); return ftr;}
+Feature* Features::newItem(TCchar* id)
+                                 {Feature* ftr = store.add(id);        ftr->newItem(); return ftr;}
 
 
 Component* Features::findAnApp() {
@@ -274,22 +275,22 @@ String   line;
   wix(tab, _T("</Fragment>"));
   }
 
-
+#if 0
 void Features::markIconsUsed() {
 Iter iter(store);
 Feature*   ftr;
 
   for (ftr = iter(); ftr; ftr = iter++) {
-    ftr->markIconsUsed();
+
     }
   }
-
+#endif
 
 void Features::markDirs() {
 Iter     iter(store);
 Feature* ftr;
 
-  for (ftr = iter(); ftr; ftr = iter++) ftr->markDirs();
+  for (ftr = iter(); ftr; ftr = iter++) {ftr->markDirs();   ftr->markIconsUsed();}
   }
 
 

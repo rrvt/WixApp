@@ -18,6 +18,14 @@ static TCchar*   DscPathKey = _T("%s.Path");
 static KeyedPathDsc browseDsc  = {_T(""), _T(""), _T(""), _T(""), _T("")};
 
 
+void DefaultPath::clearMarks() {
+DPIter      iter(*this);
+DefPathDsc* dsc;
+
+  for (dsc = iter(); dsc; dsc = iter++) dsc->inUse = false;
+  }
+
+
 void DefaultPath::readWixData() {
 int         n = wxd.readInt(Section, NPathsKey, 99);
 int         i;

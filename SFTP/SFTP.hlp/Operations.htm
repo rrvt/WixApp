@@ -1,0 +1,106 @@
+<!doctype html>
+<html><!-- InstanceBegin template="/Templates/OneColumnPage.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<meta charset="utf-8">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Operations</title>
+<!-- InstanceEndEditable -->
+<!-- InstanceBeginEditable name="head" -->
+<!-- InstanceEndEditable -->
+<link href="App.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="container">
+<div class="content">
+<!-- InstanceBeginEditable name="Title" -->
+<h1>SFTP Operations</h1>
+<!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="Body" -->
+<h2><img src="Images/FileTree.jpg" width="16" height="15"> New Web Site</h2>
+<p>
+Bring up a dialog box to create a representation of a web site suitable for managing the transfer of files 
+between the PC and the web host.
+</p>
+<h2><img src="Images/OpenFile.jpg" width="16" height="15"> Pick the Web Site to Manage</h2>
+<p>
+Lists all the web sites that are managed on this PC and allows the user to pick one.
+</p>
+<h2><img src="Images/FileTreeEdit.jpg" width="16" height="15"> Edit the Current Web Site Details</h2>
+<p>
+Brings up the dialog box with the currently selected web site so that the details may be changed.
+</p>
+<h2><img src="Images/BeforeAfter.jpg" width="16" height="15"> Compare Web Host and Local PC Files</h2>
+<p>
+Determine the list of directories and files on the web host and compare them to the local PC files.  
+Using the presence and absense of directories and files in those list determine the files to upload to
+the host and download to the PC.  Mark those files appropriately.  The actual transfers are done by 
+the Update command.  This could take some time to download the Web Host details so a progress bar is 
+shown during the download.
+</p>
+<h2><img src="Images/Comparison.jpg" width="16" height="15"> Compare Local PC Files Only</h2>
+<p>
+Each time an Upload occurs the size and date of the local PC files is saved.  When a change to a file is
+made the date and/or the size of a local PC file changes.  This comparison is used to determine the files 
+to be marked for uploading to or deleting from the web host.  Also the present and absence of directories
+in the last upload list and the current entity list will determine which directories to create or remove
+from the web host.
+</p>
+<h2><img src="Images/Update.jpg" width="16" height="15"> Update Web Host and/or Local Directory and or Files</h2>
+<p>
+A dialog box is presented with a list of operations and entity descriptions.  A check box accompanies each
+line.  The user must indicate which operations are to be performed by selecting one or more check boxes.
+</p>
+<h2><img src="Images/WebFolder.jpg" width="16" height="15"> Display the Web Host Directories and Files</h2>
+<p>
+Produces an indented list of directories and files to represent the files as they appear on the Web Host.  This might
+take some time to download the information so a progress bar is shown during the download.
+</p>
+
+<h2><img src="Images/Floppy.jpg" width="16" height="15"> Save File</h2>
+<p>
+Displays a Save File Dialog and saves the content of the window to the file to the file named.
+</p>
+
+<h2><img src="Images/Printer.jpg" width="16" height="15"> Print</h2>
+<p>
+Will do all the normal things to print the content of the window.
+</p>
+
+<h2><img src="Images/Options.jpg" width="16" height="15"> Options</h2>
+<p>
+The options dialog allows specifying the Display and Printer Font Size Scale Factor, the printer
+orientation and the printer margins.
+</p>
+
+<h2><img src="Images/About.jpg" width="16" height="15"> About</h2>
+<p>
+Displays the About Box.  The about box uses text from the resource file (TestApp.rc) for
+the output information.  There is a standard about box dialog in the Library.
+</p>
+
+<h2><img src="Images/Exit.jpg" width="16" height="15"> Exit</h2>
+<p>
+Exit the application with no reservations.</p>
+<h2>Menu: File</h2>
+<h3>Delete Site Details</h3>
+<p>
+When a Web Site becomes redundant one may wish to remove the details of that web site from this application.  This is done by Opening the web site normally either by using the Pick Web Site or because it is the default web site.  Then choose 
+this command to delete all references to it from this application.  
+</p>
+<p>
+A dialog box will appear to be sure you really mean to 
+delete it, answer yes and it will be gone.
+</p>
+
+<h2>Menu: Test</h2>
+<p>
+This menu provides a list of low level SFTP commands that are used to test the interface between the PC and a specific Web Host.  They are left in to allow exploration as things change.
+</p>
+<!-- InstanceEndEditable -->
+</div><!-- end .content -->
+</div><!-- end .container -->
+</body>
+<!-- InstanceEnd --></html>

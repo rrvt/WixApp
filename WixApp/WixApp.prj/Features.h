@@ -54,7 +54,7 @@ public:
   Component* findAnApp();
 
   void       markDirs();
-  void       markIconsUsed();
+//  void       markIconsUsed();
 
   bool       outputSetPaths(int tab);
 

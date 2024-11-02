@@ -56,9 +56,15 @@ int         wixVerLng = product.wixVersion.length();
 
   if (product.wixName.isEmpty() && rptErrors)
                            {messageBox(_T("WixName is empty, please provide one.")); return false;}
+
+  defaultPath.clearMarks();
+  icons.clearMarks();
+  pffDirectories.clearMarks();
+  pmfDirectories.clearMarks();
+
   features.markDirs();
 
-  product.mark();   features.markIconsUsed();
+  product.mark();
 
   if (!app && !wixVerLng && rptErrors) {
 

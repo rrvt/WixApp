@@ -1,0 +1,314 @@
+
+
+         ------------------------ TLS SUPPORT ------------------------
+
+Pure-FTPd supports encryption of the control and data channels using
+TLS security mechanisms.
+
+When this extra security layer is enabled, login and passwords are no more
+sent as cleartext. Neither are other commands sent by your client nor replies
+made by the server.
+
+
+         ------------------------ COMPILATION ------------------------
+
+To support TLS, the OpenSSL library must already be installed on your
+system. This is a common requirement so your operating system probably
+already ships with it.
+
+Pure-FTPd also has to be configured with the --with-tls switch before
+compilation :
+
+  ./configure --with-tls ...
+  make install-strip
+
+If something goes wrong, try to bring your OpenSSL library up-to-date.
+
+
+        ------------------------ CERTIFICATES ------------------------
+
+
+TLS connections require certificates, as well as their key.
+
+Both can be bundled into a single file. If you have both a `.pem` file
+and a `.key` file, just concatenate the content of the `.key` file to
+the `.pem` file.
+
+By default, Pure-FTPd will look for a cert+key bundle in the
+/etc/ssl/private/pure-ftpd.pem file.
+
+The location can be changed at compile-time with the --with-certfile
+and --with-keyfile options passed to ./configure.
+
+It can also be changed at runtime, with the CertFile option in the
+configuration file:
+
+CertFile                     /etc/ssl/private/pure-ftpd.pem
+or
+CertFileAndKey               /etc/pure-ftpd.pem /etc/pure-ftpd.key
+
+The former is for a bundle, the later loads two files.
+
+If you already have a certificate for another service on the same host
+(commonly for HTTPS), you can use it as well with Pure-FTPd and other
+TLS-enabled services.
+
+Both RSA and ECDSA signatures are supported, but not simultaneously.
+
+For testing purposes, a self-signed certificate can be created as follows:
+
+mkdir -p /etc/ssl/private
+
+openssl dhparam -out /etc/ssl/private/pure-ftpd-dhparams.pem 2048
+
+openssl req -x509 -nodes -newkey rsa:2048 -sha256 -keyout \
+  /etc/ssl/private/pure-ftpd.pem \
+  -out /etc/ssl/private/pure-ftpd.pem
+
+chmod 600 /etc/ssl/private/*.pem
+
+In this example, 2048 is the number of bits used for the RSA key.
+
+Here's what the /etc/ssl/private/pure-ftpd.pem should look like :
+
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDV8A/fexof9ttn
+uqpwCxXN3C019v40ByGqlfmg8SbTnkjtyt5FLw3ICoxBbQtQ65aYSAv5KtiGQbuc
+BZC+FGbR3rIokvHnbhsdLvIvWym+W+VR6U2P8VnbHWd3iSe0xMeTwGJgP9TC8r+c
+KfLX9a8EkTKL2iAVRhXuu/it7/A3T2rEomBRWGpmbE+AT69vP2T5ruQ9D7w21GcG
+S6ylqlfhRBy61ct3WI1jVR2W5BOXfE8LxgGuJYt0XY+dTrluqen9li8w5ju+3tlA
+9PsIl4ckjmYBZm1E7LqoSYDbIh/8D4kUQFLFm6xf27cUOEg3uYAJo5x3SfYlKsSm
+6PKzhzDIKcJ1896XG2AHOdIby9VoL8mZwjuMkmmrl1yro++g4XNnMIaTkajPgFzr
+NxQ195lXAgMBAADCggEBAMoqmCVc5Dwuf/mO+T72Cr3FgefMJz4tOxBDt2jyWfmC
+S3KC0fZY19IgvZeaHyZx6pavBrmIVqLQfSScUcJ97wgGRR94dSZ48yBp260KnfDo
+UFVOfeA3d+1K5RqdvqrhhaPHGm/QAhPTZ2SgUl8fEPqr7eZU4HhAcyPaLCMKFsV/
+lbfY2C4Kq54o2m1uHFTertx5niE4Yx6ALqBB66rR4It7lnr7kBhAnIsCYj7ENGrU
+6C1PzjpvrqjWqnYjbmzUov7b4S308YGqWKrfkJxTrviVaITI1XznAHlTBDLkuU1l
+eSyZ0YP3Gfd82j9fhdugH2nLxLCttcmGNOaA87VlXL/oZaYI5P5xqjyjkCgYEA6x
+Fy30dcPM+VKDhnp2QBbHrJC0zr88Hn4qYxIfyoPtjrvTb+vSI703Cd0rc00alGK6
+YZZKDV1NYKw8/r2uHRXgbpptYdRKz+GrsgNdORycKXkmWXw+ChIHsl/UghHG60jy
+KNPSkOJgPXIseJDn2ZcqlFLkl6sCgYEA6Pr+L1otzG//ROJdBV58yHO0V2KF9VKM
+amt5RUWkqRqfOiE0i5T3nmBPPflNB4bdj8qe+DwoPly2SJMihT7KQqvg54V/ZVb+
+jXY0fNLEDhJ0PdboB2I/r6SuWBNJyXF8AAewzcDF3PlBr/JGOHF4XGmOLVmiNL/N
++6RPLW5i6QUCgYA0sRq2M9QsGCy61xkTDwf2xbbSQ/6bTCPpZbHIKn98wDzXkOwr
+XMqneD7teYiBUi98jhMiMOMmaygEDsU8TpW2vSa0+CaL6zR17Itr/015Wj6SrkDw
+G/TvckxGt5MzB7hYRYZYI0bdCOMPpkAxipluRG/SFh+FvuVZTpsKuDHpFQKBgFrA
+ThXzmNlx069BYNj2NGL0AI8ueQlIca84tAlLMAMrPQw5gfgeVSBdzWuRV9SX1+1L
+EZuT037XuLaIcMHbsT6N/0u69mwFqn6y6gSQUwbhAoGAYa6eN7KUA0Xri5zrABst
+S2PP2rrmrnFLohNJ5CAWR7vvk6aKkMd+hEAJTk6s+vc7B3NHR/icIu1CnXWxKhB7
+AI0SIL0losHuBfCst8CTpqZ//Jjvi0IbOm+SNI/aqYcrrHrzdkSWYLC6Ll16Ckrg
+xeBXhXuiP9wEJSDmg7wb1t0=
+-----END PRIVATE KEY-----
+-----BEGIN CERTIFICATE-----
+MIIDFDCCAfwCCQC/UlBaK8CNnDANBgkqhkiG9w0BAQUFADBMMQswCQYDVQQGEwJG
+UjEOMAwGA1UEBwwFUGFyaXMxEjAQBgNVBAoMCVB1cmUtRlRQZDEZMBcGA1UEAwwQ
+ZnRwLnB1cmVmdHBkLm9yZzAeFw0xNTAyMjExNDE1MTlaFw0xNTAMzjMxNDE1MTla
+MEwxCzAJBgNVBAYTAkZSMQ4wDAYDVQQHDAVQYXJpczESMBAGA1UECgwJUHVyZS1G
+VFBkMRkwFwYDVQQDDBBmdHAucHVyZWZ0cGQub3JnMIIBIjANBgkqhkiG9w0BAQEF
+FEBSxZusX9u3FDhIN7mACaOcd0n2JSrEpujys4cwyCnCdfPelxtgBznSG8vVaC/J
+IBCgKCAQEA1fAP33saH/bbZ7qqcAsVzdwtNfb+NAchqpX5oPEmqGSIb3DQEB055I
+7creRS8NyAqMQW0LUOuWmEgL+SrYhkG7nAWQvhRm0d6yKJLx524bHS7yL1spvlvl
+UelNj/FZ2x1nd4kntMTHk8BiYD/UwvK/nEuspapX4UQcutXLd1iNY1UdluQTl3xP
+C8YBriWLdF2PnU65bqnp/ZYvMOY7vt7ZQPT7CJeHJI5mAWZtROy6qEmA2yIf/A+J
+mcI7jJJpq5dc6qAAOCAQ8AMIPvoOF3ksmdGD9xn3fNozcUNfeZVwIDAQABMA0GCS
+BqUAA4IBAQDT768mdG071/m6V1N4qeM5PVrpa5eB5mulE7JPBOPJADmw6YwYaSWJ
+90wE+YuU6DiDbRxHtWiCMwHoCH42fxU7BDVNrc3L614v1kUQGTLlHPyAUs6KZvz0
+Rko2y6Dzj+kVaJiWFKi+zWwWnf9P4wLYafv/n5EHKmEt1K83UE0h5r64fhwX9vH7
+6NHCMbmSDXgHjnv3rZKOOKN85ZYr2vKX+rTvASh2nxp2bbNM1XpfyuH2vbWL3J+E
+mFCaj3/lD880kHnTaTwo3Kg0SQy/Axe2LhX3zj+kSD2A9k6wtGcKttjrt4kNGaFc
+BlhkOrwnAhqbm5N3VQCB63CRpuuCVmYz
+-----END CERTIFICATE-----
+
+If you need client certificate verification, prefix the list of
+ciphers (-J/--tlsciphersuite) with -C:
+
+pure-ftpd --tlsciphersuite=-C:HIGH -Y2 ...
+
+If you want to do certificate-based client authentication, their
+public key must be included in the pure-ftpd.pem file.
+
+If multiple domains are used on the same server, each with its
+own certificate, Pure-FTPd supports SNI and custom certificate
+handlers (see down below).
+
+
+   ------------------------ ACCEPTING TLS SESSIONS ------------------------
+
+Once the certificate has been installed, you need to start a TLS-enabled
+pure-ftpd daemon with the -Y (or --tls=) switch. Example :
+
+/usr/local/sbin/pure-ftpd --tls=1 &
+
+- With "--tls=0", support for TLS is disabled. This is the default.
+
+- With "--tls=1", clients can connect either the traditional way or through an
+TLS layer. This is probably the setting you need if you want to enable
+TLS without having too many angry customers.
+
+- With "--tls=2", cleartext sessions are refused and only TLS compatible
+clients are accepted.
+
+- With "--tls=3", cleartext sessions are refused and only TLS compatible
+clients are accepted. Clear data connections are also refused, so private
+data connections are enforced. This is an extreme setting.
+
+When TLS has been successfully negotiated for a connection, you'll see
+something similar to this in log files :
+
+<<
+TLS: Enabled TLSv1/SSLv3 with ECDHE-ECDSA-AES128-GCM-SHA256, 128 secret bits cipher
+>>
+
+
+ ------------------------ CUSTOM CERTIFICATE HANDLERS ------------------------
+
+If multiple domains are used to access the server, each with their own
+certificate, Pure-FTPd supports the SNI (Server Name Indication) extension, as
+well as a flexible mechanism to map names to certificates.
+
+The pure-certd daemon needs to be started along with the FTP server.
+
+pure-certd listens to certificate requests, runs arbitrary commands written in
+any programming language, provides them the client SNI name, and returns what
+action has to be taken, and/or where the certificate to use is located.
+
+pure-certd command-line options follow:
+
+-B      --daemonize
+-g      --gid   <opt>
+-h      --help
+-p      --pidfile       <opt>
+-r      --run   <opt>
+-s      --socket        <opt>
+-u      --uid   <opt>
+
+The mandatory ones are --run and --socket. The former indicates what command
+to run in order to return actions and certificates, the later is a path to the
+local UNIX socket that will be created in order to communicate with the FTP
+server.
+
+Example usage:
+
+pure-certd --run /opt/pure-ftpd/bin/certificate-handler.sh \
+           --socket /var/run/ftpd-certs.sock
+
+The command can access the SNI name in an environment variable named
+CERTD_SNI_NAME. If this is a shell script, make sure that the file is
+executable.
+
+The command should print the following lines to the standard output:
+
+action:xxx
+cert_file:yyy (optional)
+key_file:zzz  (optional)
+end
+
+With xxx being one of:
+
+- deny: access is denied
+- default: the default certificate will be used
+- strict: the certificate whose path is indicated in "cert_path" will be used.
+If absent or invalid, access will be denied.
+- fallback: the certificate whose path is indicated in "cert_path" will be used.
+If absent or invalid, the default certificate will be used instead.
+
+yyy is the absolute path on the filesystem where the certificate is located.
+It can be a certificate+key bundle.
+
+zzz is optional and is the path to the certificate secret key, if it is not
+bundled into the PEM file.
+
+If the action is "deny" or "default", "cert_file" and "key_file" do not have
+to be provided.
+
+Here is a trivial example script logging the SNI name, and returning a fixed
+certificate path:
+
+#! /bin/sh
+
+echo 'action:strict'
+echo 'key_file:/etc/pure-ftpd/special.pem'
+echo 'done'
+
+Once pure-certd is running, the FTP server must be configured to use it.
+
+This is achieved by enabling the "ExtCert" feature in the configuration file:
+
+ExtCert                      /var/run/ftpd-certs.sock
+
+The path to the socket must match the one created by pure-certd.
+
+
+      ------------------------ COMPATIBLE CLIENTS ------------------------
+
+Pure-FTPd was reported to be fully compatible with the following clients with
+the TLS encryption layer turned on :
+
+
+* Transmit (OSX)
+  URL: https://panic.com/transmit/
+
+  TLS works out of the box, both in implicit and explicit modes.
+
+
+* CoreFTP Lite (Windows)
+  URL: http://www.coreftp.com/
+
+  TLS perfectly works when "AUTH TLS" is enabled. CoreFTP Lite has some
+neat features like IPv6 support, remote file searching, .htaccess editing,
+queueing, bandwidth control, etc.
+
+  CoreFTP Lite is free both for personal and business use.
+
+
+* SmartFTP (Windows)
+  URL: https://www.smartftp.com/
+
+  An excellent client with IPv6 support, port range limitation and other
+useful features (!= bloat) . And it's free for personal, educational and non-
+commercial use. And it detects Pure-FTPd :)
+
+  TLS perfectly works when the "FTP over SSL (explicit)" protocol is
+selected and when the data connection mode (Tools->Settings->SSL) is set to
+"clear data connection" while the AUTH mode (also in Tools->Settings->SSL) is
+set to "TLS".
+
+
+* FlashFXP (Windows)
+  URL: https://www.flashfxp.com/
+
+  TLS works. In the "Quick connect" dialog box, pick the "SSL" tab and :
+ - enable Auth TLS
+ - disable Secure File Listing
+ - disable Secure File Transfers
+
+
+* SDI FTP (Windows)
+  URL: https://www.sdisw.com/
+
+  TLS works. In the "Connection" tab, just pick "SSL Support: TLSv1".
+
+
+* LFTP (Unix, MacOS X)
+  URL: https://lftp.yar.ru/
+
+  TLS is automatically detected and works out of the box.
+
+
+* RBrowser (MacOS X)
+  URL: http://www.rbrowser.com/
+
+  A cute graphical client for MacOS that was reported to work by Jason Rust
+and Robert Vasvari.
+
+
+* Cyberduck (OSX)
+  https://cyberduck.ch/
+
+  TLS works out of the box.
+
+
+* WinSCP (Windows)
+  https://winscp.net/eng/index.php
+  WinSCP should be configured with "File protocol" set to "FTP" with
+"TLS Explicit encryption".

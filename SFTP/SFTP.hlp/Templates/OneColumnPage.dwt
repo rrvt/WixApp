@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>Untitled Document</title>
+<!-- TemplateEndEditable -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+<link href="../App.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<div class="container">
+<div class="content">
+<!-- TemplateBeginEditable name="Title" -->
+<h1>Instructions</h1>
+<!-- TemplateEndEditable -->
+
+<!-- TemplateBeginEditable name="Body" -->
+<h2></h2>
+<p>
+</p>
+<h2>Layout</h2>
+<p>
+</p>
+<p>
+</p>
+<!-- TemplateEndEditable -->
+</div><!-- end .content -->
+</div><!-- end .container -->
+</body>
+</html>

@@ -123,7 +123,7 @@
 </Fragment>
 
 <Fragment>
-  <Component Id="Uninstall_WixApp.cmp" Guid="EECC99BB-49FB-4BAE-9D75-058610C4C65B"
+  <Component Id="Uninstall_WixApp.cmp" Guid="2031A13C-6D50-40B2-AE4E-1FFE9FC28825"
                                                                             Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"

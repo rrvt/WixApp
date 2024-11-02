@@ -25,7 +25,7 @@ bool    isUninstall;
 
   Feature& operator= (Feature& c) {copy(c); return *this;}
 
-  void       clear();
+//  void       clear();
 
   bool       isValid() {return save && !isUninstall && !id.isEmpty();}
 

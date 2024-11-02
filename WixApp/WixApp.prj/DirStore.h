@@ -16,9 +16,11 @@ String ext;
   DirStore(TCchar* extension) : ext(extension) {}
  ~DirStore() { }
 
+  void  clearMarks();
+
   Data* add(String& fullPath);
 
-  Data* getDefault() {EStoreIter<Data, n> iter(*this); return iter();} //
+  Data* getDefault();
 
   void  outputSubs(TCchar* parent, int tab);
   void  outputSubs(int tab, TCchar* parent);
@@ -63,6 +65,14 @@ private:
 typedef DirStoreIter<DirDesc, 1> DirStorIter;
 
 
+template <class Data, const int n>
+void DirStore<Data, n>::clearMarks() {
+DirStorIter iter(*this);
+DirDesc*    dsc;
+
+  for (dsc = iter(); dsc; dsc = iter++) dsc->inUse = false;
+  }
+
 
 template <class Data, const int n>
 Data* DirStore<Data, n>::add(String& fullPath) {
@@ -89,6 +99,16 @@ Data* dsc;
   findLastName(fullPath, dsc->parent, dsc->name);   return dsc;
   }
 
+
+template <class Data, const int n>
+Data* DirStore<Data, n>::getDefault() {
+DirStorIter iter(*this);
+DirDesc*    dsc;
+
+  for (dsc = iter(); dsc; dsc = iter++) if (dsc->inUse) return dsc;
+
+  return 0;
+  }
 
 
 

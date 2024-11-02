@@ -44,6 +44,7 @@ void PFFdirectories::finOutput(int tab) {
 DirDesc* d;
 
   d = stor.getDefault();
+
   if (d) wix(tab, _T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
 
   wix(tab, _T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir->wixID, _T("\"/>"));

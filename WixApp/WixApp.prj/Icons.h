@@ -15,7 +15,7 @@ RelPath relPath;
 
 public:
 
-bool     inUse;
+bool    inUse;
 
             IconDesc() : inUse(false) { }
             IconDesc(IconDesc& d) : inUse(false) {copyObj(d);}
@@ -60,6 +60,8 @@ public:
 
   void      readWixData();
   void      writeWixData();
+
+  void      clearMarks();
 
   int       nIcons() {return iconList.data.end();}
 

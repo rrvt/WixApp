@@ -27,6 +27,8 @@ bool    startupDirSeen;
                                                                           startupDirSeen(false) {}
  ~PMFdirectories() { }
 
+  void     clearMarks() {stor.clearMarks();}
+
   void     initFixedDirs() { startMenuSeen = desktopDirSeen = startupDirSeen = false;}
   void     setStartMenuSeen(bool seen) {startMenuSeen  |= seen;}
   void     setDeskTopSeen(bool seen)   {desktopDirSeen |= seen;}

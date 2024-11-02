@@ -56,7 +56,7 @@ CurSel=App
 FeatureID=App
 ProgramID=WixApp
 StartMenuID=WixApp
-CurSel=WixApp
+CurSel=Banner
 NoComponents=4
 [Ftr00Cmp00]
 ID=WixApp

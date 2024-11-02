@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFTP", "..\SFTP.prj\SFTP.vcxproj", "{27641373-F298-4C69-AA43-291AEC12B6B3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB} = {4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29} = {5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFTP.hlp", "..\SFTP.hlp\SFTP.hlp.vcxproj", "{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SFTP.wix", "..\SFTP.wix\SFTP.wix.wixproj", "{CEC94A26-F8A0-4348-A72F-A72A46E66541}"
+	ProjectSection(ProjectDependencies) = postProject
+		{27641373-F298-4C69-AA43-291AEC12B6B3} = {27641373-F298-4C69-AA43-291AEC12B6B3}
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB} = {4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29} = {5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SftpSSL", "..\SftpSSL.prj\SftpSSL.vcxproj", "{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB} = {4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenSSL", "..\..\openssl.3.1.2\OpenSSL\OpenSSL.3.1.2.vcxproj", "{FC8B23BF-A97A-447A-B9E6-AC468DECAD33}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "..\..\Library\Library\Library.vcxproj", "{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB} = {4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27641373-F298-4C69-AA43-291AEC12B6B3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{27641373-F298-4C69-AA43-291AEC12B6B3}.Debug|Win32.Build.0 = Debug|Win32
+		{27641373-F298-4C69-AA43-291AEC12B6B3}.Release|Win32.ActiveCfg = Release|Win32
+		{27641373-F298-4C69-AA43-291AEC12B6B3}.Release|Win32.Build.0 = Release|Win32
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}.Debug|Win32.Build.0 = Debug|Win32
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}.Release|Win32.ActiveCfg = Release|Win32
+		{4B1B0016-EDD0-4AED-AED7-69B6550DBCBB}.Release|Win32.Build.0 = Release|Win32
+		{CEC94A26-F8A0-4348-A72F-A72A46E66541}.Debug|Win32.ActiveCfg = Debug|x86
+		{CEC94A26-F8A0-4348-A72F-A72A46E66541}.Release|Win32.ActiveCfg = Release|x86
+		{CEC94A26-F8A0-4348-A72F-A72A46E66541}.Release|Win32.Build.0 = Release|x86
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Debug|Win32.Build.0 = Debug|Win32
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Release|Win32.ActiveCfg = Release|Win32
+		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Release|Win32.Build.0 = Release|Win32
+		{FC8B23BF-A97A-447A-B9E6-AC468DECAD33}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FC8B23BF-A97A-447A-B9E6-AC468DECAD33}.Release|Win32.ActiveCfg = Release|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|Win32.Build.0 = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|Win32.ActiveCfg = Release|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C45DAD2-ADDB-49C9-A3BD-11D3C1E2344D}
+	EndGlobalSection
+EndGlobal

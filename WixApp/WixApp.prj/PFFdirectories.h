@@ -23,8 +23,10 @@ DirDesc* appDir;
            PFFdirectories() : stor(PffExt) {}
           ~PFFdirectories() { }
 
- void      readWixData()  {stor.readWixData();}
- void      writeWixData() {stor.writeWixData();}
+  void     clearMarks() {stor.clearMarks();}
+
+  void     readWixData()  {stor.readWixData();}
+  void     writeWixData() {stor.writeWixData();}
 
   DirDesc* find(String& id)      {return stor.findItem(id);}
 

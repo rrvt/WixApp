@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 11/1/24
+
+Fix Default Path when changed.
+
 ### Update 10/31/24
 
 Fixed a elusive bug.  Added a feature to output the internal data kept by the app to a txt file.

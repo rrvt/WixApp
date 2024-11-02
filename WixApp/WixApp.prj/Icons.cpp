@@ -148,6 +148,14 @@ IconDesc* p;
   }
 
 
+void Icons::clearMarks() {
+ListIter  iter(iconList);
+IconDesc* dsc;
+
+  for (dsc = iter(); dsc; dsc = iter++) dsc->inUse = false;
+  }
+
+
 bool Icons::validate(bool rptErrors) {
 ListIter  iter(iconList);
 IconDesc* dsc;
