@@ -183,10 +183,9 @@ String    k;
 
   ar << _T("Icon List") << aCrlf;
 
-  for (dsc = iter(); dsc; dsc = iter++) {
-    ar.tab(1);
-    dsc->saveData(ar);   ar.tab(20);   k = dsc->inUse;   ar << k << aCrlf;
-    }
+  ar << aClrTabs << aSetTab(3) << aSetTab(45);
+
+  for (dsc = iter(); dsc; dsc = iter++) dsc->saveData(ar);
   }
 
 
@@ -210,5 +209,9 @@ struct _stat buffer;
   MessageBox(0, msg, _T("WixApp"), MB_OK);   return false;
   }
 
+
+void IconDesc::saveData(Archive& ar) {
+  ar << aTab; relPath.saveData(ar);   ar << aTab << inUse << aCrlf;
+  }
 
 

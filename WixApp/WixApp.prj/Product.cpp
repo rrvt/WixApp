@@ -9,7 +9,7 @@
 #include "Icons.h"
 #include "Solution.h"
 #include "WixOptsDlg.h"
-#include "Resources.h"
+#include "ResourceData.h"
 
 
 static TCchar*   ProductSection = _T("Product");
@@ -280,16 +280,20 @@ IconDesc* dsc = icons.find(iconID);
 void Product::saveData(Archive& ar) {
 String k;
 
+  ar << aClrTabs << aSetTab(3) << aSetTab(30);
+
   ar << _T("Product: ") << productName << aCrlf;
-  ar.tab(1);   ar << _T("Company:");           ar.tab(10);   ar << company << aCrlf;
-  ar.tab(1);   ar << _T("Wix Name:");          ar.tab(10);   ar << wixName << aCrlf;
-  ar.tab(1);   ar << _T("Wix Version:");       ar.tab(10);   ar << wixVersion << aCrlf;
-  ar.tab(1);   ar << _T("Wix Path:");          ar.tab(10);   ar << wixPath << aCrlf;
-  ar.tab(1);   ar << _T("upgrade Code:");      ar.tab(10);   ar << upgradeCode << aCrlf;
-  ar.tab(1);   ar << _T("Icon ID:");           ar.tab(10);   ar << iconID << aCrlf;
-  ar.tab(1);   ar << _T("Installer Icon ID:"); ar.tab(10);   ar << installerIconPath << aCrlf;
-  ar.tab(1);   k = isSameVerAllowed;   ar << _T("isSameVerAllowed:"); ar.tab(10); ar << k << aCrlf;
-  ar.tab(1);   k = isLicenseReq;       ar << _T("isLicenseReq:");     ar.tab(10); ar << k << aCrlf;
-  ar.tab(1);   ar << _T("License Path:");      ar.tab(10);   licPath.saveData(ar);   ar << aCrlf;
+  ar << aTab << _T("Company:")           << aTab   << company << aCrlf;
+  ar << aTab << _T("Wix Name:")          << aTab   << wixName << aCrlf;
+  ar << aTab << _T("Wix Version:")       << aTab   << wixVersion << aCrlf;
+  ar << aTab << _T("Wix Path:")          << aTab   << wixPath << aCrlf;
+  ar << aTab << _T("upgrade Code:")      << aTab   << upgradeCode << aCrlf;
+  ar << aTab << _T("Icon ID:")           << aTab   << iconID << aCrlf;
+  ar << aTab << _T("Installer Icon ID:") << aTab   << installerIconPath << aCrlf;
+//  k = isSameVerAllowed;
+  ar << aTab << _T("isSameVerAllowed:") << aTab << isSameVerAllowed << aCrlf;
+  k = isLicenseReq;
+  ar << aTab << _T("isLicenseReq:") << aTab << isLicenseReq << aCrlf;
+  ar << aTab << _T("License Path:") << aTab; licPath.saveData(ar);   ar << aCrlf;
   }
 

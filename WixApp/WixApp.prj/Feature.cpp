@@ -364,16 +364,21 @@ void Feature::saveData(Archive& ar) {
 String k;
 ComponentsIter iter(components);
 Component*     cmp;
+int            i;
 
-  ar.tab(1);  ar << _T("ID:");               ar.tab(8);   ar << id << aCrlf;
-  ar.tab(2);  ar << _T("Wix ID:");           ar.tab(8);   ar << wixID << aCrlf;
-  ar.tab(2);  ar << _T("Section:");          ar.tab(8);   ar << section << aCrlf;
-  ar.tab(2);  ar << _T("Program File ID:");  ar.tab(8);   ar << progFileID << aCrlf;
-  ar.tab(2);  ar << _T("StartMenuID:");      ar.tab(8);   ar << startMenuID << aCrlf;
-  ar.tab(2);  ar << _T("save:");             ar.tab(8);   k = save;        ar << k << aCrlf;
-  ar.tab(2);  ar << _T("Is Uninstall:");     ar.tab(8);   k = isUninstall; ar << k << aCrlf;
+  ar << aClrTabs << aSetTab(3) << aSetTab(30);
 
-  ar.tab(2);  ar << _T("Components") << aCrlf;
-  for (cmp = iter(); cmp; cmp = iter++) {cmp->saveData(ar);   ar << aCrlf;}
+  ar << aTab << _T("Feature: ") << id << aCrlf;
+
+  ar << aClrTabs << aSetTab(6) << aSetTab(30);
+  ar << aTab << _T("Wix ID:")          << aTab << wixID << aCrlf;
+  ar << aTab << _T("Section:")         << aTab << section << aCrlf;
+  ar << aTab << _T("Program File ID:") << aTab << progFileID << aCrlf;
+  ar << aTab << _T("StartMenuID:")     << aTab << startMenuID << aCrlf;
+  ar << aTab << _T("save:")            << aTab << save << aCrlf;
+  ar << aTab << _T("Is Uninstall:")    << aTab << isUninstall << aCrlf;
+
+  ar << aTab << _T("Components") << aCrlf;
+  for (i = 0, cmp = iter(); cmp; i++, cmp = iter++) {if (i) ar << aCrlf;   cmp->saveData(ar);}
   }
 

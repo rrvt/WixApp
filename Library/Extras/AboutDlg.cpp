@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "AboutDlg.h"
-#include "Resources.h"
+#include "ResourceData.h"
 #include "ResourceExtra.h"
 
 

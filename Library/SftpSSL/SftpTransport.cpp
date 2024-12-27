@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "SftpTransport.h"
+#include "Archive.h"
 #include "FileIO.h"
 #include "NotePad.h"
 #include "SftpDataIter.h"
@@ -134,7 +135,7 @@ SftpStrIter iter(sftpOps);
 SftpBlk*    blk;
 
   for (blk = iter(); blk; blk = iter++)
-    if (!ar.write(blk->bfr, blk->n)) break;
+    if (ar.wrtBin(blk->bfr, blk->n)) break;
   }
 
 

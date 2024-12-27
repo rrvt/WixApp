@@ -8,10 +8,10 @@
 
 
 
-Note::Note() {
-  fSize = tabValue = 0; leftMargin = -1;   rightTab = false;   nmbr.clear();
+Note::Note() : noteTab() {
+  fSize = 0; leftMgn = rightMgn = -1;   nmbr.clear();
 
-  clrTabs = tab = center = right = beginLine = endLine = endPage = crlf = debug = false;
+  clrTabs = tabSeen = center = right = beginLine = endLine = endPage = crlf = debug = false;
 
   fFace.clear(); bold = prevFont = italic = underline = strikeOut = false;
   }
@@ -21,47 +21,66 @@ Note* Note::clone() {NewAlloc(Note);   Note* p = AllocNode;  p->copy(*this);   r
 
 
 void Note::copy(Note& n) {
-  clrTabs     = n.clrTabs;
-  leftMargin  = n.leftMargin;
-  tabValue    = n.tabValue;
-  rightTab    = n.rightTab;
-  tab         = n.tab;
+
+  leftMgn     = n.leftMgn;
+  rightMgn    = n.rightMgn;
+
   fFace       = n.fFace;
   fSize       = n.fSize;
-  prevFont    = n.prevFont;
   bold        = n.bold;
   italic      = n.italic;
   underline   = n.underline;
   strikeOut   = n.strikeOut;
+  prevFont    = n.prevFont;
+
+  clrTabs     = n.clrTabs;
+  noteTab     = n.noteTab;
+
+  tabSeen     = n.tabSeen;
   center      = n.center;
   right       = n.right;
+
   beginLine   = n.beginLine;
+
   line        = n.line;
   nmbr        = n.nmbr;
+
   endLine     = n.endLine;
-  endPage     = n.endPage;
   crlf        = n.crlf;
+  endPage     = n.endPage;
   debug       = n.debug;
   }
 
 
-bool Note::isAfter(NoteAttr attr) {
+bool Note::isAfter(NoteOrdr attr) {
 
   switch (attr) {
-    case PFontNAttr  : if (prevFont)        return true;
-    case LMgnNAttr   : if (leftMargin >= 0) return true;
-    case ClrTbsNAttr : if (clrTabs)         return true;
-    case StTbsNAttr  : if (tabValue)        return true;
-    case TbNAttr     : if (tab)             return true;
-    case CtrNAttr    : if (center)          return true;
-    case RghtNAttr   : if (right)           return true;
-    case BgLnNAttr   : if (beginLine)       return true;
-    case LineNAttr   : if (!line.isEmpty()) return true;
-    case NmbrNAttr   : if (nmbr.typ)        return true;
-    case EndLnNAttr  : if (endLine)         return true;
-    case CrlfNAttr   : if (crlf)            return true;
-    case EndPgNAttr  : if (endPage)         return true;
-    case DbgNAttr    : if (debug)           return true;
+    case LeftMgnNO       : if (leftMgn  >= 0)    return true;
+    case RightMgnNO      : if (rightMgn >= 0)    return true;
+
+    case FontFaceNO      : if (!fFace.isEmpty()) return true;
+    case FontSizeNO      : if (fSize != 0.0)     return true;
+    case BoldNO          : if (bold)             return true;
+    case ItalicNO        : if (italic)           return true;
+    case UnderlineFontNO : if (underline)        return true;
+    case StrikeOutNO     : if (strikeOut)        return true;
+    case PrevFontNO      : if (prevFont)         return true;
+
+    case ClrTabsNO       : if (clrTabs)          return true;
+    case SetTabNO        : if (noteTab.pos)      return true;
+
+    case TabNO           : if (tabSeen)          return true;
+    case CenterNO        : if (center)           return true;
+    case RightInLineNO   : if (right)            return true;
+
+    case BegUndrlineNO   : if (beginLine)        return true;
+    case LineNO          : if (!line.isEmpty())  return true;
+    case NmbrNO          : if (nmbr.typ)         return true;
+    case EndUndrlineNO   : if (endLine)          return true;
+
+    case CrlfNO          : if (crlf)             return true;
+    case EndPageNO       : if (endPage)          return true;
+    case DebugNO         : if (debug)            return true;
     }
   return false;
   }

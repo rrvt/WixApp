@@ -14,6 +14,11 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 12/26/24
+
+Split the library into DocLib and Library where DocLib supports the MFC Document/Library App
+projects and Library has support classes and supports the Dialog Apps with only one class.
+
 ### Update 11/1/24
 
 Fix Default Path when changed.

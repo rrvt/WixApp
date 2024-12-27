@@ -54,11 +54,16 @@ bool DirDesc::writeWixData(String& section) {
 void  DirDesc::saveData(Archive& ar) {
 String k;
 
-  ar.tab(1);   ar << _T("Name: ");   ar << name << aCrlf;
-  ar.tab(2);   ar << _T("ID:");                                ar.tab(8);   ar << id << aCrlf;
-  ar.tab(2);   ar << _T("Wix ID:");                            ar.tab(8);   ar << wixID << aCrlf;
-  ar.tab(2);   ar << _T("Parent:");                            ar.tab(8);   ar << parent << aCrlf;
-  ar.tab(2);   ar << _T("Has Children:");   k = hasChildren;   ar.tab(8);   ar << k << aCrlf;
-  ar.tab(2);   ar << _T("In Use:");         k = inUse;         ar.tab(8);   ar << k << aCrlf;
+  ar << aClrTabs << aSetTab(3);
+
+  ar << aTab << _T("Directory: ") << id << aCrlf;
+
+  ar << aClrTabs << aSetTab(6) << aSetTab(30);
+
+  ar << aTab << _T("Wix ID:")       << aTab << wixID       << aCrlf;
+  ar << aTab << _T("Name:")         << aTab << name        << aCrlf;
+  ar << aTab << _T("Parent:")       << aTab << parent      << aCrlf;
+  ar << aTab << _T("Has Children:") << aTab << hasChildren << aCrlf;
+  ar << aTab << _T("In Use:")       << aTab << inUse       << aCrlf;
   }
 

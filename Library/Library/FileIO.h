@@ -68,7 +68,7 @@ enum OpenParms {Read=1, Write=2, Create=4};
   void setTabSize(int nSpaces)                      // Set Tab Size for output, default is 2 spaces
               {if (nSpaces > 0) tabSize = nSpaces;}
   void tab(   int nTabs);                           // Tab every 2 spaces
-  void spaces(int nSpaces);
+  int  spaces(int nSpaces);
   void crlf() {write(_T('\n'));}
 
   Tchar* getLastError();                            // Returns last error

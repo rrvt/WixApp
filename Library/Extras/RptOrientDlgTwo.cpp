@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "RptOrientDlgTwo.h"
+#include "Printer.h"
 
 
 IMPLEMENT_DYNAMIC(RptOrietnDlg, CDialogEx)

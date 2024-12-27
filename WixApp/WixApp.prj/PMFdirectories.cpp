@@ -56,9 +56,11 @@ String k;
 
   ar << _T("PMF Directories") << aCrlf;
 
-  ar.tab(1);   k = startMenuSeen;   ar << _T("Start Menu Seen:");    ar.tab(8);   ar << k << aCrlf;
-  ar.tab(1);   k = desktopDirSeen;  ar << _T("Desk Top Dir Seen:");  ar.tab(8);   ar << k << aCrlf;
-  ar.tab(1);   k = startupDirSeen;  ar << _T("Start Up Dir Seen:");  ar.tab(8);   ar << k << aCrlf;
+  ar << aClrTabs << aSetTab(3) << aSetTab(30);
+
+  ar << aTab << _T("Start Menu Seen:")   << aTab << startMenuSeen  << aCrlf;
+  ar << aTab << _T("Desk Top Dir Seen:") << aTab << desktopDirSeen << aCrlf;
+  ar << aTab << _T("Start Up Dir Seen:") << aTab << startupDirSeen << aCrlf;
 
   stor.saveData(ar);
   }

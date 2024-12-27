@@ -2,10 +2,10 @@
 
 
 #pragma once
-#include "CApp.h"
+#include "CDialogApp.h"
 
 
-class WixApp : public CApp {
+class WixApp : public CDialogApp {
 
 public:
 

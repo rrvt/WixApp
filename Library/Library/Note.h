@@ -5,15 +5,23 @@
 
 #include "Node.h"
 #include "NoteNmbr.h"
+#include "NoteTab.h"
 
 
-enum NoteAttr {NilNAttr,    PFontNAttr, LMgnNAttr,  ClrTbsNAttr, StTbsNAttr,
-               TbNAttr,     CtrNAttr,   RghtNAttr,  BgLnNAttr,   LineNAttr,
-               NmbrNAttr,   EndLnNAttr, CrlfNAttr,  EndPgNAttr, DbgNAttr};
+enum NoteOrdr {NilNO,         LeftMgnNO,  RightMgnNO,
+               FontFaceNO,    FontSizeNO, BoldNO,        ItalicNO, UnderlineFontNO, StrikeOutNO,
+               PrevFontNO,    ClrTabsNO,  SetTabNO,
+               TabNO,         CenterNO,   RightInLineNO,
+               BegUndrlineNO, LineNO,     NmbrNO,         EndUndrlineNO,
+               CrlfNO,        EndPageNO,  DebugNO
+               };
 
 
 class Note : public Node {
 public:
+
+double   leftMgn;                   // Left Margin in character widths
+double   rightMgn;                  // Right Margin in char widths
 
 String   fFace;                     // font Face
 double   fSize;                     // Set new font size
@@ -23,13 +31,10 @@ bool     underline;                 // Underline font
 bool     strikeOut;                 // Strike out font
 bool     prevFont;                  // Restore previous font
 
-int      leftMargin;                // Left Margin character position
-
 bool     clrTabs;                   // clear all tabs
-int      tabValue;                  // set a tab position
-bool     rightTab;                  // true for a right tab position
+NoteTab  noteTab;
 
-bool     tab;                       // move cursor to next tab position
+bool     tabSeen;                       // move cursor to next tab position
 bool     center;                    // center all text to crlf in window
 bool     right;                     // right adjust text to crlf in window
 
@@ -44,16 +49,16 @@ bool     crlf;                      // output crlf after text
 bool     endPage;                   // end page when printing
 bool     debug;
 
-  Note();
-  Note(Note& n) {copy(n);}
- ~Note() {}
+        Note();
+        Note(Note& n) {copy(n);}
+       ~Note() {}
 
   Note& operator= (Note& n) {copy(n); return *this;}
 
   Note* clone();
   Note* alloc() {NewAlloc(Note);   Note* p = AllocNode;   return p;}
 
-  bool  isAfter(NoteAttr attr);
+  bool  isAfter(NoteOrdr attr);
 
   void  remove() {NewAlloc(Note); FreeNode(this);}
 
@@ -72,7 +77,7 @@ public:
   // Copy one list into another calling Note::clone to create a new node and copy data from one
   // node into another.
 
-  NoteList& operator =(const NoteList& p) {this->List::operator=(p); return *this;}
+  NoteList& operator= (const NoteList& p) {this->List::operator=(p); return *this;}
 
   // Append to list
 

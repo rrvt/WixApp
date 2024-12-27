@@ -128,18 +128,21 @@ void Solution::saveData(Archive& ar) {
 PUIter  iter(pathUnits);
 String* s;
 int     i;
-String  k;
+int     t;
+
+  ar << aClrTabs << aSetRTab(3) << aSetTab(6);
 
   ar << _T("Root: ") << rootPath << aCrlf;
   ar << _T("Name: ") << name << aCrlf;
-  k = ver;
-  ar << _T("Version: ") << k << aCrlf;
+
+  ar << _T("Version: ") << ver << aCrlf;
 
   ar << _T("Path Units") << aCrlf;
 
   for (i = 0, s = iter(); s; i++, s = iter++) {
-    k = i;
-    ar.tab(1); ar << k;  ar.tab(2);  ar << *s << aCrlf;
+
+
+    t = i * 10;   ar << aTab << t << aTab << *s << aCrlf;
     }
   }
 

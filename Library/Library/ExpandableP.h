@@ -198,8 +198,10 @@ public:
   ExpandableP();                      // Constructor & Destructor
  ~ExpandableP();
 
-  ExpandableP& operator=  (ExpandableP& e);                               // copy the whole array
-  ExpandableP& operator-= (ExpandableP& e);                               // moves the whole array
+  ExpandableP& operator=  (ExpandableP& e);     // Not sure what this does...
+  ExpandableP& operator+= (ExpandableP& e);     // copy the data from e array to this array
+
+  ExpandableP& operator-= (ExpandableP& e);     // moves the data from e to this
 
   Datum*    allocate()           {NewAlloc(Datum); return AllocNode;}     // allocate a heap
                                                                           // record
@@ -266,6 +268,7 @@ private:
   void   freeAllNodes();                  // Free all Nodes
 
   void   copy(ExpandableP& e);            // Copy array e to this array
+  void   copyData(ExpandableP& e);        // Copy data from e to this array
   void   move(ExpandableP& e);            // Move array e to this array
 
   void   expand(int i);                   // Expand array
@@ -294,11 +297,21 @@ ExpandableP<Datum, Key, DatumPtr, n>&
  ExpandableP<Datum, Key, DatumPtr, n>::operator= (ExpandableP& e) {clear(); copy(e); return *this;}
 
 
+
+// copy the data from e array to this array
+
+template <class Datum, class Key, class DatumPtr, const int n>
+ExpandableP<Datum, Key, DatumPtr, n>&
+ ExpandableP<Datum, Key, DatumPtr, n>::operator+= (ExpandableP& e)
+                                                             {clear(); copyData(e);  return *this;}
+
+
 // move the whole array
 
  template <class Datum, class Key, class DatumPtr, const int n>
  ExpandableP<Datum, Key, DatumPtr, n>&
-  ExpandableP<Datum, Key, DatumPtr, n>::operator-= (ExpandableP& e) {clear(); move(e); return *this;}
+  ExpandableP<Datum, Key, DatumPtr, n>::operator-= (ExpandableP& e)
+                                                                  {clear(); move(e); return *this;}
 
 
 
@@ -490,6 +503,20 @@ void ExpandableP<Datum, Key, DatumPtr, n>::copy(ExpandableP& e) {
   if (e.endN > tblN) expand(e.endN);
 
   for (endN = 0; endN < e.endN; endN++) {tbl[endN] = e.tbl[endN];  e.tbl[endN] = 0;}
+  }
+
+
+// Copy data from e to this array
+
+template <class Datum, class Key, class DatumPtr, const int n>
+void ExpandableP<Datum, Key, DatumPtr, n>::copyData(ExpandableP& e) {
+
+  if (e.endN > tblN) expand(e.endN);
+
+  for (endN = 0; endN < e.endN; endN++) {
+    Datum& src = *e.tbl[endN].p;
+    if (&src) {Datum* p = allocate();   *p = src;   tbl[endN].p = p;}
+    }
   }
 
 

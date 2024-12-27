@@ -60,8 +60,7 @@ void PFFdirectories::saveData(Archive& ar) {
 
   ar << _T("PFF Directories") << aCrlf;
 
-  if (appDir) {ar << _T("App Directory") << aCrlf;   appDir->saveData(ar);
-  }
+  if (appDir) {ar << _T("App Directory") << aCrlf;   appDir->saveData(ar);}
 
   stor.saveData(ar);
   }

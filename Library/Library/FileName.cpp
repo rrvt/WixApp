@@ -91,6 +91,23 @@ Tchar* p = _tcschr((Tchar*) name, 0);
   }
 
 
+// The full path is made up of directories separated by \\s.  Remove the last one (right most
+// directory).  Leave \\ and end of string.
+
+String removeLastDir(TCchar* fullPath) {
+String s   = fullPath;
+int    pos = s.length() - 1;
+
+  if (s[pos] == _T('\\')) s = s.substr(0, pos);
+
+  pos = s.findLastOf(_T("\\:/"));
+
+  if (pos >= 0) return s.substr(0, pos+1);
+
+  return _T("");
+  }
+
+
 // rename file, deleting new file if it already exists!
 // return true if original file is renamed
 

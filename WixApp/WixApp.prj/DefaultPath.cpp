@@ -111,11 +111,19 @@ DefPathDsc* dsc;
 String      k;
 
   ar << _T("Default Path") << aCrlf;
-
-  for (dsc = iter(); dsc; dsc = iter++) {
+  ar << aClrTabs << aSetTab(3) << aSetTab(18) << aSetTab(45);
+  for (dsc = iter(); dsc; dsc = iter++) dsc->saveData(ar);
+#if 0
+  {
     ar.tab(1);  ar << dsc->key;   ar.tab(7);  dsc->relPath.saveData(ar);
     ar.tab(15);   k = dsc->inUse;   ar << k << aCrlf;
     }
+#endif
   }
 
+
+void DefPathDsc::saveData(Archive& ar) {
+
+  ar << aTab << key << aTab;   relPath.saveData(ar);  ar << aTab << inUse << aCrlf;
+  }
 

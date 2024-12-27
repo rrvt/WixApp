@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "Printer.h"
 #include "IniFile.h"
+#include "MessageBox.h"
 #include "winspool.h"
 
 
@@ -25,6 +26,60 @@ static TCchar* RightEvenKey   = _T("RightEven");
 static TCchar* ScaleKey       = _T("Scale");
 
 Printer printer;
+
+
+
+void Printer::initAttr(HANDLE hdl) {
+DEVMODE* devMode;
+
+  printer.load(0);   if (!hdl) return;
+
+  devMode = (DEVMODE*) GlobalLock(hdl);           // Protect memory handle with ::GlobalLock
+
+    if (devMode->dmFields & DM_ORIENTATION) devMode->dmOrientation = orient;
+    if (devMode->dmFields & DM_PAPERSIZE)   devMode->dmPaperSize   = paperSize;
+    if (devMode->dmFields & DM_COPIES)      devMode->dmCopies      = copies;
+    if (devMode->dmFields & DM_COLLATE)     devMode->dmCollate     = collate;
+    if (devMode->dmFields & DM_DUPLEX)      devMode->dmDuplex      = pagePlex;
+
+  GlobalUnlock(hdl);
+  }
+
+
+void Printer::saveAttr(HANDLE hdl) {
+DEVMODE* devMode;
+
+  if (hdl) {
+
+    devMode = (DEVMODE*) GlobalLock(hdl);               // Protect memory handle with ::GlobalLock
+
+      if (devMode->dmFields & DM_ORIENTATION) orient    = (PrtrOrient) devMode->dmOrientation;
+      if (devMode->dmFields & DM_PAPERSIZE)   paperSize = (PaperSize)  devMode->dmPaperSize;
+      if (devMode->dmFields & DM_COPIES)      copies    =              devMode->dmCopies;
+      if (devMode->dmFields & DM_COLLATE)     collate   =              devMode->dmCollate;
+      if (devMode->dmFields & DM_DUPLEX)      pagePlex  = (PagePlex)   devMode->dmDuplex;
+
+    GlobalUnlock(hdl);
+    }
+
+  printer.store();
+  }
+
+
+
+String& Printer::getName(HANDLE hdl) {
+DEVMODE* devMode;
+
+  if (!hdl) return name;
+
+  devMode = (DEVMODE*) GlobalLock(hdl);                 // Protect memory handle with ::GlobalLock
+
+    name = devMode->dmDeviceName;
+
+  GlobalUnlock(hdl);
+
+  return name;
+  }
 
 
 void Printer::load(TCchar* printer) {

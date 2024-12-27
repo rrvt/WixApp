@@ -54,6 +54,10 @@ double     scale;
               rightOdd(0.0),     leftEven(0.0),          rightEven(0.0),    scale(0.0) { }
  ~Printer() { }
 
+ void        initAttr(HANDLE hdl);
+ void        saveAttr(HANDLE hdl);
+ String&     getName( HANDLE hdl);
+
   void       load(TCchar* printer);
   void       store();
 
@@ -62,6 +66,7 @@ double     scale;
   PrtrOrient toOrient(Cstring& cs);
   TCchar*    toStg(PrtrOrient orient);
   };
+
 
 extern Printer printer;
 

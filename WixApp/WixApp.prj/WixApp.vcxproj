@@ -219,6 +219,8 @@
     <None Include="res\WixApp.ico" />
     <None Include="res\WixApp.rc2" />
   <None Include="..\Data\RacesDB.wxd" />
+  <None Include="..\Data\WixData.txt" />
+    <None Include="..\Data\WixData03.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Toolbar.bmp" />

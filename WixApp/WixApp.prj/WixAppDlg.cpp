@@ -172,8 +172,6 @@ String     path;
 
   Archive ar(path, FileIO::Write);   if (!ar.isOpen()) return;
 
-  ar.setTabSize(3);
-
   solution.saveData(ar);         ar << aCrlf;
   product.saveData(ar);          ar << aCrlf;
   features.saveData(ar);         ar << aCrlf;

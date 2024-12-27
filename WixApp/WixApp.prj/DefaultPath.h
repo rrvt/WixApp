@@ -20,6 +20,8 @@ public:
 
   DefPathDsc& operator= (DefPathDsc& dsc) {copyDsc(dsc); return *this;}
 
+  void   saveData(Archive& ar);
+
 private:
 
   void copyDsc(DefPathDsc& dsc) {key = dsc.key; relPath = dsc.relPath; inUse = dsc.inUse;}

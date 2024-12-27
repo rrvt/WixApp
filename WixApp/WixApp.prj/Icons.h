@@ -37,7 +37,7 @@ bool    inUse;
   bool      validate(bool rptErrors = true);
   void      outputOne(int tab);
 
-  void      saveData(Archive& ar) {relPath.saveData(ar);}
+  void      saveData(Archive& ar);
 
 private:
 

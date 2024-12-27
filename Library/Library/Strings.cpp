@@ -177,17 +177,46 @@ size_t j = i;
   }
 
 
+//%[flags][width][.precision][size]type
 
 String dblToString(double v, int width, int precision) {
 String s;
 
-  if (precision) {s.format(_T("%*.*f"), width, precision, v);   return s;}
-                  s.format(_T("%*f"),   width,            v);   return s;
+  if      (precision && width) {s.format(_T("%*.*lg"), width, precision, v);   return s;}
+  else if (precision)          {s.format(_T("%.*lg"),         precision, v);   return s;}
+  else if (             width) {s.format(_T("%*lg"),   width,            v);   return s;}
+                                s.format(_T("%lg"),                      v);   return s;
   }
 
 
-String intToString(  long v, int width) {String s;   s.format(_T("%*li"), width, v); return s;}
-String uintToString(ulong v, int width) {String s;   s.format(_T("%*lu"), width, v); return s;}
+String intToString(  long v, int width, int precision) {
+String s;
+
+  if      (precision && width) {s.format(_T("%*.*li"), width, precision, v);   return s;}
+  else if (precision)          {s.format(_T("%.*li"),         precision, v);   return s;}
+  else if (             width) {s.format(_T("%*li"),   width,            v);   return s;}
+                                s.format(_T("%li"),                      v);   return s;
+  }
+
+
+
+
+String uintToString(ulong v, int width, int precision) {
+String s;
+
+  if      (precision && width) {s.format(_T("%*.*lu"), width, precision, v); return s;}
+  else if (precision)          {s.format(_T("%.*lu"),         precision, v); return s;}
+  else if (             width) {s.format(_T("%*lu"),   width,            v); return s;}
+                                s.format(_T("%lu"),                      v); return s;
+  }
+
+
+String hexToString(ulong  v, int precision) {
+String s;
+
+  if (precision)          {s.format(_T("0x%.*lx"),         precision, v); return s;}
+                           s.format(_T("0x%lx"),                      v); return s;
+  }
 
 
 

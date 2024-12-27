@@ -9,6 +9,8 @@
 
 String removePath(TCchar* name);
 
+String removeLastDir(TCchar* fullPath);
+
 String getPath(TCchar* fullPath);
 
 String getMainName(TCchar* fullPath);

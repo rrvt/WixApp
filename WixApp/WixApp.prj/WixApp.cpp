@@ -20,7 +20,7 @@ IniFile iniFile;
 
 // WixApp construction
 
-WixApp::WixApp() noexcept : CApp(this) { }
+WixApp::WixApp() noexcept : CDialogApp(this) { }
 
 
 // WixApp initialization -- Start the MFC Dialog Box

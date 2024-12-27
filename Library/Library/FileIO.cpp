@@ -148,10 +148,14 @@ int n = nTabs * tabSize - col;
   }
 
 
-void FileIO::spaces(int nSpaces) {
+int FileIO::spaces(int nSpaces) {
 int i;
 
+  if (nSpaces < 0) nSpaces = 0;
+
   for (i = 0; i < nSpaces; i++) write(_T(' '));
+
+  return nSpaces;
   }
 
 

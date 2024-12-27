@@ -4,38 +4,27 @@
 
 #include "pch.h"
 #include "NoteNmbr.h"
-#include "TxtOut.h"
+//#include "TxtOut.h"
 
 
 static String nmbr;
 
-
-String& NoteNmbr::operator() () {
-String s   = stg();
-int    lng = s.length();
-int    excess;
-
-  excess = (width >= 0 ? width : -width) - lng;
-
-  if (excess > 0) {
-    if (width > 0) {addSpcs(excess);   nmbr += s;   return nmbr;}
-    if (width < 0) {nmbr = s;   addSpcs(excess);    return nmbr;}
-    nmbr = s;
-    }
-  else nmbr = s;
-
-  return nmbr;
-  }
+String& NoteNmbr::operator() () {return stg();}
 
 
 String& NoteNmbr::stg() {
 
   switch (typ) {
     case NilNmbrTyp : nmbr.clear();                                 break;
-    case IntNmbrTyp : nmbr = intToString(  longVal, width);         break;
-    case UIntNmbrTyp: nmbr = uintToString(uLongVal, width);         break;
-    case DblNmbTyp  : nmbr = dblToString(   dblVal, width, prec);   break;
+    case IntNmbrTyp : nmbr = hex ? hexToString( longVal,        prec) :
+                                   intToString( longVal, width, prec);
+                      break;
+    case UIntNmbrTyp: nmbr = hex ? hexToString( uLongVal,        prec) :
+                                   uintToString(uLongVal, width, prec);
+                      break;
+    case DblNmbTyp  : nmbr =       dblToString( dblVal,   width, prec);   break;
     }
+
   return nmbr;
   }
 
@@ -56,6 +45,7 @@ void NoteNmbr::copy(NoteNmbr& nn) {
 
   width = nn.width;
   prec  = nn.prec;
+  hex   = nn.hex;
   }
 
 
@@ -85,5 +75,24 @@ String t;
 
   if (nWidth < 0 && excess > 0) movPos(tPos, tPos.getCharPos() + excess, ar);
 #endif
+#endif
+#if 1
+#else
+String& NoteNmbr::operator() () {
+String s   = stg();
+int    lng = s.length();
+int    excess;
+
+  excess = (width >= 0 ? width : -width) - lng;
+
+  if (excess > 0) {
+    if (width > 0) {addSpcs(excess);   nmbr += s;   return nmbr;}
+    if (width < 0) {nmbr = s;   addSpcs(excess);    return nmbr;}
+    nmbr = s;
+    }
+  else nmbr = s;
+
+  clear();   return nmbr;
+  }
 #endif
 
