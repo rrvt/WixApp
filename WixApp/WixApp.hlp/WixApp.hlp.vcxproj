@@ -48,7 +48,7 @@
     <TargetExt>.chm</TargetExt>
     <NMakeBuildCommandLine>nmake $(Configuration)/WixApp.chm</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>nmake $(Configuration)/Rebuild.rbd</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>nmake /D /P  $(Configuration)/Clean.cln</NMakeCleanCommandLine>
+    <NMakeCleanCommandLine>nmake $(Configuration)/Clean.cln</NMakeCleanCommandLine>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)..\$(Configuration)\</OutDir>
@@ -56,7 +56,7 @@
     <TargetExt>.chm</TargetExt>
     <NMakeBuildCommandLine>nmake $(Configuration)/WixApp.chm</NMakeBuildCommandLine>
     <NMakeReBuildCommandLine>nmake $(Configuration)/Rebuild.rbd</NMakeReBuildCommandLine>
-    <NMakeCleanCommandLine>nmake /D /P  $(Configuration)/Clean.cln</NMakeCleanCommandLine>
+    <NMakeCleanCommandLine>nmake $(Configuration)/Clean.cln</NMakeCleanCommandLine>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

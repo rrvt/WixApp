@@ -42,20 +42,39 @@ AsnSet* set = &rcd;
   }
 
 
-bool AsnSet::edit()
-  {if (!opened) return false;  try {Edit(); return true;} catch(...) {return false;}}
+bool AsnSet::edit() {
+  if (!opened) return false;
+
+  try {Edit(); return true;}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+  }
 
 
-bool AsnSet::addNew()
-  {if (!opened) return false;  try {AddNew(); return true;} catch(...) {return false;}}
+bool AsnSet::addNew() {
+  if (!opened) return false;
+
+  try {AddNew(); return true;}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+  }
 
 
-bool AsnSet::update()
-  {if (!opened) return false;  try {Update(); movePrev(); return true;} catch(...) {return false;}}
+bool AsnSet::update() {
+
+  if (!opened) return false;
+
+  try {if (!Update()) return false;   movePrev();}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+
+  return true;
+  }
 
 
 bool AsnSet::remove()
-  {if (!opened) return false;  try {Delete(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;
+
+  try {Delete(); movePrev(); return true;}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+  }
 
 
 void AsnSet::DoFieldExchange(CFieldExchange* pFX) {

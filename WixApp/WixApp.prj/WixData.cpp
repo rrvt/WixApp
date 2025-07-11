@@ -7,6 +7,7 @@
 #include "DefaultPath.h"
 #include "filename.h"
 #include "GetPathDlg.h"
+#include "IniFileEx.h"
 #include "WixOptsDlg.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"

@@ -7,6 +7,15 @@
 #include "Utilities.h"
 
 
+CtyRcd::CtyRcd() : id(0), dirty(false), remove(false) { }
+
+
+void CtyRcd::clear() {
+  id = 0;   dirty = false;   remove = false;
+  city.clear();   state.clear();   zip.clear();
+  }
+
+
 bool CtyTbl::load(TCchar* path) {
 CtySetIter iter(ctySet);
 CtySet*    set;
@@ -70,14 +79,24 @@ void CtyRcd::copy(CtySet& set) {
   }
 
 
+void CtyRcd::copy(CtyRcd& r) {
+  id     = r.id;
+  dirty  = r.dirty;
+  remove = r.remove;
+  city   = r.city;
+  state  = r.state;
+  zip    = r.zip;
+  }
+
+
 CtyRcd* CtyTbl::add(CtyRcd& rcd) {rcd.id = ++maxID;  rcd.dirty = true;  return data = rcd;}
 
 
-CtyRcd* CtyTbl::find(TCchar* city, TCchar* state, TCchar* zip) {
+CtyRcd* CtyTbl::find(TCchar* zip) {
 CtyIter iter(*this);
 CtyRcd* rcd;
 
-  for (rcd = iter(); rcd; rcd = iter++) if (rcd->contains(city, state, zip)) return rcd;
+  for (rcd = iter(); rcd; rcd = iter++) if (rcd->contains(zip)) return rcd;
 
   return 0;
   }

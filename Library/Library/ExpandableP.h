@@ -143,6 +143,12 @@ the operations supported are:
 #pragma once
 #include "NewAllocator.h"
 
+//#define DebugAllocP
+
+#ifdef DebugAllocP
+#include "MessageBox.h"
+#endif
+
 
 #define ExpandableException _T("Corrupted Expandable(P) structure")
 
@@ -203,8 +209,7 @@ public:
 
   ExpandableP& operator-= (ExpandableP& e);     // moves the data from e to this
 
-  Datum*    allocate()           {NewAlloc(Datum); return AllocNode;}     // allocate a heap
-                                                                          // record
+  Datum*    allocate();
   void      deallocate(Datum* p) {NewAlloc(Datum); FreeNode(p);}          // Does not clear array
                                                                           // entry.
   DatumPtr* getDatumPtr(int i) {return 0 <= i && i < endN ? &tbl[i] : 0;} // Used for difficult
@@ -278,8 +283,16 @@ private:
 // Constructor
 
 template <class Datum, class Key, class DatumPtr, const int n>
-ExpandableP<Datum, Key, DatumPtr, n>::ExpandableP() : endN(0), tblN(n > 0 ? n : 1)
-           {NewArray(DatumPtr); tbl = AllocArray(tblN);  ZeroMemory(tbl, tblN * sizeof(DatumPtr));}
+ExpandableP<Datum, Key, DatumPtr, n>::ExpandableP() : endN(0), tblN(n > 0 ? n : 1) {
+NewArray(DatumPtr); tbl = AllocArray(tblN);  ZeroMemory(tbl, tblN * sizeof(DatumPtr));
+
+#ifdef DebugAllocP
+int n = tblN * sizeof(DatumPtr) + sizeof(int);
+  if (n == 48) {
+    messageBox(_T("ExpandableP"));
+    }
+#endif
+  }
 
 
 // We have placed ptrs to nodes in the array.  But now we need to free the nodes and clear the
@@ -313,7 +326,19 @@ ExpandableP<Datum, Key, DatumPtr, n>&
   ExpandableP<Datum, Key, DatumPtr, n>::operator-= (ExpandableP& e)
                                                                   {clear(); move(e); return *this;}
 
+// allocate a heap record
 
+template <class Datum, class Key, class DatumPtr, const int n>
+Datum*    ExpandableP<Datum, Key, DatumPtr, n>::allocate() {
+
+#ifdef DebugAllocP
+if (sizeof(Datum) == 48) {
+  messageBox(_T("ExpandableP"));
+  }
+#endif
+
+  NewAlloc(Datum);   return AllocNode;
+  }
 
 
 // return the reference
@@ -492,6 +517,14 @@ int       j;
   for (     ; j < tblN;   j++) tbl[j].p = 0;
 
   FreeArray(q);
+
+#ifdef DebugAllocP
+int n = tblN * sizeof(DatumPtr) + sizeof(int);
+  if (n == 48) {
+    messageBox(_T("ExpandableP expand"));
+    }
+#endif
+
   }
 
 

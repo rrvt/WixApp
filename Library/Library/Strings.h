@@ -24,13 +24,16 @@ class String;
 class Cstring : public CString {
 public:
 
-  Cstring()          : CString() {}
-  Cstring(TCchar* s) : CString(s) {}
-  Cstring(String& s);
+           Cstring()          : CString() {}
+           Cstring(TCchar* s) : CString(s ? s : _T("")) {}
+           Cstring(String& s);
+          ~Cstring() {clear();}
 
   int      stoi( uint& i, int base=10);
 
-  void     clear()   {Empty();}
+  void     clear();
+  void     expunge();                                 // Expunge data, then clear string
+
   bool     isEmpty() {return CString::IsEmpty();}
 
   int      length()  {return GetLength();}
@@ -40,16 +43,13 @@ public:
 
   int find(Tchar   ch,  int offset=0) {try {return Find(ch,  offset);} catch (...) {return -1;}}
   int find(TCchar* stg, int offset=0) {try {return Find(stg, offset);} catch (...) {return -1;}}
-//  int find(TCchar* stg, int offset, int count)
-
-//  int find(const String& stg, int offset=0)
 
   bool     loadRes(uint id) {return LoadString(id);}
 
   // Left Hand side of TCchar*, Cstring, bstr & variant_t
 
   Cstring& operator= (      Tchar     ch)  {CString& cs = *this; cs = ch; return *this;}
-  Cstring& operator= (      TCchar*    s)  {CString& cs = *this; cs = s; return *this;}
+  Cstring& operator= (      TCchar*   s)  {CString& cs = *this; cs = s ? s : _T(""); return *this;}
   Cstring& operator= (      CString&   s)  {CString& cs = *this; cs = s; return *this;}
   Cstring& operator= (      String&    s);
   Cstring& operator= (      tstring&   s)  {CString& cs = *this; cs = s.c_str(); return *this;}
@@ -72,12 +72,12 @@ public:
   };
 
 
-inline bool operator== (Cstring& s, TCchar* t) {return s.Compare(t) == 0;}
-inline bool operator!= (Cstring& s, TCchar* t) {return s.Compare(t) != 0;}
-inline bool operator>  (Cstring& s, TCchar* t) {return s.Compare(t) >  0;}
-inline bool operator>= (Cstring& s, TCchar* t) {return s.Compare(t) >= 0;}
-inline bool operator<  (Cstring& s, TCchar* t) {return s.Compare(t) <  0;}
-inline bool operator<= (Cstring& s, TCchar* t) {return s.Compare(t) <= 0;}
+inline bool operator== (Cstring& s, TCchar* t) {return s.Compare(t ? t : _T("")) == 0;}
+inline bool operator!= (Cstring& s, TCchar* t) {return s.Compare(t ? t : _T("")) != 0;}
+inline bool operator>  (Cstring& s, TCchar* t) {return s.Compare(t ? t : _T("")) >  0;}
+inline bool operator>= (Cstring& s, TCchar* t) {return s.Compare(t ? t : _T("")) >= 0;}
+inline bool operator<  (Cstring& s, TCchar* t) {return s.Compare(t ? t : _T("")) <  0;}
+inline bool operator<= (Cstring& s, TCchar* t) {return s.Compare(t ? t : _T("")) <= 0;}
 
 
 class String : public tstring {
@@ -90,8 +90,8 @@ static const int npos = -1;
   String()                        : tstring() {}
   String(String&    v)            : tstring(v.str()) {}
   String(tstring    t)            : tstring(t) {}
-  String(TCchar*    stg)          : tstring(stg) {}
-  String(TCchar*    stg, int cnt) : tstring(stg,cnt) {}
+  String(TCchar*    t)            : tstring(t ? t : _T("")) {}
+  String(TCchar*    t, int cnt)   : tstring(t ? t : _T(""), cnt) {}
   String(Cstring&   stg)          : tstring(stg) {}
   String(CString&   stg)          : tstring(stg) {}
   String(bstr_t     bs)           : tstring(bs) {}
@@ -99,21 +99,24 @@ static const int npos = -1;
   String(Tchar      ch)           : tstring(1, ch) {}
   String(int count, Tchar ch)     : tstring(count, ch) {}
   String(int        v)            {String& s = *this; s.format(_T("%i"),  v);}
+  String(uint       v)            {String& s = *this; s.format(_T("%u"),  v);}
   String(long       v)            {String& s = *this; s.format(_T("%li"), v);}
   String(ulong      v)            {String& s = *this; s.format(_T("%lu"), v);}
   String(double     v)            {String& s = *this; s.format(_T("%lg"), v);}
+ ~String()                        {clear();  shrink_to_fit();}
 
 // String Attributes
 
-  int   length() {return (int) ((tstring*)this)->size();}      // size() also works on String
-  int   size()   {return (int) ((tstring*)this)->size();}
-  bool  isEmpty() {return  ((tstring*)this)->empty();}
+  int   length()  {return (int) ((tstring*)this)->size();}      // size() also works on String
+  int   size()    {return (int) ((tstring*)this)->size();}
+  bool  isEmpty() {return       ((tstring*)this)->empty();}
   Tchar& operator[](int i) {tstring& s = *this; return s[i];}  // returns reference to character at
                                                                // i May be used on both sides of
                                                                // '='.
 // Manipulating Functions
 
   void    clear() {((tstring*)this)->clear();}        // Erases all elements of a tstring
+  void    expunge();                                  // Expunge data, then clear string
 
   String& trim();                                     // Remove spaces/tabs/etc from both ends
   String& trimLeft();                                 // Remove spaces/tabs/etc from left end
@@ -125,8 +128,8 @@ static const int npos = -1;
 // Assignment
 
   String& operator= (      Tchar    v) {tstring& s = *this; s = v;              return *this;}
-  String& operator= (      Tchar*   v) {tstring& s = *this; s = v;              return *this;}
-  String& operator= (      TCchar*  v) {tstring& s = *this; s = v;              return *this;}
+  String& operator= (      Tchar*   v) {tstring& s = *this; s = v ? v : _T(""); return *this;}
+  String& operator= (      TCchar*  v) {tstring& s = *this; s = v ? v : _T(""); return *this;}
   String& operator= (      CString& v) {tstring& s = *this; s = v;              return *this;}
   String& operator= (const CString& v) {tstring& s = *this; s = v;              return *this;}
   String& operator= (      Cstring& v) {tstring& s = *this; s = v;              return *this;}
@@ -138,7 +141,6 @@ static const int npos = -1;
   String& operator= (      ulong    v) {String&  s = *this; s.format(_T("%lu"), v); return *this;}
   String& operator= (      double   v) {String&  s = *this; s.format(_T("%lg"), v); return *this;}
   String& operator= (const String&  v) {tstring& s = *this; s = v.str();        return *this;}
-//  String& operator= (      String&  v) {tstring& s = *this; s = v.str();        return *this;}
 
   String& operator= (variant_t& t)
                     {if (t.vt == VT_BSTR) *this = (tstring) bstr_t(t); else clear(); return *this;}
@@ -160,8 +162,8 @@ static const int npos = -1;
 //  const Tchar* (TCchar*), TCchar, int, long, ulong, double.
 
          String  operator+  (TCchar         c) {tstring x = *this; x += c;    return x;}
-         String  operator+  (Tchar*         t) {tstring x = *this; x += t;    return x;}
-         String  operator+  (TCchar*        t) {tstring x = *this; x += t;    return x;}
+         String  operator+  (Tchar*         t) {tstring x = *this; x += t ? t : _T("");  return x;}
+         String  operator+  (TCchar*        t) {tstring x = *this; x += t ? t : _T("");  return x;}
          String  operator+  (      tstring& t) {tstring x = *this; x += t;    return x;}
          String  operator+  (const tstring& t) {tstring x = *this; x += t;    return x;}
          String  operator+  (      String&  t) {tstring x = *this; x += t;    return x;}
@@ -187,7 +189,7 @@ static const int npos = -1;
                             {String s = *this; String t; t.format(_T("%lg"), v); s += t; return s;}
 
          String& operator+= (Tchar          t) {tstring& s = *this; s += t; return *this;}
-         String& operator+= (TCchar*        t) {tstring& s = *this; s += t; return *this;}
+         String& operator+= (TCchar*    t) {tstring& s = *this; s += t ? t : _T(""); return *this;}
          String& operator+= (      tstring& t) {tstring& s = *this; s += t; return *this;}
          String& operator+= (const tstring& t) {tstring& s = *this; s += t; return *this;}
          String& operator+= (      String&  t) {tstring& s = *this; s += t; return *this;}
@@ -218,6 +220,8 @@ typedef tstring::reverse_iterator reverseIterator;
                                     {tstring& s = *this; return (int) s.find(stg,  offset, count);}
   int find(const String& stg, int offset=0)
                                     {tstring& s = *this; return (int) s.find(stg, offset);}
+  int findOneOf(TCchar* tc, int offset=0);    // Returns pos of one of the characters in tc,
+                                              // priority left to right otherwise returns -1
 
   // Find last character in the string given a single character or a group of characters
   // offset -- Index at which the search is to finish
@@ -231,6 +235,7 @@ typedef tstring::reverse_iterator reverseIterator;
   int findLastOf(const String& stg, int offset=npos)
                             {tstring& s = *this; return (int) s.find_last_of(stg, offset);}
 
+
 // Conversion to numbers, integer, unsigned long integer and double
 // returns the value, i contains the index of the first unconverted character
 
@@ -243,13 +248,11 @@ typedef tstring::reverse_iterator reverseIterator;
     tstring s = *this; return s.substr(off,count);
     }
 
- ~String() { }
-
 
   // Boolean operators
 
-  bool operator== (      Tchar*   t) {return !compare(t);}
-  bool operator== (      TCchar*  t) {return !compare(t);}
+  bool operator== (      Tchar*   t) {return !compare(t ? t : _T(""));}
+  bool operator== (      TCchar*  t) {return !compare(t ? t : _T(""));}
   bool operator== (      tstring& t) {return !compare(t);}
   bool operator== (const tstring& t) {return !compare(t);}
   bool operator== (      Cstring& t) {return !compare(t);}
@@ -264,8 +267,8 @@ typedef tstring::reverse_iterator reverseIterator;
   bool operator== (      String&  t) {return !compare(t);}
   bool operator== (const String&  t) {return !compare(t);}
 
-  bool operator!= (      Tchar*   t) {return compare(t)         != 0;}
-  bool operator!= (      TCchar*  t) {return compare(t)         != 0;}
+  bool operator!= (      Tchar*   t) {return compare(t ? t : _T("")) != 0;}
+  bool operator!= (      TCchar*  t) {return compare(t ? t : _T("")) != 0;}
   bool operator!= (      tstring& t) {return compare(t)         != 0;}
   bool operator!= (const tstring& t) {return compare(t)         != 0;}
   bool operator!= (      Cstring& t) {return compare(t)         != 0;}
@@ -278,8 +281,8 @@ typedef tstring::reverse_iterator reverseIterator;
   bool operator!= (      String&  t) {return compare(t)         != 0;}
   bool operator!= (const String&  t) {return compare(t)         != 0;}
 
-  bool operator>  (      Tchar*   t) {return compare(t)          > 0;}
-  bool operator>  (      TCchar*  t) {return compare(t)          > 0;}
+  bool operator>  (      Tchar*   t) {return compare(t ? t : _T("")) > 0;}
+  bool operator>  (      TCchar*  t) {return compare(t ? t : _T("")) > 0;}
   bool operator>  (      tstring& t) {return compare(t)          > 0;}
   bool operator>  (const tstring& t) {return compare(t)          > 0;}
   bool operator>  (      Cstring& t) {return compare(t)          > 0;}
@@ -292,8 +295,8 @@ typedef tstring::reverse_iterator reverseIterator;
   bool operator>  (      String&  t) {return compare(t)          > 0;}
   bool operator>  (const String&  t) {return compare(t)          > 0;}
 
-  bool operator>= (      Tchar*   t) {return compare(t)         >= 0;}
-  bool operator>= (      TCchar*  t) {return compare(t)         >= 0;}
+  bool operator>= (      Tchar*   t) {return compare(t ? t : _T("")) >= 0;}
+  bool operator>= (      TCchar*  t) {return compare(t ? t : _T("")) >= 0;}
   bool operator>= (      tstring& t) {return compare(t)         >= 0;}
   bool operator>= (const tstring& t) {return compare(t)         >= 0;}
   bool operator>= (      Cstring& t) {return compare(t)         >= 0;}
@@ -306,8 +309,8 @@ typedef tstring::reverse_iterator reverseIterator;
   bool operator>= (      String&  t) {return compare(t)         >= 0;}
   bool operator>= (const String&  t) {return compare(t)         >= 0;}
 
-  bool operator<  (      Tchar*   t) {return compare(t)          < 0;}
-  bool operator<  (      TCchar*  t) {return compare(t)          < 0;}
+  bool operator<  (      Tchar*   t) {return compare(t ? t : _T("")) < 0;}
+  bool operator<  (      TCchar*  t) {return compare(t ? t : _T("")) < 0;}
   bool operator<  (      tstring& t) {return compare(t)          < 0;}
   bool operator<  (const tstring& t) {return compare(t)          < 0;}
   bool operator<  (      Cstring& t) {return compare(t)          < 0;}
@@ -320,8 +323,8 @@ typedef tstring::reverse_iterator reverseIterator;
   bool operator<  (      String&  t) {return compare(t)          < 0;}
   bool operator<  (const String&  t) {return compare(t)          < 0;}
 
-  bool operator<= (      Tchar*   t) {return compare(t)         <= 0;}
-  bool operator<= (      TCchar*  t) {return compare(t)         <= 0;}
+  bool operator<= (      Tchar*   t) {return compare(t ? t : _T("")) <= 0;}
+  bool operator<= (      TCchar*  t) {return compare(t ? t : _T("")) <= 0;}
   bool operator<= (      tstring& t) {return compare(t)         <= 0;}
   bool operator<= (const tstring& t) {return compare(t)         <= 0;}
   bool operator<= (      Cstring& t) {return compare(t)         <= 0;}
@@ -334,14 +337,13 @@ typedef tstring::reverse_iterator reverseIterator;
   bool operator<= (      String&  t) {return compare(t)         <= 0;}
   bool operator<= (const String&  t) {return compare(t)         <= 0;}
 
-
 private:
 
   friend class TokenString;
   };
 
 
-inline bool operator== (      TCchar*  s, const String&  t) {return !t.compare(s);}
+inline bool operator== (      TCchar*  s, const String&  t) {return !t.compare(s ? s : _T(""));}
 inline bool operator== (const tstring& s, const String&  t) {return !t.compare(s);}
 inline bool operator== (const Cstring& s, const String&  t) {return !t.compare(s);}
 inline bool operator== (      Cstring& s, const String&  t) {return !t.compare(s);}
@@ -350,7 +352,7 @@ inline bool operator== (      CString& s, const String&  t) {return !t.compare(s
 inline bool operator== (const bstr_t&  s, const String&  t) {return !t.compare(s);}
 inline bool operator== (const String&  s, const String&  t) {return !t.compare(s);}
 inline bool operator== (variant_t&     s, const String&  t) {return !t.compare(String(s));}
-inline bool operator== (const String&  t,       TCchar*  s) {return !t.compare(s);}
+inline bool operator== (const String&  t,       TCchar*  s) {return !t.compare(s ? s : _T(""));}
 inline bool operator== (const String&  t, const tstring& s) {return !t.compare(s);}
 inline bool operator== (const String&  t, const Cstring& s) {return !t.compare(s);}
 inline bool operator== (const String&  t,       Cstring& s) {return !t.compare(s);}
@@ -360,7 +362,7 @@ inline bool operator== (const String&  t, const bstr_t&  s) {return !t.compare(s
 inline bool operator== (const String&  t, variant_t&     s) {return !t.compare(String(s));}
 
 
-inline bool operator!= (      TCchar*  s, const String&  t) {return t.compare(s) != 0;}
+inline bool operator!= (      TCchar*  s, const String& t) {return t.compare(s ? s : _T("")) != 0;}
 inline bool operator!= (const tstring& s, const String&  t) {return t.compare(s) != 0;}
 inline bool operator!= (const Cstring& s, const String&  t) {return t.compare(s) != 0;}
 inline bool operator!= (      Cstring& s, const String&  t) {return t.compare(s) != 0;}
@@ -369,7 +371,7 @@ inline bool operator!= (      CString& s, const String&  t) {return t.compare(s)
 inline bool operator!= (const bstr_t&  s, const String&  t) {return t.compare(s) != 0;}
 inline bool operator!= (variant_t&     s, const String&  t) {return t.compare(String(s)) != 0;}
 inline bool operator!= (const String&  s, const String&  t) {return t.compare(s) != 0;}
-inline bool operator!= (const String&  t,       TCchar*  s) {return t.compare(s) != 0;}
+inline bool operator!= (const String&  t,       TCchar* s) {return t.compare(s ? s : _T("")) != 0;}
 inline bool operator!= (const String&  t, const tstring& s) {return t.compare(s) != 0;}
 inline bool operator!= (const String&  t, const Cstring& s) {return t.compare(s) != 0;}
 inline bool operator!= (const String&  t,       Cstring& s) {return t.compare(s) != 0;}
@@ -379,13 +381,13 @@ inline bool operator!= (const String&  t, const bstr_t&  s) {return t.compare(s)
 inline bool operator!= (const String&  t, variant_t&     s) {return t.compare(String(s)) != 0;}
 
 
-inline bool operator>  (      TCchar*  s, const String&  t) {return t.compare(s) < 0;}
+inline bool operator>  (      TCchar*  s, const String&  t) {return t.compare(s ? s : _T("")) < 0;}
 inline bool operator>  (const tstring& s, const String&  t) {return t.compare(s) < 0;}
 inline bool operator>  (const Cstring& s, const String&  t) {return t.compare(s) < 0;}
 inline bool operator>  (      Cstring& s, const String&  t) {return t.compare(s) < 0;}
 inline bool operator>  (const bstr_t&  s, const String&  t) {return t.compare(s) < 0;}
 inline bool operator>  (variant_t&     s, const String&  t) {return t.compare(String(s)) < 0;}
-inline bool operator>  (const String&  t,       TCchar*  s) {return t.compare(s) > 0;}
+inline bool operator>  (const String&  t,       TCchar*  s) {return t.compare(s ? s : _T("")) > 0;}
 inline bool operator>  (const String&  t, const tstring& s) {return t.compare(s) > 0;}
 inline bool operator>  (const String&  t, const Cstring& s) {return t.compare(s) > 0;}
 inline bool operator>  (const String&  t,       Cstring& s) {return t.compare(s) > 0;}
@@ -395,7 +397,7 @@ inline bool operator>  (const String&  t, const bstr_t&  s) {return t.compare(s)
 inline bool operator>  (const String&  t, variant_t&     s) {return t.compare(String(s)) > 0;}
 inline bool operator>  (const String&  t, const String&  s) {return t.compare(s) > 0;}
 
-inline bool operator>= (      TCchar*  s, const String&  t) {return t.compare(s) <= 0;}
+inline bool operator>= (      TCchar*  s, const String& t) {return t.compare(s ? s : _T("")) <= 0;}
 inline bool operator>= (const tstring& s, const String&  t) {return t.compare(s) <= 0;}
 inline bool operator>= (const Cstring& s, const String&  t) {return t.compare(s) <= 0;}
 inline bool operator>= (      Cstring& s, const String&  t) {return t.compare(s) <= 0;}
@@ -403,7 +405,7 @@ inline bool operator>= (const CString& s, const String&  t) {return t.compare(s)
 inline bool operator>= (      CString& s, const String&  t) {return t.compare(s) <= 0;}
 inline bool operator>= (const bstr_t&  s, const String&  t) {return t.compare(s) <= 0;}
 inline bool operator>= (variant_t&     s, const String&  t) {return t.compare(String(s)) <= 0;}
-inline bool operator>= (const String&  t,       TCchar*  s) {return t.compare(s) >= 0;}
+inline bool operator>= (const String&  t,       TCchar* s) {return t.compare(s ? s : _T("")) >= 0;}
 inline bool operator>= (const String&  t, const tstring& s) {return t.compare(s) >= 0;}
 inline bool operator>= (const String&  t, const Cstring& s) {return t.compare(s) >= 0;}
 inline bool operator>= (const String&  t,       Cstring& s) {return t.compare(s) >= 0;}
@@ -413,7 +415,7 @@ inline bool operator>= (const String&  t, const bstr_t&  s) {return t.compare(s)
 inline bool operator>= (const String&  t, variant_t&     s) {return t.compare(String(s)) >= 0;}
 inline bool operator>= (const String&  t, const String&  s) {return t.compare(s) >= 0;}
 
-inline bool operator<  (      TCchar*  s, const String&  t) {return t.compare(s) > 0;}
+inline bool operator<  (      TCchar*  s, const String&  t) {return t.compare(s ? s : _T("")) > 0;}
 inline bool operator<  (const tstring& s, const String&  t) {return t.compare(s) > 0;}
 inline bool operator<  (const Cstring& s, const String&  t) {return t.compare(s) > 0;}
 inline bool operator<  (      Cstring& s, const String&  t) {return t.compare(s) > 0;}
@@ -421,7 +423,7 @@ inline bool operator<  (const CString& s, const String&  t) {return t.compare(s)
 inline bool operator<  (      CString& s, const String&  t) {return t.compare(s) > 0;}
 inline bool operator<  (const bstr_t&  s, const String&  t) {return t.compare(s) > 0;}
 inline bool operator<  (variant_t&     s, const String&  t) {return t.compare(String(s)) > 0;}
-inline bool operator<  (const String&  t,       TCchar*  s) {return t.compare(s) < 0;}
+inline bool operator<  (const String&  t,       TCchar*  s) {return t.compare(s ? s : _T("")) < 0;}
 inline bool operator<  (const String&  t, const tstring& s) {return t.compare(s) < 0;}
 inline bool operator<  (const String&  t, const Cstring& s) {return t.compare(s) < 0;}
 inline bool operator<  (const String&  t,       Cstring& s) {return t.compare(s) < 0;}
@@ -429,7 +431,7 @@ inline bool operator<  (const String&  t, const bstr_t&  s) {return t.compare(s)
 inline bool operator<  (const String&  t, variant_t&     s) {return t.compare(String(s)) < 0;}
 inline bool operator<  (const String&  t, const String&  s) {return t.compare(s) < 0;}
 
-inline bool operator<= (      TCchar*  s, const String&  t) {return t.compare(s) >= 0;}
+inline bool operator<= (      TCchar*  s, const String& t) {return t.compare(s ? s : _T("")) >= 0;}
 inline bool operator<= (const tstring& s, const String&  t) {return t.compare(s) >= 0;}
 inline bool operator<= (const Cstring& s, const String&  t) {return t.compare(s) >= 0;}
 inline bool operator<= (      Cstring& s, const String&  t) {return t.compare(s) >= 0;}
@@ -439,7 +441,7 @@ inline bool operator<= (const bstr_t&  s, const String&  t) {return t.compare(s)
 inline bool operator<= (variant_t&     s, const String&  t) {return t.compare(String(s)) >= 0;}
 
 
-inline bool operator<= (const String&  t,       TCchar*  s) {return t.compare(s) <= 0;}
+inline bool operator<= (const String&  t,       TCchar* s) {return t.compare(s ? s : _T("")) <= 0;}
 inline bool operator<= (const String&  t, const tstring& s) {return t.compare(s) <= 0;}
 inline bool operator<= (const String&  t, const Cstring& s) {return t.compare(s) <= 0;}
 inline bool operator<= (const String&  t,       Cstring& s) {return t.compare(s) <= 0;}
@@ -827,4 +829,14 @@ Thread Safety in the C++ Standard Library
 © 2022 Microsoft Corporation. All rights reserved.
 
 Send Feedback on this topic to Microsoft.
+
+
+
+//////////--------------
+
+//  int find(TCchar* stg, int offset, int count)
+
+//  int find(const String& stg, int offset=0)
 */
+//  String& operator= (      String&  v) {tstring& s = *this; s = v.str();        return *this;}
+

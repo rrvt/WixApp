@@ -15,37 +15,37 @@ int     iCE_EntityID;
 int     assgnPrefID;
 int     locationPrefID;
 int     statusID;
-CString callSign;
-CString fCCExpiration;
-CString startDate;
-CString dSWDate;
-CString badgeExpDate;
-CString responder;
-CString secondaryEmail;
-CString textMsgPh1;
-CString textMsgPh2;
-CString handHeld;
-CString portMobile;
-CString portPacket;
-CString otherEquip;
-CString multilingual;
-CString otherCapabilities;
-CString limitations;
-CString comments;
-CString shirtSize;
+Cstring callSign;
+Cstring fCCExpiration;
+Cstring startDate;
+Cstring dSWDate;
+Cstring badgeExpDate;
+Cstring responder;
+Cstring secondaryEmail;
+Cstring textMsgPh1;
+Cstring textMsgPh2;
+Cstring handHeld;
+Cstring portMobile;
+Cstring portPacket;
+Cstring otherEquip;
+Cstring multilingual;
+Cstring otherCapabilities;
+Cstring limitations;
+Cstring comments;
+Cstring shirtSize;
 BOOL    isOfficer;
-CString skillCertifications;
-CString eOC_Certifications;
-CString updateDate;
+Cstring skillCertifications;
+Cstring eOC_Certifications;
+Cstring updateDate;
 BOOL    badgeOK;
-CString image;
+Cstring image;
 
   MbrSet();
  ~MbrSet() {close();}
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {AccRcdSet::close(); opened = false;}
+  void close() {AccRcdSet::close();}
 
   bool edit();
   bool addNew();

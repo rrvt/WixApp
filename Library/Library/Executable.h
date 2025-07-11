@@ -4,6 +4,7 @@
 #pragma once
 #include "Expandable.h"
 #include "IterT.h"
+//#include "MessageBox.h"
 
 
 class Executable;
@@ -21,7 +22,7 @@ LPWSTR*   szArglist;
 
 public:
 
-          Executable() { }
+          Executable() : p(0), szArglist(0) {ZeroMemory(&procInfo, sizeof(procInfo));}
          ~Executable() { }
 
   // Use the following three functions to recover arguments sent to the CWinApp application
@@ -49,7 +50,7 @@ public:
 
 private:
 
-  String& addQuotes(String& s);       // Adds quotes if needed avoiding terminal backslash with a
+  String& fixPath(String& s);         // Adds quotes if needed avoiding terminal backslash with a
                                       // space
   WCHAR*  copy(TCchar* src, WCHAR* vector, int nChars);
 

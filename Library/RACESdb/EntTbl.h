@@ -26,8 +26,11 @@ String eMail;
 String phone1;
 String phone2;
 
-  EntRcd() : id(0), dirty(false), remove(false) { }
+  EntRcd();
+  EntRcd(EntRcd& r) {copy(r);}
  ~EntRcd() { }
+
+  void clear();
 
   void load(EntSet* set);
 
@@ -35,11 +38,14 @@ String phone2;
 
   void setDirty()  {dirty = true;}
   void setRemove() {dirty = true; remove = true;}
+  bool isRemoved() {return remove;}
 
   void store(EntSet& set);
   void add(  EntSet& set);
 
   void display();
+
+  EntRcd& operator= (EntRcd& r) {copy(r); return *this;}
 
   // Needed for Insertion Sort of Primary Key
   bool operator== (EntRcd& r) {return id == r.id;}
@@ -51,13 +57,14 @@ String phone2;
   bool operator>  (long id) {return this->id >  id;}
 
   // Needed for Linear Search with one or more arguments
-  bool contains(TCchar* firstName, TCchar* lastName, TCchar* phone1) {
-    return this->firstName == firstName && this->lastName == lastName && this->phone1 == phone1;
+  bool contains(TCchar* firstName, TCchar* lastName, TCchar* phone2) {
+    return this->firstName == firstName && this->lastName == lastName && this->phone2 == phone2;
     }
 
 private:
 
   void copy(EntSet& set);
+  void copy(EntRcd& r);
 
   friend class EntTbl;
   };
@@ -93,8 +100,8 @@ String name;
 
   bool store(TCchar* path);     // Store/Del entities marked
 
-  EntRcd* find(int id) {return data.bSearch(id);}
-  EntRcd* find(TCchar* firstName, TCchar* lastName, TCchar* phone1);
+  EntRcd* find(int id) {return id ? data.bSearch(id) : 0;}
+  EntRcd* find(TCchar* firstName, TCchar* lastName, TCchar* phone2);
 
   virtual void display();
 

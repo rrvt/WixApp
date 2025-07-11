@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "CApp.h"
+#include "Devices.h"
 #include "MessageBox.h"
 #include "ResourceData.h"
 
@@ -21,6 +22,19 @@ ResourceData res;
 
   EnableHtmlHelp();
   }
+
+
+CApp::~CApp() {
+
+  appID.~String();   version.~String();
+
+#ifdef DebugMemoryLeaks
+  _CrtDumpMemoryLeaks();
+#endif
+  }
+
+
+int CApp::ExitInstance() {devices.~Devices();   return CWinAppEx::ExitInstance();}
 
 
 void CApp::setAppName(TCchar* appName)   {if (getMainFrame()) getMainFrame()->setAppName(appName);}
@@ -250,10 +264,3 @@ or
 
   _CrtSetBreakAlloc(18);
 */
-
-
-int CApp::ExitInstance() {
-int rslt = CWinAppEx::ExitInstance();
-
-  return rslt;
-  }

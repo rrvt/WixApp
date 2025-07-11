@@ -1,6 +1,10 @@
-// pch.h in the form of pch.h/framework.h ...
+// stdafx.h in the form of pch.h/framework.h ...
 
 #pragma once
+
+#ifdef _DEBUG
+#define DebugMemoryLeaks
+#endif
 
 #ifdef DebugMemoryLeaks
 #define _CRTDBG_MAP_ALLOC

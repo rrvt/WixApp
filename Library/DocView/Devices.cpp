@@ -4,7 +4,7 @@
 #include "Devices.h"
 
 
-Devices devices;
+Devices devices;                 // Debug
 
 
 void Devices::initialize() {

@@ -32,7 +32,7 @@ int   vDelta = winPos.dluToScreen(10, false);
 
   rect.top    = winRect.bottom - vDelta;
   rect.bottom = winRect.bottom;
-  rect.right  = rect.left + winRect.right - winRect.left;
+  rect.right  = rect.right - rect.left;         
 
   ScreenToClient(rect);   MoveWindow(&rect);   setParts();
   }

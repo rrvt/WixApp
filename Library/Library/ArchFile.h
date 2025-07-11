@@ -15,7 +15,7 @@ void*  obj;
 
 public:
 
-           ArchFile(String& fileName, int mode);
+           ArchFile(TCchar* fileName, int mode);
            ArchFile(void*   arbObj,   int mode);
 
           ~ArchFile() {fil.close();}

@@ -591,7 +591,7 @@ $(TARGET): $(LIB_OBJS) $(LIB_DIROBJ) $(DIRDIST)
  $(LNK) $(LIB_OBJS)
  @echo Copying libs...
 
- if exist $(LIB_DIROBJ)\$(LIB_NAME_DLL) copy $(LIB_DIROBJ)\$(LIB_NAME_DLL)       $(DIRDIST)\bin\ /y >nul 2<&1
+ if exist $(LIB_DIROBJ)\$(LIB_NAME_DLL) copy $(LIB_DIROBJ)\$(LIB_NAME_DLL)       $(DIRDIST)\bin\ /y/MD >nul 2<&1
  @if exist $(LIB_DIROBJ)\$(LIB_NAME_STATIC) copy $(LIB_DIROBJ)\$(LIB_NAME_STATIC)    $(DIRDIST)\lib\ /y >nul 2<&1
  @if exist $(LIB_DIROBJ)\$(LIB_NAME_DLL_DEBUG) copy $(LIB_DIROBJ)\$(LIB_NAME_DLL_DEBUG) $(DIRDIST)\bin\ /y >nul 2<&1
  @if exist $(LIB_DIROBJ)\$(LIB_NAME_STATIC_DEBUG) copy $(LIB_DIROBJ)\$(LIB_NAME_STATIC_DEBUG) $(DIRDIST)\lib\ /y >nul 2<&1

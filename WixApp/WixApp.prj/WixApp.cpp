@@ -3,10 +3,14 @@
 
 #include "pch.h"
 #include "WixApp.h"
+#include "DefaultPath.h"
 #include "FileName.h"
+#include "IniFileEx.h"
+#include "PFFdirectories.h"
+#include "PMFdirectories.h"
 #include "Product.h"
+#include "Solution.h"
 #include "WixAppDlg.h"
-#include "IniFile.h"
 
 
 #ifdef _DEBUG
@@ -14,8 +18,14 @@
 #endif
 
 
-WixApp  theApp;                           // The one and only WixApp object
-IniFile iniFile;
+WixApp         theApp;                      // The one and only WixApp object
+IniFileEx      iniFile(theApp);
+Solution       solution;
+PFFdirectories pffDirectories;
+PMFdirectories pmfDirectories;
+Icons          icons;
+Features       features;
+DefaultPath    defaultPath;
 
 
 // WixApp construction
@@ -34,9 +44,9 @@ WixAppDlg dlg(m_pszHelpFilePath);
 
   CWinApp::InitInstance();
 
-  iniFile.setAppDataPath(m_pszHelpFilePath, *this);   dlg.DoModal();   m_pMainWnd = 0;   return 0;
+  iniFile.setAppDataPath(m_pszHelpFilePath);   dlg.DoModal();   m_pMainWnd = 0;   return 0;
   }
 
 
-int WixApp::ExitInstance() {return CWinApp::ExitInstance();}
+int WixApp::ExitInstance() {return CDialogApp::ExitInstance();}
 

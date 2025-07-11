@@ -10,10 +10,26 @@
 #include <iomanip>
 #include <sstream>
 #include <memory>
-
+#include <random>
 
 
 Cstring::Cstring(String& s) : CString(s.str()) {}
+
+
+void Cstring::clear() {try {Empty();   FreeExtra();} catch (...) { }}
+
+
+// Expunge data, then clear string
+
+void Cstring::expunge() {
+static random_device       rd;
+mt19937                    gen(rd());
+uniform_int_distribution<> distribute(32, 127);
+int                        n = length();
+int                        i;
+
+  for (i = 0; i < n; i++) Insert(i, (TCchar) distribute(gen));   clear();
+  }
 
 
 int Cstring::stoi( uint& i, int base) {
@@ -42,6 +58,17 @@ Cstring& Cstring::operator= (ulong  v)
                                 {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
 Cstring& Cstring::operator= (double v)
                                 {String s = v;  CString& cs = *this;  cs = s.str();  return *this;}
+
+
+void String::expunge() {
+static random_device       rd;
+mt19937                    gen(rd());
+uniform_int_distribution<> distribute(32, 127);
+int                        n = length();
+int                        i;
+
+  for (i = 0; i < n; i++) (*this)[i] = (TCchar) distribute(gen);   clear();
+  }
 
 
 String& String::trim() {trimLeft(); return trimRight();}
@@ -175,6 +202,20 @@ size_t j = i;
 
   return v;
   }
+
+
+
+// Returns pos of one of the characters in tc, priority left to right otherwise returns -1
+
+int String::findOneOf(TCchar* tc, int offset) {
+int i;
+int pos;
+
+  for (i = 0; tc[i]; i++) {pos = find(tc[i], offset);   if (pos >= 0) return pos;}
+
+  return -1;
+  }
+
 
 
 //%[flags][width][.precision][size]type

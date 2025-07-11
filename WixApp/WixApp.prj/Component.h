@@ -4,7 +4,6 @@
 #pragma once
 #include "DirDesc.h"
 #include "Icons.h"
-#include "iniFile.h"
 #include "RelPath.h"
 
 

@@ -26,14 +26,3 @@ public:
 
 extern AccessDB accessDB;
 
-
-#if 0
-//MyTable*        myTable;            // --> handling tables or columns in a database:
-
-ErrCode         lastRetCode;        // --> error analyzation:
-CString         lastErrMsg;
-
-//  bool openTables();
-//  bool GetTables(MyTable*& table);
-//CDatabase       myDatabase;         // --> database handling:  The all important database object
-#endif

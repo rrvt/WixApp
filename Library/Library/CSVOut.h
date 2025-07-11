@@ -25,7 +25,9 @@ extern TCchar Comma;
 
 class CSVOut;
 
-typedef ManipT<CSVOut> CSVManip;
+typedef ManipT<CSVOut>    CSVManip;
+typedef ManipIntT<CSVOut> CSVManipInt;
+
 
 class CSVOut {
 Archive& ar;
@@ -42,7 +44,11 @@ public:
 
   CSVOut& operator<< (CSVManip& m)      {return m.func(*this);}
 
+  CSVOut& operator <<(CSVManipInt& m)
+                           {NewAlloc(CSVManipInt); m.func(*this, m.v); FreeNode(&m); return *this;}
+
   void    crlf()                        {ar << aCrlf;}
+  static CSVOut& doNCommas(CSVOut& csv, int n);
 
 private:
 
@@ -53,8 +59,13 @@ private:
   static CSVOut& doCrlf(CSVOut& n) {n.crlf(); return n;}
 
   CSVOut() : ar(*( Archive*) 0) { }
+
+  friend CSVManipInt& nCommas(int val);
   };
 
 
 extern CSVManip vCrlf;       // add to stream to terminate a line on display: ar << "xyz" << vCrlf;
+
+
+CSVManipInt& nCommas(int val);      // Output n commas
 

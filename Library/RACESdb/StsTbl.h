@@ -17,8 +17,11 @@ public:
 String abbreviation;
 String description;
 
-  StsRcd() : id(0), dirty(false), remove(false) { }
+  StsRcd();
+  StsRcd(StsRcd& r) {copy(r);}
  ~StsRcd() { }
+
+  void clear();
 
   void load(StsSet* set);
 
@@ -26,11 +29,14 @@ String description;
 
   void setDirty()  {dirty = true;}
   void setRemove() {dirty = true; remove = true;}
+  bool isRemoved() {return remove;}
 
   void store(StsSet& set);
   void add(  StsSet& set);
 
   void display();
+
+  StsRcd& operator= (StsRcd& r) {copy(r); return *this;}
 
   // Needed for Insertion Sort of Primary Key
   bool operator== (StsRcd& r) {return id == r.id;}
@@ -49,6 +55,7 @@ String description;
 private:
 
   void copy(StsSet& set);
+  void copy(StsRcd& r);
 
   friend class StsTbl;
   };
@@ -84,7 +91,7 @@ String name;
 
   bool store(TCchar* path);     // Store/Del entities marked
 
-  StsRcd* find(int id) {return data.bSearch(id);}
+  StsRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   StsRcd* find(TCchar* abbreviation);
 
   virtual void display();

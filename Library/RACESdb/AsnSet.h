@@ -8,15 +8,15 @@
 class AsnSet : public AccRcdSet {
 public:
 int     assgnPrefID;
-CString aPKey;
-CString txt;
+Cstring aPKey;
+Cstring txt;
 
   AsnSet();
  ~AsnSet() {close();}
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {AccRcdSet::close(); opened = false;}
+  void close() {AccRcdSet::close();}
 
   bool edit();
   bool addNew();

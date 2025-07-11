@@ -9,6 +9,9 @@ static TCchar quote = _T('"');
        TCchar Comma = _T(',');
 
 
+static CSVManipInt& setupManipInt(CSVManipInt::Func func, int val);
+
+
 String& CSVOut::quotes(TCchar* p) {
 static String s;
 bool   addQuotes = false;
@@ -38,4 +41,14 @@ CSVManip vCrlf;           // add to stream to terminate a line on display: dsp <
 
 void CSVOut::initialize() {vCrlf.n = this; vCrlf.func = CSVOut::doCrlf;}
 
+
+
+CSVManipInt& nCommas(int val) {return setupManipInt(CSVOut::doNCommas, val);}
+
+CSVManipInt& setupManipInt(CSVManipInt::Func func, int val)
+            {NewAlloc(CSVManipInt);   CSVManipInt* m = AllocNode;  m->set(func, val); return *m;}
+
+
+CSVOut& CSVOut::doNCommas(CSVOut& csv, int n)
+                                          {for (int i = 0; i < n; i++) csv << Comma;   return csv;}
 

@@ -55,7 +55,7 @@ int wth = width(sum);                                                   //    cl
     RealTab curTab = devTabs.findNextTab(horz);
 
     if (!curTab.right) {horz.set(curTab.pos);        tabSeen = false;}
-    else if (wth)      {horz.set(curTab.pos - wth);  tabSeen = false;}
+    else               {horz.set(curTab.pos - wth);  tabSeen = false;}
     }
 
   if (center && wth) {horz.centerText(wth); center = false;}

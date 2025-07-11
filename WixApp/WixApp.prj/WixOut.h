@@ -3,7 +3,7 @@
 
 #pragma once
 #include "FileIO.h"
-#include "IniFile.h"
+#include "IniFileBase.h"
 
 
 const int BreakBeforePos = 84;
@@ -38,8 +38,8 @@ private:
   };
 
 
-extern WixOut  wix;                 // Wix Input File (output from this app)
-extern IniFile wxd;                 // WixApp data file (contains description of installer)
+extern WixOut      wix;                     // Wix Input File (output from this app)
+extern IniFileBase wxd;                     // WixApp data file (contains description of installer)
 
 
 

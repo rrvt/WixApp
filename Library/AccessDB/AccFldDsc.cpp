@@ -6,7 +6,8 @@
 #include "AccessDB.h"
 
 
-#include "NotePad.h"
+//#include "NotePad.h"
+#include "MessageBox.h"
 
 
 IMPLEMENT_DYNAMIC(AccFldDsc, AccRcdSet)
@@ -42,7 +43,7 @@ UWORD   bFunctionExists;
 
   if (!accessDB.isOpen() && !accessDB.open(path)) return false;
 
-  clear();
+  close();   clear();
 
   // Make sure SQLColumns is supported
   nRetCode = ::SQLGetFunctions(m_pDatabase->m_hdbc, SQL_API_SQLCOLUMNS, &bFunctionExists);
@@ -53,11 +54,9 @@ UWORD   bFunctionExists;
                                                               // hstmt
   if (!AllocHstmt()) return FALSE;
 
-  try {OnSetOptions(m_hstmt);}
-  catch(...) {Close(); return false;}
+  try {OnSetOptions(m_hstmt);} catch(...) {close(); return false;}
 
-  try {AllocStatusArrays();}
-  catch(...) {Close(); return false;}
+  try {AllocStatusArrays();}   catch(...) {close(); return false;}
 
     // Call the ODBC function
   TRY {
@@ -69,11 +68,11 @@ UWORD   bFunctionExists;
 
     AllocAndCacheFieldInfo();   AllocRowset();          // Allocate memory and cache info
     }
-  CATCH_ALL(e) {Close(); return false;}
+  CATCH_ALL(e) {close(); return false;}
 
   END_CATCH_ALL
 
-  return true;
+  return opened = true;
   }
 
 

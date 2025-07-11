@@ -43,7 +43,7 @@ ArchULines uLines;
 
 public:
 
-  ArchPos(String& fileName, int mode);
+  ArchPos(TCchar* fileName, int mode);
 
   ArchPos(void* arbObj, int mode) : ArchFile(arbObj, mode), tabs(int(pageWidth - rightMargin)) { }
  ~ArchPos() { }

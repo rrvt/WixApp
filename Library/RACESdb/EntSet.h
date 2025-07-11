@@ -8,24 +8,24 @@
 class EntSet : public AccRcdSet {
 public:
 int     entityID;
-CString firstName;
-CString middleInitial;
-CString lastName;
-CString suffix;
+Cstring firstName;
+Cstring middleInitial;
+Cstring lastName;
+Cstring suffix;
 int     addrID;
 int     cityStID;
 BOOL    addrIsPO;
-CString locationZip;
-CString eMail;
-CString phone1;
-CString phone2;
+Cstring locationZip;
+Cstring eMail;
+Cstring phone1;
+Cstring phone2;
 
   EntSet();
  ~EntSet() {close();}
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {AccRcdSet::close(); opened = false;}
+  void close() {AccRcdSet::close();}
 
   bool edit();
   bool addNew();

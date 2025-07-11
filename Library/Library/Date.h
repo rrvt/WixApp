@@ -6,7 +6,7 @@
 
 class Date {
 
-CTime dt;
+CTime ctm;
 
 public:
 
@@ -14,9 +14,9 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
 
 
   Date();
-  Date(int hr, int min, int sec) : dt(1901, 1, 1, hr, min, sec) {}
-  Date(int yr, int mon, int day, int hr, int min, int sec) : dt(yr, mon, day, hr, min, sec) {}
-  Date(time_t sec) : dt(sec) { }
+  Date(int hr, int min, int sec) : ctm(1901, 1, 1, hr, min, sec) {}
+  Date(int yr, int mon, int day, int hr, int min, int sec) : ctm(yr, mon, day, hr, min, sec) {}
+  Date(time_t sec) : ctm(sec) { }
   Date(String& s)         {*this = s;}
   Date(TCchar* tc)        {String s = tc; *this = s;}
   Date(CString& cs)       {String s = cs; *this = s;}
@@ -24,58 +24,67 @@ static const int MinDate;           // Minimum No of Seconds allowed by MFC, Dat
   Date(Date& date)        {copy(date);}
  ~Date() {}
 
-  void       clear() {dt = 0;}
+  void       clear() {ctm = 0;}
 
   Date       operator= (String& s);                  // Translates m/d/yy h/m/s all digits to CTime
   Date       operator= (CString& cs) {String s = cs; *this = s; return *this;}
-  Date&      operator= (CTime& tm)   {dt = tm;  return *this;}
-//  Date&      operator= (CTime  tm)   {dt = tm;  return *this;}
-  Date&      operator= (time_t sec)  {dt = sec; return *this;}
+  Date&      operator= (CTime& tm)   {ctm = tm;  return *this;}
+  Date&      operator= (time_t sec)  {ctm = sec; return *this;}
   Date&      operator= (COleDateTime& ole);
 
   Date&      operator= (variant_t& v)
-        {double t; if (v.vt == VT_DATE) {t = v; t *= SecondsPerDay; dt = time_t(t);} return *this;}
+        {double t; if (v.vt == VT_DATE) {t = v; t *= SecondsPerDay; ctm = time_t(t);} return *this;}
   Date&      operator= (Date& date) {copy(date); return *this;}
 
   operator COleDateTime();
 
-         void getToday() {dt = CTime::GetCurrentTime();}
+         void getToday();
 
 
   static void onChangeDate(CEdit& ctrl);
   static void onChangeTime(CEdit& ctrl);
 
-  Date&    toLocalTime(Date& dt);
+  Date&    toLocalTime(Date& date);
 
-  time_t   getSeconds() {return dt.GetTime();}
+  time_t   getSeconds() {return ctm.GetTime();}
   String   getDate();
   String   getTime();
   String   getHHMM();
   String   getHHMMSS();
   String   dayOfWeek();
-  String   format(TCchar* f) {Cstring s; s = dt.Format(f);   return String(s);}
+  String   format(TCchar* f) {Cstring s; s = ctm.Format(f);   return String(s);}
+
+  // get numeric representations of date components
+
+  int      getYear()      {return ctm.GetYear();}
+  int      getMonth()     {return ctm.GetMonth();}
+  int      getDay()       {return ctm.GetDay();}
+  int      getDayOfWeek() {return ctm.GetDayOfWeek();}
+  int      getHour()      {return ctm.GetHour();}
+  int      getMinute()    {return ctm.GetMinute();}
+  int      getSecond()    {return ctm.GetSecond();}
 
   // Transform from Date to String with yyyymmddhhmmss format and from String to Date
 
   Date&    operator>> (String& s)
-                                {Cstring cs; s = cs = dt.Format(_T("%Y%m%d%H%M%S")); return *this;}
+                                {Cstring cs; s = cs = ctm.Format(_T("%Y%m%d%H%M%S")); return *this;}
   Date&    operator<< (String& s);
 
-  bool     isEmpty()  {return dt.GetTime() == 0;}
+  bool     isEmpty()  {return ctm.GetTime() == 0;}
 
-  operator  String () {Cstring s; s = dt.Format(_T("%#m/%#d/%y %H:%M")); return String(s);}
+  operator  String () {Cstring s; s = ctm.Format(_T("%#m/%#d/%y %H:%M")); return String(s);}
 
-  CTimeSpan operator -  (Date& t) {return dt - t.dt;};
-  Date&     operator += (CTimeSpan n) {dt += n; return *this;}
-  Date&     operator -= (CTimeSpan n) {dt -= n; return *this;}
-  Date      operator +  (CTimeSpan n) {Date d; d.dt = dt; d.dt += n; return d;}
+  CTimeSpan operator -  (Date& t) {return ctm - t.ctm;};
+  Date&     operator += (CTimeSpan n) {ctm += n; return *this;}
+  Date&     operator -= (CTimeSpan n) {ctm -= n; return *this;}
+  Date      operator +  (CTimeSpan n) {Date d; d.ctm = ctm; d.ctm += n; return d;}
 
-  bool      operator == (Date& d) {return dt == d.dt;}
-  bool      operator != (Date& d) {return dt != d.dt;}
-  bool      operator >= (Date& d) {return dt >= d.dt;}
-  bool      operator <= (Date& d) {return dt <= d.dt;}
-  bool      operator >  (Date& d) {return dt >  d.dt;}
-  bool      operator <  (Date& d) {return dt <  d.dt;}
+  bool      operator == (Date& d) {return ctm == d.ctm;}
+  bool      operator != (Date& d) {return ctm != d.ctm;}
+  bool      operator >= (Date& d) {return ctm >= d.ctm;}
+  bool      operator <= (Date& d) {return ctm <= d.ctm;}
+  bool      operator >  (Date& d) {return ctm >  d.ctm;}
+  bool      operator <  (Date& d) {return ctm <  d.ctm;}
 
   operator variant_t ();
 
@@ -85,7 +94,7 @@ static const double SecondsPerDay;
 
   bool amPM(int& h, String& txt);
 
-  void copy(Date& date) {dt = date.dt;}
+  void copy(Date& date) {ctm = date.ctm;}
   };
 
 

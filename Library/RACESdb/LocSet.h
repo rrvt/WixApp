@@ -8,15 +8,15 @@
 class LocSet : public AccRcdSet {
 public:
 int     locationPrefID;
-CString key;
-CString txt;
+Cstring key;
+Cstring txt;
 
   LocSet();
  ~LocSet() {close();}
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {AccRcdSet::close(); opened = false;}
+  void close() {AccRcdSet::close();}
 
   bool edit();
   bool addNew();

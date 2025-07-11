@@ -66,7 +66,7 @@ Archive ar(path, FileIO::Write);   if (!ar.isOpen()) return false;
 bool CDoc::onSaveDocument(LPCTSTR lpszPathName, bool savePath) {
 String  pth = lpszPathName;   if (savePath) path = pth;
 
-Archive ar(pth, FileIO::Write);   if (!ar.isOpen()) return false;
+Archive ar(pth.str(), FileIO::Write);   if (!ar.isOpen()) return false;
 
   serialize(ar); return true;
   }

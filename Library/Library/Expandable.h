@@ -98,6 +98,12 @@ the operations supported are:
 
 #pragma once
 
+//#define DebugAlloc
+
+#ifdef DebugAlloc
+#include "MessageBox.h"
+#endif
+
 
 #define ExpandableException _T("Corrupted Expandable(P) structure")
 
@@ -156,8 +162,16 @@ private:
 // Constructor
 
 template <class Datum, const int n>
-Expandable<Datum, n>::Expandable() : endN(0), tblN(n > 0 ? n : 1)
-                                                         {NewArray(Datum); tbl = AllocArray(tblN);}
+Expandable<Datum, n>::Expandable() : endN(0), tblN(n > 0 ? n : 1) {
+NewArray(Datum); tbl = AllocArray(tblN);
+
+#ifdef DebugAlloc
+int n = tblN * sizeof(Datum) + sizeof(int);
+  if (n == 324) {
+    messageBox(_T("Expandable 324"));
+    }
+#endif
+}
 
 // Destructor
 
@@ -308,5 +322,12 @@ int    j;
   for (j = 0; j < nItems; j++, p++) tbl[j] = *p;
 
   FreeArray(q);
+
+#ifdef DebugAlloc
+int n = tblN * sizeof(Datum) + sizeof(int);
+  if (n == 260) {
+    messageBox(_T("Expandable"));
+    }
+#endif
   }
 

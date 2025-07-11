@@ -105,7 +105,11 @@ ArchLine arLine;
 NoteNmbr nmbr;
 
 public:
-           Archive(String& fileName, int mode);
+
+enum Mode {Read=1, Write=2, Create=4};
+
+           Archive(TCchar* fileName, int mode) : ArchPos(fileName, mode)       {initialize();}
+           Archive(String& fileName, int mode) : ArchPos(fileName.str(), mode) {initialize();}
            Archive(void*   arbObj,   int mode) : ArchPos(arbObj, mode) { }
           ~Archive() { }
 
@@ -113,7 +117,7 @@ public:
   bool     isStoring() {return ArchFile::isStoring();}
   void     seekEnd()   {ArchFile::seekEnd();}
 
-  Archive& operator << (NotePad& np);                      // Archive the content of specified notepad
+  Archive& operator << (NotePad& np);                   // Archive the content of specified notepad
 
   Archive& operator << (TCchar*        tc) {return append(tc);}
   Archive& operator << (String&         s) {return append(s);}
@@ -208,7 +212,7 @@ private:
 
   static Archive& doCrlf(     Archive& n) {n.flush(); return n.crlf();}
 
-  Archive() : ArchPos(*(String*)0, 0) { }
+  Archive() : ArchPos((TCchar*)0, 0) { }
 
   friend ArManipDbl& aSetLMargin(double val);   // Set left margin (no. chars)
   friend ArManipDbl& aSetRMargin(double val);   // Set right margin (no. chars)

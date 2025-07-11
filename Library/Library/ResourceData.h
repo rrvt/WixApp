@@ -5,7 +5,7 @@
 
 
 class ResourceData {
-Byte*             data;
+Byte*             resData;
 DWORD             dataSize;           // in Bytes
 DWORD             handle;
 VS_FIXEDFILEINFO* fileInfo;

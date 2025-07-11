@@ -4,13 +4,15 @@
 #include "ResourceData.h"
 #include <atltime.h>
 
+#include "MessageBox.h"
 
-ResourceData::ResourceData() : data(0), dataSize(0), handle(0), fileInfo(0), success(false)
+
+ResourceData::ResourceData() : resData(0), dataSize(0), handle(0), fileInfo(0), success(false)
                                                             {static Tchar tch;   initEntity(&tch);}
 
 
 
-ResourceData::ResourceData(void* staticEntity) : data(0), dataSize(0), handle(0),
+ResourceData::ResourceData(void* staticEntity) : resData(0), dataSize(0), handle(0),
                                             fileInfo(0), success(false) {initEntity(staticEntity);}
 
 
@@ -30,11 +32,11 @@ HMODULE modl;
 
 
 
-ResourceData::ResourceData(String& path) : data(0), dataSize(0), handle(0),
+ResourceData::ResourceData(String& path) : resData(0), dataSize(0), handle(0),
                                                     fileInfo(0), success(false) {initialize(path);}
 
 
-ResourceData::~ResourceData() {NewArray(Byte); FreeArray(data); data = 0; success = false;}
+ResourceData::~ResourceData() {NewArray(Byte); FreeArray(resData); resData = 0; success = false;}
 
 
 void ResourceData::initialize(TCchar* path) {
@@ -46,18 +48,18 @@ uint   lng;
 
   dataSize = GetFileVersionInfoSize( path, &handle);    if (!dataSize) return;
 
-  NewArray(Byte); data = AllocArray(dataSize);
+  NewArray(Byte); resData = AllocArray(dataSize);
 
-  if (!GetFileVersionInfo(path, handle, dataSize, data)) return;
+  if (!GetFileVersionInfo(path, handle, dataSize, resData)) return;
 
 // Read the list of languages and code pages.
 
-  VerQueryValue(data, _T("\\VarFileInfo\\Translation"), (LPVOID*) &lpTranslate, &cbTranslate);
+  VerQueryValue(resData, _T("\\VarFileInfo\\Translation"), (LPVOID*) &lpTranslate, &cbTranslate);
 
   prefix.format(_T("\\StringFileInfo\\%04x%04x\\"),
                                                    lpTranslate->wLanguage, lpTranslate->wCodePage);
 
-  if (!VerQueryValue(data, _T("\\"), (LPVOID*) &fileInfo, &lng) || !lng) return;
+  if (!VerQueryValue(resData, _T("\\"), (LPVOID*) &fileInfo, &lng) || !lng) return;
 
   success = true;
   }
@@ -81,9 +83,9 @@ String cn;
 String pn;
 String ver;
 
-  if (!getCompanyName(cn)) return false;
+  if (!getCompanyName(cn))  return false;
   if (!getInternalName(pn)) return false;
-  if (!getVersion(ver))    return false;
+  if (!getVersion(ver))     return false;
 
   s = cn + _T(".") + pn + _T("..") + ver;
 
@@ -102,9 +104,9 @@ bool ResourceData::getVersion(String& s) {
   // two revision numbers come from dwFileVersionMS, last two come from dwFileVersionLS
 
   s.format(_T("%d.%d.%d.%d"), (fileInfo->dwFileVersionMS >> 16) & 0xffff,
-                               fileInfo->dwFileVersionMS & 0xffff,
+                               fileInfo->dwFileVersionMS        & 0xffff,
                               (fileInfo->dwFileVersionLS >> 16) & 0xffff,
-                               fileInfo->dwFileVersionLS  & 0xffff
+                               fileInfo->dwFileVersionLS        & 0xffff
                               );
   return true;
   }
@@ -121,7 +123,7 @@ Tchar  buf[512];
 
   if (!success) return false;
 
-  if (!VerQueryValue(data, prefix + pat, (LPVOID*) &lpBuffer, &size)) return false;
+  if (!VerQueryValue(resData, prefix + pat, (LPVOID*) &lpBuffer, &size)) return false;
 
   if (!size) return false;
 

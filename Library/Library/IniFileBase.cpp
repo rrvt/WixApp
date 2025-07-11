@@ -3,16 +3,18 @@
 
 
 #include "pch.h"
-#include "IniFile.h"
+#include "IniFileBase.h"
 #include "fileName.h"
+#include "MessageBox.h"
 #include <Shlobj.h>
 
 
 const int BufSize = 1024;
 
 
-String IniFile::getAppDataPath(TCchar* helpPath) {
-Tchar   stg[1024];
+
+String IniFileBase::getAppDataPath(TCchar* helpPath) {
+Tchar  stg[1024];
 String path;
 String mainName = getMainName(helpPath);
 
@@ -27,10 +29,18 @@ HRESULT rslt     = SHGetFolderPath(0, CSIDL_APPDATA, 0, SHGFP_TYPE_DEFAULT, stg)
   }
 
 
-void IniFile::setPath(TCchar* const filePath) {iniFilePath = filePath; checkPath();}
+void IniFileBase::setPath(TCchar* const filePath) {iniFilePath = filePath; checkPath();}
 
 
-void IniFile::setAppDataPath(TCchar* helpPath, CWinApp& theApp) {
+#if 1
+
+static TCchar* NotImplMsg = _T("Not Implemented");
+void IniFileBase::setAppDataPath(TCchar* helpPath) {messageBox(NotImplMsg);}
+void IniFileBase::setFilePath(String& pth)         {messageBox(NotImplMsg);}
+void IniFileBase::setFilePath(TCchar* pth)         {messageBox(NotImplMsg);}
+
+#else
+void IniFileBase::setAppDataPath(TCchar* helpPath) {
 String  mainName = getMainName(helpPath);
 Tchar    stg[1024];
 HRESULT rslt;
@@ -41,22 +51,19 @@ HRESULT rslt;
 
   iniFilePath += mainName; iniFilePath += _T(".ini");
 
-  checkPath(); setTheAppPath(theApp);
+  checkPath(); setTheAppPath();
   }
 
 
-void IniFile::setFilePath(String& pth, CWinApp& theApp)
-                                           {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
+void IniFileBase::setFilePath(String& pth) {iniFilePath = pth; checkPath(); setTheAppPath();}
 
 
-void IniFile::setFilePath(TCchar* pth, CWinApp& theApp)
-                                           {iniFilePath = pth; checkPath(); setTheAppPath(theApp);}
+void IniFileBase::setFilePath(TCchar* pth) {iniFilePath = pth; checkPath(); setTheAppPath();}
 
 
-void IniFile::setTheAppPath(CWinApp& theApp) {
-TCchar* prfl = theApp.m_pszProfileName;
+void IniFileBase::setTheAppPath() {
 
-  try {if (prfl) free((void*) prfl);} catch (...) {}
+  clrTheAppPath();
 
   pathLng  = iniFilePath.size() + 4;
 
@@ -66,87 +73,100 @@ TCchar* prfl = theApp.m_pszProfileName;
   }
 
 
-void IniFile::checkPath() {
+void IniFileBase::clrTheAppPath() {
+TCchar*& p = theApp.m_pszProfileName;
+
+  try {if (p) free((void*) p);} catch (...) {}
+
+  p = 0;
+  }
+#endif
+
+void IniFileBase::checkPath() {
 String path = getPath(iniFilePath);
 
   CreateDirectory(path, 0);
   }
 
 
-String IniFile::initIniDatum(TCchar* section, TCchar* name, TCchar* deflt, String& valu) {
-  if (!iniFile.readString(section, name, valu))
-                                          {valu = deflt; iniFile.writeString(section, name, valu);}
+String IniFileBase::initIniDatum(TCchar* section, TCchar* name, TCchar* deflt, String& valu) {
+  if (!readString(section, name, valu)) {valu = deflt; writeString(section, name, valu);}
   return valu;
   }
 
 
-void IniFile::saveIniDatum(TCchar* section, TCchar* name, String& valu)
-                                                        {iniFile.writeString(section, name, valu);}
+void IniFileBase::saveIniDatum(TCchar* section, TCchar* name, String& valu)
+                                                        {writeString(section, name, valu);}
 
 
-String IniFile::initIniPwd(TCchar* section, TCchar* name, TCchar* deflt, String& valu) {
-  if (!iniFile.readPwd(section, name, valu)) {valu = deflt; iniFile.writePwd(section, name, valu);}
+String IniFileBase::initIniPwd(TCchar* section, TCchar* name, TCchar* deflt, String& valu) {
+  if (!readPwd(section, name, valu)) {valu = deflt; writePwd(section, name, valu);}
   return valu;
   }
 
 
-void IniFile::saveIniPwd(TCchar* section, TCchar* name, String& valu)
-                                                           {iniFile.writePwd(section, name, valu);}
+void IniFileBase::saveIniPwd(TCchar* section, TCchar* name, String& valu)
+                                                           {writePwd(section, name, valu);}
 
 
-bool IniFile::writeString(TCchar* section, TCchar* key, CString& val) {
+bool IniFileBase::writeString(TCchar* section, TCchar* key, CString& val) {
   return WritePrivateProfileString(section, key, val, iniFilePath) != 0;
   }
 
 
-bool IniFile::write(TCchar* section, TCchar* key, CString& val) {
+bool IniFileBase::write(TCchar* section, TCchar* key, CString& val) {
   return WritePrivateProfileString(section, key, val, iniFilePath) != 0;
   }
 
 
-bool IniFile::writeString(TCchar* section, TCchar* key, TCchar* val) {
+bool IniFileBase::writeString(TCchar* section, TCchar* key, TCchar* val) {
   return WritePrivateProfileString(section, key, val, iniFilePath) != 0;
   }
 
 
-bool IniFile::write(TCchar* section, TCchar* key, TCchar*  val) {
+bool IniFileBase::write(TCchar* section, TCchar* key, TCchar*  val) {
   return WritePrivateProfileString(section, key, val, iniFilePath) != 0;
   }
 
 
-bool IniFile::writeInt(TCchar* section, TCchar* key, int val) {
+bool IniFileBase::write(TCchar* section, TCchar* key, bool val) {
+int v = val;   return writeInt(section, key, v);
+}
+
+
+bool IniFileBase::writeInt(TCchar* section, TCchar* key, int val) {
   return WritePrivateProfileString(section, key, toString(val), iniFilePath) != 0;
   }
 
 
-bool IniFile::write(TCchar* section, TCchar* key, double val) {
+bool IniFileBase::write(TCchar* section, TCchar* key, double val) {
   return WritePrivateProfileString(section, key, toString(val), iniFilePath) != 0;
   }
 
 
-bool IniFile::writePwd(  TCchar* section, TCchar* key, String&  val) {
+bool IniFileBase::writePwd(  TCchar* section, TCchar* key, String&  val) {
 String s = val;
 
   return WritePrivateProfileString(section, key, encodePassword(s), iniFilePath) != 0;
   }
 
 
-void IniFile::writeEnd() {
+void IniFileBase::writeEnd() {
 CFile cFile(iniFilePath, CFile::modeWrite);
 
   cFile.SeekToEnd();   cFile.Write("[END]\r\n", 7);   cFile.Close();
   }
 
 
-void IniFile::deleteString(TCchar* section, TCchar* key)
+void IniFileBase::deleteString(TCchar* section, TCchar* key)
                                          {WritePrivateProfileString(section, key, 0, iniFilePath);}
 
 
-void IniFile::deleteSection(TCchar* section)
+void IniFileBase::deleteSection(TCchar* section)
                                          {WritePrivateProfileString(section,   0, 0, iniFilePath);}
 
 
-bool IniFile::readString( TCchar* section, TCchar* key, Cstring& val) {
+bool IniFileBase::readString( TCchar* section, TCchar* key, Cstring& val) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, val, stg, noElements(stg), iniFilePath))
@@ -155,7 +175,7 @@ Tchar stg[1024];
   }
 
 
-bool IniFile::readString(TCchar* section, TCchar* key, String& val) {
+bool IniFileBase::readString(TCchar* section, TCchar* key, String& val) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, val, stg, noElements(stg), iniFilePath))
@@ -164,11 +184,11 @@ Tchar stg[1024];
   }
 
 
-bool IniFile::read(TCchar* section, TCchar* key, String&  val, TCchar* dflt)
+bool IniFileBase::read(TCchar* section, TCchar* key, String&  val, TCchar* dflt)
                                                       {return readString(section, key, val, dflt);}
 
 
-bool IniFile::readString( TCchar* section, TCchar* key, String&  val, TCchar* dflt) {
+bool IniFileBase::readString( TCchar* section, TCchar* key, String&  val, TCchar* dflt) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, dflt, stg, noElements(stg), iniFilePath))
@@ -177,11 +197,11 @@ Tchar stg[1024];
   }
 
 
-bool IniFile::read(TCchar* section, TCchar* key, Cstring& val, TCchar* dflt)
+bool IniFileBase::read(TCchar* section, TCchar* key, Cstring& val, TCchar* dflt)
                                                       {return readString(section, key, val, dflt);}
 
 
-bool IniFile::readString( TCchar* section, TCchar* key, Cstring& val, TCchar* dflt) {
+bool IniFileBase::readString( TCchar* section, TCchar* key, Cstring& val, TCchar* dflt) {
 Tchar stg[1024];
 
   if (GetPrivateProfileString(section, key, dflt, stg, noElements(stg), iniFilePath))
@@ -190,7 +210,7 @@ Tchar stg[1024];
   }
 
 
-bool IniFile::read(TCchar* section, TCchar* key, int& val, int dflt) {
+bool IniFileBase::read(TCchar* section, TCchar* key, int& val, int dflt) {
 
   val = GetPrivateProfileInt(section, key, dflt, iniFilePath);
 
@@ -200,11 +220,20 @@ bool IniFile::read(TCchar* section, TCchar* key, int& val, int dflt) {
   }
 
 
-int IniFile::readInt(TCchar* section, TCchar* key, int def)
+bool IniFileBase::read(TCchar* section, TCchar* key, bool& val, bool dflt) {
+int v;
+
+  if (!read(section, key, v, dflt)) return false;
+
+  val = v != 0;   return true;
+  }
+
+
+int IniFileBase::readInt(TCchar* section, TCchar* key, int def)
                                      {return GetPrivateProfileInt(section, key, def, iniFilePath);}
 
 
-bool IniFile::read(TCchar* section, TCchar* key, int& val) {
+bool IniFileBase::read(TCchar* section, TCchar* key, int& val) {
 
   val = GetPrivateProfileInt(section, key, -1, iniFilePath);
 
@@ -214,7 +243,7 @@ bool IniFile::read(TCchar* section, TCchar* key, int& val) {
   }
 
 
-bool IniFile::readPwd(TCchar* section, TCchar* key, String&  val) {
+bool IniFileBase::readPwd(TCchar* section, TCchar* key, String&  val) {
 Tchar  stg[64];
 String s;
 
@@ -227,7 +256,7 @@ String s;
 static const int BaseCh = ' ';
 static const int Range  = 128 - BaseCh;
 
-String IniFile::encodePassword(String& password) {
+String IniFileBase::encodePassword(String& password) {
 int    lng    = password.length();
 Tchar  lower  = getRandCh();
 Tchar  upper  = getRandCh();
@@ -252,7 +281,7 @@ Tchar  ch;
   }
 
 
-Tchar IniFile::getRandCh() {
+Tchar IniFileBase::getRandCh() {
 float rng = (float) Range;
 Tchar ch;
 
@@ -265,7 +294,7 @@ Tchar ch;
   }
 
 
-String IniFile::decodePassword(String& cipher) {
+String IniFileBase::decodePassword(String& cipher) {
 int    lng    = cipher.length();   if (!lng) return cipher;
 Tchar  lower  = cipher[0];
 Tchar  upper  = cipher[lng-1];

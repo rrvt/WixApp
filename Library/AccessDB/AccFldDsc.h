@@ -47,26 +47,3 @@ private:
 
 extern AccFldDsc accFldDsc;
 
-
-#if 0
-class AccFldDscIter {
-
-AccFldDsc& tbl;
-
-public:
-
-  enum Dir {Fwd, Rev};
-
-  AccFldDscIter(AccFldDsc& table) : tbl(table) { }
-
-  AccFldDsc* operator() (Dir dir = Fwd) {return dir == Fwd ? tbl.moveFirst() : tbl.moveLast();}
-  AccFldDsc* operator++ (int)           {return tbl.moveNext();}
-  AccFldDsc* operator-- (int)           {return tbl.movePrev();}
-
-private:
-
-  AccFldDscIter() : tbl(*(AccFldDsc*)0) { }
-  };
-#endif
-
-

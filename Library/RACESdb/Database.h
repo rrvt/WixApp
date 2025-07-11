@@ -16,7 +16,7 @@ class Database {
 public:
 
   Database() { }
- ~Database();
+ ~Database() { }
 
   bool load(TCchar* path);
   };

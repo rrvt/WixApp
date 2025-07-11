@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "Display.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 
 
 static TCchar* Section  = _T("Display");

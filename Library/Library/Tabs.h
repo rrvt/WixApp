@@ -60,18 +60,3 @@ private:
 
 ///-------------------
 
-#if 0
-struct NoteTab {
-int  pos;
-bool right;
-
-  NoteTab() {pos = 0; right = false;}
-
-  void    clear() {pos = 0;   right = false;}
-
-  bool    operator== (NoteTab& tab) {return pos == tab.pos;}
-  bool    operator>= (NoteTab& tab) {return pos >= tab.pos;}
-  NoteTab& operator=  (NoteTab  tab) {pos = tab.pos; right = tab.right; return *this;}
-  };
-#endif
-

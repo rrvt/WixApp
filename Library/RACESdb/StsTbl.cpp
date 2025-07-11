@@ -7,6 +7,15 @@
 #include "Utilities.h"
 
 
+StsRcd::StsRcd() : id(0), dirty(false), remove(false) { }
+
+
+void StsRcd::clear() {
+  id = 0;   dirty = false;   remove = false;
+  abbreviation.clear();   description.clear();
+  }
+
+
 bool StsTbl::load(TCchar* path) {
 StsSetIter iter(stsSet);
 StsSet*    set;
@@ -65,6 +74,15 @@ void StsRcd::copy(StsSet& set) {
   set.stsID        = id;
   set.abbreviation = abbreviation;
   set.description  = description;
+  }
+
+
+void StsRcd::copy(StsRcd& r) {
+  id           = r.id;
+  dirty        = r.dirty;
+  remove       = r.remove;
+  abbreviation = r.abbreviation;
+  description  = r.description;
   }
 
 

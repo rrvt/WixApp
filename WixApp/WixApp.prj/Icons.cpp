@@ -20,10 +20,6 @@ static TCchar*    IconPathKey  = _T("Icon");
 static KeyedPathDsc  browseDsc = {IconPathKey, _T("Icon File"), _T(""), _T("ico"), _T("*.ico")};
 
 
-
-Icons icons;
-
-
 void Icons::oneIconAvail() {if (!nIcons()) iconList.add(String(_T("")));}
 
 

@@ -8,8 +8,6 @@
 #include "WixOut.h"
 
 
-DefaultPath defaultPath;
-
 static TCchar*   Section    = _T("DefaultPath");
 static TCchar*   NPathsKey  = _T("NPaths");
 static TCchar*   DefKey     = _T("DefKey%i");

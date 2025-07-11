@@ -7,7 +7,7 @@
 #include "DefaultPath.h"
 #include "GetPathDlg.h"
 #include "filename.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 #include "SolutionPathDlg.h"
 #include "WixData.h"
 #include "WixUtilities.h"
@@ -21,9 +21,6 @@ static TCchar* VarSolution     = _T("$(var.SolutionDir)");
 
        TCchar* IniSection      = _T("Current");
        TCchar* RootPathKey     = _T("RootPath");
-
-
-Solution solution;
 
 
 bool Solution::newProject(bool isNew) {

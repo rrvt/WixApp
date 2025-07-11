@@ -7,6 +7,25 @@
 #include "Utilities.h"
 
 
+MbrRcd::MbrRcd() : id(0), dirty(false), remove(false),
+                   badgeNumber(0), mbrEntityID(0), emplEntityID(0),
+                   iCE_EntityID(0), assgnPrefID(0), locationPrefID(0),
+                   statusID(0), isOfficer(false), badgeOK(false) { }
+
+
+void MbrRcd::clear() {
+  id = 0;   dirty = false;   remove = false;
+  badgeNumber = 0;   mbrEntityID = 0;   emplEntityID = 0;   iCE_EntityID = 0;
+  assgnPrefID = 0;   locationPrefID = 0;   statusID = 0;   callSign.clear();
+  fCCExpiration.clear();   startDate.clear();   dSWDate.clear();   badgeExpDate.clear();
+  responder.clear();   secondaryEmail.clear();   textMsgPh1.clear();   textMsgPh2.clear();
+  handHeld.clear();   portMobile.clear();   portPacket.clear();   otherEquip.clear();
+  multilingual.clear();   otherCapabilities.clear();   limitations.clear();   comments.clear();
+  shirtSize.clear();   isOfficer = false;   skillCertifications.clear();   eOC_Certifications.clear();
+  updateDate.clear();   badgeOK = false;   image.clear();
+  }
+
+
 bool MbrTbl::load(TCchar* path) {
 MbrSetIter iter(mbrSet);
 MbrSet*    set;
@@ -123,6 +142,44 @@ void MbrRcd::copy(MbrSet& set) {
   set.updateDate          = updateDate;
   set.badgeOK             = badgeOK;
   set.image               = image;
+  }
+
+
+void MbrRcd::copy(MbrRcd& r) {
+  id                  = r.id;
+  dirty               = r.dirty;
+  remove              = r.remove;
+  badgeNumber         = r.badgeNumber;
+  mbrEntityID         = r.mbrEntityID;
+  emplEntityID        = r.emplEntityID;
+  iCE_EntityID        = r.iCE_EntityID;
+  assgnPrefID         = r.assgnPrefID;
+  locationPrefID      = r.locationPrefID;
+  statusID            = r.statusID;
+  callSign            = r.callSign;
+  fCCExpiration       = r.fCCExpiration;
+  startDate           = r.startDate;
+  dSWDate             = r.dSWDate;
+  badgeExpDate        = r.badgeExpDate;
+  responder           = r.responder;
+  secondaryEmail      = r.secondaryEmail;
+  textMsgPh1          = r.textMsgPh1;
+  textMsgPh2          = r.textMsgPh2;
+  handHeld            = r.handHeld;
+  portMobile          = r.portMobile;
+  portPacket          = r.portPacket;
+  otherEquip          = r.otherEquip;
+  multilingual        = r.multilingual;
+  otherCapabilities   = r.otherCapabilities;
+  limitations         = r.limitations;
+  comments            = r.comments;
+  shirtSize           = r.shirtSize;
+  isOfficer           = r.isOfficer;
+  skillCertifications = r.skillCertifications;
+  eOC_Certifications  = r.eOC_Certifications;
+  updateDate          = r.updateDate;
+  badgeOK             = r.badgeOK;
+  image               = r.image;
   }
 
 

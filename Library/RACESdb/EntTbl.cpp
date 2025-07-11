@@ -7,6 +7,18 @@
 #include "Utilities.h"
 
 
+EntRcd::EntRcd() : id(0), dirty(false), remove(false), addrID(0), cityStID(0),
+                   addrIsPO(false) { }
+
+
+void EntRcd::clear() {
+  id = 0;   dirty = false;   remove = false;
+  firstName.clear();   middleInitial.clear();   lastName.clear();   suffix.clear();
+  addrID = 0;   cityStID = 0;   addrIsPO = false;   locationZip.clear();
+  eMail.clear();   phone1.clear();   phone2.clear();
+  }
+
+
 bool EntTbl::load(TCchar* path) {
 EntSetIter iter(entSet);
 EntSet*    set;
@@ -86,14 +98,32 @@ void EntRcd::copy(EntSet& set) {
   }
 
 
+void EntRcd::copy(EntRcd& r) {
+  id            = r.id;
+  dirty         = r.dirty;
+  remove        = r.remove;
+  firstName     = r.firstName;
+  middleInitial = r.middleInitial;
+  lastName      = r.lastName;
+  suffix        = r.suffix;
+  addrID        = r.addrID;
+  cityStID      = r.cityStID;
+  addrIsPO      = r.addrIsPO;
+  locationZip   = r.locationZip;
+  eMail         = r.eMail;
+  phone1        = r.phone1;
+  phone2        = r.phone2;
+  }
+
+
 EntRcd* EntTbl::add(EntRcd& rcd) {rcd.id = ++maxID;  rcd.dirty = true;  return data = rcd;}
 
 
-EntRcd* EntTbl::find(TCchar* firstName, TCchar* lastName, TCchar* phone1) {
+EntRcd* EntTbl::find(TCchar* firstName, TCchar* lastName, TCchar* phone2) {
 EntIter iter(*this);
 EntRcd* rcd;
 
-  for (rcd = iter(); rcd; rcd = iter++) if (rcd->contains(firstName, lastName, phone1)) return rcd;
+  for (rcd = iter(); rcd; rcd = iter++) if (rcd->contains(firstName, lastName, phone2)) return rcd;
 
   return 0;
   }

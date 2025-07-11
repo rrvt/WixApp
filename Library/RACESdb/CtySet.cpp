@@ -42,20 +42,39 @@ CtySet* set = &rcd;
   }
 
 
-bool CtySet::edit()
-  {if (!opened) return false;  try {Edit(); return true;} catch(...) {return false;}}
+bool CtySet::edit() {
+  if (!opened) return false;
+
+  try {Edit(); return true;}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+  }
 
 
-bool CtySet::addNew()
-  {if (!opened) return false;  try {AddNew(); return true;} catch(...) {return false;}}
+bool CtySet::addNew() {
+  if (!opened) return false;
+
+  try {AddNew(); return true;}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+  }
 
 
-bool CtySet::update()
-  {if (!opened) return false;  try {Update(); movePrev(); return true;} catch(...) {return false;}}
+bool CtySet::update() {
+
+  if (!opened) return false;
+
+  try {if (!Update()) return false;   movePrev();}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+
+  return true;
+  }
 
 
 bool CtySet::remove()
-  {if (!opened) return false;  try {Delete(); movePrev(); return true;} catch(...) {return false;}}
+  {if (!opened) return false;
+
+  try {Delete(); movePrev(); return true;}
+  catch(CException* e) {e->ReportError();   e->Delete();   return false;}
+  }
 
 
 void CtySet::DoFieldExchange(CFieldExchange* pFX) {

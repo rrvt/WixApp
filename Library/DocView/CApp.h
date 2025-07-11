@@ -19,12 +19,7 @@ String appID;
 String version;
 
   CApp(CApp* app);
- ~CApp() {
-    #ifdef DebugMemoryLeaks
-      _CrtDumpMemoryLeaks();
-    #endif
-    }
-
+ ~CApp();
   virtual BOOL InitInstance() {return CWinAppEx::InitInstance();}
   virtual int  ExitInstance();
 
@@ -44,6 +39,9 @@ String version;
 
   void       setupPrinterDlg() {CWinApp::OnFilePrintSetup();}
 
+  bool       sendCommand(uint command)
+               {SendMessage(getMainFrame()->GetSafeHwnd(), WM_COMMAND, MAKEWPARAM(command, 0), 0);}
+
 private:
 
   HANDLE     getDevMode();
@@ -60,6 +58,6 @@ extern CApp* theCApp;
 class CDoc;
 class CScrView;
 
-inline CDoc*       cDoc()  {return (CDoc*)       theCApp->getDoc();}
+inline CDoc*     cDoc()  {return (CDoc*)     theCApp->getDoc();}
 inline CScrView* cView() {return (CScrView*) theCApp->getView();}
 

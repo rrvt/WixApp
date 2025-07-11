@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "WinPos.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 #include "NotePad.h"
 
 

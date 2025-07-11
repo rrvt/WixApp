@@ -46,8 +46,11 @@ String updateDate;
 BOOL   badgeOK;
 String image;
 
-  MbrRcd() : id(0), dirty(false), remove(false) { }
+  MbrRcd();
+  MbrRcd(MbrRcd& r) {copy(r);}
  ~MbrRcd() { }
+
+  void clear();
 
   void load(MbrSet* set);
 
@@ -55,11 +58,14 @@ String image;
 
   void setDirty()  {dirty = true;}
   void setRemove() {dirty = true; remove = true;}
+  bool isRemoved() {return remove;}
 
   void store(MbrSet& set);
   void add(  MbrSet& set);
 
   void display();
+
+  MbrRcd& operator= (MbrRcd& r) {copy(r); return *this;}
 
   // Needed for Insertion Sort of Primary Key
   bool operator== (MbrRcd& r) {return id == r.id;}
@@ -78,6 +84,7 @@ String image;
 private:
 
   void copy(MbrSet& set);
+  void copy(MbrRcd& r);
 
   friend class MbrTbl;
   };
@@ -113,7 +120,7 @@ String name;
 
   bool store(TCchar* path);     // Store/Del entities marked
 
-  MbrRcd* find(int id) {return data.bSearch(id);}
+  MbrRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   MbrRcd* find(TCchar* callSign);
 
   virtual void display();

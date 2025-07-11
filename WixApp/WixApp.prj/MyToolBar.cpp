@@ -10,16 +10,10 @@ static int NoOfButtonControls = 4;
 static int NoOfButtons        = 7;
 
 
-#ifdef MyButtonDefs
 
 MyToolBar::MyToolBar() : button(ID_NewProject), button1(ID_OpenProject), button2(ID_SaveAllFiles),
                          button3(ID_SaveWxdFile)
                          {toolBarDim.initialize(NoOfButtonControls, NoOfButtons);}
-#else
-
-MyToolBar::MyToolBar() {toolBarDim.initialize(NoOfButtonControls, NoOfButtons);}
-
-#endif
 
 
 bool MyToolBar::addButton( uint id, TCchar* caption) {
@@ -36,22 +30,13 @@ int btn3ID = button3.getId();
   }
 
 
-bool MyToolBar::addEditBox(uint id, int noChars)              {
-#ifdef ButtonDefs
-  return add(editBox, id, noChars);
-#endif
-  return false;
-  }
 
 
-CString MyToolBar::getText(uint id) {
-#ifdef ButtonDefs
-  if (id == editBox.getId()) {return ToolBarBase::getText(editBox);}
-#endif
-  return 0;
-  }
 
-#ifdef DocViewTB
+
+/////---------------------
+
+#if 0    //def DocViewTB
 
 bool MyToolBar::addMenu(uint id, int idr, TCchar* caption) {
 #ifdef ButtonDefs
@@ -89,12 +74,48 @@ bool MyToolBar::addMenu(uint id, CbxItem cbxItem[], int n, TCchar* caption) {
   }
 
 #else
+#endif
+#if 0    //def DocViewTB
+
+bool MyToolBar::getCurSel( uint id, String& s, int& data) {
+#ifdef ButtonDefs
+int cbxID = cboBx.getId();
+
+  if (id == cbxID) return ToolBarBase::getCurSel(cboBx, s, data);
+#endif
+  return false;
+  }
+
+#else
+#endif
+#if 1        //def MyButtonDefs
+#else
+
+MyToolBar::MyToolBar() {toolBarDim.initialize(NoOfButtonControls, NoOfButtons);}
+
+#endif
+#if 0
+bool MyToolBar::addEditBox(uint id, int noChars)              {
+#ifdef ButtonDefs
+  return add(editBox, id, noChars);
+#endif
+  return false;
+  }
+
+CString MyToolBar::getText(uint id) {
+#ifdef ButtonDefs
+  if (id == editBox.getId()) {return ToolBarBase::getText(editBox);}
+#endif
+  return 0;
+  }
+
 
 
 bool MyToolBar::addMenu(uint id, int idr, TCchar* caption) {
 #ifdef ButtonDefs
   return add(cbxMenu, id, idr, caption);
 #endif
+  return false;
   }
 
 
@@ -102,6 +123,7 @@ bool MyToolBar::addMenu(uint id, CbxItem cbxItem[], int n, TCchar* caption) {
 #ifdef ButtonDefs
   return add(cbxMenu1, id, cbxItem, n, caption);
 #endif
+  return false;
   }
 
 
@@ -114,10 +136,6 @@ uint cbxId1 = cbxMenu1.getId();
   if (id == cbxId1) ToolBarBase::dispatch(cbxMenu1);
 #endif
   }
-
-#endif
-
-
 
 
 bool MyToolBar::addCBx(uint id) {
@@ -182,19 +200,6 @@ int cbxID = cboBx.getId();
   }
 
 
-#ifdef DocViewTB
-
-bool MyToolBar::getCurSel( uint id, String& s, int& data) {
-#ifdef ButtonDefs
-int cbxID = cboBx.getId();
-
-  if (id == cbxID) return ToolBarBase::getCurSel(cboBx, s, data);
-#endif
-  return false;
-  }
-
-#else
-
 bool MyToolBar::getCurSel( uint id, String& s, int& data) {
 #ifdef ButtonDefs
 int cbxID  = cboBx.getId();
@@ -205,6 +210,5 @@ int cbxID1 = cboBx1.getId();
 #endif
   return false;
   }
-
 #endif
 

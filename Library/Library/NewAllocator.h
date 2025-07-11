@@ -74,7 +74,7 @@ public:
 
   NewAllocatorT() { }
 
-#if _DEBUG
+#ifdef _DEBUG
 
   T* operator() (int blk, const char* file, int line) {
     T* p = (T*) _malloc_dbg(sizeof(T), blk, file, line);   if (p) {new(p) T();}
@@ -156,7 +156,7 @@ public:
 
   NewArrayAllocatorT() { }
 
-#if _DEBUG
+#ifdef _DEBUG
 
   T* operator() (int n, int blk, const char* file, int line) {
     int* p   = (int*) _malloc_dbg(sizeof(T)*n + sizeof(int), blk, file, line);   if (!p) return 0;

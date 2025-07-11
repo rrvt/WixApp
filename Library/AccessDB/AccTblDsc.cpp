@@ -52,7 +52,7 @@ UWORD   bFunctionExists;
 
   END_CATCH_ALL
 
-  return true;
+  return opened = true;
   }
 
 

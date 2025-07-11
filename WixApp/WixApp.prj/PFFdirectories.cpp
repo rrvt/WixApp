@@ -10,7 +10,6 @@
 TCchar* PffExt = _T("pff");
 
 
-PFFdirectories pffDirectories;
 
 
 String PFFdirectories::fullPath(String& id) {

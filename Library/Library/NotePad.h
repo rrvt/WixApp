@@ -109,7 +109,6 @@
 
 
 #pragma once
-//#include "Archive.h"
 #include "Currency.h"
 #include "Date.h"
 #include "ManipT.h"
@@ -322,4 +321,5 @@ private:
 //  int      applyTabFactor(int tb);
 
 //class TextPosition;
+//#include "Archive.h"
 

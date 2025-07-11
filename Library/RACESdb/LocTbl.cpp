@@ -7,6 +7,15 @@
 #include "Utilities.h"
 
 
+LocRcd::LocRcd() : id(0), dirty(false), remove(false) { }
+
+
+void LocRcd::clear() {
+  id = 0;   dirty = false;   remove = false;
+  key.clear();   txt.clear();
+  }
+
+
 bool LocTbl::load(TCchar* path) {
 LocSetIter iter(locSet);
 LocSet*    set;
@@ -65,6 +74,15 @@ void LocRcd::copy(LocSet& set) {
   set.locationPrefID = id;
   set.key            = key;
   set.txt            = txt;
+  }
+
+
+void LocRcd::copy(LocRcd& r) {
+  id     = r.id;
+  dirty  = r.dirty;
+  remove = r.remove;
+  key    = r.key;
+  txt    = r.txt;
   }
 
 

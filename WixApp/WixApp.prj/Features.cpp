@@ -24,9 +24,6 @@ static TCchar* FeatureID    = _T("FeatureID");
 static TCchar* NilFtr       = _T("Feature");
 
 
-Features features;
-
-
 void Features::readWixData() {
 double ver = solution.getVer();
 

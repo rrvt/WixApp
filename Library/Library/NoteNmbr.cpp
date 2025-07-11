@@ -4,7 +4,6 @@
 
 #include "pch.h"
 #include "NoteNmbr.h"
-//#include "TxtOut.h"
 
 
 static String nmbr;
@@ -50,49 +49,4 @@ void NoteNmbr::copy(NoteNmbr& nn) {
 
 
 // ----------------------------------
-
-#if 0
-String s;
-int    lng;
-int    nWidth;
-int    excess;
-String t;
-
-  if (!nn.typ) return;
-
-  s = nn.stg();   lng = s.length();   nWidth = nn.width;
-
-  excess = (nWidth >= 0 ? nWidth : -nWidth) - lng;
-
-#if 1
-
-  if (nWidth > 0 && excess > 0) {addSpcs(t, excess);   t += s;   return t;}
-  if (nWidth < 0 && excess > 0) {t = s;   addSpcs(t, excess);    return t;}
-#else
-  if (nWidth > 0 && excess > 0) movPos(tPos, tPos.getCharPos() + excess, ar);
-
-  ar.write(s);   tPos.move(s.length());
-
-  if (nWidth < 0 && excess > 0) movPos(tPos, tPos.getCharPos() + excess, ar);
-#endif
-#endif
-#if 1
-#else
-String& NoteNmbr::operator() () {
-String s   = stg();
-int    lng = s.length();
-int    excess;
-
-  excess = (width >= 0 ? width : -width) - lng;
-
-  if (excess > 0) {
-    if (width > 0) {addSpcs(excess);   nmbr += s;   return nmbr;}
-    if (width < 0) {nmbr = s;   addSpcs(excess);    return nmbr;}
-    nmbr = s;
-    }
-  else nmbr = s;
-
-  clear();   return nmbr;
-  }
-#endif
 

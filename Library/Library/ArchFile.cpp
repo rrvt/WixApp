@@ -5,7 +5,7 @@
 #include "ArchFile.h"
 
 
-ArchFile::ArchFile(String& fileName, int mode) : opened(false), storing(false), obj(0)
+ArchFile::ArchFile(TCchar* fileName, int mode) : opened(false), storing(false), obj(0)
                                            {opened = fil.open(fileName, mode);   setStoring(mode);}
 
 

@@ -40,14 +40,14 @@ STARTUPINFO info={sizeof(info)};
 
   for (i = 0, va_start(vaList, nCmdArgs), tc = va_arg(vaList, TCchar*); i < nCmdArgs;
                                                                i++, tc = va_arg(vaList, TCchar*)) {
-    arg = tc;   addQuotes(arg);
+    arg = tc;   fixPath(arg);
 
     if (i) cmdLine += _T(' ');   cmdLine += arg;
     }
 
   va_end(vaList);
 
-  wSize = cmdLine.length() + nCmdArgs * 5;
+  wSize = cmdLine.length() * sizeof(Tchar) + nCmdArgs * 5;
 
   NewArray(WCHAR); wCmdArgs = AllocArray(wSize);   copy(cmdLine, wCmdArgs, wSize);
 
@@ -60,18 +60,25 @@ STARTUPINFO info={sizeof(info)};
 
 
 
-String& Executable::addQuotes(String& s) {
-int pos;
+String& Executable::fixPath(String& s) {
+int  i;
+int  lng;
+bool needQuotes;
+int  pos;
 
   if (s[0] == _T('"')) return s;
 
-  pos = s.length() - 1;
+  needQuotes = false;
+
+  for (i = 0, lng = s.length(); i < lng; i++) if (s[i] == _T(' ')) {needQuotes = true; break;}
+
+  if (!needQuotes) return s;
+
+  pos = lng - 1;
 
   if (s[pos] == _T('\\')) s = s.substr(0, pos);
 
-  s = _T('"') + s + _T('"');
-
-  return s;
+  return s = _T('"') + s + _T('"');
   }
 
 

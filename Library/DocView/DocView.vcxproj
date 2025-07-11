@@ -37,7 +37,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>Dynamic</UseOfMfc>
   </PropertyGroup>
@@ -104,7 +104,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <LinkTimeCodeGeneration>true</LinkTimeCodeGeneration>
+      <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
       <AdditionalLibraryDirectories>Library.lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -125,6 +125,7 @@
       <DebugInformationFormat>None</DebugInformationFormat>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks />
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -135,6 +136,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>Library.lib</AdditionalLibraryDirectories>
+      <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -182,7 +184,6 @@
     <ClInclude Include="CNGblock.h" />
     <ClInclude Include="CScrView.h" />
     <ClInclude Include="CSVLex.h" />
-    <ClInclude Include="CSVOut.h" />
     <ClInclude Include="CSVRcdB.h" />
     <ClInclude Include="Device.h" />
     <ClInclude Include="DeviceContext.h" />
@@ -220,7 +221,6 @@
     <ClCompile Include="CNGblock.cpp" />
     <ClCompile Include="CScrView.cpp" />
     <ClCompile Include="CSVLex.cpp" />
-    <ClCompile Include="CSVOut.cpp" />
     <ClCompile Include="CSVRcdB.cpp" />
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="DeviceContext.cpp" />
@@ -246,6 +246,11 @@
     <ClCompile Include="Wrap.cpp" />
     <ClCompile Include="Xmlparser.cpp" />
     <ClCompile Include="XmlStore.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Library\Library.vcxproj">
+      <Project>{cf57f3ec-d3db-4469-8519-3f9d73785d9b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

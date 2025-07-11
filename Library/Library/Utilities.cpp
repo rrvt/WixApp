@@ -7,10 +7,15 @@
 #include "NotePad.h"
 #include "Random.h"
 
+#include "MessageBox.h"
+
 
 static String blks = _T("                                                                       ")
                      _T("                                                                       ")
                      _T("                                                                       ");
+
+
+void clearLibUtilities() {blks.~String();}
 
 
 String addSepTab(String& s, int max) {
@@ -37,7 +42,7 @@ String s = tc;
   }
 
 
-String tabStg(int n) {return blks.substr(0, n);}
+String tabStg(int n) {return n >= 0 ? blks.substr(0, n) : String(_T(""));}
 
 
 String nextTok(String& s, int& pos) {
@@ -154,42 +159,6 @@ String* p;
   }
 
 
-void expunge(String& s) {
-int    i;
-int    n = s.length();
-Random rnd;
-
-  for (i = 0; i < n; i++) s[i] = (Byte) (256 * rnd.next());
-  }
-
-
-void expunge(Cstring& cs) {
-int    i;
-int    n = cs.length();
-Random rnd;
-
-  for (i = 0; i < n; i++) {
-    cs.Delete(i);
-
-    cs.Insert(i, (Byte) (256 * rnd.next()));
-    }
-  }
-
-
-void expunge(ToAnsi& ansi) {
-int    i;
-int    n = ansi.length();     if (!n) return;
-char*  p = ansi();            if (!p) return;
-Random rnd;
-
-  for (i = 0; i < n; i++) {
-
-    *p++ = (Byte) (256 * rnd.next());
-    }
-  }
-
-
-
 String formatPhone(TCchar* ph, Tchar sep) {
 String s = ph;
 String t;
@@ -199,4 +168,7 @@ int    n = s.length();   if (!n) return _T("          ");
 
   t = s.substr(0, 7);   s = t + sep + s.substr(7);   return s;
   }
+
+
+/////////--------------------
 

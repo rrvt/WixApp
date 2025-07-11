@@ -6,8 +6,8 @@
 #include "Utilities.h"
 
 
-WixOut  wix;                 // Wix Input File (output from this app)
-IniFile wxd;                 // WixApp data file (contains description of installer)
+WixOut      wix;                            // Wix Input File (output from this app)
+IniFileBase wxd;                            // WixApp data file (contains description of installer)
 
 
 // Output line provide s in not empty

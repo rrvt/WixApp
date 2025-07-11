@@ -23,7 +23,7 @@ static ArManipDbl& setupManipDbl(ArManipDbl::Func func, double val);
 
 
 
-Archive::Archive(String& fileName, int mode) : ArchPos(fileName, mode) {initialize();}
+//Archive::Archive(TCchar* fileName, int mode) : ArchPos(fileName, mode) {initialize();}
 
 
 

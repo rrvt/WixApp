@@ -7,6 +7,15 @@
 #include "Utilities.h"
 
 
+AsnRcd::AsnRcd() : id(0), dirty(false), remove(false) { }
+
+
+void AsnRcd::clear() {
+  id = 0;   dirty = false;   remove = false;
+  aPKey.clear();   txt.clear();
+  }
+
+
 bool AsnTbl::load(TCchar* path) {
 AsnSetIter iter(asnSet);
 AsnSet*    set;
@@ -65,6 +74,15 @@ void AsnRcd::copy(AsnSet& set) {
   set.assgnPrefID = id;
   set.aPKey       = aPKey;
   set.txt         = txt;
+  }
+
+
+void AsnRcd::copy(AsnRcd& r) {
+  id     = r.id;
+  dirty  = r.dirty;
+  remove = r.remove;
+  aPKey  = r.aPKey;
+  txt    = r.txt;
   }
 
 

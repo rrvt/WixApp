@@ -33,5 +33,6 @@ MB_YESNOCANCEL      The message box contains three pushbuttons: Yes, No, and Can
 */
 
 inline int msgChoiceBox(TCchar* txt) {return AfxMessageBox(txt, MB_OKCANCEL);}
+inline int msgYesNoBox(TCchar* txt)  {return AfxMessageBox(txt, MB_YESNO);}   // returns IDYES
 
 

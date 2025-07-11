@@ -6,6 +6,7 @@
 #include "Feature.h"
 #include "filename.h"
 #include "Guid.h"
+#include "IniFileEx.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"
 #include "Product.h"

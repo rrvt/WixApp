@@ -8,16 +8,16 @@
 class CtySet : public AccRcdSet {
 public:
 int     cityStateID;
-CString city;
-CString state;
-CString zip;
+Cstring city;
+Cstring state;
+Cstring zip;
 
   CtySet();
  ~CtySet() {close();}
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {AccRcdSet::close(); opened = false;}
+  void close() {AccRcdSet::close();}
 
   bool edit();
   bool addNew();

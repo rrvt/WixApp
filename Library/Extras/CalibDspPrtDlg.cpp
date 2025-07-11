@@ -5,7 +5,7 @@
 #include "CalibDspPrtDlg.h"
 #include "CApp.h"
 #include "ResourceExtra.h"
-#include "IniFile.h"
+#include "IniFileEx.h"
 #include "Resource.h"
 #include "CScrView.h"
 #include "Utilities.h"

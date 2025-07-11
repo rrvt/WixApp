@@ -7,7 +7,7 @@ WixApp.chm : *.htm WixApp.hhp WixApp.hhc App.css
 Clean.cln    :
   @echo "Cleaning"
   cd $(MAKEDIR)
-  del /F WixApp.chm
+  if exist WixApp.chm del /F WixApp.chm
 
 
 Release/WixApp.chm : WixApp.chm
@@ -16,7 +16,7 @@ Release/WixApp.chm : WixApp.chm
 
 Release/Clean.cln    : Clean.cln
   cd $(MAKEDIR)\..\Release
-  del WixApp.chm
+  if exist WixApp.chm del /F WixApp.chm
   cd $(MAKEDIR)
 
 
@@ -26,7 +26,7 @@ Debug/WixApp.chm : WixApp.chm
 
 Debug/Clean.cln    : Clean.cln
   cd $(MAKEDIR)\..\Debug
-  del WixApp.chm
+  if exist WixApp.chm del /F WixApp.chm
   cd $(MAKEDIR)
 
 

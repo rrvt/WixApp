@@ -8,15 +8,15 @@
 class StsSet : public AccRcdSet {
 public:
 int     stsID;
-CString abbreviation;
-CString description;
+Cstring abbreviation;
+Cstring description;
 
   StsSet();
  ~StsSet() {close();}
 
   bool open(TCchar* path);
   bool isOpen() {return opened;}
-  void close() {AccRcdSet::close(); opened = false;}
+  void close() {AccRcdSet::close();}
 
   bool edit();
   bool addNew();

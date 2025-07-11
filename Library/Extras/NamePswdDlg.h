@@ -24,7 +24,7 @@ public:
 
   virtual BOOL OnInitDialog();
   virtual void OnOK();
-          void expunge() {::expunge(pswd);}
+          void expunge() {pswd.expunge();}
 
 // Dialog Data
 #ifdef AFX_DESIGN_TIME

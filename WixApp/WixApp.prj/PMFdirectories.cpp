@@ -13,9 +13,6 @@ TCchar* DeskTopDir   = _T("DesktopFolder");
 TCchar* StartupDir   = _T("StartupFolder");
 
 
-PMFdirectories pmfDirectories;
-
-
 String PMFdirectories::fullPath(String& id) {
 DirDesc* dsc;
 String   path;

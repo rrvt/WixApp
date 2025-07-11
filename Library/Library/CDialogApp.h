@@ -15,11 +15,7 @@ String appID;
 String version;
 
   CDialogApp(CDialogApp* app);
- ~CDialogApp() {
-    #ifdef DebugMemoryLeaks
-      _CrtDumpMemoryLeaks();
-    #endif
-    }
+ ~CDialogApp();
 
   virtual BOOL InitInstance() {return CWinAppEx::InitInstance();}
   virtual int  ExitInstance();
@@ -47,24 +43,4 @@ extern CDialogApp* theCDialogApp;
 
 
 ///-------------------
-
-//#include "CMainFrm.h"
-#if 0
-class CDoc;
-class CScrView;
-
-inline CDoc*     cDoc()  {return (CDoc*)     theCDialogApp->getDoc();}
-inline CScrView* cView() {return (CScrView*) theCDialogApp->getView();}
-#endif
-
-//  CMainFrm* getMainFrame() {return (CMainFrm*) m_pMainWnd;}
-#if 0
-CDocument* doc;
-CView*     view;
-#endif
-//  void       invalidate() {if (getView()) view->Invalidate();}
-//{getMainFrame()->setAppName(appName);}
-//{getMainFrame()->setTitle(rightPart);}
-
-//  HANDLE     swapDevMode(HANDLE newDevMode);
 

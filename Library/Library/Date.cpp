@@ -54,12 +54,12 @@ typedef LexT<StringInput, false, false, false> Lex;
 static int utcOffset = 0;
 
 
-Date::Date() : dt(0) {
+Date::Date() : ctm(0) {
 Tm         utcTime;
 Tm         lclTime;
 int        noDays;
-  dt.GetGmtTm(&utcTime);
-  dt.GetLocalTm(&lclTime);
+  ctm.GetGmtTm(&utcTime);
+  ctm.GetLocalTm(&lclTime);
 
   noDays = lclTime.tm_yday ? 365 - lclTime.tm_yday : 0;
 
@@ -81,7 +81,7 @@ Token*     t;
 Token*     t1;
 Tm         today;
 
-  getToday(); dt.GetLocalTm(&today);
+  getToday(); ctm.GetLocalTm(&today);
 
   lex.initialize(); lex.input.set(s);
 
@@ -167,8 +167,8 @@ Tm         today;
   messageBox(msg);
 
 finDate:
-  if (!yr) {int t = (hr * 60 + mn) * 60 + ss + utcOffset;  CTime x((__time64_t) t); dt  = x;}
-  else     {CTime x(yr, mm, dd, hr, mn, ss);    dt = x;   }
+  if (!yr) {int t = (hr * 60 + mn) * 60 + ss + utcOffset;  CTime x((__time64_t) t); ctm  = x;}
+  else     {CTime x(yr, mm, dd, hr, mn, ss);    ctm = x;   }
   return *this;
   }
 
@@ -181,14 +181,20 @@ SYSTEMTIME sysTm;
 
   CTime cTime(sysTm.wYear, sysTm.wMonth, sysTm.wDay, sysTm.wHour, sysTm.wMinute, sysTm.wSecond);
 
-  dt = cTime;   return *this;
+  ctm = cTime;   return *this;
   }
 
 
 Date::operator COleDateTime() {
 SYSTEMTIME sysTm;
 
-  dt.GetAsSystemTime(sysTm);   return sysTm;
+  ctm.GetAsSystemTime(sysTm);   return sysTm;
+  }
+
+
+void Date::getToday() {
+SYSTEMTIME dtTm;      GetLocalTime(&dtTm);
+CTime      tm(dtTm);  ctm = tm;
   }
 
 
@@ -202,9 +208,9 @@ int                           dayLight;
     default                   : dayLight = 0;               break;
     }
 
-  CTimeSpan delta(-(tz.Bias + dayLight) * 60);      //
+  CTimeSpan delta(-(tz.Bias + dayLight) * 60);
 
-  dt = date.dt;   dt += delta;   return *this;
+  ctm = date.ctm;   ctm += delta;   return *this;
   }
 
 
@@ -223,26 +229,26 @@ static const double secPerDay = 86400;   // 60 * 60 * 24
 
 
 Date::operator variant_t() {
-double     t = double(dt.GetTime());
+double     t = double(ctm.GetTime());
 variant_t v;
 
   v.date = t / secPerDay; v.vt = VT_DATE; return v;
   }
 
 
-String Date::getTime() {CString s; s = dt.Format(_T("%X")); return s;}
+String Date::getTime() {CString s; s = ctm.Format(_T("%X")); return s;}
 
 
 
-String Date::getHHMM()   {CString s; s = dt.Format(_T("%R")); return s;}
-String Date::getHHMMSS() {CString s; s = dt.Format(_T("%T")); return s;}
+String Date::getHHMM()   {CString s; s = ctm.Format(_T("%R")); return s;}
+String Date::getHHMMSS() {CString s; s = ctm.Format(_T("%T")); return s;}
 
 
-String Date::getDate() {CString s = dt.Format(_T("%x"));  return s;}
+String Date::getDate() {CString s = ctm.Format(_T("%x"));  return s;}
 
 
 
-String Date::dayOfWeek() {CString s = dt.Format("%a"); return s;}
+String Date::dayOfWeek() {CString s = ctm.Format("%a"); return s;}
 
 
 Date& Date::operator<< (String& s) {
@@ -260,7 +266,7 @@ uint pos   = 0;
   hour  = s.substr( 8, 2).stoi(pos);
   min   = s.substr(10, 2).stoi(pos);
   sec   = s.substr(12, 2).stoi(pos);
-  CTime cTime(year, month, day, hour, min, sec);   dt = cTime;   return *this;
+  CTime cTime(year, month, day, hour, min, sec);   ctm = cTime;   return *this;
   }
 
 
