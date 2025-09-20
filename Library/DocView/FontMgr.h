@@ -7,23 +7,21 @@
 
 
 struct FontAttr {
-CDC*           dc;
-String         face;              // Current Attributes
-double         scaledSize;        // Scale * font Size in points
-bool           bold;
-bool           italic;
-bool           underline;
-bool           strikeout;
+CDC*   dc;
+String face;                          // Current Attributes
+double scaledSize;                    // Scale * font Size in points
+bool   bold;
+bool   italic;
+bool   underline;
+bool   strikeout;
 
   FontAttr() : dc(0), scaledSize(10000),
-                                 bold(false), italic(false), underline(false), strikeout(false) { }
+                     bold(false), italic(false), underline(false), strikeout(false) {face.clear();}
  ~FontAttr() { }
 
   FontAttr& operator= (FontAttr& d) {copy(d); return *this;}
 
   void clear();
-
-  void init(CDC* cdc, TCchar* name, double scsz);
 
   void setFace(TCchar* face)       {this->face      = face;   createFont();}
   void setScaledSize(double  scsz) {scaledSize      = scsz;   createFont();}
@@ -36,11 +34,15 @@ bool           strikeout;
 
 private:
 
+  void init(CDC* cdc, TCchar* name, double scsz);
+
   bool getLogFont(LOGFONT& logFont);
   bool createFont(LOGFONT& logFont, CFont& font);
   bool select(CFont& font);
 
   void copy(FontAttr& d);
+
+  friend class FontMgr;
   };
 
 
@@ -48,9 +50,9 @@ typedef DatumPtrT<FontAttr, String> FontAttrP;            // Usually defined jus
 
 
 class FontMgr {
+FontMgr* mumble;
 CDC*                                        dc;
 FontAttr*                                   cur;
-int                                         stkX;
 ExpandableP<FontAttr, String, FontAttrP, 8> data;
 
 public:
@@ -62,40 +64,43 @@ double                                      scale;        // Font Scale (just ne
 
   void      setDC(CDC* cdc)      {dc    = cdc;}
 
-  void      clear() {dc = 0;   cur = 0;   stkX = -1;  data.clear();   scale = 0;}
+  void      clear();    // {dc = 0;   data.deallocate(cur);   data.clear();   scale = 0;}
 
-  FontMgr&  operator= (FontMgr& fm) {copy(fm); return *this;}
-  void      restore()               {if (cur) cur->createFont();}
+  FontMgr&  operator= (FontMgr& fm) {clear();   copy(fm);   return *this;}
 
 
   void      setBase(CDC* cdc, TCchar* face, double fontSize);
-  void      setFace(TCchar* face) {FontAttr& attr = *next();   attr.setFace(face);}
-  void      setSize(double size)  {FontAttr& attr = *next();   attr.setScaledSize(size * scale);}
-  void      setBold()             {FontAttr& attr = *next();   attr.setBold();}
-  void      setItalic()           {FontAttr& attr = *next();   attr.setItalic();}
-  void      setUnderLine()        {FontAttr& attr = *next();   attr.setUnderLine();}
-  void      setStrikeOut()        {FontAttr& attr = *next();   attr.setStrikeOut();}
+  void      setFace(TCchar* face) {push();   cur->setFace(face);}
+  void      setSize(double size)  {push();   cur->setScaledSize(size * scale);}
+  void      setBold()             {push();   cur->setBold();}
+  void      setItalic()           {push();   cur->setItalic();}
+  void      setUnderLine()        {push();   cur->setUnderLine();}
+  void      setStrikeOut()        {push();   cur->setStrikeOut();}
   void      pop();
-  void      restoreContext()      {if (cur) cur->createFont();}
+  void      restore()             {if (cur) cur->createFont();}
 
   bool      isFontItalic() {return cur ? cur->italic : false;}
 
 private:
 
-  FontAttr* next();
+  void      push();
 
   void      copy(FontMgr& fm);
-  FontAttr* getAttr(int i);
-
-  // returns either a pointer to data (or datum) at index i in array or zero
-
-  FontAttr* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}
-
-  int       nData()      {return data.end();}             // returns number of data items in array
-
-  void      removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
   };
 
 
 
+///////----------------------
+
+//  void      restoreContext()      {if (cur) cur->createFont();}
+#if 0
+  FontAttr* getAttr(int i);
+  // returns either a pointer to data (or datum) at index i in array or zero
+
+  FontAttr* datum(int i) {return 0 <= i && i < nData() ? data[i] : 0;}
+
+  int       nData()      {return data.end();}             // returns number of data items in array
+
+  void      removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
+#endif
 

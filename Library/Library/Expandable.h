@@ -98,12 +98,6 @@ the operations supported are:
 
 #pragma once
 
-//#define DebugAlloc
-
-#ifdef DebugAlloc
-#include "MessageBox.h"
-#endif
-
 
 #define ExpandableException _T("Corrupted Expandable(P) structure")
 
@@ -115,45 +109,54 @@ int    endN;                          // Number of items in the array that may b
 int    tblN;                          // total number of elements in the table
 Datum* tbl;                           // Pointer to a heap object which is treated as an array of
                                       // Datums
-
 public:
 
   Expandable();                                 // Constructor & destructor
  ~Expandable();
 
-  Expandable& operator= (Expandable& e);        // Copy from one array to another
+ void clear();                                  // Destructs each element in array
+ int  end()   {return endN;}                    // Returns number of elements in array
+
+  Expandable& operator=  (Expandable& e);       // Copy from one array to another
+  Expandable& operator+= (Expandable& e);       // Appends the data from the e array to "this"
+                                                // array
+  Expandable& operator-= (Expandable& e);       // Move from e to "this"
 
   Datum& operator[] (int i);                    // Index into array, returns a reference
-
-  void clear() {endN = 0;}                      // Clears the number of items in array, no data
-                                                // deleted!
-  int  end()   {return endN;}                   // Returns number of elements in array
 
   // Insert every Datum d into array sorted (being sure to expand it if necessary.
   // Requires datum >= datum1 method.   Note, if one use [] to insert data into array, sorting is
   // up to the user...!
 
-  Datum* operator= (Datum* d) {return d ? (*this) = *d : 0;}
   Datum* operator= (Datum& d);
 
   Datum* operator+= (Datum& d);                 // Append Datum to end of array, copies datum into
-  Datum* operator+= (Datum* d);                 // array entry
+                                                // array entry
 
   Datum& nextData() {return (*this)[endN];}     // Return reference to next available node in array
                                                 // (at end)
-  bool operator() (int x, Datum& d);            // Insert data at index, moving other entries out
+  Datum& getData(int i);                        // Returns reference to a node at index i or the
+                                                // end of the vector, allocating it if necessary
+  bool   operator() (int x, Datum& d);          // Insert data at index, moving other entries out
                                                 // of the way
-  bool del(int x);                              // Delete datum at index x, move higher elements up
-                                                // one
+
+  void   push(Datum& d) {*this += d;}           // Push node onto the end of the table
+  bool   pop(Datum& d);                         // Copy the node at the end of the array into d
+                                                // and remove node from the end of the array
+
+  bool   del(int x);                            // Delete datum at index x, adjust array to fill
+                                                // gap, clear last entry
 
   template<class Key> Datum* find(Key key);     // Linear search. Requires datum == key method
 
   template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array,
                                                 // Requires datum > key, datum < key, datum == key
 
+  void   probe(TCchar* title);                  // Display internal information on notePad
+
 private:
 
-  void copy(Expandable& e);                     // Copy all elements of array e into a this array
+  void append(Expandable& e);                   // Append all elements of array e to array a
 
   void expand(int i);                           // Expand array when required
   };
@@ -162,31 +165,40 @@ private:
 // Constructor
 
 template <class Datum, const int n>
-Expandable<Datum, n>::Expandable() : endN(0), tblN(n > 0 ? n : 1) {
-NewArray(Datum); tbl = AllocArray(tblN);
-
-#ifdef DebugAlloc
-int n = tblN * sizeof(Datum) + sizeof(int);
-  if (n == 324) {
-    messageBox(_T("Expandable 324"));
-    }
-#endif
-}
+Expandable<Datum, n>::Expandable() : endN(0), tblN(n > 0 ? n : 1)
+                                                         {NewArray(Datum); tbl = AllocArray(tblN);}
 
 // Destructor
 
 template <class Datum, const int n>
-Expandable<Datum, n>::~Expandable() {
-  if (tbl) {NewArray(Datum);  FreeArray(tbl);}
-  tbl = 0; endN = tblN = 0;
-  }
+Expandable<Datum, n>::~Expandable()
+                         {if (tbl) {NewArray(Datum);  FreeArray(tbl);}   tbl = 0; endN = tblN = 0;}
+
+
+template <class Datum, const int n>
+void Expandable<Datum, n>::clear() {for (int i = 0; i < endN; i++) tbl[i].~Datum();   endN = 0;}
+
 
 
 // copy data from one array to another
 
 template <class Datum, const int n>
 Expandable<Datum, n>& Expandable<Datum, n>::operator= (Expandable& e)
-                                                                  {clear(); copy(e); return *this;}
+                                                                {clear(); append(e); return *this;}
+
+
+
+// Append data from on array to another
+
+template <class Datum, const int n>
+Expandable<Datum, n>& Expandable<Datum, n>::operator+= (Expandable& e) {append(e);  return *this;}
+                                              // Appends the data from the e array to "this" array
+
+template <class Datum, const int n>
+Expandable<Datum, n>& Expandable<Datum, n>::operator-= (Expandable& e)    // Move from e to "this"
+                                               {clear();   append(e);   e.clear();   return *this;}
+
+
 
 // Index into array, returns a reference
 
@@ -223,10 +235,6 @@ Datum* dtm;
 template <class Datum, const int n>
 Datum* Expandable<Datum, n>::operator+= (Datum& d)
                                         {Datum& datum = (*this)[endN];  datum = d;  return &datum;}
-template <class Datum, const int n>
-Datum* Expandable<Datum, n>::operator+= (Datum* d)
-              {if (!d) return *this;    Datum& datum = (*this)[endN];  datum = *d;  return &datum;}
-
 
 // Insert data at index, moving other entries out of the way
 
@@ -241,6 +249,25 @@ int i;
   for (i = endN-2; i >= x; i--) tbl[i+1] = tbl[i];
 
   tbl[x] = d;   return true;
+  }
+
+
+// Returns reference to a node at index i or the end of the vector, allocating it if necessary
+
+template <class Datum, const int n>
+Datum& Expandable<Datum, n>::getData(int i) {
+
+  if (i < 0 || endN < i) i = endN;   return (*this)[i];
+  }
+
+
+// Copy the node at the end of the array into d and remove node from the end of the array
+
+template <class Datum, const int n>
+bool   Expandable<Datum, n>::pop(Datum& d) {
+int    i = endN - 1;    if (i < 0) return false;
+
+  d = tbl[i];   tbl[i].~Datum();   endN--;   return true;
   }
 
 
@@ -295,14 +322,17 @@ int i;
   }
 
 
-// Copy all elements of array e into a this array
+// Copy data from e to this array
 
 template <class Datum, const int n>
-void Expandable<Datum, n>::copy(Expandable& e) {
+void Expandable<Datum, n>::append(Expandable& e) {
+int lng = endN + e.endN;
+int n   = e.endN;
+int i;
 
-  if (e.endN > tblN) expand(e.endN);
+  if (lng > tblN) expand(lng);
 
-  for (endN = 0; endN < e.endN; endN++) tbl[endN] = e.tbl[endN];
+  for (i = 0; i < n; i++) tbl[endN++] = e.tbl[i];
   }
 
 
@@ -322,12 +352,67 @@ int    j;
   for (j = 0; j < nItems; j++, p++) tbl[j] = *p;
 
   FreeArray(q);
+  }
 
+
+#define DebugAlloc
+#ifdef DebugAlloc
+#include "NotePad.h"
+#endif
+
+#ifdef DebugAlloc
+template <class Datum, const int n>
+void Expandable<Datum, n>::probe(TCchar* title) {
+String s;
+String t;
+int    i;
+int    nonEmpty = 0;
+
+  for (i = endN; i < tblN; i++) if (!tbl[i].isEmpty()) nonEmpty++;
+  s.format(_T(" -- endN: %i, tblN: %i"), endN, tblN);                 notePad << title << s;
+  if (nonEmpty) {t.format(_T(", *** Non Empty: %i ***"), nonEmpty);   notePad << t;}
+  notePad << nCrlf;
+  }
+#endif
+
+
+
+
+/////--------------
+
+#if 0
+//#define DebugAlloc
+
+#ifdef DebugAlloc
+#include "MessageBox.h"
+#endif
+#ifdef DebugAlloc
+int n = tblN * sizeof(Datum) + sizeof(int);
+  if (n == 324) {
+    messageBox(_T("Expandable 324"));
+    }
+#endif
 #ifdef DebugAlloc
 int n = tblN * sizeof(Datum) + sizeof(int);
   if (n == 260) {
     messageBox(_T("Expandable"));
     }
 #endif
+#endif
+#if 0
+template <class Datum, const int n>
+Datum* Expandable<Datum, n>::operator+= (Datum* d)
+              {if (!d) return 0;    Datum& datum = (*this)[endN];  datum = *d;  return &datum;}
+#endif
+#if 0
+// Copy all elements of array e into a this array
+
+template <class Datum, const int n>
+void Expandable<Datum, n>::copy(Expandable& e) {
+
+  if (e.endN > tblN) expand(e.endN);
+
+  for (endN = 0; endN < e.endN; endN++) tbl[endN] = e.tbl[endN];
   }
+#endif
 

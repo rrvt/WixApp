@@ -3,46 +3,46 @@
 
 #include "pch.h"
 #include "FontMgr.h"
-//#include "DeviceContext.h"
 
-#include "MessageBox.h"
-
+//#include "MessageBox.h"           /// Debugging
 
 
-FontMgr::FontMgr() : dc(0), cur(0), stkX(-1), scale(0) { }
+
+FontMgr::FontMgr() : mumble(this), dc(0), cur(0), scale(0) { }
 
 
-FontMgr::~FontMgr() {stkX = -1; cur = 0;}
+FontMgr::~FontMgr() {clear();}
+
+
+void FontMgr::clear() {
+  dc = 0;
+  data.deallocate(cur);
+  data.clear();
+  scale = 0;
+  }
 
 
 void FontMgr::setBase(CDC* cdc, TCchar* face, double fontSize)
-          {FontAttr* attr;   stkX = -1;   attr = next();   attr->init(dc, face, fontSize * scale);}
+                                                 {push();   cur->init(dc, face, fontSize * scale);}
 
 
-FontAttr* FontMgr::next() {
-FontAttr* next = datum(++stkX);
-
-  if (!next) {
-#if 1
-    next = data.allocate();
-#else
-    NewAlloc(FontAttr);   next = AllocNode;
-#endif
-    data += next;
-    }
-
-  if (stkX) *next = *cur;   cur = next;   return next;
+void FontAttr::init(CDC* cdc, TCchar* name, double scsz) {
+  dc         = cdc;
+  face       = name;
+  scaledSize = scsz;
+  bold       = false;
+  italic     = false;
+  underline  = false;
+  strikeout  = false;
+  createFont();
   }
 
 
-void FontMgr::pop() {
+void FontMgr::push()
+              {FontAttr* p = data.allocate();   if (cur) {*p = *cur;   data.push(cur);}   cur = p;}
 
-  stkX = stkX >= 0 ? stkX - 1 : -1;
 
-  cur = stkX >= 0 ? datum(stkX) : datum(0);
-
-  if (cur) cur->createFont();
-  }
+void FontMgr::pop() {data.deallocate(cur);   cur = data.pop();   restore();}
 
 
 void FontAttr::clear() {
@@ -53,17 +53,6 @@ void FontAttr::clear() {
   italic     = false;
   underline  = false;
   strikeout  = false;
-  }
-
-
-void FontAttr::init(CDC* cdc, TCchar* name, double scsz) {
-  dc         = cdc;
-  face       = name;
-  scaledSize = scsz;
-  bold       = false;
-  italic     = false;
-  underline  = false;
-  strikeout  = false;   createFont();
   }
 
 
@@ -116,10 +105,21 @@ bool FontAttr::select(CFont& font)
 
 
 void FontMgr::copy(FontMgr& fm) {
-  dc   = fm.dc;
-  stkX = fm.stkX;
+  dc    = fm.dc;
+  push();
+  *cur = *fm.cur;
+  data  = fm.data;
+  scale = fm.scale;
+  }
+
+
+
+
+
+
+////////////----------------------
+
 #if 1
-  data += fm.data;
 #else
 int       i;
 int       n = fm.stkX + 1;
@@ -133,19 +133,44 @@ FontAttr* oldAttr;
     if (oldAttr)
       {attr = getAttr(i);   *attr = *oldAttr;}
     }
-#endif
-
-  scale = fm.scale;
-
-  cur = stkX >= 0 ? data[stkX].p : 0;
-  }
-
 
 FontAttr* FontMgr::getAttr(int i) {
 FontAttr* attr = datum(i);
 
-  if (!attr) {NewAlloc(FontAttr);   attr = AllocNode;   data[i].p = attr;}
+#if 1
+  attr = &data.getData(i);
+#else
+  if (!attr) {NewAlloc(FontAttr);   attr = AllocNode;   data[i] = attr;}
+#endif
 
   return attr;
   }
+
+#endif
+#if 0
+FontAttr* FontMgr::next() {
+FontAttr* next = datum(++stkX);
+
+  if (!next) {
+#if 1
+    next = data.allocate();
+#else
+    NewAlloc(FontAttr);   next = AllocNode;
+#endif
+    data += next;
+    }
+
+  if (stkX) *next = *cur;   cur = next;   return next;
+  }
+
+
+void FontMgr::pop() {
+
+  stkX = stkX >= 0 ? stkX - 1 : -1;
+
+  cur = stkX >= 0 ? datum(stkX) : datum(0);
+
+  if (cur) cur->createFont();
+  }
+#endif
 

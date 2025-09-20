@@ -56,7 +56,7 @@ VertMgmt vert;                    // Manage vertical movement in window or page
   void     setStrikeOut()        {fontMgr.setStrikeOut();   setMetric();}
   void     popFont()             {fontMgr.pop();            setMetric();}
 
-  void     restoreFontCtx()      {fontMgr.restoreContext(); setMetric();}
+  void     restoreFontCtx()      {fontMgr.restore(); setMetric();}
 
   COLORREF getBkColor()  {return dc->GetBkColor();}                     // Background color
   COLORREF getTxtColor() {return dc->GetTextColor();}                   // Text Color

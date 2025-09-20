@@ -61,7 +61,7 @@ public:
 
 // returns either a pointer to data (or datum) at index i in array or zero
 
-  CSVRcd* datum(int i) {return 0 <= i && i < nData() ? data[i].p : 0;}
+  CSVRcd* datum(int i) {return 0 <= i && i < nData() ? data[i] : (CSVRcd*)0;}
 
   void display(NotePad& np);                            // display as comman separated fields
 

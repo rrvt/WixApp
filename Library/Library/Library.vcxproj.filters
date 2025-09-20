@@ -99,9 +99,6 @@
     <ClCompile Include="Utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="XTerm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FileName.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,12 +109,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="StatusBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlAttributes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Static.cpp">
@@ -320,9 +311,6 @@
     <ClInclude Include="Variant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="XTerm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -339,12 +327,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StatusBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlAttributes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Static.h">
@@ -449,8 +431,5 @@
     <ClInclude Include="IniFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Documentation\XML.pdf" />
   </ItemGroup>
 </Project>

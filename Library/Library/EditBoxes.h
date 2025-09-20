@@ -16,7 +16,7 @@ typedef IterT<EditBoxes, EditBox> BxsIter;
 
 class EditBoxes {
 
-CWnd*                             view;
+CWnd*                                  view;
 ExpandableP<EditBox, int, EditBoxP, 2> boxes;
 
 public:
@@ -59,9 +59,9 @@ private:
 
   // returns either a pointer to data (or datum) at index i in array or zero
 
-  EditBox* datum(int i) {return 0 <= i && i < nData() ? boxes[i].p : 0;}       // or data[i].p
+  EditBox* datum(int i) {return 0 <= i && i < nData() ? boxes[i] : 0;}
 
-  int      nData()      {return boxes.end();}                   // returns number of data items in array
+  int      nData()      {return boxes.end();}             // returns number of data items in array
 
   void     removeDatum(int i) {if (0 <= i && i < nData()) boxes.del(i);}
 

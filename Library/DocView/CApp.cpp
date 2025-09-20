@@ -34,7 +34,8 @@ CApp::~CApp() {
   }
 
 
-int CApp::ExitInstance() {devices.~Devices();   return CWinAppEx::ExitInstance();}
+int CApp::ExitInstance()
+                    {devices.~Devices();   notePad.~NotePad();   return CWinAppEx::ExitInstance();}
 
 
 void CApp::setAppName(TCchar* appName)   {if (getMainFrame()) getMainFrame()->setAppName(appName);}

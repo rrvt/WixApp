@@ -180,6 +180,7 @@
     <ClInclude Include="CDoc.h" />
     <ClInclude Include="ClipLine.h" />
     <ClInclude Include="CMainFrm.h" />
+    <ClInclude Include="CMFStatusBar.h" />
     <ClInclude Include="CNG.h" />
     <ClInclude Include="CNGblock.h" />
     <ClInclude Include="CScrView.h" />
@@ -207,8 +208,6 @@
     <ClInclude Include="UndrLn.h" />
     <ClInclude Include="VertMgmt.h" />
     <ClInclude Include="Wrap.h" />
-    <ClInclude Include="Xmlparser.h" />
-    <ClInclude Include="XmlStore.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ByteBlock.cpp" />
@@ -217,6 +216,7 @@
     <ClCompile Include="CDoc.cpp" />
     <ClCompile Include="ClipLine.cpp" />
     <ClCompile Include="CMainFrm.cpp" />
+    <ClCompile Include="CMFStatusBar.cpp" />
     <ClCompile Include="CNG.cpp" />
     <ClCompile Include="CNGblock.cpp" />
     <ClCompile Include="CScrView.cpp" />
@@ -244,8 +244,6 @@
     <ClCompile Include="UndrLn.cpp" />
     <ClCompile Include="VertMgmt.cpp" />
     <ClCompile Include="Wrap.cpp" />
-    <ClCompile Include="Xmlparser.cpp" />
-    <ClCompile Include="XmlStore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Library\Library.vcxproj">

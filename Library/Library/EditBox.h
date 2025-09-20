@@ -17,26 +17,31 @@ int     vertPos;
 public:
   EditBox() : created(false), boxType(NilBox), vertPos(0) { }
  ~EditBox() {delBox();}
+  EditBox(EditBox& eb) {copy(eb);}
 
- void clear() {Clear();}
+ void     clear() {Clear();}
 
-  void create(int vPos, RECT& rect, CWnd* view, int id, bool integerOnly = false);
+ EditBox& operator= (EditBox& eb) {copy(eb); return *this;}
 
-  void set(String& s, BoxType bt) {initialVal = s; boxType = bt;}
+  void    create(int vPos, RECT& rect, CWnd* view, int id, bool integerOnly = false);
 
-  void setFocus(bool home = false);
+  void    set(String& s, BoxType bt) {initialVal = s; boxType = bt;}
 
-  int  getVertPos() {return vertPos;}
+  void    setFocus(bool home = false);
 
-  void getRect(RECT& rect);
+  int     getVertPos() {return vertPos;}
 
-  void getWindowPos(HWND hWnd, int* x, int* y);
+  void    getRect(RECT& rect);
 
-  void getLine(String& line);
+  void    getWindowPos(HWND hWnd, int* x, int* y);
+
+  void    getLine(String& line);
 
 private:
 
-  void delBox() {if (created) DestroyWindow(); created = false;}
+  void    delBox() {if (created) DestroyWindow(); created = false;}
+
+  void    copy(EditBox& eb);
 
   friend class EditBoxes;
   };

@@ -57,9 +57,6 @@
     <ClInclude Include="ReportNtPd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Xmlparser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ByteBlock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CSVRcdB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="XmlStore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Device.h">
@@ -120,6 +114,9 @@
     <ClInclude Include="FontMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CMFStatusBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -152,9 +149,6 @@
     <ClCompile Include="ReportNtPd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Xmlparser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ByteBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,9 +159,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSVLex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="XmlStore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Device.cpp">
@@ -210,6 +201,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSVRcdB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMFStatusBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

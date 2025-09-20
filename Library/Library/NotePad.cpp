@@ -3,8 +3,6 @@
 
 #include "pch.h"
 #include "NotePad.h"
-//#include "Archive.h"
-//#include "NtPdToArch.h"
 
 
 NotePad notePad;

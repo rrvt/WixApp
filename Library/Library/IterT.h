@@ -1,13 +1,14 @@
 // Iterator
 
-
-#pragma once
-
-
 /*
 Datum should be seen, sometimes all the data needs to be seen.  The iterator class implements an
 object that serves up each Datum entry in the array (not the pointer, the Datum object).  It is
 used:
+  class Mumble;
+  typedef IterT<Mumble, Datum> DataStoreIter;                       // Iterator for the Xyz
+
+
+  class Mumble {
    DataStoreIter iter(dataStore);
    Datum*        data;
 
@@ -24,7 +25,7 @@ private:
 
   // returns either a pointer to data (or datum) at index i in array or zero
 
-  Datum* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}       // or data[i].p
+  Datum* datum(int i) {return 0 <= i && i < nData() ? &data[i] : 0;}
 
   int    nData()      {return data.end();}              // returns number of data items in array
 
@@ -33,6 +34,7 @@ private:
   friend typename DataIter;
 */
 
+#pragma once
 
 template <class Store, class Datum>
 
@@ -74,8 +76,9 @@ private:
   };
 
 
-//Obj Iterator -- i.e. the actual Object is contained in the iterator, therefore use it immediately after
-// a pointer is returned to it...
+//Obj Iterator -- i.e. the actual Object is contained in the iterator, therefore use it immediately
+// after a pointer is returned to it...
+
 /*
 Datum* StoreX::getDatum(int i, Datum& d) {
 

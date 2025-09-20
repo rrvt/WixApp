@@ -36,12 +36,20 @@ String  formatPhone(TCchar* ph, Tchar sep);
 
 void    clearLibUtilities();
 
-////------------
 
-//void    expunge(String&   s);
-//void    expunge(Cstring& cs);
-//void    expunge(ToAnsi& ansi);
 
-//void    dspStatic();
+#ifdef _DEBUG
 
+inline String dbgHelpPath(TCchar* path) {
+String stg = path;
+int    pos     = stg.findLastOf('.');
+String ext     = pos > 0 ? stg.substr(pos) : String(_T(""));
+String partial = pos > 0 ? stg.substr(0, pos) : stg;
+
+  return partial + _T("Dbg") + ext;
+  }
+
+#else
+ inline String dbgHelpPath(TCchar* path) {return path;}
+#endif
 

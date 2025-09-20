@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 9/19/25
+
+Changes to accomodate changes to ExpandableP.
+
 ### Update 7/10/25
 
 Update Database objects to suppress memory leak reporting.  Factored IniFile into three classes.

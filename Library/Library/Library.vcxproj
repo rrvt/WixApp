@@ -71,9 +71,6 @@
     <ClCompile Include="trim.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="WinPos.cpp" />
-    <ClCompile Include="XmlElement.cpp" />
-    <ClCompile Include="XmlAttributes.cpp" />
-    <ClCompile Include="XTerm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppFile.h" />
@@ -154,9 +151,6 @@
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Variant.h" />
     <ClInclude Include="WinPos.h" />
-    <ClInclude Include="XmlElement.h" />
-    <ClInclude Include="XmlAttributes.h" />
-    <ClInclude Include="XTerm.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -212,7 +206,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <BasicRuntimeChecks />
@@ -220,6 +214,7 @@
       <PrecompiledHeaderOutputFile />
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -268,7 +263,4 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
-  <ItemGroup>
-    <None Include="..\Documentation\XML.pdf" />
-  </ItemGroup>
 </Project>

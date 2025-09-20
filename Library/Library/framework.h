@@ -57,5 +57,6 @@ typedef basic_string<Tchar> tstring;
 
 #include "Strings.h"
 #include "Variant.h"
+#ifndef NEWAllocator                        // Useful only when debugging with Library
 #include "NewAllocator.h"
-
+#endif

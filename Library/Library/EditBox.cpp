@@ -59,3 +59,11 @@ int pos = home ? 0 : -1;
   }
 
 
+
+void EditBox::copy(EditBox& eb) {
+  created    = eb.created;
+  boxType    = eb.boxType;
+  initialVal = eb.initialVal;
+  vertPos    = eb.vertPos;
+  }
+

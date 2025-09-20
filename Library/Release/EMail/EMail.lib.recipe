@@ -7,5 +7,8 @@
     <NonRecipeFileRef>
       <FullPath>D:\Sources\RacesBadge\RacesBadge.hlp\RacesBadge.hlp.vcxproj</FullPath>
     </NonRecipeFileRef>
+    <NonRecipeFileRef>
+      <FullPath>D:\Sources\Library\curl-8.5.0\LibCurl\LibCurl.vcxproj</FullPath>
+    </NonRecipeFileRef>
   </NonRecipeFileRefs>
 </Project>

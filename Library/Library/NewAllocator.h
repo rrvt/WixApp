@@ -31,7 +31,7 @@
 
 
 #pragma once
-
+#define NEWAllocator
 
 
 #ifdef _DEBUG
