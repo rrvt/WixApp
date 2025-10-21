@@ -6,10 +6,6 @@
 #include "AccessDB.h"
 
 
-//#include "NotePad.h"
-#include "MessageBox.h"
-
-
 IMPLEMENT_DYNAMIC(AccFldDsc, AccRcdSet)
 
 

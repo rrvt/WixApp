@@ -2,6 +2,7 @@
 
 
 #pragma once
+#include "ToolBarDim.h"
 
 struct CbxItem;
 
@@ -49,7 +50,9 @@ String caption;
 
 private:
 
-  bool        getActual() {if (!actual) actual = GetByCmd(id);   return actual != 0;}
+  bool        getActual();
+  int         getWidth() {return toolBarDim.getHoriz(maxChars) * percent / 100 + 20;}
+
   String      findNext(int index);
 
   bool        add(TCchar* txt, int data);

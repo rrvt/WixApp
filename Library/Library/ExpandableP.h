@@ -141,13 +141,6 @@ the operations supported are:
 
 
 #pragma once
-//#include "NewAllocator.h"
-
-//#define DebugAllocP
-
-#ifdef DebugAllocP
-#include "MessageBox.h"
-#endif
 
 
 #define ExpandableException _T("Corrupted Expandable(P) structure")
@@ -289,7 +282,9 @@ public:
   Datum* allocate()            {NewAlloc(Datum);   return AllocNode;}
   void   deallocate(Datum*& p) {NewAlloc(Datum);   FreeNode(p);   p = 0;}
 
+#ifdef DocView
   void   probe(TCchar* title);          // Display internal information on notePad
+#endif
 
 private:
 
@@ -562,12 +557,10 @@ void ExpandableP<Datum, Key, DatumPtr, n>::clear() {
   }
 
 
-#define DebugAllocP
-#ifdef DebugAllocP
+#ifdef DocView
 #include "NotePad.h"
-#endif
 
-#ifdef DebugAllocP
+
 template <class Datum, class Key, class DatumPtr, const int n>
 void ExpandableP<Datum, Key, DatumPtr, n>::probe(TCchar* title) {
 String s;

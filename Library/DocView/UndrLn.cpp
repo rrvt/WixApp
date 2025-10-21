@@ -1,7 +1,7 @@
 // Capture ends of and output an underline
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "UndrLn.h"
 #include "DeviceContext.h"
 

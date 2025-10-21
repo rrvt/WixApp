@@ -1,7 +1,7 @@
 // font Manager II -- Second attempt at managing fonts in Windows!!!
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "FontMgr.h"
 
 //#include "MessageBox.h"           /// Debugging

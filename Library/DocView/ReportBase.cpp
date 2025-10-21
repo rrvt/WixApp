@@ -1,7 +1,7 @@
 // Report Base
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "ReportBase.h"
 #include "Archive.h"
 #include "CScrView.h"

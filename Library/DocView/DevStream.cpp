@@ -1,7 +1,7 @@
 // Stream to display/printer device
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "DevStream.h"
 #include "Devices.h"
 

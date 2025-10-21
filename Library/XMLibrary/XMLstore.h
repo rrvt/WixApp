@@ -5,7 +5,7 @@
 #include "Archive.h"
 #include "ExpandableP.h"
 #include "IterT.h"
-#include "NotePad.h"
+//#include "NotePad.h"
 #include "XMLparser.h"
 
 #include "MessageBox.h"
@@ -86,7 +86,7 @@ String line;
 
   bool     setKey();
 
-  void     display()        {notePad << line << nCrlf;}
+//  void     display()        {notePad << line << nCrlf;}
 
   void     output(Archive& ar) {ar   << line << aCrlf;}
 

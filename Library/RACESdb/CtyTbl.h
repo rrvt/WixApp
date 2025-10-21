@@ -95,7 +95,7 @@ String name;
   CtyRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   CtyRcd* find(TCchar* zip);
 
-  virtual void display();
+  virtual void display() { }
 
 private:
 

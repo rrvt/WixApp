@@ -94,7 +94,7 @@ String name;
   LocRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   LocRcd* find(TCchar* key);
 
-  virtual void display();
+  virtual void display() { }
 
 private:
 

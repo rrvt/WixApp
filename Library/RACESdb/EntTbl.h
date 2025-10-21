@@ -103,7 +103,7 @@ String name;
   EntRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   EntRcd* find(TCchar* firstName, TCchar* lastName, TCchar* phone2);
 
-  virtual void display();
+  virtual void display() { }
 
 private:
 

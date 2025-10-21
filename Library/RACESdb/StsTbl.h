@@ -94,7 +94,7 @@ String name;
   StsRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   StsRcd* find(TCchar* abbreviation);
 
-  virtual void display();
+  virtual void display() { }
 
 private:
 

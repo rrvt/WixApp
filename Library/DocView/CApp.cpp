@@ -1,10 +1,11 @@
 // Subclass of CWinAppEx
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "CApp.h"
 #include "Devices.h"
 #include "MessageBox.h"
+#include "NotePad.h"
 #include "ResourceData.h"
 
 

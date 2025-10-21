@@ -4,7 +4,6 @@
 #include "pch.h"
 #include "WinPos.h"
 #include "IniFileEx.h"
-#include "NotePad.h"
 
 
 static const double MinFactor = 3.0;
@@ -122,14 +121,6 @@ bool WinPosData::setPos(CWnd* wnd)
                             {return wnd->SetWindowPos(0, left, top, width, depth, SWP_NOCOPYBITS);}
 
 
-void WinPosData::display(TCchar* tgt, int d) {
-String s;
-
-  s.format(_T("%s: %i, %i, %i, %i"), tgt, d, width, defWidth, minWidth);
-  notePad << s << nCrlf;
-  }
-
-
 void WinPosData::normalize(int screenWidth, int screenHeight) {
 
   rationalize();
@@ -148,4 +139,17 @@ void WinPosData::rationalize() {
   if (depth  < minDepth) depth = minDepth;
   }
 
+
+
+
+/////////---------------
+
+#if 0
+void WinPosData::display(TCchar* tgt, int d) {
+String s;
+
+  s.format(_T("%s: %i, %i, %i, %i"), tgt, d, width, defWidth, minWidth);
+//  notePad << s << nCrlf;
+  }
+#endif
 

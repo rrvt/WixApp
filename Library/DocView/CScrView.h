@@ -50,7 +50,7 @@ ReportNtPd    prtNote;                // into a report with a header and footer
           void       enableDplWrap()  {dMgr.wrapEnabled = true;}
           void       disableDplWrap() {dMgr.wrapEnabled = false;}
 
-          void       invalidate() {Invalidate();}
+//        void       invalidate() {Invalidate();}
 
           void       setFont(TCchar* f, double points)
                                                 {dMgr.setFont(f, points); pMgr.setFont(f, points);}

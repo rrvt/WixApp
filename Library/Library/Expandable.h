@@ -151,8 +151,9 @@ public:
 
   template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array,
                                                 // Requires datum > key, datum < key, datum == key
-
+#ifdef DocView
   void   probe(TCchar* title);                  // Display internal information on notePad
+#endif
 
 private:
 
@@ -355,12 +356,11 @@ int    j;
   }
 
 
-#define DebugAlloc
-#ifdef DebugAlloc
-#include "NotePad.h"
-#endif
 
-#ifdef DebugAlloc
+#ifdef DocView
+#include "NotePad.h"
+
+
 template <class Datum, const int n>
 void Expandable<Datum, n>::probe(TCchar* title) {
 String s;

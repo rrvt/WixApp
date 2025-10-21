@@ -1,4 +1,5 @@
-// stdafx.h in the form of pch.h/framework.h ...
+// DocViewFramework in the form of Dpch.h/framework.h ...
+// This is to avoid similar files in Library
 
 #pragma once
 
@@ -19,7 +20,7 @@
 #define VC_EXTRALEAN                        // Exclude rarely-used stuff from Windows headers
 #endif
 
-#include "targetver.h"
+#include <SDKDDKVer.h>
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS  // some CString constructors will be explicit
 
@@ -58,4 +59,6 @@ typedef basic_string<Tchar> tstring;
 #include "Strings.h"
 #include "Variant.h"
 #include "NewAllocator.h"
+
+#define DocView
 

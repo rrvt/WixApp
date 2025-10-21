@@ -6,9 +6,6 @@
 #include "FileName.h"
 #include "FileSrch.h"
 
-//#include "MessageBox.h"
-//#include "NotePad.h"
-
 
 void AppFile::loadFolders(TCchar* startPath) {
 String   initialPath = startPath;

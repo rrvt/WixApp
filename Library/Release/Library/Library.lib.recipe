@@ -3,9 +3,5 @@
   <ProjectOutputs />
   <ContentFiles />
   <SatelliteDlls />
-  <NonRecipeFileRefs>
-    <NonRecipeFileRef>
-      <FullPath>D:\Sources\WixApp\WixApp.hlp\WixApp.hlp.vcxproj</FullPath>
-    </NonRecipeFileRef>
-  </NonRecipeFileRefs>
+  <NonRecipeFileRefs />
 </Project>

@@ -60,3 +60,5 @@ typedef basic_string<Tchar> tstring;
 #ifndef NEWAllocator                        // Useful only when debugging with Library
 #include "NewAllocator.h"
 #endif
+
+

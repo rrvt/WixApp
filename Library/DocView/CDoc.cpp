@@ -1,7 +1,7 @@
 // CDoc -- Used to override Serialize so that Unicode may be used internally
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "CDoc.h"
 #include "CopyFile.h"
 

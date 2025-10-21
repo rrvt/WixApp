@@ -1,7 +1,7 @@
 
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "ByteBlock.h"
 #include "Archive.h"
 #include "NotePad.h"

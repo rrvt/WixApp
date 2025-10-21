@@ -34,9 +34,6 @@ String version;
   void       savePrinterAttr() {printer.saveAttr(getDevMode());}
   String&    getPrinterName()  {return printer.getName(getDevMode());}
 
-//  HANDLE     swapDevMode(HANDLE newDevMode);
-  void       invalidate() {if (getView()) view->Invalidate();}
-
   void       setupPrinterDlg() {CWinApp::OnFilePrintSetup();}
 
   bool       sendCommand(uint command)

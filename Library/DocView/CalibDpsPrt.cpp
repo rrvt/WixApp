@@ -1,7 +1,7 @@
 // Calibrate Display and/or Printer Fonts
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "CalibDspPrt.h"
 #include "CalibDspPrtDlg.h"
 #include "CApp.h"

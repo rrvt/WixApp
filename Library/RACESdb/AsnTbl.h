@@ -94,7 +94,7 @@ String name;
   AsnRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   AsnRcd* find(TCchar* aPKey);
 
-  virtual void display();
+  virtual void display() { }
 
 private:
 

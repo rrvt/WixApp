@@ -62,7 +62,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Library\;$(ProjectDir)..\$(Configuration)\LibCurl\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\DocView\;$(ProjectDir)..\Library\;$(ProjectDir)..\$(Configuration)\LibCurl\include</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <PrecompiledHeaderOutputFile />
     </ClCompile>
@@ -86,7 +86,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Library\;$(ProjectDir)..\$(Configuration)\LibCurl\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\DocView\;$(ProjectDir)..\Library\;$(ProjectDir)..\$(Configuration)\LibCurl\include</AdditionalIncludeDirectories>
       <PrecompiledHeaderOutputFile />
       <ProgramDataBaseFileName />
       <WholeProgramOptimization>false</WholeProgramOptimization>

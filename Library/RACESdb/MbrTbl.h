@@ -123,7 +123,7 @@ String name;
   MbrRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   MbrRcd* find(TCchar* callSign);
 
-  virtual void display();
+  virtual void display() { }
 
 private:
 

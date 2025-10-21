@@ -44,7 +44,7 @@ private:
                                                           // invisible boarders
   void rationalize();
 
-  void display(TCchar* tgt, int d);
+//  void display(TCchar* tgt, int d);
   };
 
 

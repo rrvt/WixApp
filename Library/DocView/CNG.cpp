@@ -1,7 +1,7 @@
 // A little class to save and restore names and passwords (or anytext) using Cryptography API : Next Generation (CNG)
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "CNG.h"
 #include "NotePad.h"
 #include "Random.h"

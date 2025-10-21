@@ -1,7 +1,7 @@
 // Transform Display Output into a Report with a header and footer
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "ReportNtPd.h"
 #include "CScrView.h"
 #include "NotePad.h"

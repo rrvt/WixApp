@@ -1,0 +1,98 @@
+// Address Table
+
+
+#include "pch.h"
+#include "AdrTbl.h"
+
+
+AdrRcd::AdrRcd() : id(0), dirty(false), remove(false) { }
+
+
+void AdrRcd::clear() {
+  id = 0;   dirty = false;   remove = false;
+  address1.clear();   address2.clear();
+  }
+
+
+bool AdrTbl::load(TCchar* path) {
+AdrSetIter iter(adrSet);
+AdrSet*    set;
+int        i;
+
+  if (!open(path)) return false;
+
+  data.clear();
+
+  for (i = 0, set = iter(); set; i++, set = iter++) {
+
+    AdrRcd* rcd = data.allocate();   rcd->load(set);   data = rcd;
+
+    if (rcd->id > maxID) maxID = rcd->id;
+    }
+
+  close();   return true;
+  }
+
+
+void AdrRcd::load(AdrSet* set) {
+  id       = set->addressID;
+  address1 = set->address1;
+  address2 = set->address2;
+  }
+
+
+bool AdrTbl::store(TCchar* path) {
+AdrIter    iter(*this);
+AdrRcd*    rcd;
+AdrSetIter setIter(adrSet);
+AdrSet*    set;
+
+  if (!open(path)) return false;
+
+  for (rcd = iter(), set = setIter(); rcd; rcd = iter++) if (rcd->dirty) {
+
+    set = setIter.find(rcd->id);   rcd->dirty = false;
+
+    if (!set)        {rcd->add(adrSet); continue;}
+
+    if (rcd->remove) {set->remove(); iter.remove();  continue;}
+
+    rcd->store(*set);
+    }
+
+  close();   return true;
+  }
+
+
+void AdrRcd::store(AdrSet& set) {set.edit();     copy(set);   set.update();}
+void AdrRcd::add(  AdrSet& set) {set.addNew();   copy(set);   set.update();}
+
+
+void AdrRcd::copy(AdrSet& set) {
+  set.addressID = id;
+  set.address1  = address1;
+  set.address2  = address2;
+  }
+
+
+void AdrRcd::copy(AdrRcd& r) {
+  id       = r.id;
+  dirty    = r.dirty;
+  remove   = r.remove;
+  address1 = r.address1;
+  address2 = r.address2;
+  }
+
+
+AdrRcd* AdrTbl::add(AdrRcd& rcd) {rcd.id = ++maxID;  rcd.dirty = true;  return data = rcd;}
+
+
+AdrRcd* AdrTbl::find(TCchar* address1, TCchar* address2) {
+AdrIter iter(*this);
+AdrRcd* rcd;
+
+  for (rcd = iter(); rcd; rcd = iter++) if (rcd->contains(address1, address2)) return rcd;
+
+  return 0;
+  }
+

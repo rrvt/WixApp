@@ -23,15 +23,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RACESdb", "..\RACESdb\RACES
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LibCurl", "..\curl-8.5.0\LibCurl\LibCurl.vcxproj", "{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SftpSSL", "..\SftpSSL\SftpSSL.vcxproj", "{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DocView", "..\DocView\DocView.vcxproj", "{D0FDD57B-5315-4E31-B0C9-FCFB7A0285F6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B} = {CF57F3EC-D3DB-4469-8519-3F9D73785D9B}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dialog", "..\Dialog\Dialog.vcxproj", "{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Threads", "..\Threads\Threads.vcxproj", "{F9BAD973-2F95-475C-AF57-BE94E991BE64}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XMLibrary", "..\XMLibrary\XMLibrary.vcxproj", "{3C86EC1C-84C6-4716-9294-4EF3EFE3381A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,14 +60,22 @@ Global
 		{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}.Debug|x86.Build.0 = Debug|Win32
 		{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}.Release|x86.ActiveCfg = Release|Win32
 		{7F6664A3-0B63-466F-8B0F-3A07AF1C1DD6}.Release|x86.Build.0 = Release|Win32
-		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Debug|x86.ActiveCfg = Debug|Win32
-		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Debug|x86.Build.0 = Debug|Win32
-		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Release|x86.ActiveCfg = Release|Win32
-		{5D9DCDC0-6A38-42BC-8ACF-0D3A7270BB29}.Release|x86.Build.0 = Release|Win32
 		{D0FDD57B-5315-4E31-B0C9-FCFB7A0285F6}.Debug|x86.ActiveCfg = Debug|Win32
 		{D0FDD57B-5315-4E31-B0C9-FCFB7A0285F6}.Debug|x86.Build.0 = Debug|Win32
 		{D0FDD57B-5315-4E31-B0C9-FCFB7A0285F6}.Release|x86.ActiveCfg = Release|Win32
 		{D0FDD57B-5315-4E31-B0C9-FCFB7A0285F6}.Release|x86.Build.0 = Release|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Debug|x86.ActiveCfg = Debug|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Debug|x86.Build.0 = Debug|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Release|x86.ActiveCfg = Release|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Release|x86.Build.0 = Release|Win32
+		{F9BAD973-2F95-475C-AF57-BE94E991BE64}.Debug|x86.ActiveCfg = Debug|Win32
+		{F9BAD973-2F95-475C-AF57-BE94E991BE64}.Debug|x86.Build.0 = Debug|Win32
+		{F9BAD973-2F95-475C-AF57-BE94E991BE64}.Release|x86.ActiveCfg = Release|Win32
+		{F9BAD973-2F95-475C-AF57-BE94E991BE64}.Release|x86.Build.0 = Release|Win32
+		{3C86EC1C-84C6-4716-9294-4EF3EFE3381A}.Debug|x86.ActiveCfg = Debug|Win32
+		{3C86EC1C-84C6-4716-9294-4EF3EFE3381A}.Debug|x86.Build.0 = Debug|Win32
+		{3C86EC1C-84C6-4716-9294-4EF3EFE3381A}.Release|x86.ActiveCfg = Release|Win32
+		{3C86EC1C-84C6-4716-9294-4EF3EFE3381A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

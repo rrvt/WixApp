@@ -1,7 +1,7 @@
 // Clip Line using the Mouse Left Button to Select
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "ClipLine.h"
 #include "ClipBoard.h"
 #include "DeviceContext.h"

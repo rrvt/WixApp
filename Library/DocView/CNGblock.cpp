@@ -2,7 +2,7 @@
 // Cryptography API : Next Generation (CNG)
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "CNGblock.h"
 #include "Random.h"
 

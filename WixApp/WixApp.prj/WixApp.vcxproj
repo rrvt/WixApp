@@ -227,6 +227,11 @@
     <Image Include="res\Toolbar.bmp" />
     <Image Include="res\ShortToolbar.bmp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Dialog\Dialog.vcxproj">
+      <Project>{f9033cda-e37d-4f43-bbc5-d881c6edce9a}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

@@ -27,7 +27,7 @@ IconPath=D:\Sources\Library\License\MITLicense.ico
 ProductName=WixApp
 Company=Bob -- K6RWY
 WixName=WixApp
-WixVersion=1.8.0.0
+WixVersion=1.8.4.0
 UpgradeCode=7CC7F21A-3742-4781-BDD8-0A0B7F27241C
 SaveVerAllowed=0
 LicenseRequired=1
@@ -56,7 +56,7 @@ CurSel=App
 FeatureID=App
 ProgramID=WixApp
 StartMenuID=WixApp
-CurSel=Banner
+CurSel=WixApp
 NoComponents=4
 [Ftr00Cmp00]
 ID=WixApp

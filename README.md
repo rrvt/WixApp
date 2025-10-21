@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 10/21/25
+
+Factored library into three parts, Library, Dialog, DocView.
+
 ### Update 9/19/25
 
 Changes to accomodate changes to ExpandableP.

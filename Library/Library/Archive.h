@@ -84,10 +84,10 @@
 #include "ManipT.h"
 #include "NoteNmbr.h"
 
+#ifdef DocView
 class NotePad;
+#endif
 
-
-class CDoc;
 
 class Archive;
 
@@ -117,7 +117,9 @@ enum Mode {Read=1, Write=2, Create=4};
   bool     isStoring() {return ArchFile::isStoring();}
   void     seekEnd()   {ArchFile::seekEnd();}
 
+#ifdef DocView
   Archive& operator << (NotePad& np);                   // Archive the content of specified notepad
+#endif
 
   Archive& operator << (TCchar*        tc) {return append(tc);}
   Archive& operator << (String&         s) {return append(s);}
@@ -221,8 +223,6 @@ private:
   friend ArManipInt& aSetRTab(   int    val);   // Set a right tab (end of fragment ends at tab)
   friend ArManipInt& aSetWidth(  int    val);   // Set width of double output (padded with spaces)
   friend ArManipInt& aSetPrec(   int    prec);  // Set no. of digits after decimal point of double
-//  friend class NotePad;
-  friend class ArchiveNtPd;
   };
 
 

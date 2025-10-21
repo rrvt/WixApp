@@ -1,7 +1,7 @@
 // NotePad
 // Copyright Software Design & Engineering, Robert R. Van Tuyl, 2013.  All rights reserved.
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "NotePad.h"
 
 

@@ -111,6 +111,7 @@
 #pragma once
 #include "Currency.h"
 #include "Date.h"
+#include "Invalidate.h"                       // Use invalidate() to output in View Module
 #include "ManipT.h"
 #include "Note.h"
 #include "NoteUndrLn.h"
@@ -321,5 +322,4 @@ private:
 //  int      applyTabFactor(int tb);
 
 //class TextPosition;
-//#include "Archive.h"
 

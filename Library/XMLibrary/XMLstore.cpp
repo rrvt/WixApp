@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "XMLstore.h"
+#include "NotePad.h"
 #include "qsort.h"
 
 
@@ -251,7 +252,6 @@ String s;
 
   if (!tag.isEmpty()) notePad << nTab << tag;   else notePad << nTab << _T("   ");
   }
-
 
 
 ////////////--------------------

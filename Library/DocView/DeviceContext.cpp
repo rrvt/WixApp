@@ -1,7 +1,7 @@
 // Device Context with all the details
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "DeviceContext.h"
 #include "MessageBox.h"
 

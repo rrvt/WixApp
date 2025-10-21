@@ -94,7 +94,7 @@ String name;
   AdrRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   AdrRcd* find(TCchar* address1, TCchar* address2);
 
-  virtual void display();
+  virtual void display() { }
 
 private:
 

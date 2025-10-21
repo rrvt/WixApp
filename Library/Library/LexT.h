@@ -739,7 +739,7 @@ String  f;
 
   pstg->trim();
 
-  if (pstg->empty()) {output(f);}                         //notePad << f << nCrlf;
+  if (pstg->empty()) {output(f);}
 
   else if (offset  < 74) {f.format(_T("%3i:  %s\n"), tok->line_number, pstg->str()); output(f);}
 

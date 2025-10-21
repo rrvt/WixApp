@@ -2,10 +2,12 @@
 // Copyright Bob -- K6RWY, 2019
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "Archive.h"
-#include "NotePad.h"
 
+#ifdef DocView
+#include "NotePad.h"
+#endif
 
 ArManip aClrTabs;
 ArManip aTab;
@@ -22,11 +24,6 @@ static ArManipInt& setupManipInt(ArManipInt::Func func, int    val);
 static ArManipDbl& setupManipDbl(ArManipDbl::Func func, double val);
 
 
-
-//Archive::Archive(TCchar* fileName, int mode) : ArchPos(fileName, mode) {initialize();}
-
-
-
 void Archive::initialize() {
 
   aClrTabs.n   = this; aClrTabs.func   = Archive::doClrTabs;
@@ -40,7 +37,7 @@ void Archive::initialize() {
   }
 
 
-
+#ifdef DocView
 
 Archive& Archive::operator << (NotePad& np) {
 NtPdIter iter(np);
@@ -67,6 +64,8 @@ Note*    nt;
 
   flush();   return *this;
   }
+
+#endif
 
 
 Archive& Archive::append(Cchar*  cs) {ToUniCode uni(cs);   return append(uni());}

@@ -1,7 +1,7 @@
 // Scroll View
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "CScrView.h"
 #include "CApp.h"
 #include "Display.h"

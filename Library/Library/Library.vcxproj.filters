@@ -36,9 +36,6 @@
     <ClCompile Include="Date.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Debug.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EditBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,9 +66,6 @@
     <ClCompile Include="Note.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="NotePad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -85,9 +79,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TBButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TBEditBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ToString.cpp">
@@ -108,16 +99,10 @@
     <ClCompile Include="History.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StatusBar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Static.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Executable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WinPos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -130,18 +115,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RegExpr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ToolBarBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ToolBarDim.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TBCbxMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TBCboBx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TBMenu.cpp">
@@ -159,9 +132,6 @@
     <ClCompile Include="ArchFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Archive.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ArchPos.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -172,9 +142,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ClipBoard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CSVOut.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AppFile.cpp">
@@ -192,6 +159,27 @@
     <ClCompile Include="IniFileEx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TBCboBx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBCbxMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TBEditBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBarBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolBarDim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinPos.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComboBox.h">
@@ -203,16 +191,10 @@
     <ClInclude Include="Crypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CSVRcdsT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Currency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Date.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Debug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EditBox.h">
@@ -263,9 +245,6 @@
     <ClInclude Include="Note.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NotePad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="qsort.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -291,9 +270,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TBButton.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TBEditBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Token.h">
@@ -326,16 +302,10 @@
     <ClInclude Include="CbxItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusBar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Static.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Executable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WinPos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -365,18 +335,6 @@
     <ClInclude Include="RegExpr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ToolBarBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ToolBarDim.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TBCbxMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TBCboBx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TBMenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -395,9 +353,6 @@
     <ClInclude Include="ArchFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Archive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ArchPos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -408,9 +363,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ClipBoard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CSVOut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AppFile.h">
@@ -429,6 +381,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IniFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBCboBx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBCbxMenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TBEditBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBarBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ToolBarDim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WinPos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

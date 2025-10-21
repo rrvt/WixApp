@@ -3,6 +3,7 @@
 
 #pragma once
 #include "CbxItem.h"
+#include "ToolBarDim.h"
 
 
 class TBCbxMenu : public CMFCToolBarComboBoxButton {
@@ -17,7 +18,7 @@ public:
 String caption;
 
   TBCbxMenu(uint id) :
-                  CMFCToolBarComboBoxButton(id, -1), id(id), maxChars(0), percent(1), actual(0) { }
+                CMFCToolBarComboBoxButton(id, -1), id(id), maxChars(0), percent(100), actual(0) { }
  ~TBCbxMenu() { }
 
   TBCbxMenu& install(int           idr,              TCchar* caption);
@@ -35,9 +36,10 @@ String caption;
 private:
 
   bool        getActual();
+  int         getWidth() {return toolBarDim.getHoriz(maxChars) * percent / 100 + 20;}
 
-  void       addItem(TCchar* txt, int data);
-  TBCbxMenu& finInstall(TCchar* caption);
-  void       setMaxChars(TCchar* txt) {int t;   t = _tcslen(txt);  if (t > maxChars) maxChars = t;}
+  void        addItem(TCchar* txt, int data);
+  TBCbxMenu&  finInstall(TCchar* caption);
+  void        setMaxChars(TCchar* txt) {int t;   t = _tcslen(txt);  if (t > maxChars) maxChars = t;}
   };
 

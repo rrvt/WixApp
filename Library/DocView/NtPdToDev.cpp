@@ -1,7 +1,7 @@
 // Display Device Data
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "NtPdToDev.h"
 
 //#include "MessageBox.h"         // Debugging Only

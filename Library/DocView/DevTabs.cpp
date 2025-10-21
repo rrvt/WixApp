@@ -1,7 +1,7 @@
 // Tabs needed during output to a device
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "DevTabs.h"
 #include "Horiz.h"
 

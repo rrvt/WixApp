@@ -1,7 +1,7 @@
 // Vertical Display Management
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "VertMgmt.h"
 #include "DeviceContext.h"
 

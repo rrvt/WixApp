@@ -22,8 +22,8 @@
                               Value="$(var.SolutionDir)..\..\Library\License\MITLicenseFile.rtf" />
   <UI Id="My_InstallDir.ui"><UIRef Id="WixUI_InstallDir" /></UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixApp\Release\dialog.bmp"/>
-  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixApp\Release\banner.bmp"/>
+  <WixVariable Id="WixUIDialogBmp" Value="D:\Sources\WixApp\Debug\dialog.bmp"/>
+  <WixVariable Id="WixUIBannerBmp" Value="D:\Sources\WixApp\Debug\banner.bmp"/>
 
   <Icon     Id="WixApp_Icon.exe" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\WixApp.ico"/>
   <Icon     Id="MITLicense_Icon.exe"
@@ -123,7 +123,7 @@
 </Fragment>
 
 <Fragment>
-  <Component Id="Uninstall_WixApp.cmp" Guid="2031A13C-6D50-40B2-AE4E-1FFE9FC28825"
+  <Component Id="Uninstall_WixApp.cmp" Guid="E5B7ABE7-D8BB-4A5A-961A-D20B2E751964"
                                                                             Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"

@@ -2,7 +2,7 @@
 // rrvt 05/12/2015
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "Debug.h"
 #include "NotePad.h"
 

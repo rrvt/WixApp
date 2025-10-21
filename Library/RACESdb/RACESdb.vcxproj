@@ -49,8 +49,8 @@
     <ClCompile Include="StsTbl.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Library\Library.vcxproj">
-      <Project>{cf57f3ec-d3db-4469-8519-3f9d73785d9b}</Project>
+    <ProjectReference Include="..\AccessDB\AccessDB.vcxproj">
+      <Project>{57279f7b-d4b9-47e3-8419-cb9b97c596fa}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">

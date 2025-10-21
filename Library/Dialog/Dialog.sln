@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Library", "..\Library\Library.vcxproj", "{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dialog", "Dialog.vcxproj", "{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|x86.ActiveCfg = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Debug|x86.Build.0 = Debug|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|x86.ActiveCfg = Release|Win32
+		{CF57F3EC-D3DB-4469-8519-3F9D73785D9B}.Release|x86.Build.0 = Release|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Debug|x86.ActiveCfg = Debug|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Debug|x86.Build.0 = Debug|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Release|x86.ActiveCfg = Release|Win32
+		{F9033CDA-E37D-4F43-BBC5-D881C6EDCE9A}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

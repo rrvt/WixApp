@@ -1,7 +1,7 @@
 // Device Display/Printer Output Base Class
 
 
-#include "pch.h"
+#include "LibGlobals.h"
 #include "Device.h"
 #include "Devices.h"
 
