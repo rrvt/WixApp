@@ -88,7 +88,7 @@ EMail*  eMail = (EMail*) classPtr;
 String& text  = eMail->text;
 int&    textX = eMail->textX;
 int     lng   = text.length() - textX;
-int     max   = size * nmemb;   if (lng < max) max = lng;
+int     max   = (int) (size * nmemb);   if (lng < max) max = lng;
 
   if (max <= 0) return 0;
 

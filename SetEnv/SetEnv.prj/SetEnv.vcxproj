@@ -44,16 +44,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\$(Configuration).$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\$(Configuration).$(Platform)\$(ProjectName)\</IntDir>
     <PreBuildEventUseInBuild />
     <PreLinkEventUseInBuild />
     <PostBuildEventUseInBuild />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)..\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)..\$(Configuration).$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)..\$(Configuration).$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -82,7 +82,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration).$(Platform)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.lib</AdditionalDependencies>
     </Link>
     <Manifest>
@@ -118,7 +118,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <ProgramDatabaseFile />
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration).$(Platform)\</AdditionalLibraryDirectories>
       <AdditionalDependencies>Library.lib</AdditionalDependencies>
     </Link>
     <Manifest>

@@ -91,6 +91,8 @@ String name;
 
   bool store(TCchar* path);     // Store/Del entities marked
 
+  bool isActive(int id);
+
   StsRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   StsRcd* find(TCchar* abbreviation);
 

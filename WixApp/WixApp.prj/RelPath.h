@@ -4,7 +4,9 @@
 
 #pragma once
 #include "Archive.h"
+#include "FileName.h"
 #include "GetPathDlg.h"
+#include "PathDlgDsc.h"
 
 
 
@@ -49,6 +51,7 @@ public:
   operator  TCchar*()  {return relPath;}
 
   String&   getPath(   KeyedPathDsc& dsc);      // Get path of existing file
+  String    getFileName() {return removePath(relPath);}
 
   String    localPath();          // Local full path -- Prefix with local root directory
   String    prodPath();           // Product full path -- Prefix relative path with root directory

@@ -81,6 +81,8 @@ Token*     t;
 Token*     t1;
 Tm         today;
 
+  if (s.isEmpty()) {ctm = 0;   return *this;}
+
   getToday(); ctm.GetLocalTm(&today);
 
   lex.initialize(); lex.input.set(s);
@@ -116,6 +118,14 @@ Tm         today;
         else yr = today.tm_year + 1900;
         }
       }
+    }
+
+  else if (t1->code == EOFToken && t->code == IntLitToken) {
+    yr = t->value.integer;
+    if      ( 0 <= yr && yr <  70) yr += 2000;
+    else if (70 <= yr && yr < 100) yr += 1900;
+    mm = dd = 1;
+    lex.accept_token();   goto finDate;
     }
 
   if (lex.get_token() == SlashToken) lex.accept_token();
@@ -173,11 +183,19 @@ finDate:
   }
 
 
-
 Date& Date::operator= (COleDateTime& ole) {
 SYSTEMTIME sysTm;
 
   ole.GetAsSystemTime(sysTm);
+
+  if (sysTm.wYear < 1970) {
+    sysTm.wYear         = 1970;
+    sysTm.wMonth        =    1;
+    sysTm.wDay          =    1;
+    sysTm.wHour         =   12;
+    sysTm.wMinute       =    0;
+    sysTm.wSecond       =    0;
+    }
 
   CTime cTime(sysTm.wYear, sysTm.wMonth, sysTm.wDay, sysTm.wHour, sysTm.wMinute, sysTm.wSecond);
 

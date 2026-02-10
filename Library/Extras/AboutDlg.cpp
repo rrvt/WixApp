@@ -62,4 +62,3 @@ END_MESSAGE_MAP()
 
 
 void AboutDlg::onOk() {CDialogEx::OnOK();}
-

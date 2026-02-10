@@ -221,7 +221,7 @@ String      line;
 
     line = _T("<RemoveFolder Id=\"") + uniID + _T("\" Directory=\"");
 
-    wix(tab, line, dsc->wixID, _T("\" On=\"uninstall\"/>"));
+    wix(tab, line, dsc->wixID, _T("\" On=\"uninstall\" />"));
     }
   }
 

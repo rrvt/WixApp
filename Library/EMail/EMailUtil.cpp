@@ -16,7 +16,7 @@ String s;
 int    pos;
 int    len;
 
-  if (!forTxt || !(len = _tcslen(forTxt))) return;
+  if (!forTxt || !(len = (int) _tcslen(forTxt))) return;
 
   for (pos = body.find(forTxt); pos >= 0; pos = body.find(forTxt))
                                 {s = body.substr(0, pos);   body = s + txt + body.substr(pos+len);}

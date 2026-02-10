@@ -167,7 +167,7 @@ size_t j = i;
     #ifdef Win2K
       Tchar* endPtr;   v = _tcstol(this->c_str(), &endPtr, base);   i = endPtr-this->c_str();
     #else
-      v = ::stoi(*this, &j, base);   i = j;
+      v = ::stoi(*this, &j, base);   i = (uint) j;
     #endif
     }
   catch(...) {v = 0; i = -1;} return v;
@@ -181,7 +181,7 @@ size_t j = i;
     #ifdef Win2K
       Tchar* endPtr;   v = strtoul(this->c_str(), &endPtr, base);   i = endPtr-this->c_str();
     #else
-      v = ::stoul(*this, &j, base);   i = j;
+      v = ::stoul(*this, &j, base);   i = (uint) j;
     #endif
     }
   catch(...) {v = 0; i = -1;} return v;
@@ -195,7 +195,7 @@ size_t j = i;
     #ifdef Win2K
       Tchar* endPtr;   v = strtod(this->c_str(), &endPtr);   i = endPtr-this->c_str();
     #else
-      v = ::stod(*this, &j);    i = j;
+      v = ::stod(*this, &j);    i = (uint) j;
     #endif
     }
   catch(...) {v = 0; i = -1;}
@@ -276,7 +276,7 @@ int ePos;
 void ToAnsi::convert(TCchar* tp) {
 NewArray(char);
 
-  cnt = tp ? _tcslen(tp) : 0;    p = AllocArray(cnt+1);
+  cnt = tp ? (int) _tcslen(tp) : 0;    p = AllocArray(cnt+1);
 
   if (!tp) {*p = 0; return;}
 
@@ -297,7 +297,7 @@ ToAnsi::~ToAnsi() {if (p) {NewArray(char); FreeArray(p);}}
 
 void ToUniCode::convert(Cchar* tp) {
 
-  cnt = tp ? strlen(tp) : 0;    p = new Tchar[cnt+1];
+  cnt = tp ? (int) strlen(tp) : 0;    p = new Tchar[cnt+1];
 
   if (!tp) {*p = 0; return;}
 

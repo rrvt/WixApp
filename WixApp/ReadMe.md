@@ -14,6 +14,17 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 2/9/26
+
+An app that was needed on my laptop was required to be a 64 bit app.  But there were issues
+with the Wix v3 installer and I therefore installed HeatWave v4 and NuGet Tools.  The strategy
+for building then required platform (Win32/x64) sub directories for Debug and Release.
+
+For the moment WixApp is only compiled in 32 bit mode (Win32).
+
+HeatWave required many changes to WixApp.  This version may need updating as other apps are
+updated to use HeatWave.
+
 ### Update 10/21/25
 
 Factored library into three parts, Library, Dialog, DocView.

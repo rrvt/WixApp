@@ -9,7 +9,8 @@
 
 bool ClipBoard::load(TCchar* tc) {
 ToAnsi  ansi(tc);
-size_t  cbStr = ansi.length() + 1;
+//size_t  cbStr = ansi.length() + 1;
+int     cbStr = ansi.length() + 1;
 char*   p;
 HGLOBAL hData;
 

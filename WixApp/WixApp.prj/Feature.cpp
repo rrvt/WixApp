@@ -312,7 +312,7 @@ Component*     c;
   defaultPath.mark(wixID);
   }
 
-
+#if 0
 bool Feature::outputSetPath(int tab, bool& crlfOut) {
 ComponentsIter iter(components);
 Component*     cmp;
@@ -322,7 +322,7 @@ bool           rslt = false;
 
   return rslt;
   }
-
+#endif
 
 bool Feature::validate(bool rptErrors) {
 int  i;
@@ -339,7 +339,7 @@ ComponentsIter iter(components);
 Component*     cmp;
 
   for (cmp = iter(); cmp; cmp = iter++)
-                                       wix(tab, _T("<ComponentRef Id=\""), cmp->wixID, _T("\"/>"));
+                                      wix(tab, _T("<ComponentRef Id=\""), cmp->wixID, _T("\" />"));
   }
 
 
@@ -352,7 +352,11 @@ String line;
 
   tab += TabVal;
 
-  for (i = 0; i < nComponents(); i++) {if (i) wix.crlf(); components.data[i].output(tab);}
+  for (i = 0; i < nComponents(); i++) {
+    if (i) wix.crlf();
+
+    components.data[i].output(tab);
+    }
 
   tab -= TabVal;
 

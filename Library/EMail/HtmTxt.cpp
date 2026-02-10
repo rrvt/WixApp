@@ -70,7 +70,7 @@ String s;
 int    pos;
 int    len;
 
-  if (!forTxt || !(len = _tcslen(forTxt))) return;
+  if (!forTxt || !(len = (int) _tcslen(forTxt))) return;
 
   for (pos = body.find(forTxt); pos >= 0; pos = body.find(forTxt))
                                 {s = body.substr(0, pos);   body = s + txt + body.substr(pos+len);}
@@ -82,7 +82,7 @@ static int     HtmlTabLng = 4;
 
 
 bool HtmTxt::appdFragPlus(TCchar* tc) {
-int tcLng = tc ? _tcslen(tc) : 0;
+int tcLng = tc ? (int) _tcslen(tc) : 0;
 bool brk  = false;
 
   fragLng = frag.length();

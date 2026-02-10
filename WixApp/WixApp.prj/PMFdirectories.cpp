@@ -30,21 +30,15 @@ String   line;
 
   if (startMenuSeen && stor.getDefault()) {
     wix.crlf();
-    wix(tab, _T("<Directory Id=\"ProgramMenuFolder\">"));
+    wix(tab, _T("<StandardDirectory Id=\"ProgramMenuFolder\">"));
 
-    tab += TabVal;
+    tab += TabVal;   stor.outputSubs(tab, _T(""));   tab -= TabVal;
 
-    stor.outputSubs(tab, _T(""));
-
-    tab -= TabVal;
-    wix(tab, _T("</Directory>"));
+    wix(tab, _T("</StandardDirectory>"));
     }
 
-  if (desktopDirSeen) {wix.crlf(); wix(tab, _T("<Directory Id=\"DesktopFolder\" />"));}
-  if (startupDirSeen) {wix.crlf(); wix(tab, _T("<Directory Id=\"StartupFolder\" />"));}
-
-  tab -= TabVal;
-  wix(tab, _T("</Directory>"));
+  if (desktopDirSeen) {wix.crlf(); wix(tab, _T("<StandardDirectory Id=\"DesktopFolder\" />"));}
+  if (startupDirSeen) {wix.crlf(); wix(tab, _T("<StandardDirectory Id=\"StartupFolder\" />"));}
   }
 
 
@@ -61,4 +55,11 @@ String k;
 
   stor.saveData(ar);
   }
+
+
+
+///----------------
+
+//  tab -= TabVal;
+//  wix(tab, _T("</Directory>"));
 

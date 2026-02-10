@@ -28,12 +28,13 @@ RelPath licPath;
   WixOptsDlg(CWnd* pParent = NULL);   // standard constructor
   virtual ~WixOptsDlg();
 
+  virtual BOOL OnInitDialog();
+
   afx_msg void OnAddLicense();
 
 protected:
+
   virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
   DECLARE_MESSAGE_MAP()
-public:
-  virtual BOOL OnInitDialog();
   };

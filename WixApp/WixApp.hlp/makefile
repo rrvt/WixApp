@@ -10,29 +10,16 @@ Clean.cln    :
   if exist WixApp.chm del /F WixApp.chm
 
 
-Release/WixApp.chm : WixApp.chm
-  copy $(MAKEDIR)\WixApp.chm  $(MAKEDIR)\..\Release\WixApp.chm
+$(TgtFolder)/WixApp.chm : WixApp.chm
+  copy $(MAKEDIR)\WixApp.chm  $(MAKEDIR)\..\$(TgtFolder)\WixApp.chm
 
 
-Release/Clean.cln    : Clean.cln
-  cd $(MAKEDIR)\..\Release
+$(TgtFolder)/Clean.cln    : Clean.cln
+  cd $(MAKEDIR)\..\$(TgtFolder)
   if exist WixApp.chm del /F WixApp.chm
   cd $(MAKEDIR)
 
 
-Debug/WixApp.chm : WixApp.chm
-  copy $(MAKEDIR)\WixApp.chm  $(MAKEDIR)\..\Debug\WixApp.chm
-
-
-Debug/Clean.cln    : Clean.cln
-  cd $(MAKEDIR)\..\Debug
-  if exist WixApp.chm del /F WixApp.chm
-  cd $(MAKEDIR)
-
-
-Release/Rebuild.rbd : Release/Clean.cln Release/WixApp.chm
-
-
-Debug/Rebuild.rbd   : Debug/Clean.cln Debug/WixApp.chm
+$(TgtFolder)/Rebuild.rbd : $(TgtFolder)/Clean.cln $(TgtFolder)/WixApp.chm
 
 

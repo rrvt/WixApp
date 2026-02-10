@@ -7,6 +7,7 @@
 #include "filename.h"
 #include "Guid.h"
 #include "Icons.h"
+#include "PFFdirectories.h"
 #include "Solution.h"
 #include "WixOptsDlg.h"
 #include "ResourceData.h"
@@ -24,6 +25,10 @@ static TCchar*   SameVerAllowed = _T("SaveVerAllowed");
 static TCchar*   LicenseReqKey  = _T("LicenseRequired");
 static TCchar*   LicensePathKey = _T("LicensePath");
 static TCchar*   IconIDKey      = _T("IconID");
+static TCchar*   IsWin10Key     = _T("IsWin10");
+static TCchar*   IsWin7Key      = _T("IsWin7");
+static TCchar*   IsWinXPKey     = _T("IsWinXP");
+
 
 static KeyedPathDsc browseDsc = {DefLicensePathKey, _T("License File"), _T(""), _T(""), _T("")};
 
@@ -45,6 +50,10 @@ double ver = solution.getVer();
   isLicenseReq     = wxd.readInt(ProductSection, LicenseReqKey,  0) != 0;
   licPath.readWixData(ProductSection, LicensePathKey, browseDsc);
   wxd.readString(ProductSection, IconIDKey, iconID);
+
+  isWin10 = wxd.readInt(ProductSection, IsWin10Key, 0) != 0;
+  isWin7  = wxd.readInt(ProductSection, IsWin7Key,  0) != 0;
+  isWinXP = wxd.readInt(ProductSection, IsWinXPKey, 0) != 0;
   }
 
 
@@ -53,6 +62,10 @@ void Product::updateVersion(String& path)
 
 
 void Product::storeProduct(WixAppDlg& dialog) {productName  = getText(dialog.productNameEB);}
+
+void Product::storeIsWin10(WixAppDlg& dialog){isWin10     = dialog.isWin10ch.GetCheck()    != 0;}
+void Product::storeIsWin7(WixAppDlg& dialog) {isWin7      = dialog.isWin7ch.GetCheck()     != 0;}
+void Product::storeIsWinXP(WixAppDlg& dialog){isWinXP     = dialog.isWinXPch.GetCheck()    != 0;}
 
 
 
@@ -65,6 +78,10 @@ ComboBox& cb = dialog.prodIconCB;
       loadVerEB(dialog);
 
       icons.loadCB(cb);
+     dialog.isWin10ch.SetCheck(isWin10);
+     dialog.isWin7ch.SetCheck(isWin7);
+     dialog.isWinXPch.SetCheck(isWinXP);
+
       icons.setCur(iconID, cb);
 
   dialog.prodIconCB.SetWindowText(iconID);
@@ -95,6 +112,9 @@ void Product::writeWixData() {
   wxd.write(ProductSection, LicenseReqKey,  isLicenseReq);
   licPath.writeWixData(ProductSection, LicensePathKey);
   wxd.write(ProductSection, IconIDKey,      iconID);
+  wxd.writeInt(ProductSection, IsWin10Key, isWin10);
+  wxd.writeInt(ProductSection, IsWin7Key,  isWin7);
+  wxd.writeInt(ProductSection, IsWinXPKey, isWinXP);
   }
 
 
@@ -106,75 +126,117 @@ String ver;
 
   if (upgradeCode.isEmpty()) getGuid(upgradeCode);
 
-  productID(0, app);        wix.crlf();
+  package(0, app);        wix.crlf();
 
-  package(TabVal);          wix.crlf();
+  summary(TabVal);          wix.crlf();
 
   majorUpgrade(TabVal);     wix.crlf();
 
+#if 1
+  addLicense(TabVal);
+#else
   if (isLicenseReq) addLicense(TabVal);
   else              userInterface(TabVal);
+#endif
   wix.crlf();
+
+  installDir(TabVal);       wix.crlf();
 
   installerIcons(TabVal);   wix.crlf();
 
   outputIcons(TabVal);      wix.crlf();
 
-  if (features.outputSetPaths(TabVal)) wix.crlf();
+//  if (features.outputSetPaths(TabVal)) wix.crlf();
 
   features.outputFeatures(TabVal);
 
-  wix(0, _T("</Product>"));
+  wix(0, _T("</Package>"));
   }
 
 
-void Product::productID(int tab, Component* app) {
+// There are three cases
+//  -- One OS
+//  -- OS1 to OS2
+//  -- OS to infinity
+//  <Condition>
+//    <![CDATA[Installed OR VersionNT >= 501 AND VersionNT < 601]]>         <!-- Win XP, Vista -->
+//  </Condition>
+
+void Product::outputOScondition(int tab) {
+int    lower;
+int    upper;
+String line;
+
+  if (!isWin10 && !isWin7 && !isWinXP) return;
+
+  lower = isWin10 ? _WIN32_WINNT_WIN10 : isWin7  ? _WIN32_WINNT_WIN7 :
+                                                               isWinXP ? _WIN32_WINNT_WINXP  : 0;
+  upper = isWinXP ? _WIN32_WINNT_WINXP : 0;
+
+  wix(tab, _T("<Condition>"));
+
+  if (lower == upper) line.format(_T("<![CDATA[Installed OR VersionNT = %x]]>"), lower);
+
+  else if (lower && upper)
+    line.format(_T("<![CDATA[Installed OR VersionNT >= %x AND VersionNT <= %x]]>"),
+                                                                              lower, upper);
+  else line.format(_T("<![CDATA[Installed OR VersionNT >= %x]]>"), lower);
+
+  wix(tab + TabVal, line);
+
+  wix(tab, _T("</Condition>"));
+  }
+
+
+void Product::package(int tab, Component* app) {
 String line;
 String ver;
+int    indent = tab+2;
 
-  line = _T("<Product Id=\"*\" UpgradeCode=\"") + upgradeCode + _T("\" Language=\"1033\"");
+  line = _T("<Package UpgradeCode=\"") + upgradeCode + _T("\" Language=\"1033\"");
   wix(tab, line);
   line = _T("Manufacturer=\"") + company + _T("\" Name=\"") + productName + _T("\"");
-  wix(16, line);
+  wix(indent, line);
 
   ver = app && app->isVersionAvail ? _T("!(bind.fileVersion.") + app->wixID + _T(")") : wixVersion;
   line = _T("Version=\"") + ver + _T("\"");
-  wix(16, line);
-  wix(16, _T(">"));
+  line += _T(" InstallerVersion=\"500\"");
+  wix(indent, line);
+  wix(indent, _T(">"));
   }
 
 
-void Product::package(int tab) {
+void Product::summary(int tab) {
 String line;
 
-  wix(tab, _T("<Package InstallerVersion=\"200\" Compressed=\"yes\" InstallScope=\"perMachine\""));
-
-  line = _T("Manufacturer=\"") + company + _T("\" Description=\"Installs ") + productName;
-  line += _T("\"");
-  wix(16, line);
+  line =  _T("<SummaryInformation Manufacturer=\"") + company;
+  line += _T("\" Description=\"Installs ") + productName + _T("\"");
+  wix(tab, line);
 
   line = _T("Comments=\"Copyright (c) ") + company +  _T("\"");
-  wix(16, line);
-  wix(16, _T("/>"));
+  wix(tab+2, line);
+  wix(tab+2, _T("/>"));
   }
 
 
 //  <MajorUpgrade Schedule="afterInstallInitialize"
-//                AllowDowngrades="no"   AllowSameVersionUpgrades="yes"   IgnoreRemoveFailure="no"
-//                DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+//    AllowDowngrades="no" AllowSameVersionUpgrades="yes" IgnoreRemoveFailure="no"
+//    DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 
 void Product::majorUpgrade(int tab) {
 String line;
 
   wix(tab, _T("<MajorUpgrade Schedule=\"afterInstallInitialize\""));
 
-  line = _T("AllowDowngrades=\"no\"   IgnoreRemoveFailure=\"no\"   AllowSameVersionUpgrades=");
-  line += isSameVerAllowed ? _T("\"yes\"") : _T("\"no\"");
-  wix(16, line);
+  tab += TabVal;
 
-  wix(16, _T("DowngradeErrorMessage=\"A newer version of [ProductName] is already installed.\""));
-  wix(16, _T("/>"));
-  wix.crlf();
+  line = _T("AllowDowngrades=\"no\" IgnoreRemoveFailure=\"no\" AllowSameVersionUpgrades=");
+  line += isSameVerAllowed ? _T("\"yes\"") : _T("\"no\"");
+  wix(tab, line);
+
+  wix(tab, _T("DowngradeErrorMessage=\"A newer version of [ProductName] is already installed.\""));
+  wix(tab, _T("/>"));   wix.crlf();
+  tab -= TabVal;
 
   wix(tab, _T("<MediaTemplate EmbedCab=\"yes\" />"));
   }
@@ -185,7 +247,10 @@ String relPath = licPath.prodPath();
 
   wix(tab, _T("<WixVariable Id=\"WixUILicenseRtf\" Value=\"") + relPath + _T("\" />"));
 
-  wix(tab, _T("<UI Id=\"My_InstallDir.ui\"><UIRef Id=\"WixUI_InstallDir\" /></UI>"));
+  if (!isLicenseReq) wix(tab, _T("<Property Id=\"LicenseAccepted\" Value=\"1\" />"));
+
+
+//  wix(tab, _T("<UI Id=\"My_InstallDir.ui\"><UIRef Id=\"WixUI_InstallDir\" /></UI>"));
   }
 
 
@@ -236,6 +301,24 @@ String s;
   }
 
 
+/*
+  <UI Id="My_InstallDir.ui">
+    <ui:WixUI Id="WixUI_InstallDir" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+  </UI>
+*/
+
+void Product::installDir(int tab) {
+  wix(tab, _T("<Property Id=\"WIXUI_INSTALLDIR\" Value=\""),
+                                                        pffDirectories.appDir->wixID, _T("\" />"));
+  wix.crlf();
+  wix(tab, _T("<UI Id=\"My_InstallDir.ui\">"));
+  wix(tab+2, _T("<ui:WixUI Id=\"WixUI_InstallDir\" />"));
+  wix(tab+2, _T("<UIRef Id=\"WixUI_ErrorProgressText\" />"));
+  wix(tab, _T("</UI>"));
+  }
+
+
 
 void Product::installerIcons(int tab) {
 String line;
@@ -249,7 +332,7 @@ void Product::oneInstallerIcon(int tab, TCchar* id, TCchar* bmp) {
 String line;
 
   line  = _T("<WixVariable Id=\""); line += id; line += _T("\" ");
-  line += _T("Value=\"") + installerIconPath + bmp; line += _T("\"/>");
+  line += _T("Value=\"") + installerIconPath + bmp; line += _T("\" />");
 
   wix(tab, line);
   }
@@ -273,7 +356,7 @@ IconDesc* dsc = icons.find(iconID);
 
   icons.output(tab);
 
-  if (dsc) wix(tab, _T("<Property Id=\"ARPPRODUCTICON\"  Value=\""), dsc->wixID, _T("\" />"));
+  if (dsc) wix(tab, _T("<Property Id=\"ARPPRODUCTICON\" Value=\""), dsc->wixID, _T("\" />"));
   }
 
 
@@ -283,13 +366,16 @@ String k;
   ar << aClrTabs << aSetTab(3) << aSetTab(30);
 
   ar << _T("Product: ") << productName << aCrlf;
-  ar << aTab << _T("Company:")           << aTab   << company << aCrlf;
-  ar << aTab << _T("Wix Name:")          << aTab   << wixName << aCrlf;
-  ar << aTab << _T("Wix Version:")       << aTab   << wixVersion << aCrlf;
-  ar << aTab << _T("Wix Path:")          << aTab   << wixPath << aCrlf;
-  ar << aTab << _T("upgrade Code:")      << aTab   << upgradeCode << aCrlf;
-  ar << aTab << _T("Icon ID:")           << aTab   << iconID << aCrlf;
+  ar << aTab << _T("Company:")           << aTab   << company           << aCrlf;
+  ar << aTab << _T("Wix Name:")          << aTab   << wixName           << aCrlf;
+  ar << aTab << _T("Wix Version:")       << aTab   << wixVersion        << aCrlf;
+  ar << aTab << _T("Wix Path:")          << aTab   << wixPath           << aCrlf;
+  ar << aTab << _T("upgrade Code:")      << aTab   << upgradeCode       << aCrlf;
+  ar << aTab << _T("Icon ID:")           << aTab   << iconID            << aCrlf;
   ar << aTab << _T("Installer Icon ID:") << aTab   << installerIconPath << aCrlf;
+  ar << aTab << _T("isWin10:")           << aTab   << isWin10           << aCrlf;
+  ar << aTab << _T("isWin7:")            << aTab   << isWin7            << aCrlf;
+  ar << aTab << _T("isWinXP:")           << aTab   << isWinXP           << aCrlf;
 //  k = isSameVerAllowed;
   ar << aTab << _T("isSameVerAllowed:") << aTab << isSameVerAllowed << aCrlf;
   k = isLicenseReq;

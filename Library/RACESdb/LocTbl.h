@@ -91,6 +91,8 @@ String name;
 
   bool store(TCchar* path);     // Store/Del entities marked
 
+  bool isAbbrKey(int id);
+
   LocRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   LocRcd* find(TCchar* key);
 

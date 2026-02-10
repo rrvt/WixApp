@@ -215,7 +215,7 @@ Component* c;
   return 0;
   }
 
-
+#if 0
 bool Features::outputSetPaths(int tab) {
 Iter     iter(store);
 Feature* ftr;
@@ -226,7 +226,7 @@ bool     rslt = false;
 
   return rslt;
   }
-
+#endif
 
 
 void Features::outputFeatures(int tab) {
@@ -234,12 +234,12 @@ Iter     iter(store);
 Feature* ftr;
 String   line;
 
-  wix(tab, _T("<Feature Id=\"ProductFeatures\" Title=\"Main Product\" Level=\"1\" >"));
+  wix(tab, _T("<Feature Id=\"ProductFeatures\" Title=\"Main Product\" Level=\"1\">"));
 
   tab += TabVal;
 
   for (ftr = iter(); ftr; ftr = iter++)
-                                {wix(tab, _T("<ComponentGroupRef Id=\""), ftr->wixID, _T("\"/>"));}
+                               {wix(tab, _T("<ComponentGroupRef Id=\""), ftr->wixID, _T("\" />"));}
   tab -= TabVal;
   wix(tab, _T("</Feature>"));
   }

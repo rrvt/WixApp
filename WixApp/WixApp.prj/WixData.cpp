@@ -122,8 +122,17 @@ int        tab;
 
   features.find(currentGroup);
 
-  wix(0, _T("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
-  wix(0, _T("<Wix xmlns=\"http://schemas.microsoft.com/wix/2006/wi\">"));
+/*
+  <Wix
+    xmlns="http://wixtoolset.org/schemas/v4/wxs"
+    xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+    >
+*/
+
+  wix(0, _T("<Wix"));
+  wix(2, _T("xmlns=\"http://wixtoolset.org/schemas/v4/wxs\""));
+  wix(2, _T("xmlns:ui=\"http://wixtoolset.org/schemas/v4/wxs/ui\""));
+  wix(2, _T(">"));
 
   product.output(features.findAnApp(), features);   wix.crlf();
 
@@ -131,7 +140,7 @@ int        tab;
 
   tab = 0;
   pffDirectories.begOutput(tab);
-  pmfDirectories.output(tab);     wix.crlf();
+  pmfDirectories.output(tab);     //wix.crlf();
   pffDirectories.finOutput(tab);
 
   tab = 0;

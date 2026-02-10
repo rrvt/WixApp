@@ -53,7 +53,7 @@ Tchar PlainTxt::nextChar() {
 
 
 bool PlainTxt::appdFragPlus(TCchar* tc) {
-int tcLng = tc ? _tcslen(tc) : 0;
+int tcLng = tc ? (int) _tcslen(tc) : 0;
 bool brk  = false;
 
   fragLng = frag.length();

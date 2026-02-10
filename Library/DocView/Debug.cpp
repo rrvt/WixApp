@@ -55,8 +55,8 @@ void Debug::examineTwo(void* n, void* two) {
 
 
 void Debug::examineBlk(void* n, int sz) {
-int st = (int) n;
-int en = st + sz;
+int64 st = (int64) n;
+int64 en = st + sz;
 
   if (!n) return;
 
@@ -86,7 +86,7 @@ int i;
 void Memory::alct(void* b, uint sz, Cchar* f, int ln) {
 int       i;
 MemData*  md   = findEmpty(b, i);        if (!b) return;
-int       p    = (int) b + sz - 1;
+int64     p    = (int64) b + sz - 1;
 void*     e    = (void*) p;
 ToUniCode fl(f);
 String    file = fl();

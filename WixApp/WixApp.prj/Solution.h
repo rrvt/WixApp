@@ -12,6 +12,7 @@ extern TCchar* RootPathKey;
 
 
 class Solution {
+
 String    rootPath;
 PathUnits pathUnits;
 double    ver;

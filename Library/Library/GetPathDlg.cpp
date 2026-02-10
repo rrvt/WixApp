@@ -4,6 +4,9 @@
 #include "pch.h"
 #include "GetPathDlg.h"
 #include "FileName.h"
+#include "PathDlgDsc.h"
+
+#include "MessageBox.h"
 
 
 // Local functions
@@ -12,6 +15,8 @@ static bool saveDlg(PathDlgDsc& dsc, bool overwrt, String& path);
 static bool openDlg(PathDlgDsc& dsc, bool overwrt, String& path);
 static bool pathDlg(PathDlgDsc& dsc, bool openDlg, DWORD flags, String& path);
 
+                                                                              // OFN_CREATEPROMPT
+bool createFileDlg(PathDlgDsc& dsc, String& path) {return pathDlg(dsc, true, 0, path);}
 
 bool getOpenDlg(   PathDlgDsc& dsc, String& path) {return openDlg(dsc, false, path);}
 bool getIncOpenDlg(PathDlgDsc& dsc, String& path) {return openDlg(dsc, true,  path);}
@@ -35,14 +40,17 @@ bool saveDlg(PathDlgDsc& dsc, bool overwrt, String& path)
 
 static bool pathDlg(PathDlgDsc& dsc, bool openDlg, DWORD flags, String& path) {
 String        e = dsc.title + _T('|') + dsc.pattern + _T("|All Files (*.*)|*.*||");
-CFileDialog   fileDialog(openDlg, dsc.ext, dsc.name, flags, e, 0);
-OPENFILENAME& ofn = fileDialog.m_ofn;
+CFileDialog   dlg(openDlg, dsc.ext, dsc.name, flags, e, 0);
+OPENFILENAME& ofn = dlg.m_ofn;
+Cstring       lbl = _T("Mumble");
 
   ofn.lpstrTitle = dsc.title;   ofn.lpstrInitialDir = dsc.getPath();
 
-  if (fileDialog.DoModal() == IDOK) {path = fileDialog.GetPathName(); return true;}
+  dlg.SetControlLabel(IDOK, lbl);
 
-  return false;
+  if (dlg.DoModal() == IDOK) {path = dlg.GetPathName();   return true;}
+
+  return false;                                   //ofn.lpstrFile
   }
 
 
@@ -53,23 +61,11 @@ CFolderPickerDialog dlg(path);
 
   if (!path.isEmpty()) dlg.m_ofn.lpstrInitialDir = path;
 
-  if (dlg.DoModal() == IDOK) {path = dlg.GetPathName(); return true;}
+  if (dlg.DoModal() == IDOK) {
+    path = dlg.GetPathName();   if (path[path.length()-1] != _T('\\')) path += _T("\\");
+    return true;
+    }
 
   return false;
   }
-
-
-PathDlgDsc::PathDlgDsc(TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat) {
-  title   = ttl;
-  name    = nm ? nm : _T("");
-  ext     = e;
-  pattern = pat;
-  }
-
-
-TCchar* PathDlgDsc::getPath() {path = ::getPath(name);  return path;}
-
-
-void PathDlgDsc::copy(PathDlgDsc& dsc)
-                    {title = dsc.title;  name = dsc.name;   ext = dsc.ext;  pattern = dsc.pattern;}
 

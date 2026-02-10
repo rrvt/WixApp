@@ -86,7 +86,7 @@ bool TBCboBx::getActual() {
 
 
 String TBCboBx::findNext(int index) {
-int     n   = actual->GetCount();
+int     n   = (int) actual->GetCount();
 String  tgt = actual->GetItem(index);
 int     lng = tgt.length();
 int     i;
@@ -118,7 +118,7 @@ int maxHeight = (toolBarDim.height/25 - 3) * 25;
 
   if (!getActual()) return;
 
-  count = ((TBCboBx*)actual)->GetCount();   if (!count) return;
+  count = (int) ((TBCboBx*)actual)->GetCount();   if (!count) return;
 
   pixels = count * 25;   pixels = pixels < 150 ? 150 : pixels > maxHeight ? maxHeight : pixels;
 

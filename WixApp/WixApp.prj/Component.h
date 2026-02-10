@@ -29,9 +29,6 @@ bool     isDesktop;
 bool     isVersionAvail;
 bool     isOnPath;
 bool     isStartupApp;
-bool     isWin7;
-bool     isWinXP;
-bool     isWin2K;
 
 bool     isUninstall;
 bool     isUninstallDir;
@@ -67,9 +64,6 @@ bool     isApp;
   void       storeIsVersionAvail(WixAppDlg& dialog);
   void       storeIsOnPath(      WixAppDlg& dialog);
   void       storeStartup(       WixAppDlg& dialog);
-  void       storeIsWin7(        WixAppDlg& dialog);
-  void       storeIsWinXP(       WixAppDlg& dialog);
-  void       storeIsWin2K(       WixAppDlg& dialog);
   void       delData();
 
 
@@ -85,7 +79,7 @@ bool     isApp;
 
   void       prepareUninstalls(String& newID, TCchar* wixid, String& progFileId);
 
-  bool       outputSetPath(int tab, bool& crlfOut);
+  bool       outputSetEnvPath(int tab);
 
   bool       validate(bool rptErrors = true);
   void       output(int tab);
@@ -96,13 +90,29 @@ private:
 
   void       setApp(String& path);
 
+  void       outputSourcePath(int tab);
   void       outputLink(int tab, TCchar* suffix, TCchar* dir);
   void       outputRegistry( int tab);
-  void       outputCondition(int tab, int firstCond, int lastCond = 0);
   String     getSetEnvPath();
-
   void       readOne(TCchar* key, String& v);
   void       copyObj(Component& c);
   };
+
+
+
+
+////////---------------------
+
+#if 0
+  void       storeIsWin10(       WixAppDlg& dialog);
+  void       storeIsWin7(        WixAppDlg& dialog);
+  void       storeIsWinXP(       WixAppDlg& dialog);
+#endif
+#if 0
+bool     isWin10;
+bool     isWin7;
+bool     isWinXP;
+#endif
+//  bool       outputSetPath(int tab, bool& crlfOut);
 
 

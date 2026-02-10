@@ -59,7 +59,7 @@ enum Dir {Fwd, Rev};
   int    index()                    {return iterX;}
   Datum* current()                  {return store.datum(iterX);}
 
-  IterT& operator= (IterT& iter)    {iterX = iter.iterX; store = iter.store;}
+  IterT& operator= (IterT& iter)    {iterX = iter.iterX; return *this;}
 
   bool   isLast()                   {return iterX + 1 == store.nData();}
   bool   isFirst()                  {return iterX <= 0;}

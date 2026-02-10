@@ -56,7 +56,7 @@ public:
   void       markDirs();
 //  void       markIconsUsed();
 
-  bool       outputSetPaths(int tab);
+//  bool       outputSetPaths(int tab);
 
   void       outputFeatures(int tab);
 

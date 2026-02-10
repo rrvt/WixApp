@@ -56,14 +56,9 @@ void WixOptsDlg::OnAddLicense() {
 
   addLic = addLicenseCH.GetCheck()  != 0;
 
-  if (addLic) {
+  licPath.getPath(browseDsc);
 
-    licPath.getPath(browseDsc);
-
-    licensePathEB.SetWindowText(String(licPath));
-    }
-
-  else {licPath.clear();  licensePathEB.SetWindowText(_T(""));}
+  licensePathEB.SetWindowText(String(licPath));
   }
 
 

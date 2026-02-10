@@ -1,77 +1,73 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix
+  xmlns="http://wixtoolset.org/schemas/v4/wxs"
+  xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui"
+  >
 
-<Product Id="*" UpgradeCode="242E8886-014A-42B0-AAEC-CB819CE99BD8" Language="1033"
-                Manufacturer="Bob -- K6RWY" Name="SetEnv"
-                Version="!(bind.fileVersion.SetEnv.cmp)"
-                >
+<Package UpgradeCode="242E8886-014A-42B0-AAEC-CB819CE99BD8" Language="1033"
+  Manufacturer="Bob -- K6RWY" Name="SetEnv"
+  Version="!(bind.fileVersion.SetEnv.cmp)" InstallerVersion="500"
+  >
 
-  <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine"
-                Manufacturer="Bob -- K6RWY" Description="Installs SetEnv"
-                Comments="Copyright (c) Bob -- K6RWY"
-                />
+  <SummaryInformation Manufacturer="Bob -- K6RWY" Description="Installs SetEnv"
+    Comments="Copyright (c) Bob -- K6RWY"
+    />
 
   <MajorUpgrade Schedule="afterInstallInitialize"
-                AllowDowngrades="no"   IgnoreRemoveFailure="no"   AllowSameVersionUpgrades="no"
-                DowngradeErrorMessage="A newer version of [ProductName] is already installed."
-                />
+    AllowDowngrades="no" IgnoreRemoveFailure="no" AllowSameVersionUpgrades="no"
+    DowngradeErrorMessage="A newer version of [ProductName] is already installed."
+    />
 
   <MediaTemplate EmbedCab="yes" />
 
   <WixVariable Id="WixUILicenseRtf"
                               Value="$(var.SolutionDir)..\..\Library\License\MITLicenseFile.rtf" />
-  <UI Id="My_InstallDir.ui"><UIRef Id="WixUI_InstallDir" /></UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp"/>
-  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp"/>
+  <Property Id="WIXUI_INSTALLDIR" Value="SETENV.PFF" />
 
-  <Icon     Id="AirstreamIcon.ico" SourceFile="$(var.SolutionDir)..\SetEnv.prj\Airstream.ico"/>
-  <Property Id="ARPPRODUCTICON"  Value="AirstreamIcon.ico" />
+  <UI Id="My_InstallDir.ui">
+    <ui:WixUI Id="WixUI_InstallDir" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+  </UI>
 
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp" />
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp" />
 
-  <!-- Custom Action to set the system (Machine) Path Variable -->
+  <Icon Id="Airstream_Icon.exe" SourceFile="$(var.SolutionDir)..\SetEnv.prj\Airstream.ico" />
+  <Property Id="ARPPRODUCTICON" Value="Airstream_Icon.exe" />
 
-  <Binary Id="SetEnvExe" SourceFile="C:\Program Files (x86)\SetEnv\SetEnv.exe" />
-  <CustomAction Id="SetEnv.pth" BinaryKey="SetEnvExe" Impersonate="no"
-                        Execute="deferred" ExeCommand='-a Path " [SETENV.PFF] "'   Return="check"/>
-  <CustomAction Id="SetEnv.rmp" BinaryKey="SetEnvExe" Impersonate="no"
-                        Execute="deferred" ExeCommand='-d Path " [SETENV.PFF] "'   Return="check"/>
-
-  <InstallExecuteSequence>
-    <Custom Action="SetEnv.pth" Before="InstallFinalize">
-      (UPGRADINGPRODUCTCODE) OR NOT (REMOVE="ALL")
-    </Custom>
-    <Custom Action="SetEnv.rmp" Before="SetEnv.pth">
-      (NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")
-      </Custom>  </InstallExecuteSequence>
-
-  <Feature Id="ProductFeatures" Title="Main Product" Level="1" >
-    <ComponentGroupRef Id="SetEnv.ftr"/>
+  <Feature Id="ProductFeatures" Title="Main Product" Level="1">
+    <ComponentGroupRef Id="SetEnv.ftr" />
   </Feature>
-</Product>
+</Package>
 
 <Fragment>
   <ComponentGroup Id="SetEnv.ftr">
-    <ComponentRef Id="SetEnv.cmp"/>
+    <ComponentRef Id="SetEnv.cmp" />
   </ComponentGroup>
 </Fragment>
 
 <!--Directory structure-->
 <Fragment>
-  <Directory Id="TARGETDIR" Name="SourceDir">
-    <Directory Id="ProgramFilesFolder">
-      <Directory Id="SETENV.PFF" Name="SetEnv" />
-    </Directory>
-  </Directory>
-
   <Property Id="ApplicationFolderName" Value="SetEnv" />
-  <Property Id="WIXUI_INSTALLDIR"      Value="SETENV.PFF"/>
   <Property Id="WixAppFolder"          Value="WixPerMachineFolder" />
+
+  <StandardDirectory Id="ProgramFiles6432Folder">
+    <Directory Id="SETENV.PFF" Name="SetEnv" />
+  </StandardDirectory>
 </Fragment>
 
 <Fragment>
   <Component Id="SetEnv.cmp" Guid="EB4772E3-E1A1-4E9A-83F4-1678E40000E9" Directory="SETENV.PFF">
-    <File Id="SetEnv.cmp" Source="$(var.SolutionDir)..\Release\SetEnv.exe" KeyPath="yes"/>
+    <File Id="SetEnv.cmp"
+                      Source="$(var.SetEnv.TargetDir)\..\Release.Win32\SetEnv.exe" KeyPath="yes" />
+    <Environment Id="PATH"
+                 Name="PATH"
+                 Value="[SETENV.PFF]"
+                 Permanent="no"
+                 Part="last"
+                 Action="set"
+                 System="yes"
+                 />
   </Component>
 </Fragment>
 </Wix>

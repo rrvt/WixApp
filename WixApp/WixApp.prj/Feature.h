@@ -77,7 +77,7 @@ bool    isUninstall;
 
   bool       validate(bool rptErrors = true);
 
-  bool       outputSetPath(int tab, bool& crlfOut);    // Add app to Environment variable Path
+//  bool       outputSetPath(int tab, bool& crlfOut);    // Add app to Environment variable Path
   void       outputRefs(int tab);
   void       output(int tab);
 

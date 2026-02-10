@@ -27,28 +27,28 @@ String   path;
 
 void PFFdirectories::begOutput(int& tab) {
 String   line;
+DirDesc* d = stor.getDefault();
 
   wix(tab, _T("<!--Directory structure-->"));
   wix(tab, _T("<Fragment>"));
-  tab += TabVal;   wix(tab, _T("<Directory Id=\"TARGETDIR\" Name=\"SourceDir\">"));
-  tab += TabVal;   wix(tab, _T("<Directory Id=\"ProgramFilesFolder\">"));
 
-  tab += TabVal;   stor.outputSubs(tab, _T(""));
+  tab += TabVal;
 
-  tab -= TabVal;   wix(tab, _T("</Directory>"));
+  if (d) wix(tab, _T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
+  wix(tab, _T("<Property Id=\"WixAppFolder\"          Value=\""),
+                                                           _T("WixPerMachineFolder"), _T("\" />"));
+  wix.crlf();
+
+  wix(tab, _T("<StandardDirectory Id=\"ProgramFiles6432Folder\">"));
+
+  tab += TabVal;   stor.outputSubs(tab, _T(""));   tab -= TabVal;
+
+  wix(tab, _T("</StandardDirectory>"));
   }
 
 
 void PFFdirectories::finOutput(int tab) {
-DirDesc* d;
 
-  d = stor.getDefault();
-
-  if (d) wix(tab, _T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
-
-  wix(tab, _T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir->wixID, _T("\"/>"));
-  wix(tab, _T("<Property Id=\"WixAppFolder\"          Value=\""), _T("WixPerMachineFolder"),
-                                                                                      _T("\" />"));
   tab -= TabVal;
 
   wix(tab, _T("</Fragment>"));
@@ -66,4 +66,13 @@ void PFFdirectories::saveData(Archive& ar) {
 
 
 
+/////////---------------
+
+//DirDesc* d;
+
+//  d = stor.getDefault();
+
+//  if (d) wix(tab, _T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
+
+//  wix(tab, _T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir->wixID, _T("\" />"));
 

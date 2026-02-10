@@ -87,6 +87,10 @@ void StsRcd::copy(StsRcd& r) {
 StsRcd* StsTbl::add(StsRcd& rcd) {rcd.id = ++maxID;  rcd.dirty = true;  return data = rcd;}
 
 
+bool StsTbl::isActive(int id)
+                          {StsRcd* rcd = find(id);   return rcd && rcd->abbreviation == _T("Act");}
+
+
 StsRcd* StsTbl::find(TCchar* abbreviation) {
 StsIter iter(*this);
 StsRcd* rcd;

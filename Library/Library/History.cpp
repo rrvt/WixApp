@@ -5,6 +5,7 @@
 #include "History.h"
 #include "FileIO.h"
 #include "GetPathDlg.h"
+#include "PathDlgDsc.h"
 
 #include "MessageBox.h"
 

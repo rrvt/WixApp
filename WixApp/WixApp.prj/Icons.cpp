@@ -190,7 +190,7 @@ String line;
 
   if (!inUse) return;
 
-  line  = _T("<Icon     Id=\"") + wixID + _T("\" SourceFile=\"") + relPath.prodPath() + _T("\"/>");
+  line  = _T("<Icon Id=\"") + wixID + _T("\" SourceFile=\"") + relPath.prodPath() + _T("\" />");
   wix(tab, line);
   }
 

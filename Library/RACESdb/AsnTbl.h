@@ -83,13 +83,15 @@ String name;
   AsnTbl() : maxID(0) { }
  ~AsnTbl() {clear();}
 
-  void clear() {data.clear();}
+  void    clear() {data.clear();}
 
-  bool load(TCchar* path);      // load database table into memory
+  bool    load(TCchar* path);      // load database table into memory
 
   AsnRcd* add(AsnRcd& rcd);     // Add a new record to table and database
 
-  bool store(TCchar* path);     // Store/Del entities marked
+  bool    store(TCchar* path);     // Store/Del entities marked
+
+  bool    isNonResp(int id);
 
   AsnRcd* find(int id) {return id ? data.bSearch(id) : 0;}
   AsnRcd* find(TCchar* aPKey);
@@ -98,18 +100,18 @@ String name;
 
 private:
 
-  bool open(TCchar* path) {return asnSet.open(path);}
-  void close() {asnSet.close();}
+  bool    open(TCchar* path) {return asnSet.open(path);}
+  void    close() {asnSet.close();}
 
-  void setTabs();
+  void    setTabs();
 
   // returns either a pointer to data (or datum) at index i in array or zero
 
   AsnRcd* datum(int i) {return 0 <= i && i < nData() ? data[i] : 0;}
 
-  int   nData()      {return data.end();}   // returns number of data items in array
+  int     nData()      {return data.end();}   // returns number of data items in array
 
-  void  removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
+  void    removeDatum(int i) {if (0 <= i && i < nData()) data.del(i);}
 
   friend typename AsnIter;
   };

@@ -49,9 +49,9 @@ CButton   isOnPathCH;
 
 CButton   isStartupApp;
 
+CButton   isWin10ch;
 CButton   isWin7ch;
 CButton   isWinXPch;
-CButton   isWin2Kch;
 
 ComboBox  iconCB;
 
@@ -130,9 +130,9 @@ public:
   afx_msg void    onBnClickedOnstartmenu();
   afx_msg void    onBnClickedOnPath();
 
+  afx_msg void    onBnClickedIsWin10();
   afx_msg void    onBnClickedIsWin7();
   afx_msg void    onBnClickedIsWinXP();
-  afx_msg void    onBnClickedIsWin2K();
 
   afx_msg void    onUpdateIcon();
   afx_msg void    onBrowseForIcon();

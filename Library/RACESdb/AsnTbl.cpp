@@ -87,6 +87,9 @@ void AsnRcd::copy(AsnRcd& r) {
 AsnRcd* AsnTbl::add(AsnRcd& rcd) {rcd.id = ++maxID;  rcd.dirty = true;  return data = rcd;}
 
 
+bool AsnTbl::isNonResp(int id) {AsnRcd* rcd = find(id);   return rcd && rcd->aPKey == _T("N");}
+
+
 AsnRcd* AsnTbl::find(TCchar* aPKey) {
 AsnIter iter(*this);
 AsnRcd* rcd;

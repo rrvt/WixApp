@@ -87,6 +87,9 @@ void LocRcd::copy(LocRcd& r) {
 LocRcd* LocTbl::add(LocRcd& rcd) {rcd.id = ++maxID;  rcd.dirty = true;  return data = rcd;}
 
 
+bool LocTbl::isAbbrKey(int id) {LocRcd* rcd = find(id);   return rcd && rcd->key == _T("A");}
+
+
 LocRcd* LocTbl::find(TCchar* key) {
 LocIter iter(*this);
 LocRcd* rcd;

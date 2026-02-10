@@ -50,6 +50,10 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_CBN_KILLFOCUS(IDC_CtrlPnlIcn,        &onUpdateCtrlPanelIcon)
   ON_BN_CLICKED(   IDC_BrowseProgFtrIcon, &OnBrowseCtrlPanelIcon)
 
+  ON_BN_CLICKED(   IDC_Win10,             &onBnClickedIsWin10)
+  ON_BN_CLICKED(   IDC_Win7,              &onBnClickedIsWin7)
+  ON_BN_CLICKED(   IDC_WinXP,             &onBnClickedIsWinXP)
+
   ON_CBN_SELCHANGE(IDC_Feature,           &onChangeFeature)
   ON_CBN_KILLFOCUS(IDC_Feature,           &onLeaveFeature)
   ON_CBN_DROPDOWN( IDC_Feature,           &onLeaveFeature)
@@ -73,10 +77,6 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_BN_CLICKED(   IDC_VersionAvail,      &onBnClickedVersionavail)
   ON_BN_CLICKED(   IDC_OnStartMenu,       &onBnClickedOnstartmenu)
   ON_BN_CLICKED(   IDC_OnPath,            &onBnClickedOnPath)
-
-  ON_BN_CLICKED(   IDC_Win7,              &onBnClickedIsWin7)
-  ON_BN_CLICKED(   IDC_WinXP,             &onBnClickedIsWinXP)
-  ON_BN_CLICKED(   IDC_Win2K,             &onBnClickedIsWin2K)
 
   ON_CBN_SELCHANGE(IDC_ComponentIcon,     &onUpdateIcon)
   ON_CBN_KILLFOCUS(IDC_ComponentIcon,     &onUpdateIcon)
@@ -119,7 +119,7 @@ BOOL WixAppDlg::OnInitDialog() {
 
   winPos.initialPos(this, winRect);   toolBar.move(winRect);   statusBar.move(winRect);
 
-  isInitialized = true;      return true;
+  onOpenProject();   isInitialized = true;   return true;
   }
 
 
@@ -235,9 +235,9 @@ void WixAppDlg::DoDataExchange(CDataExchange* pDX) {
   DDX_Control(pDX, IDC_VersionAvail,  isVersionAvail);
   DDX_Control(pDX, IDC_OnPath,        isOnPathCH);
   DDX_Control(pDX, IDC_Startup,       isStartupApp);
+  DDX_Control(pDX, IDC_Win10,         isWin10ch);
   DDX_Control(pDX, IDC_Win7,          isWin7ch);
   DDX_Control(pDX, IDC_WinXP,         isWinXPch);
-  DDX_Control(pDX, IDC_Win2K,         isWin2Kch);
   DDX_Control(pDX, IDC_ComponentIcon, iconCB);
   }
 
@@ -250,6 +250,9 @@ void WixAppDlg::onUpdateCtrlPanelIcon() {product.updateIcon(*this);}
 void WixAppDlg::updateCtrlPanelIconCB() {product.updateIconCB(prodIconCB);}
 void WixAppDlg::OnBrowseCtrlPanelIcon()
                                   {product.getIconPath(*this);   updateIconCB();   UpdateWindow();}
+void WixAppDlg::onBnClickedIsWin10()    {product.storeIsWin10(*this);}
+void WixAppDlg::onBnClickedIsWin7()     {product.storeIsWin7( *this);}
+void WixAppDlg::onBnClickedIsWinXP()    {product.storeIsWinXP(*this);}
 
 
 // A Wix file is composed of a collection of features.  A feature is a collection of components.
@@ -291,9 +294,6 @@ void WixAppDlg::onBnClickedOndesktop()    {features.getCurComponent()->storeIsDe
 void WixAppDlg::onBnClickedVersionavail() {features.getCurComponent()->storeIsVersionAvail(*this);}
 void WixAppDlg::onBnClickedOnstartmenu()  {features.getCurComponent()->storeIsStartMenu(*this);}
 void WixAppDlg::onBnClickedOnPath()       {features.getCurComponent()->storeIsOnPath(*this);}
-void WixAppDlg::onBnClickedIsWin7()       {features.getCurComponent()->storeIsWin7( *this);}
-void WixAppDlg::onBnClickedIsWinXP()      {features.getCurComponent()->storeIsWinXP(*this);}
-void WixAppDlg::onBnClickedIsWin2K()      {features.getCurComponent()->storeIsWin2K(*this);}
 
 void WixAppDlg::onUpdateIcon()            {features.getCurComponent()->updateIcon(*this);}
 void WixAppDlg::updateIconCB()            {features.getCurComponent()->updateIconCB(iconCB);}

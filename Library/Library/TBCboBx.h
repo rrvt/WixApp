@@ -34,7 +34,7 @@ String caption;
   void        setCaption(TCchar* caption) {this->caption = caption;   setCaption();}
   bool        addItem(TCchar* txt, int val);
   bool        addItemSorted(TCchar* txt, int val);
-  uint        getCount() {return actual ? actual->GetCount() : 0;}
+  uint        getCount() {return actual ? (uint) actual->GetCount() : 0;}
   void        setWidth();
   void        setHeight();
 
@@ -57,6 +57,6 @@ private:
 
   bool        add(TCchar* txt, int data);
   TBCboBx*    finInstall(TCchar* caption);
-  void        setMaxChars(TCchar* txt) {int t;  t = _tcslen(txt);  if (t > maxChars) maxChars = t;}
+  void        setMaxChars(TCchar* txt) {int t;  t = (int) _tcslen(txt);  if (t > maxChars) maxChars = t;}
   };
 

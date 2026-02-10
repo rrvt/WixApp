@@ -45,9 +45,9 @@
 #define IDC_VersionAvail                320
 #define IDC_OnPath                      321
 #define IDC_Startup                     322
-#define IDC_Win7                        323
-#define IDC_WinXP                       324
-#define IDC_Win2K                       325
+#define IDC_Win10                       323
+#define IDC_Win7                        324
+#define IDC_WinXP                       325
 #define IDC_ComponentIcon               326
 #define IDC_BrowseForIcon               327
 
@@ -87,8 +87,8 @@
 
 // Main Dialog Size
 
-#define DlgWidth                        320
-#define DlgDepth                        260
+#define DlgWidth                        318
+#define DlgDepth                        200
 
 
 // Next default values for new objects

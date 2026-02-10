@@ -54,7 +54,7 @@ int maxHeight = (toolBarDim.height/25 - 3) * 25;
 
   if (!getActual()) return;
 
-  count = ((TBCbxMenu*)actual)->GetCount();   if (!count) return;
+  count = (int) ((TBCbxMenu*)actual)->GetCount();   if (!count) return;
 
   pixels = count * 25;   pixels = pixels < 150 ? 150 : pixels > maxHeight ? maxHeight : pixels;
 
@@ -87,7 +87,7 @@ uint TBCbxMenu::getCmdId() {
 CMFCToolBarComboBoxButton* cbxBtn = GetByCmd(id);   if (!cbxBtn) return 0;
 int                        i      = cbxBtn->GetCurSel();
 
-  return i >= 0 ? cbxBtn->GetItemData(i) : 0;
+  return i >= 0 ? (uint) cbxBtn->GetItemData(i) : 0;
   }
 
 

@@ -31,19 +31,19 @@ bool   inUse;
   void clear()
      {id.clear(); wixID.clear(); parent.clear(); name.clear(); hasChildren = false; inUse = false;}
 
-  bool   isValid() {return inUse && !id.isEmpty();}
+  bool isValid() {return inUse && !id.isEmpty();}
 
-  void   writeWixData(TCchar* section, TCchar* prefix);
+  void writeWixData(TCchar* section, TCchar* prefix);
 
-  void  prepareUninstalls();
+  void prepareUninstalls();
 
-  void  getOutput(String& line);
+  void getOutput(String& line);
 
-  void  readWixData(String& section);
+  void readWixData(String& section);
 
-  bool  writeWixData(String& section);
+  bool writeWixData(String& section);
 
-  void  saveData(Archive& ar);
+  void saveData(Archive& ar);
 
 private:
 

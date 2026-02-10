@@ -29,7 +29,7 @@ private:
 
   void    addItem(TCchar* txt, int data);
   TBMenu* finInstall(TCchar* caption);
-  void    setMaxChars(TCchar* txt) {int t;   t = _tcslen(txt);   if (t > maxChars) maxChars = t;}
+  void    setMaxChars(TCchar* txt) {int t;   t = (int) _tcslen(txt);   if (t > maxChars) maxChars = t;}
   };
 
 
