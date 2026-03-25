@@ -17,6 +17,7 @@ String combineNames(String& parent, String& name);
 
 inline String getText(CEdit& ctrl) {CString cs; ctrl.GetWindowText(cs); return String(cs);}
 
+void   normalizePath(String& path);
 
 String findExeFile(TCchar* name);
 

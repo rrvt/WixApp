@@ -11,6 +11,7 @@ Clean.cln    :
 
 
 $(TgtFolder)/WixApp.chm : WixApp.chm
+  if not exist "$(MAKEDIR)\..\$(TgtFolder)" mkdir "$(MAKEDIR)\..\$(TgtFolder)"
   copy $(MAKEDIR)\WixApp.chm  $(MAKEDIR)\..\$(TgtFolder)\WixApp.chm
 
 

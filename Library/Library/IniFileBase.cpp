@@ -338,6 +338,6 @@ TCchar* IniSectIter::operator++ (int) {
 
   if (!p) {return 0;}
 
-  p += _tcslen(p) + 1; return p < endBuf ? p : 0;
+  p += tcslen(p) + 1; return p < endBuf ? p : 0;
   }
 

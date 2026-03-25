@@ -1,0 +1,2 @@
+D:\Sources\SetEnv\Release\SetEnvInstaller.msi
+D:\Sources\SetEnv\Release\SetEnvInstaller.wixpdb

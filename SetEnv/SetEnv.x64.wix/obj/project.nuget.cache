@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "3k5hqTNLTn4=",
+  "success": true,
+  "projectFilePath": "D:\\Sources\\SetEnv\\SetEnv.x64.wix\\SetEnv.x64.wix.wixproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rrvt\\.nuget\\packages\\wixtoolset.ui.wixext\\6.0.2\\wixtoolset.ui.wixext.6.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

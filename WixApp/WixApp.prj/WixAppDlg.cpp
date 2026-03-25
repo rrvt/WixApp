@@ -33,8 +33,11 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_COMMAND(      ID_Option,             &onOptions)
   ON_COMMAND(      ID_DisplayDir,         &onDisplayDir)
   ON_COMMAND(      ID_Validate,           &onValidate)
+
+
+  ON_CBN_SELCHANGE(ID_SaveMenu,           &onDispatch)        // Send Command Message with ID_...
+  ON_COMMAND(      ID_SaveAllFiles,       &onSaveAllFiles)
   ON_COMMAND(      ID_SaveWxdFile,        &onSaveWXDFile)
-  ON_BN_CLICKED(   ID_SaveAllFiles,       &onSaveAllFiles)
   ON_COMMAND(      ID_SaveData,           &onSaveData)
 
   ON_BN_CLICKED(   IDCANCEL,              &onExit)
@@ -129,11 +132,17 @@ LRESULT WixAppDlg::OnResetToolBar(WPARAM wParam, LPARAM lParam) {setupToolBar();
 
 
 void WixAppDlg::setupToolBar() {
+CRect winRect;   GetWindowRect(&winRect);   toolBar.set(winRect);
+
   toolBar.addButton(ID_NewProject,   _T(" New Project "));
   toolBar.addButton(ID_OpenProject,  _T(" Open Project "));
-  toolBar.addButton(ID_SaveAllFiles, _T(" Save All Files "));
-  toolBar.addButton(ID_SaveWxdFile,  _T(" Save Wxd File "));
+
+  toolBar.setCboItems(ID_SaveMenu, IDR_SaveMenu);
+  toolBar.setCboCaption(ID_SaveMenu, _T("Save Menu"));
   }
+
+
+void WixAppDlg::onDispatch()  {toolBar.dispatch(ID_SaveMenu);}
 
 
 // Do ToolTips
@@ -207,11 +216,12 @@ void WixAppDlg::onSaveWXDFile() {wixData.outputWxd();}
 // Create both the stored representation of the dialog information and also the Wix Output file
 
 void WixAppDlg::onSaveAllFiles() {
-FinishDlg dlg;
+
+  UpdateData(true);
 
   pmfDirectories.initFixedDirs();   if (!wixData.validate()) return;
 
-  CDialogEx::OnOK();   wixData.outputProduct();   wixData.outputWxd();    dlg.DoModal();
+  if (wixData.outputProduct()) {wixData.outputWxd();   EndDialog(IDOK);}
   }
 
 

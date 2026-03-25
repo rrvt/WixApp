@@ -7,7 +7,8 @@
 #include "DefaultPath.h"
 #include "filename.h"
 #include "GetPathDlg.h"
-#include "IniFileEx.h"
+#include "IniData.h"
+//#include "IniFileEx.h"
 #include "WixOptsDlg.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"
@@ -89,7 +90,10 @@ int         wixVerLng = product.wixVersion.length();
   }
 
 
-void WixData::outputProduct() {
+static TCchar* ErrMsg =
+                _T("Missing or iInconsistent Case in Feature Program Files Name/Path Entries: %s");
+
+bool WixData::outputProduct() {
 String     wxsPath;
 String     pathOnly;
 String     msg = _T("Output a new Wix Product File: ");
@@ -100,17 +104,22 @@ String     defPath;
 PathDlgDsc dsc;
 int        tab;
 
+  app = features.findAnApp();
+
+  if (app) {
+    pffDirectories.appDir = appDir = app->getProgFile();
+    if (!appDir) {String s;   s.format(ErrMsg, app->id.str());   messageBox(s);   return false;}
+
+    appDir->wixID.upperCase();
+    }
+
   defPath = readWxdPath(defPath) ? getPath(defPath) : solution.getRootPath();
 
   defPath += _T("Product");
 
   dsc(_T("Product"), defPath, _T("wxs"), _T("*.wxs"));
 
-  if (!getSaveAsPathDlg(dsc, wxsPath)) return;
-
-  app = features.findAnApp();
-
-  if (app) {pffDirectories.appDir = appDir = app->getProgFile();   appDir->wixID.upperCase();}
+  if (!getSaveAsPathDlg(dsc, wxsPath)) return false;
 
   backupFile(wxsPath, 10);
 
@@ -149,6 +158,8 @@ int        tab;
   wix(tab, _T("</Wix>"));   wix.close();
 
   copyHelperFile(getPath(wxsPath), _T("My_en-us.wxl"));
+
+  return true;
   }
 
 
@@ -204,14 +215,13 @@ String     path;
 
 
 
-bool WixData::readWxdPath(String& path)
-                                  {return iniFile.read(IniSection, WxdFilePathKey, path, _T(""));}
+bool WixData::readWxdPath(String& path) {return iniData.read(WxdFilePathKey, path, _T(""));}
 
 
-void WixData::saveWxdPath(TCchar* path) {iniFile.write(IniSection, WxdFilePathKey, path);}
+void WixData::saveWxdPath(TCchar* path) {iniData.write(WxdFilePathKey, path);}
 
 
-void WixData::delWxdPath() {iniFile.deleteString(IniSection, WxdFilePathKey);}
+void WixData::delWxdPath() {iniData.delStg(WxdFilePathKey);}
 
 
 void WixData::clearAllSections() {

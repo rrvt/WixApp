@@ -9,7 +9,7 @@
 atomic<bool> aThreadFlag;
 
 
-void ThreadBase::start(AThreadFunction& fn, void* param) {
+void ThreadBase::start(AThreadFunction& fn, longP param) {
 
   myThread = thread(
     [this, fn, param]() {

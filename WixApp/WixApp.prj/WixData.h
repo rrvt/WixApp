@@ -24,7 +24,7 @@ public:
   void setDefaults(WixAppDlg* dialog);
 
   bool validate(bool rptErrors = true);
-  void outputProduct();
+  bool outputProduct();
   void outputWxd();
 
 private:

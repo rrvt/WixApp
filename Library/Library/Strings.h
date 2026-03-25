@@ -226,6 +226,18 @@ typedef tstring::reverse_iterator reverseIterator;
   // Find last character in the string given a single character or a group of characters
   // offset -- Index at which the search is to finish
 
+  int findFirstOf(Tchar ch,    int offset=npos)
+                           {tstring& s = *this; return (int) s.find_first_of(ch,  offset);}
+  int findFirstOf(TCchar* stg, int offset=npos)
+                           {tstring& s = *this; return (int) s.find_first_of(stg, offset);}
+  int findFirstOf(TCchar* stg, int offset, int count)
+                           {tstring& s = *this; return (int) s.find_first_of(stg,  offset, count);}
+  int findFirstOf(const String& stg, int offset=npos)
+                           {tstring& s = *this; return (int) s.find_first_of(stg, offset);}
+
+  // Find last character in the string given a single character or a group of characters
+  // offset -- Index at which the search is to finish
+
   int findLastOf(Tchar ch,    int offset=npos)
                             {tstring& s = *this; return (int) s.find_last_of(ch,  offset);}
   int findLastOf(TCchar* stg, int offset=npos)
@@ -485,12 +497,12 @@ template<typename T> String toString<T>(T t) {tstring r = to_tstring((T) t); ret
 #endif
 
 
-String dblToString(double v, int width = 0, int precision = 0);
-String intToString(long   v, int width = 0, int precision = 0);
-String uintToString(ulong v, int width = 0, int precision = 0);
-String hexToString(ulong  v, int precision = 0);                // not left/right adjust due to 0x
-                                                                // prefix
-
+String dblToString(  double v, int width = 0, int precision = 0);
+String intToString(  long   v, int width = 0, int precision = 0);
+String int64ToString(int64  v, int width = 0, int precision = 0);
+String uintToString( ulong  v, int width = 0, int precision = 0);
+String hexToString(  ulong  v, int precision = 0);       // not left/right adjust due to 0x prefix
+String hex64ToString(int64  v, int precision = 0);
 
 class TokenString : public String {
 int pos;
@@ -552,6 +564,9 @@ private:
 
   void convert(Cchar* tp);
   };
+
+
+inline int tcslen(TCchar* tc) {return (int) _tcslen(tc);}
 
 
 /*

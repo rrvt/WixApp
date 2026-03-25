@@ -153,6 +153,8 @@ public:
   NotePad& operator <<(Cchar*         cs) {return append(cs);}
 
   NotePad& operator <<(int             v) {return doNmbr((long)  v);}
+  NotePad& operator <<(int64           v) {return doNmbr(v);
+  }
   NotePad& operator <<(size_t          v) {return doNmbr((ulong) v);}
   NotePad& operator <<(long            v) {return doNmbr(v);}
   NotePad& operator <<(ulong           v) {return doNmbr(v);}
@@ -184,6 +186,7 @@ private:
   NotePad& append(Cchar*  cs);
 
   NotePad& doNmbr(long   v);
+  NotePad& doNmbr(int64  v);
   NotePad& doNmbr(ulong  v);
   NotePad& doNmbr(double v);
 

@@ -78,7 +78,11 @@ void Feature::readOne(TCchar* key, String& v) {
 
 void Feature::storeProgFileName(WixAppDlg& dialog) {
 String   s   = getText(dialog.progFileEB);
-DirDesc* dsc = pffDirectories.add(s);
+DirDesc* dsc;
+
+  normalizePath(s);
+
+  dsc = pffDirectories.add(s);
 
   if (!dsc) {progFileID  = _T(""); return;}
 

@@ -3,8 +3,6 @@
 
 #include "pch.h"
 #include "ToolBarBase.h"
-#include "TBButton.h"
-#include "TBMenu.h"                       // Use for Menus in Doc/View applications
 #include "WinPos.h"
 #ifdef DsplyHistory
 #include "History.h"                      // Debug Only
@@ -76,64 +74,60 @@ bool ToolBarBase::add(TBEditBox& button, uint id, int noChars) {
   }
 
 
-bool ToolBarBase::add(TBMenu&  button, uint id, int idr, TCchar* caption) {
-  bool rslt = ReplaceButton(id, *button.install(idr, caption)) > 0;   return rslt;
+bool ToolBarBase::add(TBMenu&  mnu, uint id, int idr, TCchar* caption) {
+  bool rslt = ReplaceButton(id, *mnu.install(idr, caption)) > 0;   return rslt;
   }
 
 
-bool ToolBarBase::add(TBMenu&  button, uint id, int idr, int index) {
-  bool rslt = ReplaceButton(id, *button.install(idr, index)) > 0;   return rslt;
+bool ToolBarBase::add(TBMenu& mnu, uint id, int idr, int index) {
+  bool rslt = ReplaceButton(id, *mnu.install(idr, index)) > 0;   return rslt;
   }
 
 
-
-bool ToolBarBase::add(TBMenu&  button, uint id, const CbxItem cbxItem[], int n, TCchar* caption) {
-  bool rslt = ReplaceButton(id, *button.install(cbxItem, n, caption)) > 0;   return rslt;
+bool ToolBarBase::add(TBMenu& mnu, uint id, CCbxItem cbxItem[], int n, TCchar* caption) {
+  bool rslt = ReplaceButton(id, *mnu.install(cbxItem, n, caption)) > 0;   return rslt;
   }
 
 
-//void ToolBarBase::setWthPercent(TBCbxMenu& button, int prcnt) {button.setWthPercent(prcnt);}
+void ToolBarBase::clearCbo(uint id) {TBCboBox* cbo = tbCboBoxes.find(id);   if (cbo) cbo->clear();}
 
 
-bool ToolBarBase::add(TBCbxMenu& button, uint id, int idr, TCchar* caption) {
-bool rslt = ReplaceButton(id, button.install(idr, caption)) > 0;
+bool ToolBarBase::addCboBox(uint id, int noChars) {
+TBCboBox*    cbo = tbCboBoxes.install(id, noChars);
+MfcTBCboBtn* mfcCbo = 0;
 
-  button.setCaption();   return rslt;
+  if (ReplaceButton(id, *cbo) <= 0) return false;
+
+  adjustLayout();
+
+  cbo->set(tbCboBoxes.getByCmd(id));
+
+  cbo->update();   return true;
   }
 
 
-bool ToolBarBase::add(TBCbxMenu& button, uint id, const CbxItem cbxItem[], int n, TCchar* captn) {
-bool rslt = ReplaceButton(id, button.install(cbxItem, n, captn)) > 0;
+bool ToolBarBase::setCboItems(uint id, uint idr) {
+TBCboBox* cbo = tbCboBoxes.find(id);
 
-  if (rslt) button.setCaption();   return rslt;
+  if (!cbo || !cbo->isInstalled())
+                  {addCboBox(id, 12);   cbo = tbCboBoxes.find(id);   if (!cbo) return false;}
+  return cbo->setItems(idr);
   }
 
 
-bool ToolBarBase::add(TBCboBx& button, uint id, int noChars) {
-  return ReplaceButton(id, *button.install(noChars)) > 0;
+bool ToolBarBase::setCboItems(uint id, CCbxItem cbxItem[], int n) {
+TBCboBox* cbo = tbCboBoxes.find(id);
+
+  if (!cbo || !cbo->isInstalled())
+                  {addCboBox(id, 12);   cbo = tbCboBoxes.find(id);   if (!cbo) return false;}
+  return cbo->setItems(cbxItem, n);
   }
 
 
-bool ToolBarBase::add(TBCboBx& button, uint id, int idr, TCchar* caption) {
-bool rslt = ReplaceButton(id, *button.install(idr, caption)) > 0;
+void ToolBarBase::dispatch(TBCboBox& cbo) {
+ulongP cmdID = cbo.getCmdId();
 
-  if (rslt) button.setCaption();   return rslt;
-  }
-
-
-bool ToolBarBase::add(TBCboBx& button, uint id, const CbxItem cbxItem[], int n, TCchar* caption) {
-bool rslt = ReplaceButton(id, *button.install(cbxItem, n, caption)) > 0;
-
-  if (rslt) {button.setCaption();   button.setHeight();}   return rslt;
-  }
-
-
-void ToolBarBase::dispatch(TBCbxMenu& deleteMenu) {
-uint cmdID = deleteMenu.getCmdId();
-
-  if (cmdID) PostMessage(WM_COMMAND, cmdID, 0);
-
-  deleteMenu.setCaption();
+  if (cmdID) {PostMessage(WM_COMMAND, cmdID, 0);   cbo.update();   AdjustLayout();}
   }
 
 
@@ -175,10 +169,7 @@ CRect              rect;
 
 //  SetButtonStyle(index, TBBS_SEPARATOR);
 
-  if (btn) {
-    rect = btn->Rect();   rect.right += 90;   btn->SetRect(rect);
-
-    }
+  if (btn) {rect = btn->Rect();   rect.right += 90;   btn->SetRect(rect);}
   }
 
 
@@ -198,4 +189,54 @@ CRect  rect;                                    // button rectangle relative to 
 
   return false;
   }
+
+
+
+/////-----------------------
+
+//#include "MessageBox.h"                  // Debug Only
+#if 0
+//void ToolBarBase::setWthPercent(TBCbxMenu& button, int prcnt) {button.setWthPercent(prcnt);}
+
+
+bool ToolBarBase::add(TBCbxMenu& button, uint id, int idr, TCchar* caption) {
+bool rslt = ReplaceButton(id, button.install(idr, caption)) > 0;
+
+  button.setCaption();   return rslt;
+  }
+
+
+bool ToolBarBase::add(TBCbxMenu& button, uint id, const CbxItem cbxItem[], int n, TCchar* captn) {
+bool rslt = ReplaceButton(id, button.install(cbxItem, n, captn)) > 0;
+
+  if (rslt) button.setCaption();   return rslt;
+  }
+#endif
+#if 0
+bool ToolBarBase::add(TBCboBx& button, uint id, int noChars) {
+  return ReplaceButton(id, *button.install(noChars)) > 0;
+  }
+
+
+bool ToolBarBase::add(TBCboBx& button, uint id, int idr, TCchar* caption) {
+bool rslt = ReplaceButton(id, *button.install(idr, caption)) > 0;
+
+  if (rslt) button.setCaption();   return rslt;
+  }
+
+
+bool ToolBarBase::add(TBCboBx& button, uint id, const CbxItem cbxItem[], int n, TCchar* caption) {
+bool rslt = ReplaceButton(id, *button.install(cbxItem, n, caption)) > 0;
+
+  if (rslt) {button.setCaption();   button.setHeight();}   return rslt;
+  }
+
+void ToolBarBase::dispatch(TBCbxMenu& deleteMenu) {
+uint cmdID = deleteMenu.getCmdId();
+
+  if (cmdID) PostMessage(WM_COMMAND, cmdID, 0);
+
+  deleteMenu.setCaption();
+  }
+#endif
 

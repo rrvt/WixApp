@@ -306,7 +306,10 @@ void Features::outputComponents(int tab) {
 Iter     iter(store);
 Feature* ftr;
 
-  for (ftr = iter(); ftr; ftr = iter++) {wix.crlf(); ftr->output(tab);}
+  for (ftr = iter(); ftr; ftr = iter++) {
+    wix.crlf();
+    ftr->output(tab);
+    }
   }
 
 

@@ -73,6 +73,9 @@ Archive& Archive::append(Cchar*  cs) {ToUniCode uni(cs);   return append(uni());
 Archive& Archive::append(long v)
      {nmbr.longVal = v;   nmbr.typ = IntNmbrTyp;    append(nmbr());   nmbr.clear();  return *this;}
 
+Archive& Archive::append(int64 v)
+     {nmbr.int64Val = v;  nmbr.typ = Int64NmbrTyp;    append(nmbr());   nmbr.clear();  return *this;}
+
 
 Archive& Archive::append(ulong v)
      {nmbr.longVal = v;   nmbr.typ = UIntNmbrTyp;   append(nmbr());   nmbr.clear();  return *this;}

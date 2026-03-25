@@ -27,6 +27,7 @@ Expandable <Data, n> data;
   Data* addNil( TCchar* name);
   void  delNil( TCchar* name);
   Data* add(    TCchar* id);
+  Data* update(Data& dsc, TCchar* id);
   void  delItem(TCchar* id);
 
   Data* findItem(TCchar* id);
@@ -46,7 +47,7 @@ Expandable <Data, n> data;
 private:
 
   String nilName(TCchar* name);
-  Data*  newItem(TCchar* id);
+  Data*  newItem(TCchar* id) {return update(data.nextData(), id);}
   void   setCurData(String& id);
   void   delData();
   void   copyObj(EntityStore& es);
@@ -96,19 +97,21 @@ String EntityStore<Data, n>::nilName(TCchar* name)
 // Add new Item if item not alrady in store
 
 template <class Data, const int n>
-Data* EntityStore<Data, n>::add(TCchar* id) {
-Data* p = findItem(id);   if (p) return p;
+Data* EntityStore<Data, n>::add(TCchar* id) {Data* p = findItem(id);   return p ? p : newItem(id);}
 
-  p = newItem(id);    return p;
-  }
-
-
+#if 0
 template <class Data, const int n>
 Data* EntityStore<Data, n>::newItem(TCchar* id) {
-String s = id;
-Data&  d = data.nextData();
 
-  if (s.isEmpty()) s = _T("< Name >");   d.id = curID = s;   return &d;
+  return update(data.nextData(), id);
+  }
+#endif
+
+template <class Data, const int n>
+Data* EntityStore<Data, n>::update(Data& dsc, TCchar* id) {
+String s = id;
+
+  if (s.isEmpty()) s = _T("< Name >");   dsc.id = curID = s;   return &dsc;
   }
 
 
@@ -257,4 +260,9 @@ String wixID;
   void copy(Data& d) {id = d.id;  wixID = d.wixID;}
   };
 
+
+
+///////////-------------
+  //Data&  d = data.nextData();
+//  if (s.isEmpty()) s = _T("< Name >");   d.id = curID = s;   return &d;
 

@@ -121,8 +121,13 @@ NotePad& NotePad::doSetHex(    NotePad& n)        {n.getNote(NmbrNO).nmbr.hex = 
 
 NotePad& NotePad::doNmbr(long   v)
             {getNote(NmbrNO).nmbr.longVal  = v;   note->nmbr.typ = IntNmbrTyp;    return *this;}
+
+NotePad& NotePad::doNmbr(int64  v)
+            {getNote(NmbrNO).nmbr.int64Val = v;   note->nmbr.typ = Int64NmbrTyp;  return *this;}
+
 NotePad& NotePad::doNmbr(ulong  v)
             {getNote(NmbrNO).nmbr.uLongVal = v;   note->nmbr.typ = UIntNmbrTyp;   return *this;}
+
 NotePad& NotePad::doNmbr(double v)
             {getNote(NmbrNO).nmbr.dblVal   = v;   note->nmbr.typ = DblNmbTyp;     return *this;}
 

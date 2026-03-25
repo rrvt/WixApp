@@ -6,10 +6,10 @@
 
 struct CbxItem {
 String  txt;
-int     data;
+ulongP  data;
 
-  CbxItem()                   : data(0) { }
-  CbxItem(TCchar* txt, int d) : txt(txt), data(d) { }
+  CbxItem()                      : data(0) { }
+  CbxItem(TCchar* txt, ulongP d) : txt(txt), data(d) { }
   CbxItem(CbxItem& item) {copy(item);}
 
   // >=" and "=="

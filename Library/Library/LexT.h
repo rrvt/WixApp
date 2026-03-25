@@ -718,7 +718,7 @@ eof:      case eofch:   tok->code = EOFToken;
 
 template<class Input, bool WhiteSpace, bool QuoteEol, bool BSinQuote>
            void LexT<Input, WhiteSpace, QuoteEol, BSinQuote>::error(Token* token, TCchar* stg) {
-int    lng    = (int) _tcslen(stg);
+int    lng    = tcslen(stg);
 String f;
 
   display_source_line(token);

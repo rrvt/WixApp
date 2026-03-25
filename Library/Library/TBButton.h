@@ -4,16 +4,16 @@
 #pragma once
 
 
-class TBButton : public CMFCToolBarButton {
+class TBButton : public MfcTBBtn {
 
-uint id;
+uint      id;
 
 public:
 
-  TBButton(uint id);
+  TBButton(uint id) : MfcTBBtn(id, -1), id(id) { }
  ~TBButton() { }
 
-  void install(TCchar* caption);
   uint getId() {return id;}
+  void install(TCchar* caption);
   };
 

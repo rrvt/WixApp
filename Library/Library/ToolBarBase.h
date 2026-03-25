@@ -12,86 +12,95 @@
 
 #pragma once
 #include "CbxItem.h"
-#include "TBCboBx.h"
-#include "TBCbxMenu.h"                    // Use for Menus on Dialog Box Tool Bars
+#include "TBButton.h"
+#include "TBCboBoxes.h"
 #include "TBEditBox.h"
+#include "TBMenu.h"                       // Use for Menus in Doc/View applications
 #include "ToolBarDim.h"
-
-class  TBButton;
-class  TBMenu;
 
 
 class ToolBarBase : public CMFCToolBar {
 typedef CMFCToolBarButton ButtonBase;
 
-CWnd*    window;
+CWnd*      window;
+
+protected:
+
+TBCboBoxes tbCboBoxes;
 
 public:
 
   ToolBarBase() : window(0) { }
  ~ToolBarBase() {  }
 
-  bool           create(CWnd* wnd, uint id, DWORD style = 0);
-                                                          // Create toolbar with flyby tooltips.
+  bool      create(CWnd* wnd, uint id, DWORD style = 0);
+                                                  // Create toolbar with flyby tooltips.
 
-  void           move(CRect& rect);                       // Useful in Dialog Apps only
+  void      move(CRect& rect);                       // Useful in Dialog Apps only
 
-  void           set(CRect& dlgRect) {toolBarDim.set(dlgRect, this);}
+  void      set(CRect& dlgRect) {toolBarDim.set(dlgRect, this);}
 
-  bool           OnTtnNeedText(NMHDR* pNMHDR);            // ToolTips -- See definition for details
+  bool      OnTtnNeedText(NMHDR* pNMHDR);            // ToolTips -- See definition for details
 
-  void           setSeparator(int index);// {SetButtonStyle(index, TBBS_SEPARATOR);}
+  void      setSeparator(int index);// {SetButtonStyle(index, TBBS_SEPARATOR);}
+  void      adjustLayout() {AdjustLayout();}
 
 protected:
 
-  void           getFontDim(FontDim& fontDim);
-  bool           add(TBButton&   button, uint id, TCchar* caption);
-  bool           add(TBEditBox&  button, uint id, int     noChars);
-  CString        getText(TBEditBox&  editBox) {return editBox.getText();}
+  void      getFontDim(FontDim& fontDim);
+
+  bool      add(TBButton&   button, uint id, TCchar* caption);
+
+  bool      add(TBEditBox&  button, uint id, int     noChars);
+  CString   getText(TBEditBox&  editBox) {return editBox.getText();}
 
   // The following Menu items are usefule only in Doc/View (e.g. MainFrame) apps
+  bool      add(TBMenu&  mnu, uint id, int      idr,              TCchar* caption);
+  bool      add(TBMenu&  mnu, uint id, int      idr,              int     index);
+  bool      add(TBMenu&  mnu, uint id, CCbxItem cbxItem[], int n, TCchar* caption);
 
-  bool           add(TBMenu&  button, uint id, int           idr,              TCchar* caption);
-  bool           add(TBMenu&  button, uint id, int           idr,              int     index);
-  bool           add(TBMenu&  button, uint id, const CbxItem cbxItem[], int n, TCchar* caption);
+  // Combo Box Features (Doc/View and Dialog Box Apps)
 
-  // The following Menu items are useful only in Dialog Boxes
+  TBCboBox& createCboBox(uint id) {return tbCboBoxes.create(id);}
+  void      clearCbo(    uint id);
+  bool      addCboBox(   uint id, int noChars);
+  bool      setCboItems( uint id, uint idr);
+  bool      setCboItems( uint id, CCbxItem cbxItem[], int n);
 
-  void           setWthPercent(TBCbxMenu& button, int prcnt) {button.setWthPercent(prcnt);}
-  bool           add(TBCbxMenu&  button, uint id, int           idr,              TCchar* caption);
-  bool           add(TBCbxMenu&  button, uint id, const CbxItem cbxItem[], int n, TCchar* caption);
-  void           setWidth(TBCbxMenu& button) {button.setWidth();   AdjustLayout();}
-  void           setHeight(TBCbxMenu& button) {button.setHeight();}
-  void           dispatch(TBCbxMenu& deleteMenu);
+  void      setCboCaption(TBCboBox& cbo, TCchar* caption)
+                                              {cbo.set(caption);   cbo.update();   AdjustLayout();}
+  void      setImage(TBCboBox& cbo, int toolBarIndex)
+                                    {cbo.setImage(toolBarIndex);   cbo.update();   AdjustLayout();}
+  void      setImage(TBMenu&   mnu, int toolBarIndex)
+                                    {mnu.setImage(toolBarIndex); /*mnu.update();*/ AdjustLayout();}
 
-  void           clear(TBCboBx& button) {button.clear();}
-  bool           add(TBCboBx&   button, uint id, int noChars);
-  bool           add(TBCboBx&   button, uint id, int           idr,              TCchar* caption);
-  bool           add(TBCboBx&   button, uint id, const CbxItem cbxItem[], int n, TCchar* caption);
+  void      setCboWthPrct(TBCboBox& cbo, int prcnt)
+                              {cbo.setWthPercent(prcnt);   cbo.update();   AdjustLayout();}
+  void      setCboHeight( TBCboBox& cbo) {cbo.setHeight();}
 
-  bool           addItem(      TBCboBx& button, TCchar* txt, int data)
-                                                                {return button.addItem(txt, data);}
-  bool           addItemSorted(TBCboBx& button, TCchar* txt, int data)
-                                                          {return button.addItemSorted(txt, data);}
+  void      dispatch(TBCboBox& cbo);
 
-  int            find(TBCboBx& button, TCchar* txt)      {return button.find(txt);}
-  bool           setCurSel(TBCboBx& button, int index)   {return button.setCurSel(index);}
-  bool           setCurSel(TBCboBx& button, TCchar* txt) {return button.setCurSel(txt);}
+  // Manipulate tuple in the ComboBox
 
-  void           setCaption(   TBCboBx& button, TCchar* caption) {button.setCaption(caption);}
-  void           setWthPercent(TBCboBx& button, int prcnt)       {button.setWthPercent(prcnt);}
-  void           setWidth(     TBCboBx& button) {button.setWidth();   AdjustLayout();}
-  void           setHeight(    TBCboBx& button) {button.setHeight();}
+  bool      addCboItem(TBCboBox& cbo, TCchar* txt, ulongP data) {return cbo.addItem(txt, data);}
+  bool      addCboItemSrtd(TBCboBox& cbo, TCchar* txt, ulongP data)
+                                                       {return cbo.addItemSrtd(txt, data);}
 
-  void*          getCbxData(   TBCboBx& button, int index) {return button.getData(index);}
+  bool      setCurSel(TBCboBox& cbo, int index)  {return cbo.setCurSel(index);}
 
-  bool           getCurSel(    TBCboBx& button, String& s, void*& data)
-                                                                {return button.getCurSel(s, data);}
-  int            getCurSel(    TBCboBx& button) {return button.getCurSel();}
+  bool      setCurSel(TBCboBox& cbo, TCchar* tc) {return cbo.setCurSel(tc);}
+
+  int       getCurSel(TBCboBox& cbo)             {return cbo.getCurSel();}
+  bool      getCurSel(TBCboBox& cbo, String& s, ulongP& data) {return cbo.getCurSel(s, data);}
+  ulongP    getData(TBCboBox& cbo, int index)    {return cbo.getData(index);}
+
+  int       find(TBCboBox& cbo, TCchar* tc)      {return cbo.find(tc);}
 
 private:
-  void           OnFillBackground(CDC* pDC);
-  bool           getMouseHover(ButtonBase*& btn);
+
+  void      OnFillBackground(CDC* pDC);
+  bool      getMouseHover(ButtonBase*& btn);
   };
+
 
 

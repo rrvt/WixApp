@@ -1,0 +1,6 @@
+D:\Sources\SetEnv\Debug\SetEnv.msi
+D:\Sources\SetEnv\Debug\SetEnv.wixpdb
+obj\Debug\Product.wixobj
+obj\Debug\SetEnv.wix.wixproj.BindContentsFileListnull.txt
+obj\Debug\SetEnv.wix.wixproj.BindOutputsFileListnull.txt
+obj\Debug\SetEnv.wix.wixproj.BindBuiltOutputsFileListnull.txt

@@ -42,7 +42,7 @@ int                     mul = 1;
 int                     ver = 0;
 String                  stg;
 
-  if (!_tcslen(filePath)) return _T("");
+  if (!tcslen(filePath)) return _T("");
 
   for (p = mainName.rbegin(), n = 0; p != mainName.rend() && n < 2; p++, n++) {
     if ('0' <= *p && *p <= '9') {dig = mul * (*p-'0'); ver += dig; mul *= 10; continue;}

@@ -1,0 +1,2 @@
+D:\Sources\SetEnv\Debug\SetEnv.msi
+D:\Sources\SetEnv\Debug\SetEnv.wixpdb

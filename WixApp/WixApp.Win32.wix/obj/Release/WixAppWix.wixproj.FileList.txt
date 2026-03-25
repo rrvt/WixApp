@@ -1,0 +1,6 @@
+D:\Sources\WixAppII\Release\WixApp.msi
+D:\Sources\WixApp\Release\WixApp.msi
+obj\Release\Product.wixobj
+obj\Release\WixAppWix.wixproj.BindContentsFileListnull.txt
+obj\Release\WixAppWix.wixproj.BindOutputsFileListnull.txt
+obj\Release\WixAppWix.wixproj.BindBuiltOutputsFileListnull.txt

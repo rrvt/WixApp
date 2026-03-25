@@ -100,6 +100,13 @@ String s;
   s += name;  return s;
   }
 
+//lib://Sources/WixApp/Data
+void normalizePath(String& path) {
+int pos;
+
+  for (pos = path.find(_T('/')); pos >= 0; pos = path.find(_T('/'))) path[pos] = _T('\\');
+  }
+
 
 
 String findExeFile(TCchar* name) {

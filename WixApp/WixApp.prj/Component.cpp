@@ -318,6 +318,11 @@ String   dirID    = isUninstall && isApp && menuDesc ? menuDesc->wixID :
                                                        progDesc ? progDesc->wixID : String(_T(""));
 String   dir;
 
+  if (!progDesc) {
+    String s;  s.format(_T("Missing Program Directory for %s"), id.str());
+    messageBox(s);   return;
+    }
+
   if (dirID.isEmpty()) return;
 
   if (guid.isEmpty()) getGuid(guid);

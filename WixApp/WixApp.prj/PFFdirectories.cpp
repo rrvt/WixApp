@@ -10,8 +10,6 @@
 TCchar* PffExt = _T("pff");
 
 
-
-
 String PFFdirectories::fullPath(String& id) {
 DirDesc* dsc;
 String   path;
@@ -22,7 +20,6 @@ String   path;
 
   return path;
   }
-
 
 
 void PFFdirectories::begOutput(int& tab) {
@@ -75,4 +72,22 @@ void PFFdirectories::saveData(Archive& ar) {
 //  if (d) wix(tab, _T("<Property Id=\"ApplicationFolderName\" Value=\""), d->name, _T("\" />"));
 
 //  wix(tab, _T("<Property Id=\"WIXUI_INSTALLDIR\"      Value=\""), appDir->wixID, _T("\" />"));
+#if 0
+DirDesc* dsc;
+
+  if (fullPath.isEmpty()) return 0;
+
+  dsc = findCI(fullPath);
+
+  if (dsc) {
+    String   s;   s.format(_T("Replace %s with %s?"), dsc->name.str(), fullPath.str());
+
+    if (msgYesNoBox(s)) dsc->name = fullPath;
+
+    return dsc;
+    }
+#endif
+
+//DirDesc* PFFdirectories::add(String& fullPath) {return stor.addPath(fullPath);}
+
 

@@ -10,8 +10,7 @@
 
 #define IDR_MAINFRAME                   100
 #define IDR_TOOLBAR                     101
-#define IDR_CbxMenu                     102
-#define IDR_PopupMenu                   103
+#define IDR_SaveMenu                    102
 #define IDR_WxdVersion                  104
 
 #define IDD_WixDlg                      200
@@ -74,16 +73,19 @@
 
 #define ID_NewProject                   400
 #define ID_OpenProject                  401
-#define ID_SaveAllFiles                 402
-#define ID_SaveWxdFile                  403
-#define ID_SaveData                     404
-#define ID_Option                       405
-#define ID_Solution                     406
-#define ID_Validate                     407
-#define ID_DisplayDir                   408
-#define ID_App_About                    409
-#define ID_Help                         410
-#define ID_App_Exit                     411
+
+#define ID_SaveMenu                     402
+#define ID_SaveAllFiles                 403
+#define ID_SaveWxdFile                  404
+#define ID_SaveData                     405
+
+#define ID_Option                       406
+#define ID_Solution                     407
+#define ID_Validate                     408
+#define ID_DisplayDir                   409
+#define ID_App_About                    410
+#define ID_Help                         411
+#define ID_App_Exit                     412
 
 // Main Dialog Size
 

@@ -3,7 +3,6 @@
 
 #pragma once
 #include "ComboBox.h"
-#include "FinishDlg.h"
 #include "Resource.h"
 #include "StatusBar.h"
 #include "MyToolBar.h"
@@ -88,6 +87,8 @@ public:
   // Commands
   afx_msg void    onNewProject();
   afx_msg void    onOpenProject();
+
+  afx_msg void    onDispatch();
   afx_msg void    onSaveAllFiles();
   afx_msg void    onSaveWXDFile();
   afx_msg void    onSaveData();

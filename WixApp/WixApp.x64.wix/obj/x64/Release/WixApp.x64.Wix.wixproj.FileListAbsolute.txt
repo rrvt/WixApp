@@ -1,0 +1,4 @@
+D:\Sources\WixApp\Release.x64\WixApp.msi
+D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixApp.x64.Wix.wixproj.CoreCompileInputs.cache
+D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixApp.msi
+D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixApp.x64.Wix.wixproj.BindTracking-neutral.txt

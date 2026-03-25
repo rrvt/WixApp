@@ -17,19 +17,18 @@ String caption;
   TBMenu(uint id) : CMFCToolBarMenuButton(id, 0, 0), id(id), maxChars(0) { }
  ~TBMenu() { }
 
-  TBMenu* install(uint idr,                       TCchar* caption);
-  TBMenu* install(uint idr,                       uint    imageIndex);
-  TBMenu* install(const CbxItem cbxItem[], int n, TCchar* caption);
-  TBMenu* install(const CbxItem cbxItem[], int n, uint    imageIndex);
+  TBMenu* install(uint idr,                  TCchar* caption);
+  TBMenu* install(uint idr,                  uint    imageIndex);
+  TBMenu* install(CCbxItem cbxItem[], int n, TCchar* caption);
+  TBMenu* install(CCbxItem cbxItem[], int n, uint    imageIndex);
+
+  void    setImage(int imageIndex) {SetImage(imageIndex);}
   bool    setCaption();
   uint    getId() {return id;}
-  uint    getCmdId();
 
 private:
 
-  void    addItem(TCchar* txt, int data);
-  TBMenu* finInstall(TCchar* caption);
-  void    setMaxChars(TCchar* txt) {int t;   t = (int) _tcslen(txt);   if (t > maxChars) maxChars = t;}
+  void    setMaxChars(TCchar* txt) {int t;   t = tcslen(txt);   if (t > maxChars) maxChars = t;}
   };
 
 

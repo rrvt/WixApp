@@ -29,13 +29,21 @@ bool         rslt;
 
   nameVer = prodName.trim();   prodName = _T("About ") + prodName;   SetWindowText(prodName);
 
+  nameVer += _T(" (");
   #ifdef WinXP
-    nameVer += _T(" (WinXP)");
+    nameVer += _T("WinXP");
   #elif defined UNICODE
-    nameVer += _T(" (Unicode)");
+    nameVer += _T("Unicode");
   #else
-    nameVer += _T(" (Win 11)");
+    nameVer += _T("Win 11");
   #endif
+  #ifdef _M_IX86
+    nameVer += _T("/x86");
+  #else
+    nameVer += _T("/x64");
+  #endif
+  nameVer += _T(')');
+
 
   if (!res.getVersion(version)) version = _T("0/0/0");
 

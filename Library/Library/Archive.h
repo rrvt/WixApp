@@ -170,6 +170,7 @@ private:
   Archive& append(Cchar*  cs);
   Archive& append(long     v);
   Archive& append(ulong    v);
+  Archive& append(int64    v);
   Archive& append(double   v);
   Archive& append(Date&   dt);
 

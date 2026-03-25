@@ -7,7 +7,7 @@
 
 class Archive;
 
-extern TCchar* IniSection;
+extern TCchar* CurSection;
 extern TCchar* RootPathKey;
 
 

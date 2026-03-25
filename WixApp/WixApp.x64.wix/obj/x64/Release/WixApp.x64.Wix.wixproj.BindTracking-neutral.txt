@@ -1,0 +1,16 @@
+BuiltTargetOutput	D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixApp.msi
+Input	C:\Program Files\WixApp\banner.bmp
+Input	C:\Program Files\WixApp\dialog.bmp
+Input	C:\Users\rrvt\.nuget\packages\wixtoolset.ui.wixext\6.0.2\wixext6\WixToolset.UI.wixext.dll
+Input	D:\Sources\WixApp\Release.x64\\..\..\Library\License\MITLicenseFile.rtf
+Input	D:\Sources\WixApp\Release.x64\\..\Release.x64\WixApp.chm
+Input	D:\Sources\WixApp\Release.x64\\..\Release.x64\WixApp.exe
+Input	D:\Sources\WixApp\Release.x64\\..\WixApp.prj\res\banner.bmp
+Input	D:\Sources\WixApp\Release.x64\\..\WixApp.prj\res\dialog.bmp
+Input	D:\Sources\WixApp\WixApp\..\..\Library\License\MITLicense.ico
+Input	D:\Sources\WixApp\WixApp\..\WixApp.prj\res\WixApp.ico
+Intermediate	D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\#cab1.cab
+Intermediate	D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\exclamic.ico
+Intermediate	D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\info.ico
+Intermediate	D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\new.ico
+Intermediate	D:\Sources\WixApp\WixApp.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\up.ico

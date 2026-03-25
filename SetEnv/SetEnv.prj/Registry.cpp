@@ -32,8 +32,27 @@ Registry::Registry(EnvironmentBase base, Tchar separator) :
 Registry::~Registry() {closeBase();}
 
 
+/*
+// Example: SendMessageTimeout in MFC/Win32
+DWORD_PTR dwResult = 0;
+if (SendMessageTimeout(
+    hWndTarget,         // Target window handle
+    WM_USER_MESSAGE,    // Message ID
+    wParam,             // WPARAM
+    lParam,             // LPARAM
+    SMTO_ABORTIFHUNG | SMTO_NORMAL, // Flags
+    1000,               // Timeout in milliseconds (1 second)
+    &dwResult           // Return result pointer
+) != 0) {
+    // Message sent successfully within timeout
+} else {
+    // Timeout elapsed or error occurred (GetLastError())
+}
+*/
+
+
 bool Registry::closeBase() {
-DWORD   result2 = 0;
+ulongP  result2 = 0;
 LRESULT result;
 
   closeLvlOne();   if (baseH) RegCloseKey(baseH);   baseH = 0;

@@ -30,7 +30,7 @@ DirDesc* appDir;
 
   DirDesc* find(String& id)      {return stor.findItem(id);}
 
-  DirDesc* add(String& fullPath) {return stor.add(fullPath);}
+  DirDesc* add(String& fullPath) {return stor.addPath(fullPath);}
   DirDesc* getDefault()          {return stor.getDefault();}
 
   String   fullPath(String& id);
@@ -40,6 +40,10 @@ DirDesc* appDir;
   void     outputSubs(String& parent, int tab) {stor.outputSubs(parent, tab);}
 
   void     saveData(Archive& ar);
+
+private:
+
+//  DirDesc* findCI(TCchar* path);
   };
 
 

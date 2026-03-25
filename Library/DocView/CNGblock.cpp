@@ -5,18 +5,19 @@
 #include "LibGlobals.h"
 #include "CNGblock.h"
 #include "Random.h"
+//#include "Strings.h"
 
 
 CNGblock& CNGblock::operator= (TCchar*  tc) {
 
-  if (alloc((int) ((_tcsclen(tc) + 1) * sizeof(Tchar)))) memcpy_s(p, n, tc, n);
+  if (alloc(((tcslen(tc) + 1) * sizeof(Tchar)))) memcpy_s(p, n, tc, n);
 
   return *this;
   }
 
 
 bool CNGblock::setKey(TCchar* key) {
-ulong lng = (int) _tcsclen(key);
+ulong lng = tcslen(key);
 ulong hash;
 ulong extra;
 ulong i;

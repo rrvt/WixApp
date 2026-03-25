@@ -11,14 +11,17 @@
 typedef unsigned short      ushort;
 typedef unsigned long       ulong;
 typedef unsigned int        uint;
+typedef UINT_PTR            uintP;
+typedef ULONG_PTR           ulongP;
+
 typedef unsigned char       Byte;
 typedef const    char       Cchar;
 typedef          TCHAR      Tchar;
 typedef const    TCHAR      TCchar;
 typedef const   _TUCHAR     TUCchar;
 
-typedef          __int64    int64;
-typedef unsigned __int64    Uint64;
+typedef          int64_t    int64;
+typedef          uint64_t   Uint64;
 typedef          __time64_t Time64;
 
 #define loop for (;;)

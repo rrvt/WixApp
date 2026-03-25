@@ -14,6 +14,14 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 3/24/26
+
+Consolidated the Output commands into a dropdown menu on the toolbar.  Made sure that the target
+directory is saved in the same place regardless of case (Windows ignores case with a path).  This
+solved one problem, but introduced another when Features have target directories with different
+cases.  A error message is displayed during producing the Product file when the feature paths are
+the same except for case.
+
 ### Update 2/9/26
 
 An app that was needed on my laptop was required to be a 64 bit app.  But there were issues

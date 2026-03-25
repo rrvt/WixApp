@@ -7,7 +7,8 @@
 #include "DefaultPath.h"
 #include "GetPathDlg.h"
 #include "filename.h"
-#include "IniFileEx.h"
+#include "IniData.h"
+//#include "IniFileEx.h"
 #include "SolutionPathDlg.h"
 #include "WixData.h"
 #include "WixUtilities.h"
@@ -19,7 +20,6 @@ static TCchar* SolVersion      = _T("Version");
 
 static TCchar* VarSolution     = _T("$(var.SolutionDir)");
 
-       TCchar* IniSection      = _T("Current");
        TCchar* RootPathKey     = _T("RootPath");
 
 
@@ -60,11 +60,10 @@ int             last;
   }
 
 
-bool Solution::readRootPath(String& path)
-                                      {return iniFile.read(IniSection, RootPathKey, path, _T(""));}
+bool Solution::readRootPath(String& path) {return iniData.read(RootPathKey, path, _T(""));}
 
 
-void Solution::saveRootPath(TCchar* path) {iniFile.write(IniSection, RootPathKey, path);}
+void Solution::saveRootPath(TCchar* path) {iniData.write(RootPathKey, path);}
 
 
 void Solution::readWixData() {

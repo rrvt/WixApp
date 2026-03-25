@@ -19,6 +19,9 @@ String ext;
   void  clearMarks();
 
   Data* add(String& fullPath);
+  Data* addPath(String& fullPath);
+  Data* findPath(TCchar* path);                 // Case Insensitive search
+
 
   Data* getDefault();
 
@@ -37,8 +40,8 @@ String ext;
 private:
 
   Data* addOne(String fullPath);
-//  void  readDesc(String& section);
-//  void  writeDesc(   DirDesc& dsc, String& section);
+  Data* addOnePath(String& fullPath);
+
   void  outputOne(   DirDesc* dsc, int tab);
   void  outputParent(DirDesc* dsc, int tab);
 
@@ -97,6 +100,52 @@ Data* dsc;
   dsc->inUse = false;
 
   findLastName(fullPath, dsc->parent, dsc->name);   return dsc;
+  }
+
+
+template <class Data, const int n>
+Data* DirStore<Data, n>::addPath(String& fullPath) {
+Data* dsc;
+
+  fullPath.trim();
+
+  for (dsc = DirStore<Data, n>::addOnePath(fullPath); dsc;
+                                        dsc = DirStore<Data, n>::addOnePath(dsc->parent)) continue;
+  return EntityStore<Data, n>::findItem(fullPath);
+  }
+
+
+template <class Data, const int n>
+Data* DirStore<Data, n>::addOnePath(String& fullPath) {
+Data* dsc;
+
+  if (fullPath.isEmpty()) return 0;
+
+  dsc = findPath(fullPath);
+  if (dsc)   EntityStore<Data, n>::update(*dsc, fullPath);
+  else dsc = EntityStore<Data, n>::add(fullPath);
+
+  dsc->wixID = getWixID(fullPath, ext);
+  dsc->inUse = false;
+
+  findLastName(fullPath, dsc->parent, dsc->name);   return dsc;
+  }
+
+
+// Case Insensitive search
+
+template <class Data, const int n>
+Data* DirStore<Data, n>::findPath(TCchar* path) {
+String      tgt = path;
+DirStorIter iter(*this);
+DirDesc*    dsc;
+String      id;
+
+  tgt.lowerCase();
+
+  for (dsc = iter(); dsc; dsc = iter++)
+                                     {id = dsc->id;   id.lowerCase();   if (id == tgt) return dsc;}
+  return 0;
   }
 
 
@@ -344,4 +393,6 @@ static TCchar* DDParent      = _T("Parent");
 static TCchar* DDName        = _T("Name");
 static TCchar* DDHasChildren = _T("HasChildren");
 #endif
+//  void  readDesc(String& section);
+//  void  writeDesc(   DirDesc& dsc, String& section);
 

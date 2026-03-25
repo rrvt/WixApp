@@ -93,9 +93,6 @@
     <ClInclude Include="SolutionPathDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FinishDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DspDirs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -103,6 +100,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyToolBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IniData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,13 +170,13 @@
     <ClCompile Include="SolutionPathDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FinishDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DspDirs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyToolBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IniData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -193,21 +193,13 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
-    <None Include="..\Data\PreOutpost.wxd" />
-    <None Include="..\Data\Product.wxs" />
     <None Include="..\ReadMe.md" />
     <None Include="res\WixApp.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\Data\RacesDB.wxd" />
-    <None Include="..\Data\WixData.txt" />
-    <None Include="..\Data\WixData03.txt" />
-    <None Include="..\data01\Product.wxs" />
+    <None Include="..\Data\WixApp.Win32.wix\WixApp.Win32.wxd" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\ShortToolbar.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="res\Toolbar.bmp">
       <Filter>Resource Files</Filter>
     </Image>

@@ -14,14 +14,17 @@ String& NoteNmbr::operator() () {return stg();}
 String& NoteNmbr::stg() {
 
   switch (typ) {
-    case NilNmbrTyp : nmbr.clear();                                 break;
-    case IntNmbrTyp : nmbr = hex ? hexToString( longVal,        prec) :
-                                   intToString( longVal, width, prec);
-                      break;
-    case UIntNmbrTyp: nmbr = hex ? hexToString( uLongVal,        prec) :
-                                   uintToString(uLongVal, width, prec);
-                      break;
-    case DblNmbTyp  : nmbr =       dblToString( dblVal,   width, prec);   break;
+    case NilNmbrTyp   : nmbr.clear();   break;
+    case IntNmbrTyp   : nmbr = hex ? hexToString( longVal,        prec) :
+                                     intToString( longVal, width, prec);
+                        break;
+    case Int64NmbrTyp : nmbr = hex ? hex64ToString(int64Val,        prec) :
+                                     int64ToString(int64Val, width, prec);
+                        break;
+    case UIntNmbrTyp  : nmbr = hex ? hexToString( uLongVal,        prec) :
+                                     uintToString(uLongVal, width, prec);
+                        break;
+    case DblNmbTyp    : nmbr =       dblToString( dblVal,   width, prec);   break;
     }
 
   return nmbr;
@@ -36,10 +39,11 @@ void NoteNmbr::copy(NoteNmbr& nn) {
   typ = nn.typ;
 
   switch (typ) {
-    case NilNmbrTyp : dblVal   = 0;           break;
-    case IntNmbrTyp : longVal  = nn.longVal;  break;
-    case UIntNmbrTyp: uLongVal = nn.uLongVal; break;
-    case DblNmbTyp  : dblVal   = nn.dblVal;   break;
+    case NilNmbrTyp   : dblVal   = 0;           break;
+    case IntNmbrTyp   : longVal  = nn.longVal;  break;
+    case Int64NmbrTyp : int64Val = nn.int64Val; break;
+    case UIntNmbrTyp  : uLongVal = nn.uLongVal; break;
+    case DblNmbTyp    : dblVal   = nn.dblVal;   break;
     }
 
   width = nn.width;

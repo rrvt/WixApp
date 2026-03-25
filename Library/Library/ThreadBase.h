@@ -36,7 +36,7 @@ function.
 */
 
 
-typedef int WINAPI AThreadFunction(void* param);
+typedef int WINAPI AThreadFunction(longP param);
 
 extern atomic<bool> aThreadFlag;
 
@@ -58,7 +58,7 @@ public:
 
   bool isRunning()  {return running;}       // Call from app to determine if thread running
 
-  void start(AThreadFunction& fn, void* param);
+  void start(AThreadFunction& fn, longP param);
 
   bool isJoinable() {return myThread.joinable();}
 

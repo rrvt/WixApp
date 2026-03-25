@@ -28,7 +28,7 @@ void   add_extension(Tchar* name, int dSize, TCchar* ext);
 
 void   appendSepChar(Tchar* name, int dSize);
 
-bool   renameFile(Tchar* orig, Tchar* newName, int dSize);
+bool   renameFile(Tchar* orig, Tchar* newName);
 
 bool   legal_extension(TCchar* name, String* ext, int nExt);
 

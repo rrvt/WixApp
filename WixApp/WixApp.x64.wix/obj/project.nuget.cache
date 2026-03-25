@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Pm51QMLH8n0=",
+  "success": true,
+  "projectFilePath": "D:\\Sources\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rrvt\\.nuget\\packages\\wixtoolset.ui.wixext\\6.0.2\\wixtoolset.ui.wixext.6.0.2.nupkg.sha512",
+    "C:\\Users\\rrvt\\.nuget\\packages\\wixtoolset.util.wixext\\6.0.2\\wixtoolset.util.wixext.6.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

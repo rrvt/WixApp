@@ -1,0 +1,6 @@
+D:\Sources\SetEnv\Release\SetEnvInstaller.msi
+D:\Sources\SetEnv\Release\SetEnvInstaller.wixpdb
+obj\Release\Product.wixobj
+obj\Release\Installer.wixproj.BindContentsFileListnull.txt
+obj\Release\Installer.wixproj.BindOutputsFileListnull.txt
+obj\Release\Installer.wixproj.BindBuiltOutputsFileListnull.txt

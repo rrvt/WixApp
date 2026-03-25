@@ -1,0 +1,6 @@
+D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\SetEnv.x64.wix.wixproj.CoreCompileInputs.cache
+D:\Sources\SetEnv\Release.x64\SetEnv.msi
+D:\Sources\SetEnv\Release.x64\SetEnv.wixpdb
+D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\SetEnv.msi
+D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\SetEnv.wixpdb
+D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\SetEnv.x64.wix.wixproj.BindTracking-neutral.txt

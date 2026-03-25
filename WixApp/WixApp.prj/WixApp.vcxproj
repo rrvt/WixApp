@@ -118,9 +118,9 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>Htmlhelp.lib;Library.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -135,7 +135,8 @@
       </AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>        </Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -169,9 +170,9 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>Htmlhelp.lib;Library.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -185,7 +186,8 @@
       </AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>        </Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -218,9 +220,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalDependencies>Htmlhelp.lib;Library.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <ProgramDatabaseFile />
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -235,7 +237,8 @@
       </AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>        </Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -272,10 +275,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalDependencies>Htmlhelp.lib;Library.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <ProgramDatabaseFile>
       </ProgramDatabaseFile>
-      <AdditionalLibraryDirectories>$(Solutiondir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -289,7 +292,8 @@
       </AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>        </Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
@@ -307,9 +311,9 @@
     <ClInclude Include="EntityStore.h" />
     <ClInclude Include="Feature.h" />
     <ClInclude Include="Features.h" />
-    <ClInclude Include="FinishDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Icons.h" />
+    <ClInclude Include="IniData.h" />
     <ClInclude Include="MyToolBar.h" />
     <ClInclude Include="RelPath.h" />
     <ClInclude Include="PathUnits.h" />
@@ -336,8 +340,8 @@
     <ClCompile Include="DspDirs.cpp" />
     <ClCompile Include="Feature.cpp" />
     <ClCompile Include="Features.cpp" />
-    <ClCompile Include="FinishDlg.cpp" />
     <ClCompile Include="Icons.cpp" />
+    <ClCompile Include="IniData.cpp" />
     <ClCompile Include="MyToolBar.cpp" />
     <ClCompile Include="RelPath.cpp" />
     <ClCompile Include="PathUnits.cpp" />
@@ -360,24 +364,13 @@
   <ItemGroup>
     <None Include="..\ReadMe.md" />
     <None Include="..\..\Library\Extras\AboutDlg.rc2" />
-    <None Include="..\Data\PreOutpost.wxd" />
-    <None Include="..\Data\Product.wxs" />
     <None Include="C:\Users\rrvt\AppData\Roaming\WixApp\WixApp.ini" />
     <None Include="res\WixApp.ico" />
     <None Include="res\WixApp.rc2" />
-    <None Include="..\Data\RacesDB.wxd" />
-    <None Include="..\Data\WixData.txt" />
-    <None Include="..\Data\WixData03.txt" />
-    <None Include="..\data01\Product.wxs" />
+    <None Include="..\Data\WixApp.Win32.wix\WixApp.Win32.wxd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Toolbar.bmp" />
-    <Image Include="res\ShortToolbar.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Library\Dialog\Dialog.vcxproj">
-      <Project>{f9033cda-e37d-4f43-bbc5-d881c6edce9a}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

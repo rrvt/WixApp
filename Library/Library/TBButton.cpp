@@ -5,9 +5,6 @@
 #include "TBButton.h"
 
 
-TBButton::TBButton(uint id) : CMFCToolBarButton(id, -1), id(id) { }
-
-
 void TBButton::install(TCchar* caption) {
   m_nStyle  = BTNS_BUTTON | BS_TOP | BS_CENTER;
   m_strText = caption;

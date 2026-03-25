@@ -1,0 +1,12 @@
+BuiltPdbOutput	D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\SetEnv.wixpdb
+BuiltTargetOutput	D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\SetEnv.msi
+Input	C:\Program Files\WixApp\banner.bmp
+Input	C:\Program Files\WixApp\dialog.bmp
+Input	C:\Users\rrvt\.nuget\packages\wixtoolset.ui.wixext\6.0.2\wixext6\WixToolset.UI.wixext.dll
+Input	D:\Sources\SetEnv\Release.x64\\..\Release.x64\SetEnv.exe
+Input	D:\Sources\SetEnv\SetEnv\..\SetEnv.prj\Airstream.ico
+Intermediate	D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\#cab1.cab
+Intermediate	D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\exclamic.ico
+Intermediate	D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\info.ico
+Intermediate	D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\new.ico
+Intermediate	D:\Sources\SetEnv\SetEnv.x64.wix\obj\x64\Release\WixToolset.UI.wixext_KvfpSCZDHIoa8Dc2qWRaJwGpqBs\wix-ir\up.ico

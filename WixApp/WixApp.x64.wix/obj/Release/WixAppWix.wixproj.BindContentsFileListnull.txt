@@ -1,0 +1,5 @@
+D:\Sources\WixApp\WixApp\..\Release\banner.bmp
+D:\Sources\WixApp\WixApp\..\Release\dialog.bmp
+D:\Sources\WixApp\WixApp\..\Release\WixApp.chm
+D:\Sources\WixApp\WixApp\..\..\Library\License\MITLicenseFile.rtf
+D:\Sources\WixApp\WixApp\..\Release\WixApp.exe

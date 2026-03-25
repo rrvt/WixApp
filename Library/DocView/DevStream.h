@@ -34,12 +34,25 @@ public:                                                //IntNmbrTyp, UIntNmbrTyp
   DevStream& operator<< (String&     s)  {device.append(s); return *this;}
   DevStream& operator<< (TCchar*     s)  {device.append(s); return *this;}
 
-  DevStream& operator<< (int         v)
-    {nmbr.longVal  = v;   nmbr.typ = IntNmbrTyp;   device.append(nmbr);   nmbr.clear();   return *this;}
-  DevStream& operator<< (ulong       v)
-    {nmbr.uLongVal = v;   nmbr.typ = UIntNmbrTyp;  device.append(nmbr);   nmbr.clear();   return *this;}
-  DevStream& operator<< (double      v)
-    {nmbr.dblVal   = v;   nmbr.typ = DblNmbTyp;    device.append(nmbr);   nmbr.clear();   return *this;}
+  DevStream& operator<< (int         v) {
+    nmbr.longVal  = v;   nmbr.typ = IntNmbrTyp;     device.append(nmbr);   nmbr.clear();
+    return *this;
+    }
+
+  DevStream& operator<< (int64       v) {
+    nmbr.int64Val  = v;   nmbr.typ = Int64NmbrTyp;   device.append(nmbr);   nmbr.clear();
+    return *this;
+    }
+
+  DevStream& operator<< (ulong       v) {
+    nmbr.uLongVal = v;   nmbr.typ = UIntNmbrTyp;    device.append(nmbr);   nmbr.clear();
+    return *this;
+    }
+
+  DevStream& operator<< (double      v) {
+    nmbr.dblVal   = v;   nmbr.typ = DblNmbTyp;      device.append(nmbr);   nmbr.clear();
+    return *this;
+    }
 
   DevStream& operator<< (DvStManip& m) {return m.func(*this);}
 
