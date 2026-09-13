@@ -18,8 +18,6 @@
 #define IDD_SolutionPath                202
 #define IDD_Finish                      203
 
-#define IDC_StatusBar                   300       // Includes 301 & 302
-
 // WixDlg Controls
 
 #define IDC_ProductName                 301

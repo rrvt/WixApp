@@ -5,11 +5,14 @@
 #include "Solution.h"
 #include "Archive.h"
 #include "DefaultPath.h"
-#include "GetPathDlg.h"
+//#include "GetPathDlg.h"
 #include "filename.h"
 #include "IniData.h"
 //#include "IniFileEx.h"
+#include "PathDlg.h"
 #include "SolutionPathDlg.h"
+#include "WixApp.h"
+#include "WixAppDlg.h"
 #include "WixData.h"
 #include "WixUtilities.h"
 
@@ -30,13 +33,14 @@ String          t;
 SolutionPathDlg dlg;
 int             last;
 
-  if (!isNew && rootPath.isEmpty()) readRootPath(s);   else s = rootPath;
+  if (!isNew && rootUnits.isEmpty()) readRootPath(s);
+  else                               s = rootUnits;
 
   last = s.length() - 1;
 
   dlg.rootPath = last >= 0 && s[last] == _T('\\') ? s.substr(0, last) : s;
 
-  if (!isNew) dlg.solutionPath = t = pathUnits;
+  if (!isNew) dlg.solutionPath = t = solUnits;
 
   loop {
     switch (dlg.DoModal()) {
@@ -50,13 +54,13 @@ int             last;
     break;
     }
 
-  name = getMainName(s);   pathUnits = t = getPath(s);
+  name = getMainName(s);   solUnits = t = getPath(s);
 
-  rootPath = r;   last = rootPath.length() - 1;
+  last = r.length() - 1;   if (last >= 0 && r[last] != _T('\\')) r +=  _T('\\');
 
-  if (rootPath[last] != _T('\\')) rootPath +=  _T('\\');
+  rootUnits = r;   baseUnits = rootUnits.path(rootUnits.nData()-1);   saveRootPath(r);
 
-  saveRootPath(rootPath);   return true;
+  doc()->setTitle(r);   return true;
   }
 
 
@@ -67,49 +71,64 @@ void Solution::saveRootPath(TCchar* path) {iniData.write(RootPathKey, path);}
 
 
 void Solution::readWixData() {
+String rootPath;
 String path;
 String version;
 uint   pos;
 
   wxd.read(SolutionSection, RootPathKey, rootPath);
+
+  if (!PathFileExists(rootPath)) {
+    getRootPath(rootPath);
+    if (!rootPath.isEmpty()) wxd.write(SolutionSection, RootPathKey, rootPath);
+    }
+
+  if (!rootPath.isEmpty()) {rootUnits = rootPath; baseUnits = rootUnits.path(rootUnits.nData()-1);}
+
   wxd.read(SolutionSection, SolPathKey,  path);
+
+  if (!PathFileExists(path)) {
+    getSolutionPath(path);
+
+    if (!path.isEmpty()) wxd.write(SolutionSection, SolPathKey, path);
+    }
+
+  if (!path.isEmpty()) solUnits = path;
+
+  doc()->setTitle(path);
+
   wxd.read(SolutionSection, SolNameKey,  name);
-
-  if (!PathFileExists(rootPath)) getRootPath(rootPath);
-
-  if (!PathFileExists(path)) getSolutionPath(path);
-  else                       pathUnits = path;
-
   wxd.read(SolutionSection, SolVersion, version);    ver = version.stod(pos);
 
-  if (pathUnits.isEmpty() || name.isEmpty()) newProject(false);
+  if (solUnits.isEmpty() || name.isEmpty()) newProject(false);
   }
 
 
 bool Solution::getRootPath(String& path)
-                                    {return getDirPathDlg(_T("Project Root Directory"), path);}
+                        {PathDlg dlg(_T("Project Root Directory"), path); return dlg.folder(path);}
 
 
 void Solution::getSolutionPath(TCchar* fullPath) {
 String s = fullPath;
 String t;
 
-  if (getSolutionPath(s)) {name = getMainName(s);   pathUnits = t = getPath(s);}
+  if (getSolutionPath(s)) {name = getMainName(s);   solUnits = t = getPath(s);}
   }
 
 
 bool Solution::getSolutionPath(String& path) {
-PathDlgDsc dsc(_T("Solution File"), path, _T("sln"), _T("*.sln"));  return getOpenDlg(dsc, path);
+PathDlg dlg(_T("Solution File"), path, _T("sln"), _T("Solution"), _T("*.sln"));
+
+  return dlg.openFile(path);
   }
 
-
-//IDR_WxdVersion
 
 void Solution::writeWixData() {
 Tchar  buf[32];
 String version;
 uint   pos;
-String fullPath = solution.pathUnits + name + _T(".sln");
+String rootPath = rootUnits;
+String fullPath = solution.solUnits + name + _T(".sln");
 
   LoadString(0, IDR_WxdVersion, buf, noElements(buf));    version = buf;   ver = version.stod(pos);
 
@@ -121,7 +140,8 @@ String fullPath = solution.pathUnits + name + _T(".sln");
 
 
 void Solution::saveData(Archive& ar) {
-PUIter  iter(pathUnits);
+String  rootPath = rootUnits;
+PUIter  iter(solUnits);
 String* s;
 int     i;
 int     t;
@@ -136,8 +156,6 @@ int     t;
   ar << _T("Path Units") << aCrlf;
 
   for (i = 0, s = iter(); s; i++, s = iter++) {
-
-
     t = i * 10;   ar << aTab << t << aTab << *s << aCrlf;
     }
   }

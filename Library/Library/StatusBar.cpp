@@ -6,6 +6,9 @@
 #include "WinPos.h"
 
 
+StatusBar statusBar;
+
+
 bool StatusBar::create(CWnd* wnd, uint id) {
 CRect rect = CRect(0, 0, 0, 0);
 
@@ -32,7 +35,7 @@ int   vDelta = winPos.dluToScreen(10, false);
 
   rect.top    = winRect.bottom - vDelta;
   rect.bottom = winRect.bottom;
-  rect.right  = rect.right - rect.left;         
+  rect.right  = rect.right - rect.left;
 
   ScreenToClient(rect);   MoveWindow(&rect);   setParts();
   }

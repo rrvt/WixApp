@@ -33,6 +33,18 @@ int i;
   }
 
 
+String& PathUnits::path(int nUnits) {
+int    n = nUnits <= units.end() ? nUnits : units.end();
+int    i;
+
+  tempPath.clear();
+
+  for (i = 0; i < n; i++) tempPath += units[i] + _T('\\');
+
+  return tempPath;
+  }
+
+
 PathUnits& PathUnits::copy(PathUnits& p) {
 int n = units.end();
 int j;

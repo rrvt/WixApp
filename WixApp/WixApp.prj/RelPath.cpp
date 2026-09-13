@@ -5,43 +5,116 @@
 #include "RelPath.h"
 #include "DefaultPath.h"
 #include "filename.h"
+#include "KeyedPathDlg.h"
 #include "Solution.h"
 #include "WixOut.h"
 
-
-
-
-KeyedPathDsc::KeyedPathDsc(TCchar* key, TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat) :
-                                                      dfltKey(key), PathDlgDsc(ttl, nm, e, pat) { }
-
-
-void RelPath::readWixData(TCchar* section, TCchar* key, KeyedPathDsc& dsc) {
-String path;
-
-  wxd.readString(section, key, path);
-
-  if (!path.isEmpty()) {
-
-    if (!PathFileExists(path) && !dsc.dfltKey.isEmpty())
-                    {KeyedPathDsc pthDsc = dsc;   pthDsc.name = path;   getPath(pthDsc);   return;}
-    setRelPath(path);
-    }
-  }
 
 
 void RelPath::writeWixData(TCchar* section, TCchar* key)
                                                       {wxd.writeString(section, key, localPath());}
 
 
-String& RelPath::getPath(KeyedPathDsc& dsc) {
-String     defPath = defaultPath.getPath(dsc.dfltKey);
-String     name    = dsc.name.isEmpty() ? defPath : dsc.name;
-PathDlgDsc pathDsc(dsc.title, name, dsc.ext, dsc.pattern);
-String     path;
+void RelPath::readWxdPath(TCchar* section, TCchar* key, KeyedPathDlg& dlg) {
+String path;
 
-  if (!getOpenDlg(pathDsc, path)) path = dsc.name;
+  wxd.readString(section, key, path);
 
-  setRelPath(path);   defaultPath.save(dsc.dfltKey, path);   return relPath;
+  relPath = isRelPath(path) ? path : getRelPath(path);
+
+  if (relPath.isEmpty())            {getPathOnly(path, dlg);   return;}
+
+  if (!PathFileExists(localPath())) {getPathOnly(localPath(), dlg);}
+  }
+
+
+
+void RelPath::readWxdData( TCchar* section, TCchar* key, KeyedPathDlg& dlg) {
+String path;
+String dfltPath;
+
+  wxd.readString(section, key, path);
+
+  relPath = isRelPath(path) ? path : getRelPath(path);
+
+  if (relPath.isEmpty()) {
+    dfltPath = defaultPath.getPath(dlg.dfltKey);
+    if (!path.isEmpty()) dfltPath += getMainName(path) + _T('.') + getExtension(path);
+    relPath = getRelPath(dfltPath);
+    }
+
+  if (relPath.isEmpty()) {getPath(path, dlg);   return;}
+
+  if (!PathFileExists(localPath())) {getPath(localPath(), dlg);}
+  }
+
+
+String& RelPath::getPath(TCchar* path, KeyedPathDlg& pathDlg) {
+String       s   = path ? path : solution.getRootPath().str();
+String       ext = getExtension(path);
+String       filter;
+KeyedPathDlg dlg = pathDlg;
+
+  dlg.iPath = s;   if (!ext.isEmpty()) {dlg.ext = ext;   dlg.pattern = _T("*.") + ext;}
+
+  getPath(dlg);   return relPath;
+  }
+
+
+
+String& RelPath::getPathOnly(TCchar* path, KeyedPathDlg& pathDlg) {
+String       s   = path ? path : solution.getRootPath().str();
+KeyedPathDlg dlg = pathDlg;
+
+  dlg.iPath = s;   getPath(dlg);   relPath = ::getPath(relPath);   return relPath;
+  }
+
+
+void RelPath::writeWxdData(TCchar* section, TCchar* key) {wxd.writeString(section, key, relPath);}
+
+
+String& RelPath::getPath(KeyedPathDlg& pathDlg) {
+String  defPath = defaultPath.getPath(pathDlg.dfltKey);
+String  name    = pathDlg.iPath.isEmpty() ? defPath : pathDlg.iPath;
+PathDlg dlg(pathDlg.title, name, pathDlg.ext, pathDlg.filterTtl, pathDlg.pattern);
+String  path;
+
+  if (!dlg.openFile(path)) path = pathDlg.iPath;
+
+  setRelPath(path);   defaultPath.save(pathDlg.dfltKey, path);   return relPath;
+  }
+
+
+String& RelPath::getRelPath(String& fullPath) {
+static String rPath;
+String    pathOnly = ::getPath(fullPath);
+String    fileName = removePath(fullPath);
+PathUnits pathU    = pathOnly;
+PUIter    iter(pathU);
+String*   pathSub;
+String*   solSub;
+int       i;
+
+  rPath.clear();
+
+  if (pathOnly.find(_T(':')) < 0) {rPath = fullPath; return rPath;}
+
+  for (solSub = solution.iter(), pathSub = iter(), i = 0; solSub && pathSub;
+       solSub = solution.iter++, pathSub = iter++, i++) {
+
+    if (*solSub != *pathSub) break;
+    }
+
+  if (i > 0) {
+
+    for (; solSub;  solSub  = solution.iter++) rPath += _T("..\\");
+
+    for (; pathSub; pathSub = iter++)          rPath += *pathSub + _T('\\');
+
+    rPath += fileName;
+    }
+
+  return rPath;
   }
 
 
@@ -107,4 +180,23 @@ int       n = solution.noUnits();
 String RelPath::prodPath()
                   {return relPath.isEmpty() ? String(_T("")) : _T("$(var.SolutionDir)") + relPath;}
 
+
+
+
+
+//////////-----------------
+#if 0
+void RelPath::readWixData(TCchar* section, TCchar* key, KeyedPathDlg& dsc) {
+String path;
+
+  wxd.readString(section, key, path);
+
+  if (!path.isEmpty()) {
+
+    if (!PathFileExists(path) && !dsc.dfltKey.isEmpty())
+                    {KeyedPathDlg pthDsc = dsc;   pthDsc.name = path;   getPath(pthDsc);   return;}
+    setRelPath(path);
+    }
+  }
+#endif
 

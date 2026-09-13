@@ -6,7 +6,6 @@
 class PathDlgDsc;
 
 
-
 bool createFileDlg(PathDlgDsc& dsc, String& path);
 
 bool getOpenDlg(   PathDlgDsc& dsc, String& path);

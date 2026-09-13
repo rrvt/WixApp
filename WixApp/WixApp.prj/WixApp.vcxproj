@@ -98,13 +98,13 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>
         WIN32;_WINDOWS;_DEBUG;DsplyHistoryXXX;%(PreprocessorDefinitions)
       </PreprocessorDefinitions>
       <PrecompiledHeaderFile />
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Dialog\;$(SolutionDir)..\..\Library\Printer\;$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks />
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -118,7 +118,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Printer.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
     </Link>
@@ -135,26 +135,29 @@
       </AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy $(SolutionDir)..\WixApp.prj\res\Wix\*.bmp $(OutDir)</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
       </Command>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>
         WIN32;_WINDOWS;_DEBUG;DsplyHistoryXXX;%(PreprocessorDefinitions)
       </PreprocessorDefinitions>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Dialog\;$(SolutionDir)..\..\Library\Printer\;$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks>
       </BasicRuntimeChecks>
@@ -170,7 +173,7 @@
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Printer.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
     </Link>
@@ -186,13 +189,16 @@
       </AdditionalIncludeDirectories>
     </ResourceCompile>
     <PreBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy $(SolutionDir)..\WixApp.prj\res\Wix\*.bmp $(OutDir)</Command>
     </PreBuildEvent>
     <CustomBuildStep>
       <Command>
       </Command>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -205,7 +211,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile />
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Dialog\;$(SolutionDir)..\..\Library\Printer\;$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DebugInformationFormat />
       <BasicRuntimeChecks />
@@ -220,7 +226,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Printer.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <ProgramDatabaseFile />
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
     </Link>
@@ -244,6 +250,10 @@
       <Command>
       </Command>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -257,7 +267,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)..\..\Library\Dialog\;$(SolutionDir)..\..\Library\Printer\;$(SolutionDir)..\..\Library\Library\;$(SolutionDir)..\..\Library\Extras\</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <DebugInformationFormat>
       </DebugInformationFormat>
@@ -275,7 +285,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
-      <AdditionalDependencies>Dialog.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
+      <AdditionalDependencies>Dialog.lib;Printer.lib;Library.lib;Htmlhelp.lib</AdditionalDependencies>
       <ProgramDatabaseFile>
       </ProgramDatabaseFile>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Library\$(Configuration).$(platform)\</AdditionalLibraryDirectories>
@@ -299,6 +309,10 @@
       <Command>
       </Command>
     </CustomBuildStep>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Library\Extras\AboutDlg.h" />
@@ -314,6 +328,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Icons.h" />
     <ClInclude Include="IniData.h" />
+    <ClInclude Include="KeyedPathDlg.h" />
     <ClInclude Include="MyToolBar.h" />
     <ClInclude Include="RelPath.h" />
     <ClInclude Include="PathUnits.h" />
@@ -342,6 +357,7 @@
     <ClCompile Include="Features.cpp" />
     <ClCompile Include="Icons.cpp" />
     <ClCompile Include="IniData.cpp" />
+    <ClCompile Include="KeyedPathDlg.cpp" />
     <ClCompile Include="MyToolBar.cpp" />
     <ClCompile Include="RelPath.cpp" />
     <ClCompile Include="PathUnits.cpp" />
@@ -368,6 +384,15 @@
     <None Include="res\WixApp.ico" />
     <None Include="res\WixApp.rc2" />
     <None Include="..\Data\WixApp.Win32.wix\WixApp.Win32.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports01.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports02.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports03.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports04.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\Product.wxs.orig" />
+    <None Include="Before.txt" />
+    <None Include="After.txt" />
+    <None Include="After2.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Toolbar.bmp" />

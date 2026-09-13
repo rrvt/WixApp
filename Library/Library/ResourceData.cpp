@@ -4,7 +4,7 @@
 #include "ResourceData.h"
 #include <atltime.h>
 
-#include "MessageBox.h"
+//#include "MessageBox.h"
 
 
 ResourceData::ResourceData() : resData(0), dataSize(0), handle(0), fileInfo(0), success(false)

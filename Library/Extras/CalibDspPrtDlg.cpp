@@ -7,7 +7,7 @@
 #include "ResourceExtra.h"
 #include "IniFileEx.h"
 #include "Resource.h"
-#include "CScrView.h"
+#include "ScrollView.h"
 #include "Utilities.h"
 
 

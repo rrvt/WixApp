@@ -6,7 +6,7 @@
 #include "Date.h"
 #include "Random.h"
 
-#include "MessageBox.h"
+//#include "MessageBox.h"
 
 
 static String blks = _T("                                                                       ")
@@ -166,6 +166,17 @@ int    n = s.length();   if (!n) return _T("          ");
   t = s.substr(0, 3);   s = t + sep + s.substr(3);
 
   t = s.substr(0, 7);   s = t + sep + s.substr(7);   return s;
+  }
+
+
+void trimZ(String& s) {
+int   lng = s.length();
+int   i;
+Tchar ch;
+
+  for (i = lng - 1, ch = s[i]; ch == _T('0'); ch = s[--i]) continue;
+
+  if (ch != _T('.')) i++;   if (i < lng) s = s.substr(0, i);
   }
 
 

@@ -4,6 +4,7 @@
 #include "pch.h"
 #include "DefaultPath.h"
 #include "filename.h"
+#include "KeyedPathDlg.h"
 #include "Solution.h"
 #include "WixOut.h"
 
@@ -12,8 +13,6 @@ static TCchar*   Section    = _T("DefaultPath");
 static TCchar*   NPathsKey  = _T("NPaths");
 static TCchar*   DefKey     = _T("DefKey%i");
 static TCchar*   DscPathKey = _T("%s.Path");
-
-static KeyedPathDsc browseDsc  = {_T(""), _T(""), _T(""), _T(""), _T("")};
 
 
 void DefaultPath::clearMarks() {
@@ -30,13 +29,25 @@ int         i;
 String      key;
 String      entity;
 DefPathDsc* dsc;
+PathDlg     dlg;
+String      path;
 
   for (i = 0; i < n; i++) {
     key.format(DefKey, i);   if (!wxd.readString(Section, key, entity)) continue;
     dsc = find(entity);      if (!dsc) dsc = &data.nextData();
 
     dsc->key = entity;
-    key.format(DscPathKey, entity.str());   dsc->relPath.readWixData(Section, key, browseDsc);
+    key.format(DscPathKey, entity.str());
+
+    wxd.readString(Section, key, path);   dsc->relPath = path;
+
+    if (PathFileExists(dsc->relPath.localPath())) continue;
+
+    dlg.title = _T("Default ") + entity + _T(" Directory");
+
+    dlg.iPath = dsc->relPath.localPath();
+
+    if (dlg.folder(path)) dsc->relPath = path;
     }
   }
 
@@ -60,13 +71,15 @@ String      entity;
     entity = dsc->key;
 
     key.format(DefKey, i);                  wxd.writeString(Section, key, entity);
-    key.format(DscPathKey, entity.str());   dsc->relPath.writeWixData(Section, key);
+    key.format(DscPathKey, entity.str());   dsc->relPath.writeWxdData(Section, key);
     }
   }
 
 
 String DefaultPath::getPath(TCchar* key) {
 String s;
+
+  if (!key || !*key) return solution.getRootPath();
 
   curPath = find(key);
 
@@ -77,6 +90,9 @@ String s;
 
 
 void DefaultPath::save(TCchar* key, String& path) {
+
+  if (!key || !*key) return;
+
   curPath = find(key);
 
   if (!curPath) curPath = &data.nextData();

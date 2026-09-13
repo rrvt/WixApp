@@ -5,6 +5,7 @@
 #include "Icons.h"
 #include "DefaultPath.h"
 #include "filename.h"
+#include "KeyedPathDlg.h"
 #include "WixUtilities.h"
 
 
@@ -17,7 +18,8 @@ static TCchar*    WixIDKey     = _T("WixID");
 static TCchar*    IconPath     = _T("IconPath");
 static TCchar*    IconPathKey  = _T("Icon");
 
-static KeyedPathDsc  browseDsc = {IconPathKey, _T("Icon File"), _T(""), _T("ico"), _T("*.ico")};
+static KeyedPathDlg browseDsc(IconPathKey, _T("Icon File"), _T(""),
+                                                               _T("ico"), _T("Icon"), _T("*.ico"));
 
 
 void Icons::oneIconAvail() {if (!nIcons()) iconList.add(String(_T("")));}
@@ -46,7 +48,7 @@ String path;
 
   wxd.readString(section, WixIDKey, wixID);
 
-  relPath.readWixData(section, IconPath, browseDsc);   inUse = false;
+  relPath.readWxdData(section, IconPath, browseDsc);   inUse = false;
   }
 
 
@@ -69,7 +71,7 @@ String    section;
 void IconDesc::writeWixData(TCchar* section) {
   wxd.writeString(section, IconIDKey, id);
   wxd.writeString(section, WixIDKey,  wixID);
-  relPath.writeWixData(section, IconPath);
+  relPath.writeWxdData(section, IconPath);
   }
 
 

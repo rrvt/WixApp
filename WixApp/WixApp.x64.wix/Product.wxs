@@ -29,8 +29,8 @@
     <UIRef Id="WixUI_ErrorProgressText" />
   </UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files\WixApp\dialog.bmp" />
-  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files\WixApp\banner.bmp" />
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Source2\WixApp\Release.Win32\dialog.bmp" />
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Source2\WixApp\Release.Win32\banner.bmp" />
 
   <Icon Id="WixApp_Icon.exe" SourceFile="$(var.SolutionDir)..\WixApp.prj\res\WixApp.ico" />
   <Icon Id="MITLicense_Icon.exe"
@@ -105,12 +105,12 @@
 
   <Component Id="Banner.cmp" Guid="C6ABEA36-D8D1-4E0A-837B-A3232B2F7B19" Directory="WIXAPP.PFF">
     <File Id="Banner.cmp"
-                     Source="$(var.WixApp.TargetDir)\..\WixApp.prj\res\banner.bmp" KeyPath="yes" />
+                 Source="$(var.WixApp.TargetDir)\..\WixApp.prj\res\Wix\banner.bmp" KeyPath="yes" />
   </Component>
 
   <Component Id="Dialog.cmp" Guid="A2C3DCB8-3986-4069-8169-738ED63D2924" Directory="WIXAPP.PFF">
     <File Id="Dialog.cmp"
-                     Source="$(var.WixApp.TargetDir)\..\WixApp.prj\res\dialog.bmp" KeyPath="yes" />
+                 Source="$(var.WixApp.TargetDir)\..\WixApp.prj\res\Wix\dialog.bmp" KeyPath="yes" />
   </Component>
 </Fragment>
 
@@ -130,7 +130,7 @@
 </Fragment>
 
 <Fragment>
-  <Component Id="Uninstall_WixApp.cmp" Guid="5F74BB4D-7597-42BD-BEE7-8AB3C9E5267C"
+  <Component Id="Uninstall_WixApp.cmp" Guid="98574D48-EF7F-4958-97B8-DB73A91750FE"
                                                                             Directory="WixApp.pmf">
 
     <Shortcut Id               = "UninstallWixApp.shc"

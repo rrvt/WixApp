@@ -5,7 +5,7 @@
 #include "pch.h"
 #include "IniFileBase.h"
 #include "fileName.h"
-#include "MessageBox.h"
+//#include "MessageBox.h"
 #include <Shlobj.h>
 
 
@@ -229,8 +229,16 @@ int v;
   }
 
 
-int IniFileBase::readInt(TCchar* section, TCchar* key, int def)
+int IniFileBase::read(TCchar* section, TCchar* key, int def)
                                      {return GetPrivateProfileInt(section, key, def, iniFilePath);}
+
+
+double IniFileBase::read(TCchar* section, TCchar* key, double def) {
+String s;
+uint   x;
+
+  return read(section, key, s) ? s.stod(x) : def;
+  }
 
 
 bool IniFileBase::read(TCchar* section, TCchar* key, int& val) {

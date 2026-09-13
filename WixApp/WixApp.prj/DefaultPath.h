@@ -10,11 +10,11 @@
 class DefPathDsc {
 String  key;
 RelPath relPath;
-bool    inUse;
+bool    inUse{false};
 
 public:
 
-  DefPathDsc() : inUse(false) { }
+  DefPathDsc() { }
   DefPathDsc(DefPathDsc& dsc) {copyDsc(dsc);}
  ~DefPathDsc() { }
 

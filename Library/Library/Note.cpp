@@ -8,7 +8,7 @@
 
 
 
-Note::Note() : noteTab() {
+Note::Note() : tab() {
   fSize = 0; leftMgn = rightMgn = -1;   nmbr.clear();
 
   clrTabs = tabSeen = center = right = beginLine = endLine = endPage = crlf = debug = false;
@@ -34,7 +34,7 @@ void Note::copy(Note& n) {
   prevFont    = n.prevFont;
 
   clrTabs     = n.clrTabs;
-  noteTab     = n.noteTab;
+  tab         = n.tab;
 
   tabSeen     = n.tabSeen;
   center      = n.center;
@@ -67,7 +67,7 @@ bool Note::isAfter(NoteOrdr attr) {
     case PrevFontNO      : if (prevFont)         return true;
 
     case ClrTabsNO       : if (clrTabs)          return true;
-    case SetTabNO        : if (noteTab.pos)      return true;
+    case SetTabNO        : if (tab.pos)          return true;
 
     case TabNO           : if (tabSeen)          return true;
     case CenterNO        : if (center)           return true;

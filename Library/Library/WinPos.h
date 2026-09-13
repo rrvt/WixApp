@@ -43,8 +43,6 @@ private:
   void getWidthDepth(CWnd* wnd, int w, int d);            // width and depth in pixels including
                                                           // invisible boarders
   void rationalize();
-
-//  void display(TCchar* tgt, int d);
   };
 
 

@@ -105,6 +105,9 @@
     <ClInclude Include="IniData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KeyedPathDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WixApp.cpp">
@@ -179,6 +182,9 @@
     <ClCompile Include="IniData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KeyedPathDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WixApp.rc">
@@ -198,6 +204,15 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\Data\WixApp.Win32.wix\WixApp.Win32.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports01.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports02.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports03.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\RacesReports04.wxd" />
+    <None Include="..\..\RacesReports\RacesReports.wix\Product.wxs.orig" />
+    <None Include="Before.txt" />
+    <None Include="After.txt" />
+    <None Include="After2.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Toolbar.bmp">

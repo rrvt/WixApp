@@ -4,7 +4,6 @@
 
 #include "pch.h"
 #include "ClipBoard.h"
-#include "MessageBox.h"
 
 
 bool ClipBoard::load(TCchar* tc) {

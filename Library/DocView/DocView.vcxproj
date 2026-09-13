@@ -94,19 +94,21 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(projectDir)..\ScrollView\;$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks>
       </BasicRuntimeChecks>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -115,7 +117,7 @@
     </Link>
     <Lib>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
-      <AdditionalLibraryDirectories>Library.lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>ScrollView.lib;Library.lib</AdditionalLibraryDirectories>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
@@ -130,12 +132,13 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(projectDir)..\ScrollView\;$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <BasicRuntimeChecks>
-      </BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <SupportJustMyCode>false</SupportJustMyCode>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>
@@ -144,7 +147,7 @@
     </Link>
     <Lib>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
-      <AdditionalLibraryDirectories>Library.lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>ScrollView.lib;Library.lib</AdditionalLibraryDirectories>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
@@ -154,19 +157,20 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(projectDir)..\ScrollView\;$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks>
       </BasicRuntimeChecks>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <OmitFramePointers>false</OmitFramePointers>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -176,7 +180,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>Library.lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>ScrollView.lib;Library.lib</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
@@ -194,12 +198,13 @@
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(projectDir)..\ScrollView\;$(ProjectDir)..\Library\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <BasicRuntimeChecks>
       </BasicRuntimeChecks>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>
@@ -209,7 +214,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>Library.lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>ScrollView.lib;Library.lib</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>false</LinkTimeCodeGeneration>
       <TargetMachine>MachineX86</TargetMachine>
     </Lib>
@@ -222,36 +227,15 @@
     <ClInclude Include="CalibDspPrt.h" />
     <ClInclude Include="CApp.h" />
     <ClInclude Include="CDoc.h" />
-    <ClInclude Include="ClipLine.h" />
     <ClInclude Include="CMainFrm.h" />
     <ClInclude Include="CMFStatusBar.h" />
     <ClInclude Include="CNG.h" />
     <ClInclude Include="CNGblock.h" />
-    <ClInclude Include="CScrView.h" />
     <ClInclude Include="CSVLex.h" />
     <ClInclude Include="CSVRcdB.h" />
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="Device.h" />
-    <ClInclude Include="DeviceContext.h" />
-    <ClInclude Include="DeviceData.h" />
-    <ClInclude Include="Devices.h" />
-    <ClInclude Include="DevStream.h" />
-    <ClInclude Include="DevTabs.h" />
-    <ClInclude Include="FontMgr.h" />
-    <ClInclude Include="Horiz.h" />
     <ClInclude Include="Invalidate.h" />
     <ClInclude Include="LibGlobals.h" />
-    <ClInclude Include="ManageDevBase.h" />
-    <ClInclude Include="ManageDisplay.h" />
-    <ClInclude Include="ManagePrinter.h" />
-    <ClInclude Include="NotePad.h" />
-    <ClInclude Include="NtPdToDev.h" />
-    <ClInclude Include="ReportBase.h" />
-    <ClInclude Include="ReportNtPd.h" />
-    <ClInclude Include="TextAccm.h" />
-    <ClInclude Include="UndrLn.h" />
-    <ClInclude Include="VertMgmt.h" />
-    <ClInclude Include="Wrap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Library\Archive.cpp" />
@@ -260,33 +244,14 @@
     <ClCompile Include="CalibDpsPrt.cpp" />
     <ClCompile Include="CApp.cpp" />
     <ClCompile Include="CDoc.cpp" />
-    <ClCompile Include="ClipLine.cpp" />
     <ClCompile Include="CMainFrm.cpp" />
     <ClCompile Include="CMFStatusBar.cpp" />
     <ClCompile Include="CNG.cpp" />
     <ClCompile Include="CNGblock.cpp" />
-    <ClCompile Include="CScrView.cpp" />
     <ClCompile Include="CSVLex.cpp" />
     <ClCompile Include="CSVRcdB.cpp" />
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="Device.cpp" />
-    <ClCompile Include="DeviceContext.cpp" />
-    <ClCompile Include="Devices.cpp" />
-    <ClCompile Include="DevStream.cpp" />
-    <ClCompile Include="DevTabs.cpp" />
-    <ClCompile Include="FontMgr.cpp" />
-    <ClCompile Include="Horiz.cpp" />
     <ClCompile Include="Invalidate.cpp" />
-    <ClCompile Include="ManageDisplay.cpp" />
-    <ClCompile Include="ManagePrinter.cpp" />
-    <ClCompile Include="NotePad.cpp" />
-    <ClCompile Include="NtPdToDev.cpp" />
-    <ClCompile Include="ReportBase.cpp" />
-    <ClCompile Include="ReportNtPd.cpp" />
-    <ClCompile Include="TextAccm.cpp" />
-    <ClCompile Include="UndrLn.cpp" />
-    <ClCompile Include="VertMgmt.cpp" />
-    <ClCompile Include="Wrap.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

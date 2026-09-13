@@ -36,7 +36,7 @@ WixApp::WixApp() noexcept : CDialogApp(this) { }
 // WixApp initialization -- Start the MFC Dialog Box
 
 BOOL WixApp::InitInstance() {
-WixAppDlg dlg(m_pszHelpFilePath);
+WixAppDlg dlg(m_pszHelpFilePath);    dialog = &dlg;
 
   myPath  = getPath(m_pszHelpFilePath);   product.setInstallerIconPath(myPath);
 
@@ -48,5 +48,16 @@ WixAppDlg dlg(m_pszHelpFilePath);
   }
 
 
-int WixApp::ExitInstance() {return CDialogApp::ExitInstance();}
+int WixApp::ExitInstance() {
+
+  defaultPath.~DefaultPath();
+  features.~Features();
+  iniFile.~IniFileEx();
+  solution.~Solution();
+  pffDirectories.~PFFdirectories();
+  pmfDirectories.~PMFdirectories();
+  icons.~Icons();
+
+  return CDialogApp::ExitInstance();
+  }
 

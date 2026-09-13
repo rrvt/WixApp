@@ -3,8 +3,8 @@
 
 #include "LibGlobals.h"
 #include "CApp.h"
-#include "Devices.h"
-#include "MessageBox.h"
+//#include "Devices.h"
+//#include "MessageBox.h"
 #include "NotePad.h"
 #include "ResourceData.h"
 
@@ -12,7 +12,7 @@
 CApp* theCApp;
 
 
-CApp::CApp(CApp* app) : doc(0), view(0) {
+CApp::CApp(CApp* app) : WinAppEx(this), doc(0), view(0) {
 ResourceData res;
 
   theCApp = app;
@@ -35,11 +35,14 @@ CApp::~CApp() {
   }
 
 
-int CApp::ExitInstance()
-                    {devices.~Devices();   notePad.~NotePad();   return CWinAppEx::ExitInstance();}
+BOOL CApp::InitInstance() {CWinAppEx::InitInstance();   return true;}
 
 
-void CApp::setAppName(TCchar* appName)   {if (getMainFrame()) getMainFrame()->setAppName(appName);}
+int CApp::ExitInstance() {notePad.~NotePad();   return CWinAppEx::ExitInstance();}
+
+
+void CApp::setAppName(TCchar* appName)
+                       {name = appName;   if (getMainFrame()) getMainFrame()->setAppName(appName);}
 
 
 void CApp::setTitle(  TCchar* rightPart) {if (getMainFrame()) getMainFrame()->setTitle(rightPart);}
@@ -64,96 +67,27 @@ POSITION   pos;
 
   if (!getDoc()) return 0;
 
-  pos  = doc->GetFirstViewPosition();        if (!pos)  return 0;
+  pos  = doc->GetFirstViewPosition();   if (!pos)  return 0;
   view = doc->GetNextView(pos);   return view;
   }
 
-#if 0
-void CApp::initPrinterAttr() {
-HANDLE   hdl = getDevMode();
-DEVMODE* devMode;
-
-  printer.load(0);   if (!hdl) return;
-
-  devMode = (DEVMODE*) GlobalLock(hdl);           // Protect memory handle with ::GlobalLock
-
-    if (devMode->dmFields & DM_ORIENTATION) devMode->dmOrientation = printer.orient;
-    if (devMode->dmFields & DM_PAPERSIZE)   devMode->dmPaperSize   = printer.paperSize;
-    if (devMode->dmFields & DM_COPIES)      devMode->dmCopies      = printer.copies;
-    if (devMode->dmFields & DM_COLLATE)     devMode->dmCollate     = printer.collate;
-    if (devMode->dmFields & DM_DUPLEX)      devMode->dmDuplex      = printer.pagePlex;
-
-  GlobalUnlock(hdl);
-  }
 
 
-void CApp::savePrinterAttr() {
-HANDLE   hdl = getDevMode();
-DEVMODE* devMode;
-
-  if (hdl) {
-
-    devMode = (DEVMODE*) GlobalLock(hdl);               // Protect memory handle with ::GlobalLock
-
-      if (devMode->dmFields & DM_ORIENTATION) printer.orient = (PrtrOrient) devMode->dmOrientation;
-      if (devMode->dmFields & DM_PAPERSIZE)   printer.paperSize = (PaperSize) devMode->dmPaperSize;
-      if (devMode->dmFields & DM_COPIES)      printer.copies    =             devMode->dmCopies;
-      if (devMode->dmFields & DM_COLLATE)     printer.collate   =             devMode->dmCollate;
-      if (devMode->dmFields & DM_DUPLEX)      printer.pagePlex  = (PagePlex)  devMode->dmDuplex;
-
-    GlobalUnlock(hdl);
-    }
-
-  printer.store();
-  }
-
-
-String CApp::getPrinterName() {
-HANDLE   hdl = getDevMode();
-DEVMODE* devMode;
-String   name;
-
-  if (!hdl) return name;
-
-  devMode = (DEVMODE*) GlobalLock(hdl);                 // Protect memory handle with ::GlobalLock
-
-    name = devMode->dmDeviceName;
-
-  GlobalUnlock(hdl);
-
-  return name;
-  }
-#endif
-
-
-HANDLE CApp::getDevMode() {
+HANDLE CApp::getDefaultPrinter() {
 PRINTDLG pd;
 HANDLE   hdl = 0;
-DEVMODE* devMode;
 
- if (m_hDevMode) return m_hDevMode;
+  if (m_hDevMode) return m_hDevMode;
 
   memset(&pd, 0, sizeof(PRINTDLG));   pd.lStructSize = sizeof(PRINTDLG);
 
   if (!GetPrinterDeviceDefaults(&pd))
        {messageBox(_T("Default printer drivers are damaged, try reinstalling drivers")); return 0;}
 
-  hdl = pd.hDevMode;
-  devMode = (DEVMODE*) GlobalLock(hdl);               // Protect memory handle with ::GlobalLock
-
-    if (devMode->dmFields & DM_ORIENTATION) devMode->dmOrientation = PortOrient;
-    if (devMode->dmFields & DM_PAPERSIZE)   devMode->dmPaperSize   = LetterPprSz;
-    if (devMode->dmFields & DM_COPIES)      devMode->dmCopies      = 1;
-    if (devMode->dmFields & DM_COLLATE)     devMode->dmCollate     = 1;
-    if (devMode->dmFields & DM_DUPLEX)      devMode->dmDuplex      = SimPlex;
-
-  GlobalUnlock(hdl);   return hdl;
+  return pd.hDevMode;
   }
 
-#if 0
-HANDLE CApp::swapDevMode(HANDLE newDevMode)
-                                      {HANDLE h = m_hDevMode; m_hDevMode = newDevMode;  return h;}
-#endif
+
 
 /*
 Find memory leaks with the CRT Library - Visual Studio | Microsoft
@@ -266,3 +200,81 @@ or
 
   _CrtSetBreakAlloc(18);
 */
+#if 0
+HANDLE CApp::swapDevMode(HANDLE newDevMode)
+                                      {HANDLE h = m_hDevMode; m_hDevMode = newDevMode;  return h;}
+#endif
+#if 0
+void CApp::initPrinterAttr() {
+HANDLE   hdl = getDevMode();
+DEVMODE* devMode;
+
+  printer.load(0);   if (!hdl) return;
+
+  devMode = (DEVMODE*) GlobalLock(hdl);           // Protect memory handle with ::GlobalLock
+
+    if (devMode->dmFields & DM_ORIENTATION) devMode->dmOrientation = printer.orient;
+    if (devMode->dmFields & DM_PAPERSIZE)   devMode->dmPaperSize   = printer.paperSize;
+    if (devMode->dmFields & DM_COPIES)      devMode->dmCopies      = printer.copies;
+    if (devMode->dmFields & DM_COLLATE)     devMode->dmCollate     = printer.collate;
+    if (devMode->dmFields & DM_DUPLEX)      devMode->dmDuplex      = printer.pagePlex;
+
+  GlobalUnlock(hdl);
+  }
+
+
+void CApp::savePrinterAttr() {
+HANDLE   hdl = getDevMode();
+DEVMODE* devMode;
+
+  if (hdl) {
+
+    devMode = (DEVMODE*) GlobalLock(hdl);               // Protect memory handle with ::GlobalLock
+
+      if (devMode->dmFields & DM_ORIENTATION) printer.orient = (PrtrOrient) devMode->dmOrientation;
+      if (devMode->dmFields & DM_PAPERSIZE)   printer.paperSize = (PaperSize) devMode->dmPaperSize;
+      if (devMode->dmFields & DM_COPIES)      printer.copies    =             devMode->dmCopies;
+      if (devMode->dmFields & DM_COLLATE)     printer.collate   =             devMode->dmCollate;
+      if (devMode->dmFields & DM_DUPLEX)      printer.pagePlex  = (PagePlex)  devMode->dmDuplex;
+
+    GlobalUnlock(hdl);
+    }
+
+  printer.store();
+  }
+
+
+String CApp::getPrinterName() {
+HANDLE   hdl = getDevMode();
+DEVMODE* devMode;
+String   name;
+
+  if (!hdl) return name;
+
+  devMode = (DEVMODE*) GlobalLock(hdl);                 // Protect memory handle with ::GlobalLock
+
+    name = devMode->dmDeviceName;
+
+  GlobalUnlock(hdl);
+
+  return name;
+  }
+#endif
+#if 1
+//  printer.getDevMode(hdl);
+#else
+DEVMODE* devMode;
+  devMode = (DEVMODE*) GlobalLock(hdl);               // Protect memory handle with ::GlobalLock
+
+    setDevName(devMode)
+    if (devMode->dmFields & DM_ORIENTATION)   devMode->dmOrientation = printer.orient;
+    if (devMode->dmFields & DM_PAPERSIZE)     devMode->dmPaperSize   = printer.paperSize;
+    if (printer.paperSize == UserDefinedPSz) {devMode->dmPaperWidth  = printer.width;
+                                              devMode->dmPaperLength = printer.length;}
+    if (devMode->dmFields & DM_COPIES)        devMode->dmCopies      = printer.copies;
+    if (devMode->dmFields & DM_COLLATE)       devMode->dmCollate     = printer.collate;
+    if (devMode->dmFields & DM_DUPLEX)        devMode->dmDuplex      = printer.pagePlex;
+
+  GlobalUnlock(hdl);
+#endif
+

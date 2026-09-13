@@ -1,0 +1,89 @@
+Dumping objects ->
+D:\a\_work\1\s\src\vctools\VC7Libs\Ship\ATLMFC\Src\MFC\strcore.cpp(156) : {8051} normal block at 0x11A58478, 68 bytes long.
+ Data: <H y|            > 48 96 79 7C 19 00 00 00 19 00 00 00 01 00 00 00
+{3520} normal block at 0x11B54968, 64 bytes long.
+ Data: <M I T _ L i c e > 4D 00 49 00 54 00 5F 00 4C 00 69 00 63 00 65 00
+{3513} normal block at 0x1043AAC0, 48 bytes long.
+ Data: <L i c e n s e . > 4C 00 69 00 63 00 65 00 6E 00 73 00 65 00 2E 00
+{3406} normal block at 0x11B73E20, 32 bytes long.
+ Data: <R a c e s R e p > 52 00 61 00 63 00 65 00 73 00 52 00 65 00 70 00
+{3320} normal block at 0x10809BD8, 96 bytes long.
+ Data: <. . \ . . \ L i > 2E 00 2E 00 5C 00 2E 00 2E 00 5C 00 4C 00 69 00
+{3002} normal block at 0x09D65248, 80 bytes long.
+ Data: <4 1 4 2 1 C 9 F > 34 00 31 00 34 00 32 00 31 00 43 00 39 00 46 00
+{3001} normal block at 0x0B0B0608, 32 bytes long.
+ Data: <R a c e s R e p > 52 00 61 00 63 00 65 00 73 00 52 00 65 00 70 00
+{3000} normal block at 0x0B0B05B8, 32 bytes long.
+ Data: <B o b   - -   K > 42 00 6F 00 62 00 20 00 2D 00 2D 00 20 00 4B 00
+{2999} normal block at 0x0B0B0428, 32 bytes long.
+ Data: <1 . 1 3 . 2 . 0 > 31 00 2E 00 31 00 33 00 2E 00 32 00 2E 00 30 00
+{2998} normal block at 0x0B0B03D8, 32 bytes long.
+ Data: <R a c e s R e p > 52 00 61 00 63 00 65 00 73 00 52 00 65 00 70 00
+{835} normal block at 0x016354E0, 64 bytes long.
+ Data: <C : \ S o u r c > 43 00 3A 00 5C 00 53 00 6F 00 75 00 72 00 63 00
+D:\a\_work\1\s\src\vctools\VC7Libs\Ship\ATLMFC\Src\MFC\strcore.cpp(156) : {341} normal block at 0x01625048, 36 bytes long.
+ Data: <H y|            > 48 96 79 7C 09 00 00 00 09 00 00 00 01 00 00 00
+{340} client block at 0x01638B38, subtype c0, 12 bytes long.
+D:\a\_work\1\s\src\vctools\VC7Libs\Ship\ATLMFC\Src\MFC\dumpcont.cpp(23) : atlTraceGeneral - a CObject object at $01638B38, 12 bytes long
+{339} normal block at 0x016384A8, 8 bytes long.
+ Data: <4%      > 34 25 89 00 00 00 00 00
+{338} normal block at 0x01618BC8, 8 bytes long.
+ Data: < %      > 14 25 89 00 00 00 00 00
+{337} normal block at 0x01630B18, 8 bytes long.
+ Data: < $      > F8 24 89 00 00 00 00 00
+{336} normal block at 0x01630B88, 8 bytes long.
+ Data: < $      > DC 24 89 00 00 00 00 00
+{335} normal block at 0x01630B50, 8 bytes long.
+ Data: < $      > C0 24 89 00 00 00 00 00
+{334} normal block at 0x01630680, 8 bytes long.
+ Data: < $      > A4 24 89 00 00 00 00 00
+{333} normal block at 0x016305A0, 8 bytes long.
+ Data: < $      > 88 24 89 00 00 00 00 00
+{332} normal block at 0x016304F8, 8 bytes long.
+ Data: <l$      > 6C 24 89 00 00 00 00 00
+{331} normal block at 0x016304C0, 8 bytes long.
+ Data: <P$      > 50 24 89 00 00 00 00 00
+{330} normal block at 0x016305D8, 8 bytes long.
+ Data: < %      > E4 25 89 00 00 00 00 00
+{329} normal block at 0x01630568, 8 bytes long.
+ Data: < %      > C8 25 89 00 00 00 00 00
+{328} normal block at 0x01630A70, 8 bytes long.
+ Data: < %      > AC 25 89 00 00 00 00 00
+{327} normal block at 0x01630610, 8 bytes long.
+ Data: < %      > 90 25 89 00 00 00 00 00
+{326} normal block at 0x016308E8, 8 bytes long.
+ Data: <t%      > 74 25 89 00 00 00 00 00
+{325} normal block at 0x01624EB8, 32 bytes long.
+ Data: <L i c e n s e   > 4C 00 69 00 63 00 65 00 6E 00 73 00 65 00 20 00
+{324} normal block at 0x01630A38, 8 bytes long.
+ Data: <X%      > 58 25 89 00 00 00 00 00
+{323} normal block at 0x01630760, 8 bytes long.
+ Data: < $      > 0C 24 89 00 00 00 00 00
+{322} normal block at 0x01630488, 8 bytes long.
+ Data: < #      > F0 23 89 00 00 00 00 00
+{321} normal block at 0x01630530, 8 bytes long.
+ Data: < #      > D4 23 89 00 00 00 00 00
+{320} normal block at 0x016308B0, 8 bytes long.
+ Data: < #      > B8 23 89 00 00 00 00 00
+{319} normal block at 0x01630808, 8 bytes long.
+ Data: < #      > 9C 23 89 00 00 00 00 00
+{318} normal block at 0x01625098, 32 bytes long.
+ Data: <I c o n   F i l > 49 00 63 00 6F 00 6E 00 20 00 46 00 69 00 6C 00
+{317} normal block at 0x016309C8, 8 bytes long.
+ Data: < #      > 80 23 89 00 00 00 00 00
+{316} normal block at 0x01630878, 8 bytes long.
+ Data: <d#      > 64 23 89 00 00 00 00 00
+{315} normal block at 0x01630648, 8 bytes long.
+ Data: <H#      > 48 23 89 00 00 00 00 00
+{314} normal block at 0x01630450, 8 bytes long.
+ Data: <,#      > 2C 23 89 00 00 00 00 00
+{313} normal block at 0x01630958, 8 bytes long.
+ Data: < #      > 10 23 89 00 00 00 00 00
+{312} normal block at 0x01630418, 8 bytes long.
+ Data: < "      > F4 22 89 00 00 00 00 00
+{310} normal block at 0x016306B8, 8 bytes long.
+ Data: < "      > D8 22 89 00 00 00 00 00
+{126} client block at 0x0162BA78, subtype c0, 64 bytes long.
+D:\a\_work\1\s\src\vctools\VC7Libs\Ship\ATLMFC\Src\MFC\dumpcont.cpp(23) : atlTraceGeneral - a CDynLinkLibrary object at $0162BA78, 64 bytes long
+Object dump complete.
+

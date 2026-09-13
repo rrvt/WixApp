@@ -27,3 +27,5 @@ private:
   bool setParts();
   };
 
+
+extern StatusBar statusBar;

@@ -5,11 +5,11 @@
 #include "CalibDspPrt.h"
 #include "CalibDspPrtDlg.h"
 #include "CApp.h"
-#include "CScrView.h"
+#include "ScrollView.h"
 
 
 void CalibDspPrt::operator() () {
-double         scale = cView()->getFontScale(false);
+double         scale = 1;                       //cView()->getFontScale(false);
 CalibDspPrtDlg dlg;
 
   dlg.calib = dlg.procdr = -1;
@@ -18,7 +18,7 @@ CalibDspPrtDlg dlg;
     scale = dlg.value;
     bool printing = dlg.calib == 1;
 
-    cView()->setFontScale(printing, scale);
+//    cView()->setFontScale(printing, scale);
     }
   }
 

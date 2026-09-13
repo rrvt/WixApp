@@ -4,14 +4,15 @@
 #include "pch.h"
 #include "WixOptsDlg.h"
 #include "DefaultPath.h"
+#include "KeyedPathDlg.h"
 #include "WixApp.h"
 
 
 TCchar* DefLicensePathKey = _T("License");
 
 
-static KeyedPathDsc browseDsc =
-                              {DefLicensePathKey, _T("License RTF file"), _T(""), _T("*"), _T("")};
+static KeyedPathDlg browseDsc =
+               {DefLicensePathKey, _T("License RTF file"), _T(""), _T("*"), _T("License"), _T("")};
 
 // WixOptsDlg dialog
 

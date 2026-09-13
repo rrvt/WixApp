@@ -10,27 +10,30 @@ class Archive;
 extern TCchar* CurSection;
 extern TCchar* RootPathKey;
 
+enum BaseUnit {NilBase, BaseBase, RootBase, SolBase};
+
 
 class Solution {
 
-String    rootPath;
-PathUnits pathUnits;
+PathUnits baseUnits;                // Directory one below App Root directory
+PathUnits rootUnits;                // App Root Directory stored as units
+PathUnits solUnits;                 // Solution Directory stored as units
 double    ver;
 
 public:
 PUIter    iter;
 String    name;
 
-  Solution() : iter(pathUnits) { }
+  Solution() : iter(solUnits) { }
  ~Solution() { }
 
   double   getVer()     {return ver;}
 
-  operator String() {return (String) pathUnits;}
+  operator String() {return (String) solUnits;}
 
   bool     newProject(bool isNew);
-  void     clear() {name.clear(); pathUnits.clear();}
-  bool     isEmpty() {return pathUnits.isEmpty();}
+  void     clear() {name.clear(); solUnits.clear();}
+  bool     isEmpty() {return solUnits.isEmpty();}
 
   void     readWixData();
   void     writeWixData();
@@ -38,11 +41,12 @@ String    name;
   bool     getRootPath(String& path);
   bool     getSolutionPath(String& path);
 
-  String&  getRootPath() {return rootPath;}
+  String   getBasePath() {return baseUnits;}
+  String   getRootPath() {return rootUnits;}
 
-  int      noUnits()    {return pathUnits.nData();}
+  int      noUnits()    {return solUnits.nData();}
 
-  String*  operator[](int i) {return pathUnits[i];}
+  String*  operator[](int i) {return solUnits[i];}
 
   void     saveData(Archive& ar);
 

@@ -3,6 +3,7 @@
 
 #pragma once
 #include "ComboBox.h"
+#include "DialogEx.h"
 #include "Resource.h"
 #include "StatusBar.h"
 #include "MyToolBar.h"
@@ -13,7 +14,7 @@ class StatusBar;
 
 // WixAppDlg dialog
 
-class WixAppDlg : public CDialogEx {
+class WixAppDlg : public DialogEx {
 
 DECLARE_DYNAMIC(WixAppDlg)
 

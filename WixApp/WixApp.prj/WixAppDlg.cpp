@@ -7,7 +7,7 @@
 #include "Archive.h"
 #include "defaultPath.h"
 #include "DspDirs.h"
-#include "GetPathDlg.h"
+#include "PathDlg.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"
 #include "Product.h"
@@ -95,7 +95,7 @@ END_MESSAGE_MAP()
 
 
 WixAppDlg::WixAppDlg(TCchar* helpPth, CWnd* pParent) :
-                                             helpPath(helpPth), CDialogEx(IDD_WixDlg, pParent) { }
+                                               DialogEx(IDD_WixDlg, pParent), helpPath(helpPth) { }
 
 
 int WixAppDlg::OnCreate(LPCREATESTRUCT lpCreateStruct) {
@@ -174,10 +174,10 @@ void WixAppDlg::onOpenProject() {wixData.openProject(this);}
 
 
 void WixAppDlg::onSaveData() {
-PathDlgDsc pathDsc(_T("Wix Data Detail:"), _T("WixData"), _T("txt"), _T("*.txt"));
-String     path;
+PathDlg dlg(_T("Wix Data Detail:"), _T("WixData"), _T("txt"), _T("Wix"), _T("*.txt"));
+String  path;
 
-  if (!getSaveAsPathDlg(pathDsc, path)) return;
+  if (!dlg.saveFileAs(path)) return;
 
   Archive ar(path, FileIO::Write);   if (!ar.isOpen()) return;
 

@@ -5,28 +5,11 @@
 #pragma once
 #include "Archive.h"
 #include "FileName.h"
-#include "GetPathDlg.h"
-#include "PathDlgDsc.h"
+//#include "GetPathDlg.h"
+//#include "PathDlgDsc.h"
 
+class KeyedPathDlg;
 
-
-class KeyedPathDsc : public PathDlgDsc {
-public:
-
-String dfltKey;
-
-  KeyedPathDsc(TCchar* key, TCchar* ttl, TCchar* nm, TCchar* e, TCchar* pat);
-  KeyedPathDsc(KeyedPathDsc& dsc) {copy(dsc);}
- ~KeyedPathDsc() { }
-
-  KeyedPathDsc& operator= (KeyedPathDsc& dsc) {copy(dsc); return *this;}
-
-private:
-
-  void copy(KeyedPathDsc& dsc) {PathDlgDsc::copy(dsc); dfltKey = dsc.dfltKey;}
-
-  KeyedPathDsc() { }
-  };
 
 
 class RelPath {
@@ -41,16 +24,21 @@ public:
 
  void       clear() {relPath.clear();}
 
-  void      readWixData( TCchar* section, TCchar* key, KeyedPathDsc& dsc);
   void      writeWixData(TCchar* section, TCchar* key);
+
+  void      readWxdPath( TCchar* section, TCchar* key, KeyedPathDlg& dlg);
+  void      readWxdData( TCchar* section, TCchar* key, KeyedPathDlg& dlg);
+  void      writeWxdData(TCchar* section, TCchar* key);
 
   RelPath& operator= (RelPath& p) {relPath = p.relPath; return *this;}
   RelPath& operator= (TCchar* fullPath) {String s = fullPath; setRelPath(s); return *this;}
 
   bool      isEmpty()  {return relPath.isEmpty();}
+  bool      isRelPath(String& path) {return path[0] == _T('.') || path.find(_T(':')) < 0;
+  }
   operator  TCchar*()  {return relPath;}
 
-  String&   getPath(   KeyedPathDsc& dsc);      // Get path of existing file
+  String&   getPath(KeyedPathDlg& pathDlg);      // Get path of existing file
   String    getFileName() {return removePath(relPath);}
 
   String    localPath();          // Local full path -- Prefix with local root directory
@@ -60,6 +48,9 @@ public:
 
 private:
 
+  String&   getPath(    TCchar* path, KeyedPathDlg& dlg);
+  String&   getPathOnly(TCchar* path, KeyedPathDlg& dlg);
   void      setRelPath(const String& fullPath);
+  String&   getRelPath(String& fullPath);
   };
 

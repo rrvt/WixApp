@@ -84,12 +84,9 @@
 #include "ManipT.h"
 #include "NoteNmbr.h"
 
-#ifdef DocView
-class NotePad;
-#endif
-
 
 class Archive;
+class NotePad;
 
 typedef ManipT<Archive>    ArManip;
 typedef ManipIntT<Archive> ArManipInt;
@@ -117,10 +114,8 @@ enum Mode {Read=1, Write=2, Create=4};
   bool     isStoring() {return ArchFile::isStoring();}
   void     seekEnd()   {ArchFile::seekEnd();}
 
-#ifdef DocView
-  Archive& operator << (NotePad& np);                   // Archive the content of specified notepad
-#endif
 
+  Archive& operator << (NotePad& np);                   // Archive the content of specified notepad
   Archive& operator << (TCchar*        tc) {return append(tc);}
   Archive& operator << (String&         s) {return append(s);}
   Archive& operator << (const CString& cs) {return append(cs);}

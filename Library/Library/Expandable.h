@@ -151,8 +151,10 @@ public:
 
   template<class Key> Datum* bSearch(Key key);  // Binary search (only works on sorted array,
                                                 // Requires datum > key, datum < key, datum == key
+#if 0
 #ifdef DocView
   void   probe(TCchar* title);                  // Display internal information on notePad
+#endif
 #endif
 
 private:
@@ -356,7 +358,7 @@ int    j;
   }
 
 
-
+#if 0
 #ifdef DocView
 #include "NotePad.h"
 
@@ -374,7 +376,7 @@ int    nonEmpty = 0;
   notePad << nCrlf;
   }
 #endif
-
+#endif
 
 
 

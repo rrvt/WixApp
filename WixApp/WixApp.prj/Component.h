@@ -90,6 +90,8 @@ private:
 
   void       setApp(String& path);
 
+  void       setDsc(String& ftrID);
+
   void       outputSourcePath(int tab);
   void       outputLink(int tab, TCchar* suffix, TCchar* dir);
   void       outputRegistry( int tab);

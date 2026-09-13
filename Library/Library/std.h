@@ -16,6 +16,7 @@ typedef unsigned int        uint;
 typedef unsigned char       Byte;
 typedef const    char       Cchar;
 typedef          TCHAR      Tchar;
+typedef          TBYTE      TByte;
 typedef const    TCHAR      TCchar;
 typedef const   _TUCHAR     TUCchar;
 

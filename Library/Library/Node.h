@@ -146,6 +146,10 @@ public:
            ListIter(List& list) : lst(list), rover(0), prev(0) {nodeRemoved = false;}
   virtual ~ListIter() { }
 
+
+  bool isAtEnd() {return !rover;}
+
+
  // initialize for scan of list and return first node on the list or zero if at end
  // of list.
 
@@ -154,13 +158,16 @@ public:
     return rover;
     }
 
+
   // move to next node on list and return pointer to that node or zero if at end of list
 
   Node* operator++ (int) {
+
     if (!nodeRemoved) {prev = rover; if (rover) rover = rover->link;}
 
     nodeRemoved = false; return rover;
     }
+
 
   // remove and return first node on list or returns zero if list empty and adjust rover and prev
 

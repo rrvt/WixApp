@@ -5,7 +5,7 @@
   <SatelliteDlls />
   <NonRecipeFileRefs>
     <NonRecipeFileRef>
-      <FullPath>D:\Sources\WixApp\WixApp.hlp\WixApp.hlp.vcxproj</FullPath>
+      <FullPath>C:\Source2\RacesApp\RacesApp.hlp\RacesApp.hlp.vcxproj</FullPath>
     </NonRecipeFileRef>
   </NonRecipeFileRefs>
 </Project>

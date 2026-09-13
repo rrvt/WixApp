@@ -14,6 +14,16 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 9/12/26
+
+Moving the source from one directory to another illuminated the error of putting full paths in
+the wxd file everywhere.  Modifed it to store paths relative to the location of the solution file.
+Thus moving the whole source to another parent directory would just require changing one or two
+lines in the wxd file.
+
+Although this app does not make much use of printing, the library for printing was attacked due
+to the inability to use the MFC print logic to easily control the size of the paper.
+
 ### Update 3/24/26
 
 Consolidated the Output commands into a dropdown menu on the toolbar.  Made sure that the target

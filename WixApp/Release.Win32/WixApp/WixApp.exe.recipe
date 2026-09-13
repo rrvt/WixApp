@@ -2,14 +2,14 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\Sources\WixApp\Release.Win32\WixApp.exe</FullPath>
+      <FullPath>C:\Source2\WixApp\Release.Win32\WixApp.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
   <SatelliteDlls />
   <NonRecipeFileRefs>
     <NonRecipeFileRef>
-      <FullPath>D:\Sources\WixApp\WixApp.hlp\WixApp.hlp.vcxproj</FullPath>
+      <FullPath>C:\Source2\WixApp\WixApp.hlp\WixApp.hlp.vcxproj</FullPath>
     </NonRecipeFileRef>
   </NonRecipeFileRefs>
 </Project>

@@ -24,7 +24,6 @@
     <ClCompile Include="ArchFile.cpp" />
     <ClCompile Include="ArchPos.cpp" />
     <ClCompile Include="ArchULines.cpp" />
-    <ClCompile Include="CDialogApp.cpp" />
     <ClCompile Include="ClipBoard.cpp" />
     <ClCompile Include="ComboBox.cpp" />
     <ClCompile Include="CopyFile.cpp" />
@@ -33,6 +32,10 @@
     <ClCompile Include="CryptInit.cpp" />
     <ClCompile Include="Currency.cpp" />
     <ClCompile Include="Date.cpp" />
+    <ClCompile Include="DeviceBfr.cpp" />
+    <ClCompile Include="CDCex.cpp" />
+    <ClCompile Include="DeviceCtx.cpp" />
+    <ClCompile Include="DeviceMgr.cpp" />
     <ClCompile Include="Display.cpp" />
     <ClCompile Include="EditBox.cpp" />
     <ClCompile Include="EditBoxes.cpp" />
@@ -41,6 +44,7 @@
     <ClCompile Include="FileName.cpp" />
     <ClCompile Include="FilePaths.cpp" />
     <ClCompile Include="FileSrch.cpp" />
+    <ClCompile Include="FontStack.cpp" />
     <ClCompile Include="GetPathDlg.cpp" />
     <ClCompile Include="Guid.cpp" />
     <ClCompile Include="Handle.cpp" />
@@ -52,17 +56,19 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="NoteNmbr.cpp" />
+    <ClCompile Include="NotePad.cpp" />
     <ClCompile Include="NoteUndrLn.cpp" />
     <ClCompile Include="PathDlgDsc.cpp" />
+    <ClCompile Include="PathDlg.cpp" />
     <ClCompile Include="RegExpr.cpp" />
     <ClCompile Include="StatusBar.cpp" />
+    <ClCompile Include="TabList.cpp" />
     <ClCompile Include="Tabs.cpp" />
     <ClCompile Include="TBCboBoxes.cpp" />
     <ClCompile Include="TBEditBox.cpp" />
     <ClCompile Include="TBMenu.cpp" />
     <ClCompile Include="ThreadBase.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Printer.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="ResourceData.cpp" />
     <ClCompile Include="SrchFile.cpp" />
@@ -73,7 +79,9 @@
     <ClCompile Include="ToolBarDim.cpp" />
     <ClCompile Include="ToString.cpp" />
     <ClCompile Include="trim.cpp" />
+    <ClCompile Include="UnderlineText.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="WinAppEx.cpp" />
     <ClCompile Include="WinPos.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +90,6 @@
     <ClInclude Include="ArchPos.h" />
     <ClInclude Include="ArchULines.h" />
     <ClInclude Include="CbxItem.h" />
-    <ClInclude Include="CDialogApp.h" />
     <ClInclude Include="ClipBoard.h" />
     <ClInclude Include="ComboBox.h" />
     <ClInclude Include="CopyFile.h" />
@@ -90,6 +97,10 @@
     <ClInclude Include="Currency.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="DebugBlk.h" />
+    <ClInclude Include="DeviceBfr.h" />
+    <ClInclude Include="CDCex.h" />
+    <ClInclude Include="DeviceCtx.h" />
+    <ClInclude Include="DeviceMgr.h" />
     <ClInclude Include="Display.h" />
     <ClInclude Include="EditBox.h" />
     <ClInclude Include="EditBoxes.h" />
@@ -100,6 +111,7 @@
     <ClInclude Include="FileName.h" />
     <ClInclude Include="FilePaths.h" />
     <ClInclude Include="FileSrch.h" />
+    <ClInclude Include="FontStack.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GetPathDlg.h" />
     <ClInclude Include="Guid.h" />
@@ -119,25 +131,28 @@
     <ClInclude Include="Node.h" />
     <ClInclude Include="Note.h" />
     <ClInclude Include="NoteNmbr.h" />
+    <ClInclude Include="NotePad.h" />
     <ClInclude Include="NoteTab.h" />
     <ClInclude Include="NoteUndrLn.h" />
     <ClInclude Include="PathDlgDsc.h" />
+    <ClInclude Include="PathDlg.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="RegExpr.h" />
     <ClInclude Include="SendMsg.h" />
     <ClInclude Include="StatusBar.h" />
+    <ClInclude Include="std.h" />
+    <ClInclude Include="TabList.h" />
     <ClInclude Include="Tabs.h" />
     <ClInclude Include="TBCboBoxes.h" />
     <ClInclude Include="TBEditBox.h" />
     <ClInclude Include="TBMenu.h" />
     <ClInclude Include="ThreadBase.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Printer.h" />
     <ClInclude Include="qsort.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="ResourceData.h" />
     <ClInclude Include="SrchFile.h" />
     <ClInclude Include="Static.h" />
-    <ClInclude Include="std.h" />
     <ClInclude Include="StringInput.h" />
     <ClInclude Include="Strings.h" />
     <ClInclude Include="targetver.h" />
@@ -147,8 +162,10 @@
     <ClInclude Include="ToolBarDim.h" />
     <ClInclude Include="ToString.h" />
     <ClInclude Include="trim.h" />
+    <ClInclude Include="UnderlineText.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Variant.h" />
+    <ClInclude Include="WinAppEx.h" />
     <ClInclude Include="WinPos.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -229,11 +246,11 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>WIN32;_LIB;_DEBUG;DsplyHistoryXXX;DebugMemoryXXXLeaks;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_LIB;_DEBUG;DsplyHistoryXXX;DebugMemoryXXXLeaks;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Printer\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -264,11 +281,11 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_LIB;_DEBUG;DsplyHistoryXXX;DebugMemoryXXXLeaks;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Printer\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <SupportJustMyCode>false</SupportJustMyCode>
       <TreatWarningAsError>false</TreatWarningAsError>
@@ -1120,11 +1137,11 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <ProgramDataBaseFileName>
       </ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Printer\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
@@ -1162,7 +1179,7 @@
       <ConformanceMode>true</ConformanceMode>
       <ProgramDataBaseFileName>
       </ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)..\Printer\;$(ProjectDir)..\Extras\</AdditionalIncludeDirectories>
       <DebugInformationFormat>None</DebugInformationFormat>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>

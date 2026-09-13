@@ -28,8 +28,11 @@ public:
 
   PathUnits& operator= (String& path);
              operator String();
+  String&    path(int nUnits);
 
   String*    operator[] (int i) {return datum(i);}
+
+  int        nData()      {return units.end();} // returns number of data items in array
 
 private:
 
@@ -38,11 +41,6 @@ private:
 
   // returns either a pointer to data (or datum) at index i in array or zero
   String* datum(int i) {return 0 <= i && i < nData() ? &units[i] : 0;}
-
-public:
-
-  // returns number of data items in array
-  int   nData()      {return units.end();}
 
   friend typename PUIter;
   };

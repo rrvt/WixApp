@@ -7,6 +7,7 @@
 #include "filename.h"
 #include "Guid.h"
 #include "Icons.h"
+#include "KeyedPathDlg.h"
 #include "PFFdirectories.h"
 #include "Solution.h"
 #include "WixOptsDlg.h"
@@ -30,7 +31,8 @@ static TCchar*   IsWin7Key      = _T("IsWin7");
 static TCchar*   IsWinXPKey     = _T("IsWinXP");
 
 
-static KeyedPathDsc browseDsc = {DefLicensePathKey, _T("License File"), _T(""), _T(""), _T("")};
+static KeyedPathDlg browseDsc =
+  {DefLicensePathKey, _T("License File"), _T(""), _T("rtf"), _T("License"), _T("*.rtf")};
 
 Product product;
 
@@ -48,7 +50,7 @@ double ver = solution.getVer();
 
   isSameVerAllowed = wxd.readInt(ProductSection, SameVerAllowed, 0) != 0;
   isLicenseReq     = wxd.readInt(ProductSection, LicenseReqKey,  0) != 0;
-  licPath.readWixData(ProductSection, LicensePathKey, browseDsc);
+  licPath.readWxdData(ProductSection, LicensePathKey, browseDsc);
   wxd.readString(ProductSection, IconIDKey, iconID);
 
   isWin10 = wxd.readInt(ProductSection, IsWin10Key, 0) != 0;
@@ -110,7 +112,7 @@ void Product::writeWixData() {
   wxd.write(ProductSection, UpgradeCodeKey, upgradeCode);
   wxd.write(ProductSection, SameVerAllowed, isSameVerAllowed);
   wxd.write(ProductSection, LicenseReqKey,  isLicenseReq);
-  licPath.writeWixData(ProductSection, LicensePathKey);
+  licPath.writeWxdData(ProductSection, LicensePathKey);
   wxd.write(ProductSection, IconIDKey,      iconID);
   wxd.writeInt(ProductSection, IsWin10Key, isWin10);
   wxd.writeInt(ProductSection, IsWin7Key,  isWin7);

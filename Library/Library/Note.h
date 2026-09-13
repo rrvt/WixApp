@@ -32,9 +32,9 @@ bool     strikeOut;                 // Strike out font
 bool     prevFont;                  // Restore previous font
 
 bool     clrTabs;                   // clear all tabs
-NoteTab  noteTab;
+NoteTab  tab;                       // tab (left and right)
 
-bool     tabSeen;                       // move cursor to next tab position
+bool     tabSeen;                   // move cursor to next tab position
 bool     center;                    // center all text to crlf in window
 bool     right;                     // right adjust text to crlf in window
 

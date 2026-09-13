@@ -7,6 +7,7 @@
 #include "filename.h"
 #include "Guid.h"
 #include "IniFileEx.h"
+#include "KeyedPathDlg.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"
 #include "Product.h"
@@ -38,7 +39,7 @@ static TCchar*    SetEnvPath      = _T("Path");
 
 static TCchar*    CmpPathKey      = _T("Component");
 
-static KeyedPathDsc  browseDsc = {_T("Cmp"), _T("Component File"), _T(""), _T("*"), _T("")};
+static KeyedPathDlg  browseDsc = {_T("Cmp"), _T("Component File"), _T(""), 0, 0, 0};
 
 
 Component::Component() : isStartMenu(false), isDesktop(false),   isVersionAvail(false),
@@ -54,7 +55,7 @@ String path;
 
   readOne(IDkey,   id);          wixID = getWixID(id, ComponentExt);
 
-  browseDsc.dfltKey = ftrID;   relPath.readWixData(section, PathKey, browseDsc);
+  browseDsc.dfltKey = ftrID;   relPath.readWxdData(section, PathKey, browseDsc);
 
   path = relPath.localPath();   setApp(path);
   readOne(GuidKey, guid);
@@ -79,10 +80,19 @@ void Component::readOne(TCchar* key, String& v) {
 
 void Component::readWixData2(String& ftrID, String& cmpSection) {
 String path;
+//String title;
+//int    pos;
 
   wixID = getWixID(id, ComponentExt);
+#if 1
+  setDsc(ftrID);
+#else
+  pos = title.find(_T('.'));   if (pos > 0) title = title.substr(0, pos);
 
-  browseDsc.dfltKey = ftrID; relPath.readWixData(cmpSection, PathKey, browseDsc);
+  browseDsc.dfltKey = ftrID;
+  browseDsc.title   = title + _T(" Component");
+#endif
+  relPath.readWxdData(cmpSection, PathKey, browseDsc);
 
   guid.clear();        wxd.readString(cmpSection, GuidKey, guid);
   description.clear(); wxd.readString(cmpSection, DescKey, description);
@@ -99,10 +109,31 @@ String path;
   }
 
 
+void Component::browsePath(String& ftrID, WixAppDlg& dialog) {
+String path;
+
+  setDsc(ftrID); relPath.getPath(browseDsc);
+
+  dialog.pathEB.SetWindowText(relPath.localPath());
+
+  path = relPath.localPath();   setApp(path);   storeIsVersionAvail(dialog);
+  }
+
+
+void Component::setDsc(String& ftrID) {
+String title = wixID;
+int    pos;
+
+  pos = title.find(_T('.'));   if (pos > 0) title = title.substr(0, pos);
+
+  browseDsc.dfltKey = ftrID;   browseDsc.title   = title + _T(" Component");
+  }
+
+
 void Component::writeWixData2(String& cmpSection) {
 
                               wxd.writeString(cmpSection, IDkey,          id);
-  relPath.writeWixData(cmpSection, PathKey);
+  relPath.writeWxdData(cmpSection, PathKey);
   if (!guid.isEmpty())        wxd.writeString(cmpSection, GuidKey,         guid);
   if (!description.isEmpty()) wxd.writeString(cmpSection, DescKey,         description);
   if (!iconID.isEmpty())      wxd.writeString(cmpSection, IconKey,         iconID);
@@ -141,7 +172,7 @@ ComboBox& cb = dialog.iconCB;
 
     dialog.componentCB.setCurSel(id);
          dialog.pathEB.SetReadOnly(false);
-         dialog.pathEB.SetWindowText(relPath);
+         dialog.pathEB.SetWindowText(relPath.localPath());
          dialog.pathEB.SetReadOnly(true);
   dialog.descriptionEB.SetWindowText(description);
     dialog.isStartMenu.SetCheck(isStartMenu);
@@ -174,17 +205,6 @@ String  s;
 
 DirDesc* Component::getProgFile()  {return pffDirectories.find(progFileID);}
 DirDesc* Component::getStartMenu() {return pmfDirectories.find(startMenuID);}
-
-
-void Component::browsePath(String& ftrID, WixAppDlg& dialog) {
-String path;
-
-  browseDsc.dfltKey = ftrID; relPath.getPath(browseDsc);
-
-  dialog.pathEB.SetWindowText(relPath);
-
-  path = relPath.localPath();   setApp(path);   storeIsVersionAvail(dialog);
-  }
 
 
 void Component::setApp(String& path) {

@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "SolutionPathDlg.h"
-#include "GetPathDlg.h"
+//#include "GetPathDlg.h"
 #include "Solution.h"
 
 

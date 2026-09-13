@@ -34,6 +34,6 @@
     </ProjectReference>
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="copy $(SolutionDir)..\WixApp.prj\res\banner.bmp $(SolutionDir)..\$(Configuration).Win32\&#xD;&#xA;copy $(SolutionDir)..\WixApp.prj\res\dialog.bmp $(SolutionDir)..\$(Configuration).Win32\" />
+    <Exec Command="copy $(SolutionDir)..\WixApp.prj\res\Wix\*.bmp $(OutDir)" />
   </Target>
 </Project>

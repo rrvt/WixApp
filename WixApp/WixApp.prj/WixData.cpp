@@ -6,9 +6,10 @@
 #include "CopyFile.h"
 #include "DefaultPath.h"
 #include "filename.h"
-#include "GetPathDlg.h"
+//#include "GetPathDlg.h"
 #include "IniData.h"
 //#include "IniFileEx.h"
+#include "PathDlg.h"
 #include "WixOptsDlg.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"
@@ -97,11 +98,12 @@ bool WixData::outputProduct() {
 String     wxsPath;
 String     pathOnly;
 String     msg = _T("Output a new Wix Product File: ");
-Component* app;
-DirDesc*   appDir;
+Component* app{0};
+DirDesc*   appDir{0};
+String     appID;
 String     currentGroup;
 String     defPath;
-PathDlgDsc dsc;
+PathDlg    dlg;
 int        tab;
 
   app = features.findAnApp();
@@ -110,16 +112,16 @@ int        tab;
     pffDirectories.appDir = appDir = app->getProgFile();
     if (!appDir) {String s;   s.format(ErrMsg, app->id.str());   messageBox(s);   return false;}
 
-    appDir->wixID.upperCase();
+    appID = appDir->wixID;   appDir->wixID.upperCase();
     }
 
   defPath = readWxdPath(defPath) ? getPath(defPath) : solution.getRootPath();
 
   defPath += _T("Product");
 
-  dsc(_T("Product"), defPath, _T("wxs"), _T("*.wxs"));
+  dlg(_T("Product"), defPath, _T("wxs"), _T("Product"), _T("*.wxs"));
 
-  if (!getSaveAsPathDlg(dsc, wxsPath)) return false;
+  if (!dlg.saveFileAs(wxsPath)) return false;
 
   backupFile(wxsPath, 10);
 
@@ -159,17 +161,21 @@ int        tab;
 
   copyHelperFile(getPath(wxsPath), _T("My_en-us.wxl"));
 
+  if (appDir) appDir->wixID = appID;
+
   return true;
   }
 
 
 void WixData::outputWxd() {
-PathDlgDsc dsc;
-String     path;
+PathDlg dlg;
+String  path;
 
   if (!readWxdPath(path)) path = solution.getRootPath() + solution.name;
 
-  dsc(WxdDataFile, path, WxdDefExt, WxdExtPat);    if (!getSaveAsPathDlg(dsc, path)) return;
+  dlg(WxdDataFile, path, WxdDefExt, _T("Wix Data"), WxdExtPat);
+
+  if (!dlg.saveFileAs(path)) return;
 
   saveWxdPath(path);     validate(false);
 
@@ -191,12 +197,14 @@ String     path;
 
 
 bool WixData::readWixData() {
-PathDlgDsc dsc;
-String     path;
+PathDlg dlg;
+String  path;
 
   if (!readWxdPath(path)) path = solution.getRootPath();
 
-  dsc(WxdDataFile, path, WxdDefExt, WxdExtPat);    if (!getOpenDlg(dsc, path)) return false;
+  dlg(WxdDataFile, path, WxdDefExt, _T("Wix Data"), WxdExtPat);
+
+  if (!dlg.openFile(path)) return false;
 
   saveWxdPath(path);    wxd.setPath(path);
 

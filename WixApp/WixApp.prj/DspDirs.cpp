@@ -3,7 +3,7 @@
 
 #include "pch.h"
 #include "DspDirs.h"
-#include "GetPathDlg.h"
+#include "PathDlg.h"
 #include "PFFdirectories.h"
 #include "PMFdirectories.h"
 
@@ -13,10 +13,9 @@ static TCchar* DefExt = _T("txt");
 static TCchar* ExtPat = _T("*.txt");
 
 DspDirs::DspDirs() {
-PathDlgDsc dsc(Title, 0, DefExt, ExtPat);
+PathDlg dlg(Title, 0, DefExt, _T("Text"), ExtPat);
 
-  if (getSaveAsPathDlg(dsc, path))
-                                fo.open(path, (FileIO::OpenParms) (FileIO::Write|FileIO::Create));
+  if (dlg.saveFileAs(path)) fo.open(path, (FileIO::OpenParms) (FileIO::Write|FileIO::Create));
   }
 
 

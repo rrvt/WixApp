@@ -2,11 +2,11 @@
 
 
 #include "pch.h"
-#include "GetPathDlg.h"
+//#include "GetPathDlg.h"
 #include "FileName.h"
 #include "PathDlgDsc.h"
 
-#include "MessageBox.h"
+//#include "MessageBox.h"
 
 
 // Local functions
@@ -39,18 +39,25 @@ bool saveDlg(PathDlgDsc& dsc, bool overwrt, String& path)
 
 
 static bool pathDlg(PathDlgDsc& dsc, bool openDlg, DWORD flags, String& path) {
-String        e = dsc.title + _T('|') + dsc.pattern + _T("|All Files (*.*)|*.*||");
-CFileDialog   dlg(openDlg, dsc.ext, dsc.name, flags, e, 0);
-OPENFILENAME& ofn = dlg.m_ofn;
-Cstring       lbl = _T("Mumble");
+String        name   = getMainName(dsc.name);
+String        filter = dsc.title + _T('|');
+String        newTitle;
 
-  ofn.lpstrTitle = dsc.title;   ofn.lpstrInitialDir = dsc.getPath();
+  if (!name.isEmpty() && !dsc.ext.isEmpty() && dsc.ext != _T("*")) name += _T('.') + dsc.ext;
 
-  dlg.SetControlLabel(IDOK, lbl);
+  if (!dsc.pattern.isEmpty()) filter += dsc.pattern + _T("|All Files (*.*)|");
+  filter += _T("*.*||");
 
-  if (dlg.DoModal() == IDOK) {path = dlg.GetPathName();   return true;}
+  CFileDialog   dlg(openDlg, dsc.ext, name, flags, filter);
+  OPENFILENAME& ofn    = dlg.m_ofn;
 
-  return false;                                   //ofn.lpstrFile
+  newTitle = _T("Ugly ") + dsc.title;
+
+  ofn.lpstrTitle = newTitle;   ofn.lpstrInitialDir = dsc.getPath();
+
+  if (dlg.DoModal() != IDOK) return false;                                   //ofn.lpstrFile
+
+  path = dlg.GetPathName();   return true;
   }
 
 
@@ -61,11 +68,10 @@ CFolderPickerDialog dlg(path);
 
   if (!path.isEmpty()) dlg.m_ofn.lpstrInitialDir = path;
 
-  if (dlg.DoModal() == IDOK) {
-    path = dlg.GetPathName();   if (path[path.length()-1] != _T('\\')) path += _T("\\");
-    return true;
-    }
+  if (dlg.DoModal() != IDOK)return false;
 
-  return false;
+  path = dlg.GetPathName();   if (path[path.length()-1] != _T('\\')) path += _T("\\");
+
+  return true;
   }
 

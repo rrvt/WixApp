@@ -119,11 +119,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Sources\\WixApp\\WixApp.Win32.wix\\WixApp.win32.Wix.wixproj",
+      "projectUniqueName": "C:\\Source2\\WixApp\\WixApp.Win32.wix\\WixApp.win32.Wix.wixproj",
       "projectName": "WixApp.win32.Wix",
-      "projectPath": "D:\\Sources\\WixApp\\WixApp.Win32.wix\\WixApp.win32.Wix.wixproj",
+      "projectPath": "C:\\Source2\\WixApp\\WixApp.Win32.wix\\WixApp.win32.Wix.wixproj",
       "packagesPath": "C:\\Users\\rrvt\\.nuget\\packages\\",
-      "outputPath": "D:\\Sources\\WixApp\\WixApp.Win32.wix\\obj\\",
+      "outputPath": "C:\\Source2\\WixApp\\WixApp.Win32.wix\\obj\\",
       "projectStyle": "PackageReference",
       "UsingMicrosoftNETSdk": false,
       "fallbackFolders": [

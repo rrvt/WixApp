@@ -66,6 +66,7 @@ protected:
   bool      addCboBox(   uint id, int noChars);
   bool      setCboItems( uint id, uint idr);
   bool      setCboItems( uint id, CCbxItem cbxItem[], int n);
+  void      setCboImage( uint id, int toolBarIndex);
 
   void      setCboCaption(TBCboBox& cbo, TCchar* caption)
                                               {cbo.set(caption);   cbo.update();   AdjustLayout();}

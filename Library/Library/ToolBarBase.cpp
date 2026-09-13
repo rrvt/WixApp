@@ -124,6 +124,10 @@ TBCboBox* cbo = tbCboBoxes.find(id);
   }
 
 
+void ToolBarBase::setCboImage(uint id, int toolBarIndex)
+                             {TBCboBox* cbo = tbCboBoxes.find(id);   setImage(*cbo, toolBarIndex);}
+
+
 void ToolBarBase::dispatch(TBCboBox& cbo) {
 ulongP cmdID = cbo.getCmdId();
 

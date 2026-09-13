@@ -93,7 +93,7 @@ static const int npos = -1;
   String(TCchar*    t)            : tstring(t ? t : _T("")) {}
   String(TCchar*    t, int cnt)   : tstring(t ? t : _T(""), cnt) {}
   String(Cstring&   stg)          : tstring(stg) {}
-  String(CString&   stg)          : tstring(stg) {}
+  String(const CString& stg)      : tstring(stg) {}
   String(bstr_t     bs)           : tstring(bs) {}
   String(variant_t& v)            {if (v.vt == VT_BSTR) *this = bstr_t(v);}
   String(Tchar      ch)           : tstring(1, ch) {}

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Sources\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj": {}
+    "C:\\Source2\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj": {}
   },
   "projects": {
-    "D:\\Sources\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj": {
+    "C:\\Source2\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Sources\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj",
+        "projectUniqueName": "C:\\Source2\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj",
         "projectName": "WixApp.x64.Wix",
-        "projectPath": "D:\\Sources\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj",
+        "projectPath": "C:\\Source2\\WixApp\\WixApp.x64.wix\\WixApp.x64.Wix.wixproj",
         "packagesPath": "C:\\Users\\rrvt\\.nuget\\packages\\",
-        "outputPath": "D:\\Sources\\WixApp\\WixApp.x64.wix\\obj\\",
+        "outputPath": "C:\\Source2\\WixApp\\WixApp.x64.wix\\obj\\",
         "projectStyle": "PackageReference",
         "UsingMicrosoftNETSdk": false,
         "fallbackFolders": [

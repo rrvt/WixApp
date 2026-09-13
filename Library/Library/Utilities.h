@@ -36,6 +36,8 @@ String  formatPhone(TCchar* ph, Tchar sep);
 
 void    clearLibUtilities();
 
+void    trimZ(String& s);
+
 
 
 #ifdef _DEBUG
