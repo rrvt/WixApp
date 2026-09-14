@@ -14,6 +14,10 @@ know all the files needed in the output.
 
 ## Updates
 
+### Update 9/14/26
+
+Widened the edit boxes that contained paths.  Removed OS check boxes.
+
 ### Update 9/12/26
 
 Moving the source from one directory to another illuminated the error of putting full paths in

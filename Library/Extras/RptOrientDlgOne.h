@@ -2,7 +2,7 @@
 
 
 #pragma once
-#include "ManagePrinter.h"
+//#include "ManagePrinter.h"
 #include "ResourceExtra.h"
 
 

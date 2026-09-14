@@ -396,6 +396,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\Toolbar02.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

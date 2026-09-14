@@ -370,7 +370,7 @@ String   dir;
 
   if (relPath.isEmpty())          outputRegistry(tab);
 
-  product.outputOScondition(tab);
+//  product.outputOScondition(tab);
 
   tab -= TabVal;
 

@@ -47,9 +47,9 @@ bool CDoc::reOpenDocument() {
 void CDoc::OnOpenArb(void* arbObj) {Archive ar(arbObj, FileIO::Read);   serialize(ar);}
 
 
-bool CDoc::setSaveAsPath(PathDlgDsc& dsc)  {return getSaveAsPathDlg(dsc, path);}
+bool CDoc::setSaveAsPath(PathDlg& dlg)  {return dlg.saveFileAs(path);}
 
-bool CDoc::setIncSavePath(PathDlgDsc& dsc) {return getIncSavePathDlg(dsc, path);}
+bool CDoc::setIncSavePath(PathDlg& dlg) {return dlg.incSaveFileAs(path);}
 
 void CDoc::backupFile(int noBackups) {::backupFile(path, noBackups);}
 

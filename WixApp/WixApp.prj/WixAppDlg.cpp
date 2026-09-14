@@ -52,11 +52,11 @@ BEGIN_MESSAGE_MAP(WixAppDlg, CDialogEx)
   ON_CBN_SELCHANGE(IDC_CtrlPnlIcn,        &onUpdateCtrlPanelIcon)
   ON_CBN_KILLFOCUS(IDC_CtrlPnlIcn,        &onUpdateCtrlPanelIcon)
   ON_BN_CLICKED(   IDC_BrowseProgFtrIcon, &OnBrowseCtrlPanelIcon)
-
+#if 0
   ON_BN_CLICKED(   IDC_Win10,             &onBnClickedIsWin10)
   ON_BN_CLICKED(   IDC_Win7,              &onBnClickedIsWin7)
   ON_BN_CLICKED(   IDC_WinXP,             &onBnClickedIsWinXP)
-
+#endif
   ON_CBN_SELCHANGE(IDC_Feature,           &onChangeFeature)
   ON_CBN_KILLFOCUS(IDC_Feature,           &onLeaveFeature)
   ON_CBN_DROPDOWN( IDC_Feature,           &onLeaveFeature)
@@ -245,9 +245,9 @@ void WixAppDlg::DoDataExchange(CDataExchange* pDX) {
   DDX_Control(pDX, IDC_VersionAvail,  isVersionAvail);
   DDX_Control(pDX, IDC_OnPath,        isOnPathCH);
   DDX_Control(pDX, IDC_Startup,       isStartupApp);
-  DDX_Control(pDX, IDC_Win10,         isWin10ch);
-  DDX_Control(pDX, IDC_Win7,          isWin7ch);
-  DDX_Control(pDX, IDC_WinXP,         isWinXPch);
+//  DDX_Control(pDX, IDC_Win10,         isWin10ch);
+//  DDX_Control(pDX, IDC_Win7,          isWin7ch);
+//  DDX_Control(pDX, IDC_WinXP,         isWinXPch);
   DDX_Control(pDX, IDC_ComponentIcon, iconCB);
   }
 
@@ -260,10 +260,11 @@ void WixAppDlg::onUpdateCtrlPanelIcon() {product.updateIcon(*this);}
 void WixAppDlg::updateCtrlPanelIconCB() {product.updateIconCB(prodIconCB);}
 void WixAppDlg::OnBrowseCtrlPanelIcon()
                                   {product.getIconPath(*this);   updateIconCB();   UpdateWindow();}
+#if 0
 void WixAppDlg::onBnClickedIsWin10()    {product.storeIsWin10(*this);}
 void WixAppDlg::onBnClickedIsWin7()     {product.storeIsWin7( *this);}
 void WixAppDlg::onBnClickedIsWinXP()    {product.storeIsWinXP(*this);}
-
+#endif
 
 // A Wix file is composed of a collection of features.  A feature is a collection of components.
 // A Component is one installable entity (usually a file) along with any shortcut link

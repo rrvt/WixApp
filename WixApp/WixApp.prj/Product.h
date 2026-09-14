@@ -21,9 +21,9 @@ String   installerIconPath;
 bool     isSameVerAllowed;
 bool     isLicenseReq;
 RelPath  licPath;
-bool     isWin10{false};
-bool     isWin7{false};
-bool     isWinXP{false};
+//bool     isWin10{false};
+//bool     isWin7{false};
+//bool     isWinXP{false};
 
   Product() : isSameVerAllowed(false), isLicenseReq(false) { }
  ~Product() { }
@@ -40,9 +40,9 @@ bool     isWinXP{false};
   void storeWixName(  WixAppDlg& dialog) {wixName      = getText(dialog.wixNameEB);}
   void storeWixVer(   WixAppDlg& dialog) {wixVersion   = getText(dialog.wixVersionEB);}
 
-  void storeIsWin10(  WixAppDlg& dialog);
-  void storeIsWin7(   WixAppDlg& dialog);
-  void storeIsWinXP(  WixAppDlg& dialog);
+//  void storeIsWin10(  WixAppDlg& dialog);
+//  void storeIsWin7(   WixAppDlg& dialog);
+//  void storeIsWinXP(  WixAppDlg& dialog);
 
   void getIconPath(   WixAppDlg& dialog);
   void updateIconCB(ComboBox& cb);
@@ -53,7 +53,7 @@ bool     isWinXP{false};
   void mark();
 
   void output(Component* app, Features& features);
-  void outputOScondition(int tab);
+//  void outputOScondition(int tab);
 
   void saveData(Archive& ar);
 

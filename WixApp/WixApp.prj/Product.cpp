@@ -52,10 +52,11 @@ double ver = solution.getVer();
   isLicenseReq     = wxd.readInt(ProductSection, LicenseReqKey,  0) != 0;
   licPath.readWxdData(ProductSection, LicensePathKey, browseDsc);
   wxd.readString(ProductSection, IconIDKey, iconID);
-
+#if 0
   isWin10 = wxd.readInt(ProductSection, IsWin10Key, 0) != 0;
   isWin7  = wxd.readInt(ProductSection, IsWin7Key,  0) != 0;
   isWinXP = wxd.readInt(ProductSection, IsWinXPKey, 0) != 0;
+#endif
   }
 
 
@@ -65,10 +66,11 @@ void Product::updateVersion(String& path)
 
 void Product::storeProduct(WixAppDlg& dialog) {productName  = getText(dialog.productNameEB);}
 
+#if 0
 void Product::storeIsWin10(WixAppDlg& dialog){isWin10     = dialog.isWin10ch.GetCheck()    != 0;}
 void Product::storeIsWin7(WixAppDlg& dialog) {isWin7      = dialog.isWin7ch.GetCheck()     != 0;}
 void Product::storeIsWinXP(WixAppDlg& dialog){isWinXP     = dialog.isWinXPch.GetCheck()    != 0;}
-
+#endif
 
 
 void Product::loadCB(WixAppDlg& dialog) {
@@ -80,10 +82,11 @@ ComboBox& cb = dialog.prodIconCB;
       loadVerEB(dialog);
 
       icons.loadCB(cb);
+#if 0
      dialog.isWin10ch.SetCheck(isWin10);
      dialog.isWin7ch.SetCheck(isWin7);
      dialog.isWinXPch.SetCheck(isWinXP);
-
+#endif
       icons.setCur(iconID, cb);
 
   dialog.prodIconCB.SetWindowText(iconID);
@@ -114,9 +117,11 @@ void Product::writeWixData() {
   wxd.write(ProductSection, LicenseReqKey,  isLicenseReq);
   licPath.writeWxdData(ProductSection, LicensePathKey);
   wxd.write(ProductSection, IconIDKey,      iconID);
+#if 0
   wxd.writeInt(ProductSection, IsWin10Key, isWin10);
   wxd.writeInt(ProductSection, IsWin7Key,  isWin7);
   wxd.writeInt(ProductSection, IsWinXPKey, isWinXP);
+#endif
   }
 
 
@@ -155,7 +160,7 @@ String ver;
   wix(0, _T("</Package>"));
   }
 
-
+#if 0
 // There are three cases
 //  -- One OS
 //  -- OS1 to OS2
@@ -169,11 +174,13 @@ int    lower;
 int    upper;
 String line;
 
+#if 0
   if (!isWin10 && !isWin7 && !isWinXP) return;
 
   lower = isWin10 ? _WIN32_WINNT_WIN10 : isWin7  ? _WIN32_WINNT_WIN7 :
                                                                isWinXP ? _WIN32_WINNT_WINXP  : 0;
   upper = isWinXP ? _WIN32_WINNT_WINXP : 0;
+#endif
 
   wix(tab, _T("<Condition>"));
 
@@ -188,7 +195,7 @@ String line;
 
   wix(tab, _T("</Condition>"));
   }
-
+#endif
 
 void Product::package(int tab, Component* app) {
 String line;
@@ -375,9 +382,11 @@ String k;
   ar << aTab << _T("upgrade Code:")      << aTab   << upgradeCode       << aCrlf;
   ar << aTab << _T("Icon ID:")           << aTab   << iconID            << aCrlf;
   ar << aTab << _T("Installer Icon ID:") << aTab   << installerIconPath << aCrlf;
+#if 0
   ar << aTab << _T("isWin10:")           << aTab   << isWin10           << aCrlf;
   ar << aTab << _T("isWin7:")            << aTab   << isWin7            << aCrlf;
   ar << aTab << _T("isWinXP:")           << aTab   << isWinXP           << aCrlf;
+#endif
 //  k = isSameVerAllowed;
   ar << aTab << _T("isSameVerAllowed:") << aTab << isSameVerAllowed << aCrlf;
   k = isLicenseReq;

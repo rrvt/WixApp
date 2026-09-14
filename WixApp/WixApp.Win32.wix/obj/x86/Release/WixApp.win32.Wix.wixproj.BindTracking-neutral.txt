@@ -1,11 +1,11 @@
 BuiltTargetOutput	C:\Source2\WixApp\WixApp.Win32.wix\obj\x86\Release\WixApp.msi
-Input	C:\Source2\WixApp\Debug.Win32\banner.bmp
-Input	C:\Source2\WixApp\Debug.Win32\dialog.bmp
+Input	C:\Program Files (x86)\WixApp\banner.bmp
+Input	C:\Program Files (x86)\WixApp\dialog.bmp
 Input	C:\Source2\WixApp\Release.Win32\\..\..\Library\License\MITLicenseFile.rtf
+Input	C:\Source2\WixApp\Release.Win32\\..\Release.Win32\banner.bmp
+Input	C:\Source2\WixApp\Release.Win32\\..\Release.Win32\dialog.bmp
 Input	C:\Source2\WixApp\Release.Win32\\..\Release.Win32\WixApp.chm
 Input	C:\Source2\WixApp\Release.Win32\\..\Release.Win32\WixApp.exe
-Input	C:\Source2\WixApp\Release.Win32\\..\WixApp.Win32.wix\banner.bmp
-Input	C:\Source2\WixApp\Release.Win32\\..\WixApp.Win32.wix\dialog.bmp
 Input	C:\Source2\WixApp\WixApp\..\..\Library\License\MITLicense.ico
 Input	C:\Source2\WixApp\WixApp\..\WixApp.prj\res\WixApp.ico
 Input	C:\Users\rrvt\.nuget\packages\wixtoolset.ui.wixext\6.0.2\wixext6\WixToolset.UI.wixext.dll

@@ -29,8 +29,8 @@
     <UIRef Id="WixUI_ErrorProgressText" />
   </UI>
 
-  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files\WixApp\dialog.bmp" />
-  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files\WixApp\banner.bmp" />
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Program Files (x86)\WixApp\dialog.bmp" />
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Program Files (x86)\WixApp\banner.bmp" />
 
   <Icon Id="Airstream_Icon.exe" SourceFile="$(var.SolutionDir)..\SetEnv.prj\Airstream.ico" />
   <Property Id="ARPPRODUCTICON" Value="Airstream_Icon.exe" />

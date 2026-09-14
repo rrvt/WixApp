@@ -3,7 +3,7 @@
 
 #pragma once
 #include "Archive.h"
-#include "GetPathDlg.h"
+#include "PathDlg.h"
 #include <setupapi.h>
 
 
@@ -14,8 +14,8 @@ String path;
 
 public:
 
-  virtual bool setOpenPath(PathDlgDsc& dsc)    {return getOpenDlg(   dsc, path);}
-  virtual bool setIncOpenPath(PathDlgDsc& dsc) {return getIncOpenDlg(dsc, path);}
+  virtual bool setOpenPath(PathDlg& dlg)    {return dlg.openFile(path);}
+  virtual bool setIncOpenPath(PathDlg& dlg) {return dlg.incOpenFile(path);}
 
   virtual BOOL OnOpenDocument(LPCTSTR lpszPathName) override;
 
@@ -25,8 +25,8 @@ public:
 
   virtual void OnOpenArb(void* arbObj);
 
-  virtual bool setSaveAsPath(PathDlgDsc& dsc);      // Request approval to over write existing file
-  virtual bool setIncSavePath(PathDlgDsc& dsc);     // Over write file always, use backup to save
+  virtual bool setSaveAsPath(PathDlg& dlg);      // Request approval to over write existing file
+  virtual bool setIncSavePath(PathDlg& dlg);     // Over write file always, use backup to save
                                                     // file
   virtual void backupFile(int noBackups);           // move current file to one with 12 digit ext
 
